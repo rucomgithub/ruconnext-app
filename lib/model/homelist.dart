@@ -54,6 +54,7 @@ class HomeList {
          navigateScreen:  RuregionLoginPage(),
 
     ),
+    
     HomeList(
       imagePath: 'assets/fitness_app/A18.png',
       iconsData: Icons.vertical_shades_rounded,
