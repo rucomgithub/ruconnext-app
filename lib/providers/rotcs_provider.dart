@@ -32,21 +32,18 @@ class RotcsProvider extends ChangeNotifier {
 
     try {
       final response = await _service.getRegisterAll();
-      print('save stoage.......');
+      print('save stoage rotcs register ...');
       await RotcsRegisterStorage.saveRegister(response);
-      _loadRegisterData();
+      isLoading = false;
     } on Exception catch (e) {
-      print('error');
       _rotcserror = 'เกิดข้อผิดพลาด ${e.toString()}';
+      print('error $_rotcserror');
     } catch (e) {
-      print('error');
       _rotcserror = 'เกิดข้อผิดพลาด ${e.toString()}';
-      _loadRegisterData();
+      print('error $_rotcserror');
     }
 
-    isLoading = false;
-
-    notifyListeners();
+    _loadRegisterData();
   }
 
   Future<void> _loadRegisterData() async {
@@ -62,19 +59,16 @@ class RotcsProvider extends ChangeNotifier {
       final response = await _service.getExtendAll();
       print('save stoage.......');
       await RotcsExtendStorage.saveExtend(response);
-      _loadExtendData();
+      isLoading = false;
     } on Exception catch (e) {
-      print('error');
       _rotcserror = 'เกิดข้อผิดพลาด ${e.toString()}';
+      print('error $_rotcserror');
     } catch (e) {
-      print('error');
       _rotcserror = 'เกิดข้อผิดพลาด ${e.toString()}';
-      _loadExtendData();
+      print('error $_rotcserror');
     }
 
-    isLoading = false;
-
-    notifyListeners();
+    _loadExtendData();
   }
 
   Future<void> _loadExtendData() async {

@@ -9,7 +9,7 @@ import '../model/profile.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class RotcsService {
-  final appUrl = dotenv.env['APP_URL'];
+  final appUrl = dotenv.env['APP_URL_DEV'];
   final dioapi = DioIntercepter();
 
   Future<RotcsRegister> getRegisterAll() async {
@@ -17,7 +17,7 @@ class RotcsService {
     try {
       Profile profile = await ProfileStorage.getProfile();
       print('studentCode: ${profile.studentCode}');
-      profile.studentCode = '6505003472';
+      //profile.studentCode = '6505003472';
       var params = {"StudentCode": profile.studentCode};
       await dioapi.createIntercepter();
       var response = await dioapi.api.post(
@@ -30,13 +30,13 @@ class RotcsService {
         data: jsonEncode(params),
       );
       if (response.statusCode == 200) {
-        //print('Response Get Data : ${response.data}');
+        print('Response Get Data : ${response.data}');
         registerdata = RotcsRegister.fromJson(response.data);
       } else {
         throw ('Error Get Data Rotcs Register');
       }
     } catch (err) {
-      //print(err);
+      print(err);
       throw (err);
     }
 
@@ -48,7 +48,7 @@ class RotcsService {
     try {
       Profile profile = await ProfileStorage.getProfile();
       print('studentCode: ${profile.studentCode}');
-      profile.studentCode = '6054004467';
+      //profile.studentCode = '6054004467';
       var params = {"StudentCode": profile.studentCode};
       await dioapi.createIntercepter();
       var response = await dioapi.api.post(

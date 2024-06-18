@@ -1,3 +1,4 @@
+import 'package:th.ac.ru.uSmart/affairs/affairs_home_screen.dart';
 import 'package:th.ac.ru.uSmart/design_course/home_design_course.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_home_screen.dart';
 import 'package:th.ac.ru.uSmart/grade/grade_app_home_screen.dart';
@@ -27,7 +28,9 @@ import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../login_page.dart';
-  var stdcode;
+
+var stdcode;
+
 class HomeList {
   HomeList(
       {this.navigateScreen, this.imagePath = '', this.iconsData, this.color});
@@ -42,19 +45,16 @@ class HomeList {
     //check token มีจริงม้ย หรือหมดอายุหรือไม่
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString('token');
-
   }
 
   static List<HomeList> homeList = [
-      HomeList(
+    HomeList(
       imagePath: 'assets/fitness_app/ruregion.png',
       iconsData: Icons.vertical_shades_rounded,
       color: Colors.purple,
-          // navigateScreen:  RuRegisHomeScreen(),
-         navigateScreen:  RuregionLoginPage(),
-
+      // navigateScreen:  RuRegisHomeScreen(),
+      navigateScreen: RuregionLoginPage(),
     ),
-    
     HomeList(
       imagePath: 'assets/fitness_app/A18.png',
       iconsData: Icons.vertical_shades_rounded,
@@ -103,12 +103,11 @@ class HomeList {
       color: Colors.brown,
       navigateScreen: RunewsScreen(),
     ),
-    
     HomeList(
       imagePath: 'assets/fitness_app/A15.png',
       iconsData: Icons.app_registration,
       color: Colors.brown,
-      navigateScreen: OtherHomeScreen(),
+      navigateScreen: AffairsHomeScreen(),
     ),
   ];
 }

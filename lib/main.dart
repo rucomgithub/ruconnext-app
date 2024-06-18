@@ -5,6 +5,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:th.ac.ru.uSmart/affairs/affairs_home_screen.dart';
+import 'package:th.ac.ru.uSmart/affairs/insurance/insurance_home_screen.dart';
 //
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/help_screen.dart';
@@ -15,6 +17,7 @@ import 'package:th.ac.ru.uSmart/manual/regis_help_screen.dart';
 import 'package:th.ac.ru.uSmart/pages/ru_map.dart';
 import 'package:th.ac.ru.uSmart/pages/runewsdetail_page.dart';
 import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
+import 'package:th.ac.ru.uSmart/providers/insurance_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/region_enroll_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/register_provider.dart';
@@ -42,6 +45,7 @@ import 'package:th.ac.ru.uSmart/ruregis/ruregis_cart.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregis_confirm.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregis_home_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregis_search_mr30.dart';
+import 'package:th.ac.ru.uSmart/services/insuranceservice.dart';
 import 'package:th.ac.ru.uSmart/services/rotcsservice.dart';
 import 'fitness_app/fitness_app_home_screen.dart';
 import 'login_page.dart';
@@ -144,6 +148,8 @@ class MyApp extends StatelessWidget {
               create: (_) => RuregionProvider()),
           ChangeNotifierProvider<RegionEnrollProvider>(
               create: (_) => RegionEnrollProvider()),
+          ChangeNotifierProvider<InsuranceProvider>(
+              create: (_) => InsuranceProvider(service: InsuranceService())),
         ],
 //       child: MaterialApp(
 //         title: 'RU ConneXt',
@@ -179,6 +185,7 @@ class MyApp extends StatelessWidget {
             GetPage(name: '/login', page: () => LoginPage()),
             GetPage(name: '/rumap', page: () => RuMap()),
             GetPage(name: '/runewsdetail', page: () => RunewsdetailPage()),
+            GetPage(name: '/insurance', page: () => InsuranceHomeScreen()),
             GetPage(name: '/rotcs', page: () => RotcsHomeScreen()),
             GetPage(name: '/rotcsregister', page: () => RotcsRegisterScreen()),
             GetPage(name: '/rotcsextend', page: () => RotcsExtendScreen()),
@@ -196,13 +203,16 @@ class MyApp extends StatelessWidget {
             GetPage(name: '/regishelp', page: () => RegisHelpScreen()),
             GetPage(name: '/rurgissearch', page: () => RuregisSearchScreen()),
             GetPage(name: '/rurgissearch2', page: () => Mr30Home2Screen()),
-            GetPage(name: '/ruregisconfirm', page: () => RuRegisConfirmScreen()),
-            GetPage(name: '/ruregionreceipt', page: () => RuregionReceiptScreen()),
+            GetPage(
+                name: '/ruregisconfirm', page: () => RuRegisConfirmScreen()),
+            GetPage(
+                name: '/ruregionreceipt', page: () => RuregionReceiptScreen()),
             GetPage(name: '/ruregiscart', page: () => RuregisCartScreen()),
             GetPage(name: '/ruregionmr30', page: () => RuregionMR30Screen()),
             GetPage(name: '/ruregionqrcode', page: () => RuregionQRScreen()),
             GetPage(name: '/ruregionlogin', page: () => RuregionLoginPage()),
             GetPage(name: '/ruregionhome', page: () => RuRegisHomeScreen()),
+            GetPage(name: '/affairs', page: () => AffairsHomeScreen()),
           ],
           debugShowCheckedModeBanner: false,
         ));
