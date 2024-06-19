@@ -49,6 +49,7 @@ import 'package:th.ac.ru.uSmart/ruregis/ruregis_search_mr30.dart';
 import 'package:th.ac.ru.uSmart/scholarship/sch_home_screen.dart';
 import 'package:th.ac.ru.uSmart/services/insuranceservice.dart';
 import 'package:th.ac.ru.uSmart/services/rotcsservice.dart';
+import 'package:th.ac.ru.uSmart/services/schservice.dart';
 import 'fitness_app/fitness_app_home_screen.dart';
 import 'login_page.dart';
 import 'manual/grade_help_screen.dart';
