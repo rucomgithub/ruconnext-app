@@ -32,6 +32,7 @@ import 'package:th.ac.ru.uSmart/providers/ruregion_mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregis_fee_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregis_mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregis_provider.dart';
+import 'package:th.ac.ru.uSmart/providers/sch_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/student_provider.dart';
 import 'package:th.ac.ru.uSmart/rotcs/rotcs_extend_screen.dart';
 import 'package:th.ac.ru.uSmart/rotcs/rotcs_home_screen.dart';
@@ -45,6 +46,7 @@ import 'package:th.ac.ru.uSmart/ruregis/ruregis_cart.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregis_confirm.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregis_home_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregis_search_mr30.dart';
+import 'package:th.ac.ru.uSmart/scholarship/sch_home_screen.dart';
 import 'package:th.ac.ru.uSmart/services/insuranceservice.dart';
 import 'package:th.ac.ru.uSmart/services/rotcsservice.dart';
 import 'fitness_app/fitness_app_home_screen.dart';
@@ -150,6 +152,8 @@ class MyApp extends StatelessWidget {
               create: (_) => RegionEnrollProvider()),
           ChangeNotifierProvider<InsuranceProvider>(
               create: (_) => InsuranceProvider(service: InsuranceService())),
+          ChangeNotifierProvider<SchProvider>(
+              create: (_) => SchProvider(service: SchService()))
         ],
 //       child: MaterialApp(
 //         title: 'RU ConneXt',
@@ -213,6 +217,7 @@ class MyApp extends StatelessWidget {
             GetPage(name: '/ruregionlogin', page: () => RuregionLoginPage()),
             GetPage(name: '/ruregionhome', page: () => RuRegisHomeScreen()),
             GetPage(name: '/affairs', page: () => AffairsHomeScreen()),
+            GetPage(name: '/scholarship', page: () => SchHomeScreen()),
           ],
           debugShowCheckedModeBanner: false,
         ));
