@@ -73,8 +73,7 @@ class _FlipCardPageState extends State<FlipCardPage>
       //     color: Colors.black,
       //   ),),
       // ),
-      backgroundColor:
-          AppTheme.white ,
+      backgroundColor: AppTheme.white,
       body: FutureBuilder<bool>(
         future: getData(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
@@ -139,8 +138,7 @@ class _FlipCardPageState extends State<FlipCardPage>
     var studentProv = context.watch<StudentProvider>();
     var region = studentProv.student.regionalnamethai!;
     region = region.replaceAll("จังหวัด", "");
-    return 
-    Card(
+    return Card(
       elevation: 0.0,
       margin:
           const EdgeInsets.only(left: 30.0, right: 30.0, top: 0.0, bottom: 0.0),
@@ -162,7 +160,6 @@ class _FlipCardPageState extends State<FlipCardPage>
               width: 0.8,
             ),
             borderRadius: BorderRadius.circular(10),
-          
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -274,12 +271,12 @@ class _FlipCardPageState extends State<FlipCardPage>
                         ],
                       ),
                       ImageLoader(),
-                      QrImage(
-                        data: authen.profile.studentCode!,
-                        version: QrVersions.auto,
-                        size: 60,
-                        gapless: false,
-                      )
+                      // QrImage(
+                      //   data: authen.profile.studentCode!,
+                      //   version: QrVersions.auto,
+                      //   size: 60,
+                      //   gapless: false,
+                      // )
                     ],
                   ),
                 ),
@@ -379,16 +376,16 @@ class _FlipCardPageState extends State<FlipCardPage>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              QrImage(
-                data: studentProv.student.stdcode!,
-                version: QrVersions.auto,
-                size: 320,
-                gapless: false,
-                embeddedImage: AssetImage('assets/images/logo.png'),
-                embeddedImageStyle: QrEmbeddedImageStyle(
-                  size: Size(80, 80),
-                ),
-              ),
+              // QrImage(
+              //   data: studentProv.student.stdcode!,
+              //   version: QrVersions.auto,
+              //   size: 320,
+              //   gapless: false,
+              //   embeddedImage: AssetImage('assets/images/logo.png'),
+              //   embeddedImageStyle: QrEmbeddedImageStyle(
+              //     size: Size(80, 80),
+              //   ),
+              // ),
               Text('Back',
                   style: TextStyle(
                     fontFamily: AppTheme.ruFontKanit,
@@ -435,7 +432,7 @@ class _FlipCardPageState extends State<FlipCardPage>
             child: Container(
               width: AppBar().preferredSize.height - 8,
               height: AppBar().preferredSize.height - 8,
-              color:  Colors.white ,
+              color: Colors.white,
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
