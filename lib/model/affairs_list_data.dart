@@ -29,7 +29,7 @@ class AffairsListData {
       imagePath: 'assets/fitness_app/r18.png',
       titleTxt: 'ข้อมูลทุนของนักศึกษา',
       subTxt: 'ข้อมูลทุนของนักศึกษา',
-      navigateScreen: '/affairs',
+      navigateScreen: '/scholarship',
     ),
     AffairsListData(
       imagePath: 'assets/fitness_app/r18.png',
