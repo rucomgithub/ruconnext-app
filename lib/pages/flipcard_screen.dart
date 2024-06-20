@@ -273,7 +273,7 @@ class _FlipCardPageState extends State<FlipCardPage>
                           )
                         ],
                       ),
-                      ImageLoader(),
+                      ImageLoader(),//
                       QrImage(
                         data: authen.profile.studentCode!,
                         version: QrVersions.auto,
