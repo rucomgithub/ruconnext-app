@@ -116,7 +116,9 @@ class ListSch extends StatelessWidget {
                                             children: <Widget>[
                                               Expanded(
                                                 child: Text(
-                                                  '${record!.created}',
+                                                  'created:' +
+                                                      formatDateFromString(
+                                                          '${record!.created}'),
                                                   style: TextStyle(
                                                       fontFamily:
                                                           AppTheme.ruFontKanit,
@@ -150,4 +152,11 @@ class ListSch extends StatelessWidget {
       ),
     );
   }
+}
+
+String formatDateFromString(String date) {
+  var parseDate = DateTime.parse(date);
+  final DateFormat formatter = DateFormat('dd-MM-yyyy');
+  final String formattedDate = formatter.format(parseDate);
+  return formattedDate;
 }
