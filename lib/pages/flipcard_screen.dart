@@ -270,13 +270,13 @@ class _FlipCardPageState extends State<FlipCardPage>
                           )
                         ],
                       ),
-                      ImageLoader(),
-                      // QrImage(
-                      //   data: authen.profile.studentCode!,
-                      //   version: QrVersions.auto,
-                      //   size: 60,
-                      //   gapless: false,
-                      // )
+                      ImageLoader(), //
+                      QrImage(
+                        data: authen.profile.studentCode!,
+                        version: QrVersions.auto,
+                        size: 60,
+                        gapless: false,
+                      )
                     ],
                   ),
                 ),
@@ -376,16 +376,16 @@ class _FlipCardPageState extends State<FlipCardPage>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              // QrImage(
-              //   data: studentProv.student.stdcode!,
-              //   version: QrVersions.auto,
-              //   size: 320,
-              //   gapless: false,
-              //   embeddedImage: AssetImage('assets/images/logo.png'),
-              //   embeddedImageStyle: QrEmbeddedImageStyle(
-              //     size: Size(80, 80),
-              //   ),
-              // ),
+              QrImage(
+                data: studentProv.student.stdcode!,
+                version: QrVersions.auto,
+                size: 320,
+                gapless: false,
+                embeddedImage: AssetImage('assets/images/logo.png'),
+                embeddedImageStyle: QrEmbeddedImageStyle(
+                  size: Size(80, 80),
+                ),
+              ),
               Text('Back',
                   style: TextStyle(
                     fontFamily: AppTheme.ruFontKanit,
