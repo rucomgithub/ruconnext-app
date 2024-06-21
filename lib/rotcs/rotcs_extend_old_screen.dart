@@ -4,15 +4,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/model/rotcs_list_data.dart';
 import 'package:th.ac.ru.uSmart/providers/rotcs_provider.dart';
-import 'package:th.ac.ru.uSmart/rotcs/rotcs_extend_list_view.dart';
+import 'package:th.ac.ru.uSmart/rotcs/rotcs_extend_list_old_view.dart';
 import 'package:th.ac.ru.uSmart/ruconnext_app_theme.dart';
 
-class RotcsExtendScreen extends StatefulWidget {
+class RotcsExtendOldScreen extends StatefulWidget {
   @override
-  _RotcsExtendScreenState createState() => _RotcsExtendScreenState();
+  _RotcsExtendOldScreenState createState() => _RotcsExtendOldScreenState();
 }
 
-class _RotcsExtendScreenState extends State<RotcsExtendScreen>
+class _RotcsExtendOldScreenState extends State<RotcsExtendOldScreen>
     with TickerProviderStateMixin {
   AnimationController? animationController;
   List<RotcsListData> rotcsList = RotcsListData.rotcsList;
@@ -125,27 +125,31 @@ class _RotcsExtendScreenState extends State<RotcsExtendScreen>
           controller: _refreshController,
           onRefresh: _onRefresh,
           onLoading: _onLoading,
-          child: ListView.builder(
-            itemCount: rotcs.rotcsextend.detail!.length,
-            padding: const EdgeInsets.only(top: 8),
-            scrollDirection: Axis.vertical,
-            itemBuilder: (BuildContext context, int index) {
-              final int count = rotcs.rotcsregister.detail!.length > 10
-                  ? 10
-                  : rotcs.rotcsregister.detail!.length;
-              final Animation<double> animation =
-                  Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-                      parent: animationController!,
-                      curve: Interval((1 / count) * index, 1.0,
-                          curve: Curves.fastOutSlowIn)));
-              animationController?.forward();
-              //return Text('data');
-              return RotcsExtendListView(
-                rotcslData: rotcs.rotcsextend.detail![index],
-                animation: animation,
-                animationController: animationController!,
-              );
-            },
+          child: Container(
+            height: rotcs.rotcsextend.detail!.length > 0 ? 300 : 10,
+            width: double.infinity,
+            child: ListView.builder(
+              itemCount: rotcs.rotcsextend.detail!.length,
+              padding: const EdgeInsets.only(top: 8),
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (BuildContext context, int index) {
+                final int count = rotcs.rotcsregister.detail!.length > 10
+                    ? 10
+                    : rotcs.rotcsregister.detail!.length;
+                final Animation<double> animation =
+                    Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+                        parent: animationController!,
+                        curve: Interval((1 / count) * index, 1.0,
+                            curve: Curves.fastOutSlowIn)));
+                animationController?.forward();
+                //return Text('data');
+                return RotcsExtendListOldView(
+                  rotcslData: rotcs.rotcsextend.detail![index],
+                  animation: animation,
+                  animationController: animationController!,
+                );
+              },
+            ),
           ),
         ),
       ),

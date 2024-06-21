@@ -18,8 +18,11 @@ class RotcsProvider extends ChangeNotifier {
   RotcsExtend _rotcsextend = RotcsExtend();
   RotcsExtend get rotcsextend => _rotcsextend;
 
-  String _rotcserror = '';
-  String get rotcserror => _rotcserror;
+  String _rotcregisteserror = '';
+  String get rotcregisteserror => _rotcregisteserror;
+
+  String _rotcsextenderror = '';
+  String get rotcsextenderror => _rotcsextenderror;
 
   void setLoading(bool loading) {
     isLoading = loading;
@@ -36,11 +39,11 @@ class RotcsProvider extends ChangeNotifier {
       await RotcsRegisterStorage.saveRegister(response);
       isLoading = false;
     } on Exception catch (e) {
-      _rotcserror = 'เกิดข้อผิดพลาด ${e.toString()}';
-      print('error $_rotcserror');
+      _rotcregisteserror = 'เกิดข้อผิดพลาด ${e.toString()}';
+      print('error $_rotcregisteserror');
     } catch (e) {
-      _rotcserror = 'เกิดข้อผิดพลาด ${e.toString()}';
-      print('error $_rotcserror');
+      _rotcregisteserror = 'เกิดข้อผิดพลาด ${e.toString()}';
+      print('error $_rotcregisteserror');
     }
 
     _loadRegisterData();
@@ -61,11 +64,11 @@ class RotcsProvider extends ChangeNotifier {
       await RotcsExtendStorage.saveExtend(response);
       isLoading = false;
     } on Exception catch (e) {
-      _rotcserror = 'เกิดข้อผิดพลาด ${e.toString()}';
-      print('error $_rotcserror');
+      _rotcsextenderror = 'เกิดข้อผิดพลาด ${e.toString()}';
+      print('error $_rotcsextenderror');
     } catch (e) {
-      _rotcserror = 'เกิดข้อผิดพลาด ${e.toString()}';
-      print('error $_rotcserror');
+      _rotcsextenderror = 'เกิดข้อผิดพลาด ${e.toString()}';
+      print('error $_rotcsextenderror');
     }
 
     _loadExtendData();
