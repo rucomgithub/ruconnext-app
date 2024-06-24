@@ -19,7 +19,7 @@ class _aboutRamState extends State<aboutRam> {
     {
       'title': 'พ่อขุนรามคำแหง',
       'image':
-          'https://www.xn--12cg1cxchd0a2gzc1c5d5a.net/wp-content/uploads/2018/09/king-sukhothai-03.jpg',
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZXycQdfvLV_Zyb2d9740vetGn5citezqcPQ&s',
       'description':
           'พ่อขุนรามคำแหงมหาราช หรือ ขุนรามราช หรือ พระบาทกมรเตงอัญศรีรามราช เป็นพระมหากษัตริย์พระองค์ที่ 3 ในราชวงศ์พระร่วงแห่งราชอาณาจักรสุโขทัย เสวยราชย์ประมาณ พ.ศ. 1822 ถึงประมาณ พ.ศ. 1842 พระองค์ทรงเป็นกษัตริย์พระองค์แรกของไทยที่ได้รับการยกย่องเป็น "มหาราช"'
     },

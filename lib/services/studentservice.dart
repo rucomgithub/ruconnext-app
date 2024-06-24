@@ -14,6 +14,7 @@ import '../store/profile.dart';
 class StudentService {
   final dioapi = DioIntercepter();
   final appUrl = dotenv.env['APP_URL_DEV'];
+  final appUrlProd = dotenv.env['APP_URL'];
   final urlMr30Catalog = dotenv.env['MR30_CAT'];
   
   late BuildContext _context;
@@ -51,7 +52,8 @@ class StudentService {
       Profile profile = await ProfileStorage.getProfile();
       await dioapi.createIntercepter();
       var response =
-          await dioapi.api.get('$appUrl/student/profile/${profile.studentCode}',
+           await dioapi.api.get('$appUrlProd/student/profile/${profile.studentCode}',
+                  // await dioapi.api.get('$appUrl/student/profile',
               options: Options(
                 headers: {
                   HttpHeaders.contentTypeHeader: "application/json",

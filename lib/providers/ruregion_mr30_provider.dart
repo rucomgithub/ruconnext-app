@@ -83,6 +83,15 @@ class RuregionProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+    void removeRuregisPref(courseid) async {
+    print('provider remove $courseid');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _mr30ruregionrec.removeWhere((item) => item.cOURSENO == courseid);
+
+    await prefs.setString('mr30ruregis', jsonEncode(_mr30ruregionrec));
+    notifyListeners();
+  }
+
   void courseSame(statusgrad) async {
     notifyListeners();
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -145,6 +154,7 @@ class RuregionProvider extends ChangeNotifier {
 
   void addRuregionMR30(context, Results record) async {
     notifyListeners();
+    print('s $record');
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if (_mr30ruregionrec.isNotEmpty) {
@@ -200,4 +210,52 @@ class RuregionProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  void addRuregisMR30(context, Results record) async {
+    
+    notifyListeners();
+    print(record);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (_mr30ruregionrec.isNotEmpty) {
+      final String mr30ruregion = prefs.getString('mr30ruregis')!;
+      _mr30ruregionrec = Results.decode(mr30ruregion);
+      var dup = _mr30ruregionrec
+          .where((Results r) => r.cOURSENO!.contains(record.cOURSENO!));
+      if (dup.isNotEmpty) {
+        var snackbar = SnackBar(
+          content: Text('เลือกวิชาซ้ำ'),
+          duration: Duration(milliseconds: 500), // Set the duration to 3 seconds
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      } else {
+        var snackbar = SnackBar(
+          content: Text('บันทึกสำเร็จ'),
+          duration: Duration(milliseconds: 500), // Set the duration to 3 seconds
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+        _mr30ruregionrec.add(record);
+      }
+    } else {
+      var snackbar = SnackBar(
+        content: Text('บันทึกสำเร็จ'),
+        duration: Duration(milliseconds: 500), // Set the duration to 3 seconds
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      _mr30ruregionrec.add(record);
+    }
+
+    _mr30ruregion.results?.forEach((element) {
+      var contain =
+          _mr30ruregionrec.where((e) => element.cOURSENO == e.cOURSENO);
+      if (contain.isNotEmpty) {
+      } else {
+      }
+    });
+
+    await prefs.setString('mr30ruregis', jsonEncode(_mr30ruregionrec));
+
+    notifyListeners();
+  }
+  
 }

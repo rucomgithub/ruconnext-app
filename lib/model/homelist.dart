@@ -13,8 +13,12 @@ import 'package:th.ac.ru.uSmart/pages/order_traking_page.dart';
 import 'package:th.ac.ru.uSmart/pages/ru_map.dart';
 import 'package:th.ac.ru.uSmart/registers/register_home_screen.dart';
 import 'package:th.ac.ru.uSmart/rotcs/rotcs_home_screen.dart';
+import 'package:th.ac.ru.uSmart/ruregionApp/ruregion_other_home_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregion_login.dart';
-import 'package:th.ac.ru.uSmart/ruregis/ruregis_home_screen.dart';
+
+
+import 'package:th.ac.ru.uSmart/ruregisApp/ruregis_other_home_screen.dart';
+
 import 'package:th.ac.ru.uSmart/schedule/schedule_home_screen.dart';
 import 'package:th.ac.ru.uSmart/screens/runewsScreen.dart';
 // import 'package:th.ac.ru.uSmart/registers/register1_screen.dart';
@@ -27,7 +31,9 @@ import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../login_page.dart';
-  var stdcode;
+
+var stdcode;
+
 class HomeList {
   HomeList(
       {this.navigateScreen, this.imagePath = '', this.iconsData, this.color});
@@ -42,25 +48,9 @@ class HomeList {
     //check token มีจริงม้ย หรือหมดอายุหรือไม่
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString('token');
-
   }
 
   static List<HomeList> homeList = [
-      HomeList(
-      imagePath: 'assets/fitness_app/ruregion.png',
-      iconsData: Icons.vertical_shades_rounded,
-      color: Colors.purple,
-          // navigateScreen:  RuRegisHomeScreen(),
-         navigateScreen:  RuregionLoginPage(),
-
-    ),
-    
-    HomeList(
-      imagePath: 'assets/fitness_app/A18.png',
-      iconsData: Icons.vertical_shades_rounded,
-      color: Colors.purple,
-      navigateScreen: aboutRam(),
-    ),
     HomeList(
       imagePath: 'assets/fitness_app/A1.png',
       iconsData: Icons.account_box,
@@ -103,12 +93,31 @@ class HomeList {
       color: Colors.brown,
       navigateScreen: RunewsScreen(),
     ),
-    
     HomeList(
       imagePath: 'assets/fitness_app/A15.png',
       iconsData: Icons.app_registration,
       color: Colors.brown,
       navigateScreen: OtherHomeScreen(),
+    ),
+    HomeList(
+      imagePath: 'assets/fitness_app/A18.png',
+      iconsData: Icons.vertical_shades_rounded,
+      color: Colors.purple,
+      navigateScreen: aboutRam(),
+    ),
+    HomeList(
+      imagePath: 'assets/fitness_app/ruregion.png',
+      iconsData: Icons.vertical_shades_rounded,
+      color: Colors.purple,
+      // navigateScreen:  RuRegisHomeScreen(),
+      navigateScreen: RuRegionOtherHomeScreen(),
+    ),
+    HomeList(
+      imagePath: 'assets/fitness_app/ruregis.png',
+      iconsData: Icons.vertical_shades_rounded,
+      color: Colors.purple,
+      // navigateScreen:  RuRegisHomeScreen(),
+      navigateScreen: RuRegisOtherHomeScreen(),
     ),
   ];
 }

@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:th.ac.ru.uSmart/model/ruregion_mr30_model.dart';
+import 'package:th.ac.ru.uSmart/services/ruregis_service.dart';
 import 'package:th.ac.ru.uSmart/store/profile.dart';
 import 'package:th.ac.ru.uSmart/model/yearsemester.dart';
 import 'package:th.ac.ru.uSmart/store/yearsemester.dart';
@@ -25,9 +27,22 @@ class RUREGISMR30Provider extends ChangeNotifier {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
   final _service = MR30Service();
+  final _ruregisService = RuregisService();
   bool isLoading = false;
+  bool isLoadingMr30 = false;
   String filterStr = '';
+  String _error = '';
+  String get error => _error;
 
+
+  MR30RUREGION _mr30ruregion = MR30RUREGION();
+  MR30RUREGION get mr30ruregion => _mr30ruregion;
+  int sumIntCredit = 0;
+  List<Results> _mr30ruregionrec = [];
+  List<Results> get mr30ruregionrec => _mr30ruregionrec;
+
+  bool isCourseDup = true;
+  String examDup = '';
   YearSemester _yearsemester = YearSemester(year: "", semester: "");
   YearSemester get yearsemester => _yearsemester;
   String _erroryearsemester = '';
@@ -86,6 +101,7 @@ class RUREGISMR30Provider extends ChangeNotifier {
   String _errorhavetodayNow = '';
   String get errorhavetodayNow => _errorhavetodayNow;
 
+
   void getSchedule() async {
     //print('call getSchedule');
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -131,10 +147,8 @@ class RUREGISMR30Provider extends ChangeNotifier {
     notifyListeners();
   }
 
- 
-
   void getAllMR30() async {
-        print('get all');
+    print('get all');
     isLoading = true;
     _errormr30 = '';
     try {
@@ -162,7 +176,7 @@ class RUREGISMR30Provider extends ChangeNotifier {
     notifyListeners();
   }
 
-    void getAllMR30RUREGIS() async {
+  void getAllMR30RUREGIS() async {
     isLoading = true;
     _errormr30ruregis = '';
     try {
@@ -295,7 +309,8 @@ class RUREGISMR30Provider extends ChangeNotifier {
 
     notifyListeners();
   }
-void addRuregisMR30(RECORD record) async {
+
+  void addRuregisMR30(RECORD record) async {
     _stringDup = '';
     notifyListeners();
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -304,7 +319,8 @@ void addRuregisMR30(RECORD record) async {
       print('not null $_mr30ruregisrecord');
       final String mr30 = prefs.getString('mr30ruregis')!;
       _mr30ruregisrecord = RECORD.decode(mr30);
-      var dup = _mr30ruregisrecord.where((RECORD r) => r.id!.contains(record.id!));
+      var dup =
+          _mr30ruregisrecord.where((RECORD r) => r.id!.contains(record.id!));
       if (dup.isNotEmpty) {
         _stringDup = 'เลือกซ้ำ';
         _mr30ruregisrecord.removeWhere((item) => item.id == record.id);
@@ -329,10 +345,9 @@ void addRuregisMR30(RECORD record) async {
 
     getStudyList();
     await prefs.setString('mr30ruregis', jsonEncode(_mr30ruregisrecord));
-    
+
     notifyListeners();
   }
-  
 
   void getRecordMr30() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -390,7 +405,7 @@ void addRuregisMR30(RECORD record) async {
     notifyListeners();
   }
 
-    void getRuregisStudyList() async {
+  void getRuregisStudyList() async {
     List<RECORD> listmr30 = await getListFromPreferences('mr30ruregis');
 
     _studylist = listmr30;
@@ -714,6 +729,82 @@ void addRuregisMR30(RECORD record) async {
       }
     });
     // print('filter ${_havetodayNow.length}');
+    notifyListeners();
+  }
+
+  Future<void> fetchMR30RUREGIS(stdcode, sem, year) async {
+    isLoadingMr30 = true;
+    _error = '';
+
+    try {
+      final response = await _ruregisService.getMR30RUREGIS(stdcode, sem, year);
+      _mr30ruregion = response;
+      isLoadingMr30 = false;
+      print('mr30ruregis$_mr30ruregion ');
+    } on Exception catch (e) {
+      print('catch$e ');
+      _error = 'เกิดข้อผิดพลาดดึงข้อมูลนักศึกษา';
+    } catch (e) {
+      print('catch$e ');
+      _error = 'เกิดข้อผิดพลาดดึงข้อมูลนักศึกษา';
+    }
+
+    //await _service.asyncName();
+
+    notifyListeners();
+  }
+  void addRuregisAppMR30(context, Results record) async {
+    
+    notifyListeners();
+    print(record);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (_mr30ruregionrec.isNotEmpty) {
+      final String mr30ruregion = prefs.getString('mr30ruregis')!;
+      _mr30ruregionrec = Results.decode(mr30ruregion);
+      var dup = _mr30ruregionrec
+          .where((Results r) => r.cOURSENO!.contains(record.cOURSENO!));
+      if (dup.isNotEmpty) {
+        var snackbar = SnackBar(
+          content: Text('เลือกวิชาซ้ำ'),
+          duration: Duration(milliseconds: 500), // Set the duration to 3 seconds
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      } else {
+        var snackbar = SnackBar(
+          content: Text('บันทึกสำเร็จ'),
+          duration: Duration(milliseconds: 500), // Set the duration to 3 seconds
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+        _mr30ruregionrec.add(record);
+      }
+    } else {
+      var snackbar = SnackBar(
+        content: Text('บันทึกสำเร็จ'),
+        duration: Duration(milliseconds: 500), // Set the duration to 3 seconds
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      _mr30ruregionrec.add(record);
+    }
+
+    _mr30ruregion.results?.forEach((element) {
+      var contain =
+          _mr30ruregionrec.where((e) => element.cOURSENO == e.cOURSENO);
+      if (contain.isNotEmpty) {
+      } else {
+      }
+    });
+    // print('korkorkorkor ${_mr30ruregionrec}');
+      int sumCredit = 0;
+      int countElements = 0;
+    _mr30ruregionrec.forEach((element) => {
+          sumCredit += element.cREDIT!,
+          countElements++,
+        });
+    sumIntCredit = sumCredit.round();
+
+    await prefs.setString('mr30ruregis', jsonEncode(_mr30ruregionrec));
+
     notifyListeners();
   }
 }

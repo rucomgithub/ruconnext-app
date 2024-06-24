@@ -26,6 +26,9 @@ class RuregisProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
+    bool _isLoadingRuregisProfile = false;
+  bool get isLoadingRuregisProfile => _isLoadingRuregisProfile;
+
   // List<Ruregis> _ruregis = [];
   String _error = '';
   String get error => _error;
@@ -52,6 +55,9 @@ class RuregisProvider extends ChangeNotifier {
 
   Ruregis _ruregis = Ruregis();
   Ruregis get ruregis => _ruregis;
+
+    Ruregis _ruregisApp = Ruregis();
+  Ruregis get ruregisApp => _ruregisApp;
 
   Loginregion _logindata = Loginregion();
   Loginregion get logindata => _logindata;
@@ -157,6 +163,24 @@ class RuregisProvider extends ChangeNotifier {
     //await _service.asyncName();
 
     _isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> fetchProfileAppRuregis() async {
+     _isLoadingRuregisProfile = true;
+    _error = '';
+       print('res fetch');
+  
+    try {
+      final response = await _ruregisService.getProfileRuregis(stdcode);
+      _ruregisApp = response;
+      print('res fetch');
+      _isLoadingRuregisProfile = false;
+    } on Exception catch (e) {
+      _isLoadingRuregisProfile = false;
+      _error = 'เกิดข้อผิดพลาดดึงข้อมูลนักศึกษา';
+    }
+
     notifyListeners();
   }
 

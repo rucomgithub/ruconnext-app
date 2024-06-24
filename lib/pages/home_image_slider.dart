@@ -79,7 +79,7 @@ class _homeImageSliderState extends State<homeImageSlider> {
   Widget build(BuildContext context) {
     return CarouselSlider(
       options: CarouselOptions(
-        height: 250.0,
+        height: 130.0,
         aspectRatio: 16 / 9,
         viewportFraction: 1.02,
       ),

@@ -17,7 +17,7 @@ class RotcsService {
     try {
       Profile profile = await ProfileStorage.getProfile();
       print('studentCode: ${profile.studentCode}');
-      profile.studentCode = '6505003472';
+      // profile.studentCode = '6505003472';
       var params = {"StudentCode": profile.studentCode};
       await dioapi.createIntercepter();
       var response = await dioapi.api.post(
@@ -48,7 +48,7 @@ class RotcsService {
     try {
       Profile profile = await ProfileStorage.getProfile();
       print('studentCode: ${profile.studentCode}');
-      profile.studentCode = '6054004467';
+      // profile.studentCode = '6054004467';
       var params = {"StudentCode": profile.studentCode};
       await dioapi.createIntercepter();
       var response = await dioapi.api.post(

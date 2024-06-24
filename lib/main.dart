@@ -42,6 +42,10 @@ import 'package:th.ac.ru.uSmart/ruregis/ruregis_cart.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregis_confirm.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregis_home_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregis_search_mr30.dart';
+import 'package:th.ac.ru.uSmart/ruregisApp/ruregis_other_home_screen.dart';
+import 'package:th.ac.ru.uSmart/ruregisApp/ruregiscart/register_home_screen.dart';
+import 'package:th.ac.ru.uSmart/ruregisApp/ruregismr30/mr30_home_screen.dart';
+import 'package:th.ac.ru.uSmart/ruregisApp/ruregisqrcode/ruregion_qr.dart';
 import 'package:th.ac.ru.uSmart/services/rotcsservice.dart';
 import 'fitness_app/fitness_app_home_screen.dart';
 import 'login_page.dart';
@@ -203,6 +207,13 @@ class MyApp extends StatelessWidget {
             GetPage(name: '/ruregionqrcode', page: () => RuregionQRScreen()),
             GetPage(name: '/ruregionlogin', page: () => RuregionLoginPage()),
             GetPage(name: '/ruregionhome', page: () => RuRegisHomeScreen()),
+
+            GetPage(name: '/ruregishome', page: () => RuRegisOtherHomeScreen()),
+            GetPage(name: '/ruregismr30', page: () => RuregisMr30HomeScreen()),
+            GetPage(name: '/ruregisqrcode', page: () => RuregisQRScreen()),
+            GetPage(name: '/ruregisqcart', page: () => RuregisCartHomeScreen()),
+            
+
           ],
           debugShowCheckedModeBanner: false,
         ));

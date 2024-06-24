@@ -61,6 +61,30 @@ class RuregisService {
     return ruregisdata;
   }
 
+  Future<Ruregis> getProfileRuregis(stdcode) async {
+    Ruregis ruregisdata = Ruregis.fromJson({});
+    try {
+      await dioapi.createIntercepter();
+      //   var response = await dioapi.api.get('$ruregisurl/profileApp.jsp?STUDENTID=6601602904',
+      var response = await dioapi.api.get(
+        '$ruregionurl/region_student_profile/6299499991',
+      );
+      if (response.statusCode == 200) {
+        print('datas ${response.data}');
+
+        ruregisdata = Ruregis.fromJson(response.data);
+        print('data ${ruregisdata}');
+      } else {
+        throw ('Error Get Data');
+      }
+    } catch (err) {
+      print(err);
+      throw (err);
+    }
+
+    return ruregisdata;
+  }
+
     Future<Getenroll> getEnrollRegion(stdcode,sem,year) async {
     Getenroll ruregisdata = Getenroll.fromJson({});
     try {
@@ -362,7 +386,30 @@ Future<Loginregion> postLogin(String username, String password) async {
 
     return ruregionmr30data;
   }//**************************************/
+ Future<MR30RUREGION> getMR30RUREGIS(stdcode,sem,year) async {
+    MR30RUREGION ruregionmr30data = MR30RUREGION.fromJson({});
+    print('x');
+    try {
+      await dioapi.createIntercepter();
+      var response = await dioapi.api.get(
+        // '$ruregionurl/region_course/$stdcode/$sem/$year',
+        '$ruregionurl/region_course/6299499992/1/2567',
+      );
+      if (response.statusCode == 200) {
+        print('data mr30  ${response.data}');
 
+        ruregionmr30data = MR30RUREGION.fromJson(response.data);
+        // //print('data mr30  ${ruregionmr30data}');
+      } else {
+        throw ('Error Get Data');
+      }
+    } catch (err) {
+      //print(err);
+     throw ('Error Get Data');
+    }
+
+    return ruregionmr30data;
+  }
   Future<Ruregis> checkCreditRuregis() async {
     Ruregis ruregisdata = Ruregis.fromJson({});
     try {
