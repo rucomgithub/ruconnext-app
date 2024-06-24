@@ -48,13 +48,7 @@ class HomeList {
   }
 
   static List<HomeList> homeList = [
-    HomeList(
-      imagePath: 'assets/fitness_app/ruregion.png',
-      iconsData: Icons.vertical_shades_rounded,
-      color: Colors.purple,
-      // navigateScreen:  RuRegisHomeScreen(),
-      navigateScreen: RuregionLoginPage(),
-    ),
+
     HomeList(
       imagePath: 'assets/fitness_app/A18.png',
       iconsData: Icons.vertical_shades_rounded,
@@ -104,10 +98,17 @@ class HomeList {
       navigateScreen: RunewsScreen(),
     ),
     HomeList(
-      imagePath: 'assets/fitness_app/A15.png',
+      imagePath: 'assets/fitness_app/AF0.png',
       iconsData: Icons.app_registration,
       color: Colors.brown,
       navigateScreen: AffairsHomeScreen(),
     ),
+    // HomeList(
+    //   imagePath: 'assets/fitness_app/ruregion.png',
+    //   iconsData: Icons.vertical_shades_rounded,
+    //   color: Colors.purple,
+    //   // navigateScreen:  RuRegisHomeScreen(),
+    //   navigateScreen: RuregionLoginPage(),
+    // ),
   ];
 }
