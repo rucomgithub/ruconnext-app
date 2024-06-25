@@ -51,6 +51,12 @@ class HomeList {
   }
 
   static List<HomeList> homeList = [
+     HomeList(
+      imagePath: 'assets/fitness_app/A18.png',
+      iconsData: Icons.vertical_shades_rounded,
+      color: Colors.purple,
+      navigateScreen: aboutRam(),
+    ),
     HomeList(
       imagePath: 'assets/fitness_app/A1.png',
       iconsData: Icons.account_box,
@@ -94,26 +100,21 @@ class HomeList {
       navigateScreen: RunewsScreen(),
     ),
     HomeList(
-      imagePath: 'assets/fitness_app/A15.png',
+      imagePath: 'assets/fitness_app/AF0.png',
       iconsData: Icons.app_registration,
       color: Colors.brown,
       navigateScreen: OtherHomeScreen(),
     ),
+   
     HomeList(
-      imagePath: 'assets/fitness_app/A18.png',
-      iconsData: Icons.vertical_shades_rounded,
-      color: Colors.purple,
-      navigateScreen: aboutRam(),
-    ),
-    HomeList(
-      imagePath: 'assets/fitness_app/ruregion.png',
+      imagePath: 'assets/fitness_app/REGION.png',
       iconsData: Icons.vertical_shades_rounded,
       color: Colors.purple,
       // navigateScreen:  RuRegisHomeScreen(),
       navigateScreen: RuRegionOtherHomeScreen(),
     ),
     HomeList(
-      imagePath: 'assets/fitness_app/ruregis.png',
+      imagePath: 'assets/fitness_app/REGIS.png',
       iconsData: Icons.vertical_shades_rounded,
       color: Colors.purple,
       // navigateScreen:  RuRegisHomeScreen(),

@@ -98,7 +98,7 @@ class _ProfileRegionViewState extends State<ProfileRegionView> {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(colors: [
                       Color.fromARGB(255, 214, 234, 251),
-                      HexColor("#045586")
+                      HexColor("#65ADFF")
                     ], begin: Alignment.topLeft, end: Alignment.bottomRight),
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(8.0),
@@ -225,7 +225,7 @@ class _ProfileRegionViewState extends State<ProfileRegionView> {
                               ),
                               Container(
                                 decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 1, 18, 33),
+                                  color: Color.fromARGB(255, 216, 233, 255),
                                   shape: BoxShape.circle,
                                   boxShadow: <BoxShadow>[
                                     BoxShadow(
