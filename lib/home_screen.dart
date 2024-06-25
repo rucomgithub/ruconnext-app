@@ -36,10 +36,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     Provider.of<GradeProvider>(context, listen: false).getAllGrade();
-
     Provider.of<RegisterProvider>(context, listen: false).getAllRegister();
+    Provider.of<RegisterProvider>(context, listen: false).getRegisterAll();
+    
     Provider.of<RegisterProvider>(context, listen: false).getAllRegisterYear();
-    Provider.of<RegisterProvider>(context, listen: false).getMR30Register();
+    Provider.of<RegisterProvider>(context, listen: false).getAllMr30Catalog();
+    
+    //Provider.of<RegisterProvider>(context, listen: false).getMR30Register();
 
     // Provider.of<StudentProvider>(context, listen: false).getMr30Catalog();
       

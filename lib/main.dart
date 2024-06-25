@@ -50,6 +50,7 @@ import 'package:th.ac.ru.uSmart/scholarship/sch_home_screen.dart';
 import 'package:th.ac.ru.uSmart/services/insuranceservice.dart';
 import 'package:th.ac.ru.uSmart/services/rotcsservice.dart';
 import 'package:th.ac.ru.uSmart/services/schservice.dart';
+import 'package:th.ac.ru.uSmart/services/registerservice.dart';
 import 'fitness_app/fitness_app_home_screen.dart';
 import 'login_page.dart';
 import 'manual/grade_help_screen.dart';
@@ -136,7 +137,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<MR30Provider>(create: (_) => MR30Provider()),
           ChangeNotifierProvider<GradeProvider>(create: (_) => GradeProvider()),
           ChangeNotifierProvider<RegisterProvider>(
-              create: (_) => RegisterProvider()),
+              create: (_) => RegisterProvider(service: RegisterService())),
           ChangeNotifierProvider<ScheduleProvider>(
               create: (_) => ScheduleProvider()),
           ChangeNotifierProvider<OndemandProvider>(

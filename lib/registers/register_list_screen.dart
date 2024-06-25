@@ -3,6 +3,8 @@ import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/mr30/nodata_view.dart';
 import 'package:th.ac.ru.uSmart/providers/register_provider.dart';
 import 'package:th.ac.ru.uSmart/registers/register_nodata_view.dart';
+import 'package:th.ac.ru.uSmart/registers/register_row_view.dart';
+import 'package:th.ac.ru.uSmart/registers/mr30catalog_row_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/widget/Rubar.dart';
@@ -86,7 +88,7 @@ class _RegisterListScreenState extends State<RegisterListScreen>
     );
 
     listViews.add(
-      RegisterListView(
+      RegisterRowView(
         mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
             CurvedAnimation(
                 parent: widget.animationController!,
@@ -95,6 +97,40 @@ class _RegisterListScreenState extends State<RegisterListScreen>
         mainScreenAnimationController: widget.animationController!,
       ),
     );
+
+    listViews.add(
+      TitleNoneView(
+        titleTxt: 'รายการวิชาแยกตามความถนัด',
+        subTxt: 'รายละเอียด',
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController!,
+            curve:
+                Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController!,
+      ),
+    );
+
+    listViews.add(
+      Mr30CatalogRowView(
+        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
+            CurvedAnimation(
+                parent: widget.animationController!,
+                curve: Interval((1 / count) * 5, 1.0,
+                    curve: Curves.fastOutSlowIn))),
+        mainScreenAnimationController: widget.animationController!,
+      ),
+    );
+
+    // listViews.add(
+    //   RegisterListView(
+    //     mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
+    //         CurvedAnimation(
+    //             parent: widget.animationController!,
+    //             curve: Interval((1 / count) * 5, 1.0,
+    //                 curve: Curves.fastOutSlowIn))),
+    //     mainScreenAnimationController: widget.animationController!,
+    //   ),
+    // );
   }
 
   Future<bool> getData() async {

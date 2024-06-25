@@ -56,3 +56,23 @@ class REGISTERECORD {
     return data;
   }
 }
+
+class REGISTERECORDVIEW {
+  String? regisYear;
+  String? regisSemester;
+  String? courseNo;
+  String? credit;
+  String? startColor;
+  String? endColor;
+  String? imagePath;
+
+  REGISTERECORDVIEW(
+      {this.regisYear,
+      this.regisSemester,
+      this.courseNo,
+      this.credit,
+      this.startColor,
+      this.endColor,
+      this.imagePath});
+}
+

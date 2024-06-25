@@ -1,21 +1,35 @@
 import 'dart:collection';
-import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:th.ac.ru.uSmart/model/coursetype.dart';
+import 'package:th.ac.ru.uSmart/store/profile.dart';
+import 'package:th.ac.ru.uSmart/store/registeryear.dart';
 import '../model/profile.dart';
 import '../model/register_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../model/registeryear_model.dart';
 import '../services/registerservice.dart';
 import '../model/mr30_model.dart';
 
 class RegisterProvider extends ChangeNotifier {
-  final _service = RegisterService();
+  final RegisterService _service;
+
+  RegisterProvider({required RegisterService service}) : _service = service;
+
   bool isLoading = false;
+  bool isCatalogLoading = false;
 
   Map<String, List<String>> _listGroupYearSemester = {};
-
   Map<String, List<String>> get listGroupYearSemester => _listGroupYearSemester;
+
+  Map<String, List<REGISTERECORDVIEW>> _listGroupCourse = {};
+  Map<String, List<REGISTERECORDVIEW>> get listGroupCourse => _listGroupCourse;
+
+  Map<String, List<CourseType>> _listMr30Catalog = {};
+  Map<String, List<CourseType>> get listMr30Catalog => _listMr30Catalog;
+
+  Map<String, Percentage> _listMr30CatalogPercentage = {};
+  Map<String, Percentage> get listMr30CatalogPercentage =>
+      _listMr30CatalogPercentage;
 
   REGISTERYEAR _registeryear = REGISTERYEAR();
   REGISTERYEAR get registeryear => _registeryear;
@@ -29,6 +43,12 @@ class RegisterProvider extends ChangeNotifier {
   Register _register = Register();
   Register get register => _register;
 
+  Register _registerall = Register();
+  Register get registerall => _registerall;
+
+  Mr30Catalog _mr30catalog = Mr30Catalog();
+  Mr30Catalog get mr30catalog => _mr30catalog;
+
   String _error = '';
   String get error => _error;
 
@@ -40,71 +60,272 @@ class RegisterProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getMR30Register() async{
-       SharedPreferences prefs = await SharedPreferences.getInstance();
+  Future<void> getAllRegister() async {
+    final REGISTERYEAR registeryear =
+        await RegisterYearStorage.getRegisterYear();
     isLoading = true;
-    notifyListeners();
-    try {
-      final response = await _service.getAllregisterLatest();
-      _mr30 = response;
 
-      _mr30.rECORD?.forEach((element) {
-        var contain = _mr30record.where((e) => element.id == e.id);
-        if (contain.isNotEmpty) {
-          element.favorite = true;
+    if (registeryear.recordyear != null) {
+      try {
+        final response = await _service
+            .getAllRegisterList(registeryear.recordyear![0].year.toString());
+        await _service.getCourseType();
+        _register = response;
+        if (_register.stdCode != null) {
+          _listGroupYearSemester = groupListSortByValues(
+              _register.record!, ['regisYear', 'regisSemester']);
+          _listGroupCourse = groupListSortByCourse(
+              _register.record!, ['regisYear', 'regisSemester']);
+        }
+
+        isLoading = false;
+      } on Exception catch (e) {
+        _error = 'เกิดข้อผิดพลาด ${e.toString()}';
+      }
+    }
+
+    notifyListeners();
+  }
+
+  Future<void> getRegisterAll() async {
+    isCatalogLoading = true;
+    _error = '';
+
+    if (registeryear.recordyear != null) {
+      try {
+        final response = await _service.getAllRegisterList("");
+        _registerall = response;
+        isCatalogLoading = false;
+      } on Exception catch (e) {
+        _error = 'เกิดข้อผิดพลาด';
+      }
+    }
+
+    notifyListeners();
+  }
+
+  Future<void> getAllRegisterByYear(String year) async {
+    isLoading = true;
+    _error = '';
+
+    try {
+      final response = await _service.getAllRegisterList(year);
+      _register = response;
+      if (_register.stdCode != null) {
+        _listGroupYearSemester = groupListSortByValues(
+            _register.record!, ['regisYear', 'regisSemester']);
+        _listGroupCourse = groupListSortByCourse(
+            _register.record!, ['regisYear', 'regisSemester']);
+      }
+      isLoading = false;
+    } on Exception catch (e) {
+      _error = 'เกิดข้อผิดพลาด';
+    }
+
+    notifyListeners();
+  }
+
+  Future<void> getAllMr30Catalog() async {
+    isLoading = true;
+
+    try {
+      final response = await _service.getCourseType();
+      _mr30catalog = response;
+      // print(_registerall);
+      _listMr30Catalog =
+          groupListByCourseType(_mr30catalog.coursetype!, ['typeno', 'type']);
+      _listMr30CatalogPercentage = orderListByCourseTypeTest();
+
+      isLoading = false;
+    } on Exception catch (e) {
+      _error = 'เกิดข้อผิดพลาด ${e.toString()}';
+    }
+
+    notifyListeners();
+  }
+
+  Map<String, Percentage> orderListByCourseType() {
+    var groupCount = Map<String, int>();
+
+    _listMr30Catalog.forEach((key, value) {
+      groupCount[key] = 0;
+    });
+
+    _registerall.record!.forEach((REGISTERECORD register) {
+      _listMr30Catalog.forEach((key, listCourseType) {
+        listCourseType.forEach((coursetype) {
+          if (coursetype.courseno == register.courseNo) {
+            groupCount[key] = groupCount[key]! + 1;
+          }
+        });
+      });
+    });
+
+    Map<String, int> sortedMapDesc =
+        sortMapByValue(groupCount, descending: true);
+
+    var temp = Map<String, Percentage>();
+
+    sortedMapDesc.entries.forEach((element) {
+      temp[element.key] = Percentage(
+          counter: element.value,
+          percent: 0,
+          listregister: [],
+          listcoursetype: _listMr30Catalog[element.key]!);
+    });
+
+    Map<String, Percentage> percentageMap = calculatePercentageMatch(
+        temp, sortedMapDesc.entries.elementAt(0).value.toInt());
+
+    return percentageMap;
+  }
+
+  Map<String, Percentage> orderListByCourseTypeTest() {
+    var groupCount = Map<String, Percentage>();
+
+    _listMr30Catalog.forEach((key, value) {
+      groupCount[key] = Percentage(
+          counter: 0, percent: 0.0, listregister: [], listcoursetype: []);
+    });
+
+    _registerall.record!.forEach((REGISTERECORD register) {
+      _listMr30Catalog.forEach((key, listCourseType) {
+        listCourseType.forEach((coursetype) {
+          if (coursetype.courseno == register.courseNo) {
+            groupCount[key]!.counter = groupCount[key]!.counter + 1;
+            groupCount[key]!.listregister.add(register.courseNo.toString());
+          }
+        });
+      });
+    });
+
+    Map<String, Percentage> sortedMapDesc =
+        sortMapByCountCourse(groupCount, descending: true);
+
+    var temp = Map<String, Percentage>();
+
+    sortedMapDesc.entries.forEach((element) {
+      temp[element.key] = Percentage(
+          counter: element.value.counter,
+          percent: 0.0,
+          listregister: element.value.listregister,
+          listcoursetype: _listMr30Catalog[element.key]!);
+    });
+
+    Map<String, Percentage> percentageMap = calculatePercentageMatch(
+        temp, sortedMapDesc.entries.elementAt(0).value.counter.toInt());
+
+    return percentageMap;
+  }
+
+  List<CourseType> sortCourses(
+      List<CourseType> courses, List<String> courseOrder) {
+    courses.sort((a, b) {
+      int indexA = courseOrder.indexOf(a.courseno.toString());
+      int indexB = courseOrder.indexOf(b.courseno.toString());
+
+      // Handle cases where the course name is not found in the order list
+      if (indexA == -1) indexA = courseOrder.length;
+      if (indexB == -1) indexB = courseOrder.length;
+
+      return indexA.compareTo(indexB);
+    });
+
+    return courses;
+  }
+
+  Map<String, Percentage> sortMapByCountCourse(Map<String, Percentage> map,
+      {bool descending = false}) {
+    var sortedEntries = map.entries.toList()
+      ..sort((a, b) => descending
+          ? b.value.counter.compareTo(a.value.counter)
+          : a.value.counter.compareTo(b.value.counter));
+
+    return Map.fromEntries(sortedEntries);
+  }
+
+  Map<String, int> sortMapByValue(Map<String, int> map,
+      {bool descending = false}) {
+    var sortedEntries = map.entries.toList()
+      ..sort((a, b) =>
+          descending ? b.value.compareTo(a.value) : a.value.compareTo(b.value));
+
+    return Map.fromEntries(sortedEntries);
+  }
+
+  Map<String, Percentage> calculatePercentageMatch(
+      Map<String, Percentage> dataList, int targetValue) {
+    Map<String, Percentage> result = {};
+
+    dataList.forEach((key, v) {
+      double percent = (v.counter / targetValue) * 100;
+      List<CourseType> listSort = sortCourses(v.listcoursetype, v.listregister);
+
+      listSort.forEach((course) {
+        if (containsCourse(v.listregister, course.courseno.toString())) {
+          course.imagePath = 'assets/fitness_app/breakfast.png';
+          course.startColor = '#6F72CA';
+          course.endColor = '#1E1466';
+          //startColor = '#6F72CA';
+          //endColor = '#1E1466';
         } else {
-          element.favorite = false;
+          course.imagePath = 'assets/fitness_app/lunch.png';
+          course.startColor = '#738AE6';
+          course.endColor = '#5C5EDD';
+          //startColor = '#738AE6';
+          //endColor = '#5C5EDD';
         }
       });
-      prefs.setString('mr30register',  jsonEncode(_mr30.rECORD));
-      isLoading = false;
-    } on Exception catch (e) {
-      isLoading = false;
-      _error = 'เกิดข้อผิดพลาด';
-    }
 
-    notifyListeners();
+      result[key] = Percentage(
+          counter: v.counter,
+          percent: percent,
+          listregister: v.listregister,
+          listcoursetype: listSort);
+    });
+
+    return result;
   }
 
-  void getAllRegister() async {
-    //print('register:');
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String yearstring = prefs.getString('registeryear')!;
-    REGISTERYEAR registeryear = REGISTERYEAR.fromJson(jsonDecode(yearstring));
-    setLoading(true);
-    try {
-      final response = await _service.getAllRegisterList(
-          '6302045098', registeryear.recordyear![0].year);
-      _register = response;
-      _listGroupYearSemester = groupListSortByValues(
-          _register.record!, ['regisYear', 'regisSemester']);
+  bool containsCourse(List<String> courses, String targetCourse) {
+    // Convert both the courses and targetCourse to lowercase for case-insensitive comparison
+    String lowercaseTargetCourse = targetCourse.toLowerCase();
+    return courses
+        .any((course) => course.toLowerCase() == lowercaseTargetCourse);
+  }
 
-      setLoading(false);
-    } on Exception catch (e) {
-      _error = 'เกิดข้อผิดพลาด';
-      setLoading(false);
+  String truncateText(String text, int maxLength) {
+    if (text.length <= maxLength) {
+      return text;
+    } else {
+      return text.substring(0, maxLength) + '...';
     }
   }
 
-  void getAllRegisterByYear(String year) async {
-    //print('year: $year');
-    isLoading = true;
-    notifyListeners();
-    try {
-      final response = await _service.getAllRegisterList('6302045098', year);
-      _register = response;
-      _listGroupYearSemester = groupListSortByValues(
-          _register.record!, ['regisYear', 'regisSemester']);
+  Map<String, List<CourseType>> groupListByCourseType(
+      List<CourseType> data, List<String> keys) {
+    List<CourseType> temp = [];
+    var groups = LinkedHashMap<String, List<CourseType>>();
 
-      // print(
-      //     '_listGroupYearSemester: ${_listGroupYearSemester.entries.first.key} : ${_listGroupYearSemester.entries.first.value}');
-    } on Exception catch (e) {
-      isLoading = false;
-      _error = 'เกิดข้อผิดพลาด';
-    }
+    data.asMap().forEach((index, element) {
+      var key = keys.map((k) => _getValueCourseType(element, k)).join('.');
 
-    isLoading = false;
-    notifyListeners();
+      if (!groups.containsKey(key)) {
+        groups[key] = [];
+      }
+
+      temp = groups[key]!;
+
+      temp.add(CourseType(
+          cname: truncateText(element.cname.toString(), 50),
+          courseno: element.courseno,
+          type: element.type,
+          typeno: element.typeno));
+
+      groups[key] = temp;
+    });
+
+    return groups;
   }
 
   Map<String, List<String>> groupListSortByValues(
@@ -133,6 +354,91 @@ class RegisterProvider extends ChangeNotifier {
     return groups;
   }
 
+  dynamic _getValueCourseType(CourseType element, String key) {
+    switch (key) {
+      case 'cname':
+        return element.cname;
+      case 'courseno':
+        return element.courseno;
+      case 'type':
+        return element.type;
+      case 'typeno':
+        return element.typeno;
+      default:
+        return null;
+    }
+  }
+
+  Map<String, List<REGISTERECORDVIEW>> groupListSortByCourse(
+      List<REGISTERECORD> data, List<String> keys) {
+    List<REGISTERECORDVIEW> temp = [];
+    var groups = LinkedHashMap<String, List<REGISTERECORDVIEW>>();
+    String startColor = '#6F72CA';
+    String endColor = '#1E1466';
+    String imagePath = 'assets/fitness_app/breakfast.png';
+
+    data.asMap().forEach((index, element) {
+      var key = keys.map((k) => _getValue(element, k)).join('/');
+
+      if (!groups.containsKey(key)) {
+        groups[key] = [];
+      }
+
+      temp = groups[key]!;
+
+      // int currentNumber = (index % 4) + 1;
+      // switch (currentNumber) {
+      //   case 1:
+      //     {
+      //       imagePath = 'assets/fitness_app/breakfast.png';
+      //       //startColor = '#FA7D82';
+      //       //endColor = '#FFB295';
+      //     }
+      //     break;
+      //   case 2:
+      //     {
+      //       imagePath = 'assets/fitness_app/lunch.png';
+      //       //startColor = '#738AE6';
+      //       //endColor = '#5C5EDD';
+      //     }
+      //     break;
+      //   case 3:
+      //     {
+      //       imagePath = 'assets/fitness_app/snack.png';
+      //       //startColor = '#FE95B6';
+      //       //endColor = '#FF5287';
+      //     }
+      //     break;
+      //   case 4:
+      //     {
+      //       imagePath = 'assets/fitness_app/dinner.png';
+      //       //startColor = '#6F72CA';
+      //       //endColor = '#1E1466';
+      //     }
+      //     break;
+      // }
+
+      temp.add(REGISTERECORDVIEW(
+        regisYear: element.regisYear,
+        regisSemester: element.regisSemester,
+        courseNo: element.courseNo,
+        credit: element.credit,
+        startColor: startColor,
+        endColor: endColor,
+        imagePath: imagePath,
+      ));
+
+      groups[key] = temp;
+    });
+
+    groups.forEach((key, value) {
+      value.sort(
+          (a, b) => a.courseNo.toString().compareTo(b.courseNo.toString()));
+    });
+
+    return groups;
+  }
+
   dynamic _getValue(REGISTERECORD element, String key) {
     switch (key) {
       case 'regisYear':
@@ -149,34 +455,20 @@ class RegisterProvider extends ChangeNotifier {
   }
 
   void getAllRegisterYear() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String profilestring = prefs.getString('profile')!;
-    Profile profile = Profile.fromJson(jsonDecode(profilestring));
-    //print(profile.studentCode);
+    Profile profile = await ProfileStorage.getProfile();
     isLoading = true;
-    notifyListeners();
-    try {
-      final response =
-          await _service.getAllRegisterYear(profile.studentCode.toString());
-      _registeryear = response;
-    //  print(profile.studentCode.toString());
-      await prefs.setString('registeryear', jsonEncode(_registeryear));
-      isLoading = false;
-    } on Exception catch (e) {
-      isLoading = false;
-      _error = 'เกิดข้อผิดพลาด';
+    if (profile.studentCode != null) {
+      try {
+        final response =
+            await _service.getAllRegisterYear(profile.studentCode.toString());
+        _registeryear = response;
+        await RegisterYearStorage.saveRegisterYear(_registeryear);
+        isLoading = false;
+      } on Exception catch (e) {
+        _error = 'เกิดข้อผิดพลาด';
+      }
     }
-    isLoading = false;
+
     notifyListeners();
-  }
-
-
-  void getHaveTodayRegister() async{
-    
-//  SharedPreferences prefs = await SharedPreferences.getInstance();
-//     final String mr30register = prefs.getString('mr30register')!;
-//     MR30 listmr30register = jsonDecode(mr30register);
-//     print('provider register mr30 ${listmr30register.rECORD!.length}');
-//         notifyListeners();
   }
 }

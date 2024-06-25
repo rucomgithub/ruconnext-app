@@ -1,32 +1,27 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:th.ac.ru.uSmart/model/coursetype.dart';
 import 'package:th.ac.ru.uSmart/services/diointercepter.dart';
+import 'package:th.ac.ru.uSmart/store/profile.dart';
 import '../model/mr30_model.dart';
 import '../model/profile.dart';
 import '../model/register_model.dart';
 import '../model/registeryear_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class RegisterService { 
-  final regisurl = dotenv.env['APP_URL_DEV'];
+class RegisterService {
+  final appUrl = dotenv.env['APP_URL_DEV'];
   final dioapi = DioIntercepter();
-  String? profile ;
-  Profile p = Profile();
-  
-  Future<Register> getAllregister() async {
-    
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    profile = prefs.getString('profile');
-    p = Profile.fromJson(json.decode(profile!));
 
+  Future<Register> getAllregister() async {
     Register registerdata = Register.fromJson({});
     try {
-      var params = {"year": '2565', "std_code": "${p.studentCode}"};
+      Profile profile = await ProfileStorage.getProfile();
+      var params = {"year": '2565', "std_code": profile.studentCode};
       await dioapi.createIntercepter();
       var response = await dioapi.api.post(
-        '$regisurl/grade/${p.studentCode}',
+        '$appUrl/grade/${profile.studentCode}',
         options: Options(
           headers: {
             HttpHeaders.contentTypeHeader: "application/json",
@@ -35,6 +30,7 @@ class RegisterService {
         data: jsonEncode(params),
       );
       if (response.statusCode == 200) {
+        //print('Response Get Data : ${response.data}');
         registerdata = Register.fromJson(response.data);
       } else {
         throw ('Error Get Data');
@@ -47,28 +43,22 @@ class RegisterService {
     return registerdata;
   }
 
-  Future<MR30> getAllregisterLatest() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    profile = prefs.getString('profile');
-    p = Profile.fromJson(json.decode(profile!));
-    //print("studentcode: $p");
-    MR30 registerdata = MR30.fromJson({});
+  Future<Mr30Catalog> getCourseType() async {
+    Mr30Catalog mr30catalogdata = Mr30Catalog.fromJson({});
     try {
-     // var params = {"year": '2565', "semester": '2'};
       await dioapi.createIntercepter();
-      var response = await dioapi.api.get(
-        '$regisurl/register/${p.studentCode}/schedulelatest',
-       
-        options: Options(
-          headers: {
-            HttpHeaders.contentTypeHeader: "application/json",
-          },
-        ),
-        //data: jsonEncode(params),
-      );
+      var response = await dioapi.api
+          .get('https://uat.ru.ac.th/jsondata/mr30_catalog.json',
+              options: Options(
+                headers: {
+                  HttpHeaders.contentTypeHeader: "application/json",
+                },
+              ));
       if (response.statusCode == 200) {
-        registerdata = MR30.fromJson(response.data);
-       // print('mr30 register ${registerdata}');
+        //print('data ${response.data}');
+        // List<dynamic>  mr30catalogdata = response.data;
+        mr30catalogdata = Mr30Catalog.fromJson(response.data);
+        // print('--------------------${mr30catalogdata}--------------------');
       } else {
         throw ('Error Get Data');
       }
@@ -77,19 +67,46 @@ class RegisterService {
       throw (err);
     }
 
+    return mr30catalogdata;
+  }
+
+  Future<MR30> getScheduleLatest() async {
+    MR30 registerdata = MR30.fromJson({});
+    try {
+      Profile profile = await ProfileStorage.getProfile();
+      await dioapi.createIntercepter();
+      var response = await dioapi.api.get(
+        '$appUrl/register/${profile.studentCode}/schedulelatest',
+        options: Options(
+          headers: {
+            HttpHeaders.contentTypeHeader: "application/json",
+          },
+        ),
+        // data: jsonEncode(params),
+      );
+      if (response.statusCode == 200) {
+        registerdata = MR30.fromJson(response.data);
+        // print('mr30 register ${response.data}');
+      } else {
+        // print('mr30 register Error Get Data');
+        throw ('Error Get Data');
+      }
+    } catch (err) {
+      // print(err);
+      // print('err getScheduleLatest >>>>>>>>>>>: $err');
+      throw (err);
+    }
+
     return registerdata;
   }
 
   Future<REGISTERYEAR> getAllRegisterYear(String studentcode) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    profile = prefs.getString('profile');
-    p = Profile.fromJson(json.decode(profile!));
-    
     REGISTERYEAR registerdata = REGISTERYEAR.fromJson({});
     try {
+      Profile profile = await ProfileStorage.getProfile();
       await dioapi.createIntercepter();
       var response =
-          await dioapi.api.get('$regisurl/register/${p.studentCode}/year',
+          await dioapi.api.get('$appUrl/register/${profile.studentCode}/year',
               options: Options(
                 headers: {
                   HttpHeaders.contentTypeHeader: "application/json",
@@ -109,13 +126,19 @@ class RegisterService {
     return registerdata;
   }
 
-  Future<Register> getAllRegisterList(String std_code, year) async {
+  Future<String> asyncName() async {
+    return "kim";
+  }
+
+  Future<Register> getAllRegisterList(String year) async {
     Register registerlist = Register.fromJson({});
     try {
-      var params = {"std_code": std_code, "year": year};
+      Profile profile = await ProfileStorage.getProfile();
       await dioapi.createIntercepter();
+      var params = {"std_code": profile.studentCode, "year": year};
+
       var response2 = await dioapi.api.post(
-        '$regisurl/register/',
+        '$appUrl/register/',
         options: Options(
           headers: {
             HttpHeaders.contentTypeHeader: "application/json",

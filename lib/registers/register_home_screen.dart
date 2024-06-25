@@ -39,6 +39,7 @@ class _RegisterHomeScreenState extends State<RegisterHomeScreen>
     super.initState();
     Provider.of<AuthenProvider>(context, listen: false).getProfile();
     Provider.of<RegisterProvider>(context, listen: false).getAllRegister();
+    Provider.of<RegisterProvider>(context, listen: false).getRegisterAll();
     getData();
   }
 
