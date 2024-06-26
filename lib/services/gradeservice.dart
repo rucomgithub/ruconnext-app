@@ -8,7 +8,7 @@ import '../model/grade_model.dart';
 import '../model/profile.dart';
 
 class GradeService {
-  final appUrl = dotenv.env['APP_URL_DEV'];
+  final appUrl = dotenv.env['APP_URL'];
   final dioapi = DioIntercepter();
   String? profile;
   Profile p = Profile();
@@ -33,7 +33,7 @@ class GradeService {
         throw ('Error Get Data');
       }
     } catch (err) {
-      print(err);
+      //print(err);
       throw (err);
     }
 

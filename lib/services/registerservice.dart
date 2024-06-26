@@ -11,7 +11,7 @@ import '../model/registeryear_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class RegisterService {
-  final appUrl = dotenv.env['APP_URL_DEV'];
+  final appUrl = dotenv.env['APP_URL'];
   final dioapi = DioIntercepter();
 
   Future<Register> getAllregister() async {

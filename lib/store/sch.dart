@@ -15,7 +15,7 @@ class SchStorage {
   static Future<Scholarship> getSch() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final schString = prefs.getString(key);
-    print('cache storage: $schString');
+    //print('cache storage: $schString');
     if (schString != null) {
       final schJson = jsonDecode(schString);
       return Scholarship.fromJson(schJson);
@@ -26,7 +26,7 @@ class SchStorage {
 
   static Future<void> removeSch() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    print('clear cache....');
+    //print('clear cache....');
     await prefs.setString(key, '{}');
   }
 }

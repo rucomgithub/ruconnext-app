@@ -27,16 +27,16 @@ class InsuranceProvider extends ChangeNotifier {
 
     try {
       final response = await _service.getInsuranceAll();
-      print('save stoage insurance ...');
+      //print('save stoage insurance ...');
       await InsuranceStorage.save(response);
       _insuranceerror = '';
       isLoading = false;
     } on Exception catch (e) {
-      print('error');
+      //print('error');
       _insuranceerror =
           'เกิดข้อผิดพลาด: โปรดเชื่อมต่อ Internet. ${e.toString()}';
     } catch (e) {
-      print('error internal');
+      //print('error internal');
       _insuranceerror =
           'เกิดข้อผิดพลาด::: โปรดเชื่อมต่อ Internet. ${e.toString()}';
     }

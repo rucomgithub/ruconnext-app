@@ -9,7 +9,7 @@ import 'package:th.ac.ru.uSmart/store/profile.dart';
 class DioIntercepter {
   final Dio api = Dio();
   String? accessToken;
-  final appUrl = dotenv.env['APP_URL_DEV'];
+  final appUrl = dotenv.env['APP_URL'];
   createIntercepter() async {
     Profile profile = await ProfileStorage.getProfile();
     accessToken = profile.accessToken;
@@ -57,8 +57,7 @@ class DioIntercepter {
       "Std_code": "${profile.studentCode}"
     };
     try {
-      var response = await Dio().post(
-          '$appUrl/student/refresh-authentication',
+      var response = await Dio().post('$appUrl/student/refresh-authentication',
           data: jsonEncode(params));
 
       if (response.statusCode == 200) {

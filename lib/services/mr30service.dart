@@ -9,13 +9,12 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import '../model/profile.dart';
 import '../store/profile.dart';
- 
-class MR30Service { 
-  final mr30url = dotenv.env['APP_URL_DEV'];
+
+class MR30Service {
+  final mr30url = dotenv.env['APP_URL'];
   final dioapi = DioIntercepter();
 
   Future<YearSemester> getYearSemesterLatest() async {
-
     YearSemester yearSemester = YearSemester(year: "", semester: "");
     try {
       var response = await dioapi.api.get(
@@ -27,7 +26,7 @@ class MR30Service {
         ),
       );
       if (response.statusCode == 200) {
-        print(response.data);
+        //print(response.data);
         yearSemester = YearSemester.fromJson(response.data);
       } else {
         throw ('Error Get Year Semester.');
@@ -39,7 +38,7 @@ class MR30Service {
 
     return yearSemester;
   }
-  
+
   Future<MR30> getScheduleLatest() async {
     MR30 registerdata = MR30.fromJson({});
     try {

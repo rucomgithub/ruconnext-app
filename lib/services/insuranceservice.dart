@@ -8,14 +8,14 @@ import '../model/profile.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class InsuranceService {
-  final appUrl = dotenv.env['APP_URL_DEV'];
+  final appUrl = dotenv.env['APP_URL'];
   final dioapi = DioIntercepter();
 
   Future<Insurance> getInsuranceAll() async {
     Insurance registerdata = Insurance.fromJson({});
     try {
       Profile profile = await ProfileStorage.getProfile();
-      print('studentCode: ${profile.studentCode}');
+      //print('studentCode: ${profile.studentCode}');
       //profile.studentCode = '6401628414';
       var params = {"StudentCode": profile.studentCode};
       await dioapi.createIntercepter();

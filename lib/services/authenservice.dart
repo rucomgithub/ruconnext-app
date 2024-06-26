@@ -7,10 +7,11 @@ import '../exceptions/dioexception.dart';
 import '../model/profile.dart';
 import '../model/rutoken.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 final usertest = dotenv.env['USERTEST'];
 
 class AuthenService {
-  final authurlgoogle = dotenv.env['APP_URL_DEV'];
+  final authurlgoogle = dotenv.env['APP_URL'];
   Future<Profile> getAuthenGoogle() async {
     final googleSingIn = GoogleSignIn();
     Profile profile;
@@ -41,7 +42,7 @@ class AuthenService {
         Rutoken token = Rutoken.fromJson(response.data);
         // ignore: avoid_print
         //print('response ${response.data}');
-       // print('rutoken : ${token.accessToken}');
+        // print('rutoken : ${token.accessToken}');
         profile = Profile.fromJson({
           'displayName': user.displayName,
           'email': user.email,
@@ -52,7 +53,7 @@ class AuthenService {
           'refreshToken': token.refreshToken,
           'isAuth': token.isAuth
         });
-       // print(profile.email);
+        // print(profile.email);
         return profile;
       } else {
         throw ('Error Authentication Ramkhamhaeng University.');
@@ -62,7 +63,7 @@ class AuthenService {
       //print('${err.response} ...');
       throw ('Error Authentication Ramkhamhaeng University: $errorMessage .');
     } catch (e) {
-     // print('เกิดข้อผิดพลาดในการเชื่อมต่อ. $e');
+      // print('เกิดข้อผิดพลาดในการเชื่อมต่อ. $e');
       throw ('เกิดข้อผิดพลาดในการเชื่อมต่อ. $e');
     }
   }

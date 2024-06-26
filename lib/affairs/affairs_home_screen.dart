@@ -5,9 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/affairs/affairs_list_view.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/model/affairs_list_data.dart';
-import 'package:th.ac.ru.uSmart/other/other_list_view.dart';
 import 'package:th.ac.ru.uSmart/providers/insurance_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/rotcs_provider.dart';
+import 'package:th.ac.ru.uSmart/providers/sch_provider.dart';
 import 'package:th.ac.ru.uSmart/ruconnext_app_theme.dart';
 
 class AffairsHomeScreen extends StatefulWidget {
@@ -28,6 +28,8 @@ class _AffairsHomeScreenState extends State<AffairsHomeScreen>
     Provider.of<InsuranceProvider>(context, listen: false).getInsuracneAll();
     Provider.of<RotcsProvider>(context, listen: false).getAllRegister();
     Provider.of<RotcsProvider>(context, listen: false).getAllExtend();
+    Provider.of<SchProvider>(context, listen: false).getScholarShip();
+
     animationController = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
     super.initState();

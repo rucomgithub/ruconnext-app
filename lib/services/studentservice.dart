@@ -13,9 +13,9 @@ import '../store/profile.dart';
 
 class StudentService {
   final dioapi = DioIntercepter();
-  final appUrl = dotenv.env['APP_URL_DEV'];
+  final appUrl = dotenv.env['APP_URL'];
   final urlMr30Catalog = dotenv.env['MR30_CAT'];
-  
+
   late BuildContext _context;
 
   set context(BuildContext context) {
@@ -71,21 +71,20 @@ class StudentService {
     return studentdata;
   }
 
-    Future<Mr30Catalog> getMr30Catalog() async {
+  Future<Mr30Catalog> getMr30Catalog() async {
     Mr30Catalog mr30catalogdata = Mr30Catalog.fromJson({});
     try {
       await dioapi.createIntercepter();
-      var response =
-          await dioapi.api.get('$urlMr30Catalog/mr30_catalog.json',
-              options: Options(
-                headers: {
-                  HttpHeaders.contentTypeHeader: "application/json",
-                },
-              ));
+      var response = await dioapi.api.get('$urlMr30Catalog/mr30_catalog.json',
+          options: Options(
+            headers: {
+              HttpHeaders.contentTypeHeader: "application/json",
+            },
+          ));
       if (response.statusCode == 200) {
         //print('data ${response}');
-        // List<dynamic>  mr30catalogdata = response.data;   
-               mr30catalogdata = Mr30Catalog.fromJson(response.data); 
+        // List<dynamic>  mr30catalogdata = response.data;
+        mr30catalogdata = Mr30Catalog.fromJson(response.data);
         // print('--------------------${mr30catalogdata}--------------------');
       } else {
         throw ('Error Get Data');

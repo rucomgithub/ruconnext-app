@@ -31,6 +31,7 @@ class SchProvider extends ChangeNotifier {
       print('save stoage.......');
       await SchStorage.saveSch(response);
       _loadScholarShipData();
+      isLoading = false;
     } on Exception catch (e) {
       print('error');
       _schserror = 'เกิดข้อผิดพลาด ${e.toString()}';
@@ -39,8 +40,6 @@ class SchProvider extends ChangeNotifier {
       _schserror = 'เกิดข้อผิดพลาด ${e.toString()}';
       _loadScholarShipData();
     }
-
-    isLoading = false;
 
     notifyListeners();
   }
