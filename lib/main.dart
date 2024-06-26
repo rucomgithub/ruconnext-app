@@ -7,6 +7,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:th.ac.ru.uSmart/affairs/affairs_home_screen.dart';
 import 'package:th.ac.ru.uSmart/affairs/insurance/insurance_home_screen.dart';
+import 'package:th.ac.ru.uSmart/affairs/rotcs/rotcs_home_screen.dart';
 //
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/help_screen.dart';
@@ -35,7 +36,6 @@ import 'package:th.ac.ru.uSmart/providers/ruregis_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/sch_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/student_provider.dart';
 import 'package:th.ac.ru.uSmart/rotcs/rotcs_extend_screen.dart';
-import 'package:th.ac.ru.uSmart/rotcs/rotcs_home_screen.dart';
 import 'package:th.ac.ru.uSmart/rotcs/rotcs_register_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregis/mr30_home_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregion_login.dart';

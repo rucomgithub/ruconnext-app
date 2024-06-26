@@ -1,5 +1,5 @@
 import 'package:provider/provider.dart';
-import 'package:th.ac.ru.uSmart/affairs/insurance/insurance_list_screen.dart';
+import 'package:th.ac.ru.uSmart/affairs/rotcs/rotcs_list_screen.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/models/tabIcon_data.dart';
@@ -10,12 +10,12 @@ import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
 
 String? tokenMr30;
 
-class InsuranceHomeScreen extends StatefulWidget {
+class RotcsHomeScreen extends StatefulWidget {
   @override
-  _InsuranceHomeScreenState createState() => _InsuranceHomeScreenState();
+  _RotcsHomeScreenState createState() => _RotcsHomeScreenState();
 }
 
-class _InsuranceHomeScreenState extends State<InsuranceHomeScreen>
+class _RotcsHomeScreenState extends State<RotcsHomeScreen>
     with TickerProviderStateMixin {
   AnimationController? animationController;
 
@@ -35,7 +35,7 @@ class _InsuranceHomeScreenState extends State<InsuranceHomeScreen>
 
     animationController = AnimationController(
         duration: const Duration(milliseconds: 600), vsync: this);
-    tabBody = InsuranceListScreen(animationController: animationController);
+    tabBody = RotcsListScreen(animationController: animationController);
     super.initState();
   }
 
