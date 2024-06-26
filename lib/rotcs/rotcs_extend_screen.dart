@@ -379,31 +379,31 @@ class _RotcsExtendScreenState extends State<RotcsExtendScreen>
                         ],
                       ),
                     ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                                'ปีที่ผ่อนผัน : ${rotcs.rotcsextend.extendYear}'),
-                            Text('${rotcs.rotcsextend.code9}'),
-                            Text('${rotcs.rotcsextend.option1}'),
-                            Text('${rotcs.rotcsextend.option2}'),
-                            Text('${rotcs.rotcsextend.option3}'),
-                            Text('${rotcs.rotcsextend.option4}'),
-                            Text('${rotcs.rotcsextend.option5}'),
-                            Text('${rotcs.rotcsextend.option6}'),
-                            Text('${rotcs.rotcsextend.option7}'),
-                            Text('${rotcs.rotcsextend.option8}'),
-                            Text('${rotcs.rotcsextend.option9}'),
-                            Text('${rotcs.rotcsextend.optionOther}'),
-                          ],
-                        ),
-                      ),
-                    ),
+                    // Container(
+                    //   alignment: Alignment.centerLeft,
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.all(16.0),
+                    //     child: Column(
+                    //       crossAxisAlignment: CrossAxisAlignment.start,
+                    //       mainAxisAlignment: MainAxisAlignment.start,
+                    //       children: [
+                    //         Text(
+                    //             'ปีที่ผ่อนผัน : ${rotcs.rotcsextend.extendYear}'),
+                    //         Text('${rotcs.rotcsextend.code9}'),
+                    //         Text('${rotcs.rotcsextend.option1}'),
+                    //         Text('${rotcs.rotcsextend.option2}'),
+                    //         Text('${rotcs.rotcsextend.option3}'),
+                    //         Text('${rotcs.rotcsextend.option4}'),
+                    //         Text('${rotcs.rotcsextend.option5}'),
+                    //         Text('${rotcs.rotcsextend.option6}'),
+                    //         Text('${rotcs.rotcsextend.option7}'),
+                    //         Text('${rotcs.rotcsextend.option8}'),
+                    //         Text('${rotcs.rotcsextend.option9}'),
+                    //         Text('${rotcs.rotcsextend.optionOther}'),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ],
