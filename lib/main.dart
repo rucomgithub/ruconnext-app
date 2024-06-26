@@ -33,6 +33,9 @@ import 'package:th.ac.ru.uSmart/providers/student_provider.dart';
 import 'package:th.ac.ru.uSmart/rotcs/rotcs_extend_screen.dart';
 import 'package:th.ac.ru.uSmart/rotcs/rotcs_home_screen.dart';
 import 'package:th.ac.ru.uSmart/rotcs/rotcs_register_screen.dart';
+import 'package:th.ac.ru.uSmart/ruregionApp/ruregion_other_home_screen.dart';
+import 'package:th.ac.ru.uSmart/ruregionApp/ruregioncart/register_region_home_screen.dart';
+import 'package:th.ac.ru.uSmart/ruregionApp/ruregionmr30/mr30_region_home_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregis/mr30_home_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregion_login.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregion_mr30.dart';
@@ -212,6 +215,11 @@ class MyApp extends StatelessWidget {
             GetPage(name: '/ruregismr30', page: () => RuregisMr30HomeScreen()),
             GetPage(name: '/ruregisqrcode', page: () => RuregisQRScreen()),
             GetPage(name: '/ruregisqcart', page: () => RuregisCartHomeScreen()),
+
+            GetPage(name: '/ruregionApphome', page: () => RuRegionOtherHomeScreen()),
+            GetPage(name: '/ruregionAppmr30', page: () => RuregionMr30HomeScreen()),
+            GetPage(name: '/ruregionAppqrcode', page: () => RuregionQRScreen()),
+            GetPage(name: '/ruregionAppcart', page: () => RuRegionAppCartHomeScreen()),
             
 
           ],

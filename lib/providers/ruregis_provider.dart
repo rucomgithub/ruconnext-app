@@ -122,6 +122,42 @@ class RuregisProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void doLoginRegionApp(context, username, password) async {
+    _isLoading = true;
+    _error = '';
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // final sres = prefs.getString('regionlogin')!;
+    notifyListeners();
+    try {
+      final response = await _ruregisService.postLogin(username, password);
+      _logindata = response;
+      _logindata.rec?.forEach((element) {
+        stdcode = element.username!;
+      });
+      // print(_logindata.tf);
+      if (_logindata.tf == true) {
+        await prefs.setString('regionApplogin', jsonEncode(stdcode));
+        Get.offNamedUntil('/ruregionApphome', (route) => true);
+        // Get.offNamedUntil('/', (route) => true);
+      } else {
+        var snackbar = SnackBar(content: Text('รหัสนศหรือรหัสผ่านไม่ถูกต้อง'));
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      }
+    } on Exception catch (e) {
+      var snackbar = SnackBar(content: Text('$e'));
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+
+      _isLoading = false;
+      _error = 'เกิดข้อผิดพลาดดึงข้อมูลนักศึกษา';
+    }
+
+    //await _service.asyncName();
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
   Future<bool> tryLogin() async {
     final preferences = await SharedPreferences.getInstance();
 

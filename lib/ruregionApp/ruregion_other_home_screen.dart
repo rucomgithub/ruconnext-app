@@ -8,6 +8,7 @@ import 'package:th.ac.ru.uSmart/other/other_list_view.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregis_provider.dart';
 import 'package:th.ac.ru.uSmart/ruconnext_app_theme.dart';
 import 'package:th.ac.ru.uSmart/ruregionApp/profile_region_view.dart';
+import 'package:th.ac.ru.uSmart/ruregionApp/ruregion_login.dart';
 import 'package:th.ac.ru.uSmart/ruregionApp/ruregion_other_list_view.dart';
 
 class RuRegionOtherHomeScreen extends StatefulWidget {
@@ -50,6 +51,7 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
 
   @override
   Widget build(BuildContext context) {
+   var provruregis = Provider.of<RuregisProvider>(context, listen: false);
     return Container(
       color: FitnessAppTheme.background,
       child: Scaffold(
@@ -61,7 +63,16 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
               return const SizedBox();
             } else {
               //print('register : ${authen.profile.accessToken}');
-              return Stack(
+                  //    return authen.profile.accessToken != null
+                  // ? Stack(
+                  //     children: <Widget>[
+                  //       tabBody,
+                  //     ],
+                  //   )
+                  // : LoginPage();
+              return provruregis.auth != null ?
+              
+              Stack(
                 children: <Widget>[
                
                   
@@ -77,7 +88,7 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
                     ],
                   )
                 ],
-              );
+              ): RuregionAppLoginPage();
             }
           },
         ),

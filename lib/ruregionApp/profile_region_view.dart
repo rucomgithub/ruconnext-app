@@ -42,8 +42,8 @@ class _ProfileRegionViewState extends State<ProfileRegionView> {
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(colors: [
-                      Color.fromARGB(255, 251, 247, 214),
-                      HexColor("#F0DC82")
+                      Color.fromARGB(255, 214, 234, 251),
+                      HexColor("#65ADFF")
                     ], begin: Alignment.topLeft, end: Alignment.bottomRight),
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(8.0),

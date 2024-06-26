@@ -83,14 +83,20 @@ class RuregionProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-    void removeRuregisPref(courseid) async {
-    print('provider remove $courseid');
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _mr30ruregionrec.removeWhere((item) => item.cOURSENO == courseid);
+void removeRuregisPref(courseid) async {
+  print('provider remove $courseid');
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+    print('provider remove $_mr30ruregionrec');
+  // Print the cOURSENO of each item being checked and whether it matches courseid
+  _mr30ruregionrec.removeWhere((item) {
+    print('Checking item with cOURSENO: ${item.cOURSENO}');
+    return item.cOURSENO == courseid;
+  });
 
-    await prefs.setString('mr30ruregis', jsonEncode(_mr30ruregionrec));
-    notifyListeners();
-  }
+  await prefs.setString('mr30ruregis', jsonEncode(_mr30ruregionrec));
+  notifyListeners();
+}
+
 
   void courseSame(statusgrad) async {
     notifyListeners();

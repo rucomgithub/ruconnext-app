@@ -17,7 +17,7 @@ class RuregionOtherListData {
       titleTxt: 'เลือกวิชาที่ต้องการลงทะเบียน',
       subTxt:
           'เลือกวิชาที่ต้องการลงทะเบียน มร.30',
-      navigateScreen: '/ruregismr30',
+      navigateScreen: '/ruregionAppmr30',
     ),
 
     RuregionOtherListData(
