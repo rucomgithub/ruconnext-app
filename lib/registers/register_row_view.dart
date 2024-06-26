@@ -23,25 +23,26 @@ class _RegisterRowViewState extends State<RegisterRowView>
 
   @override
   void initState() {
+    Provider.of<RegisterProvider>(context, listen: false).getAllRegisterYear();
+    Provider.of<RegisterProvider>(context, listen: false).getAllMr30Catalog();
     animationController = AnimationController(
-        duration: const Duration(milliseconds: 1000), vsync: this);
+        duration: const Duration(milliseconds: 600), vsync: this);
     super.initState();
   }
 
   Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 50));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 600));
     return true;
   }
 
   Future<void> loadData(BuildContext context) async {
     //print("call provider");
     Provider.of<RegisterProvider>(context, listen: false).getAllRegisterYear();
-
     Provider.of<RegisterProvider>(context, listen: false).getAllMr30Catalog();
   }
 
   Future<void> refreshData(BuildContext context) async {
-    //print("refresh");
+    //print("refresh register");
     await loadData(context);
   }
 
@@ -397,11 +398,11 @@ class RowRegisterView extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      top: 20,
-                      left: 20,
+                      top: 25,
+                      left: 25,
                       child: SizedBox(
-                        width: 40,
-                        height: 40,
+                        width: 30,
+                        height: 30,
                         child: Image.asset(course!.imagePath!),
                       ),
                     )

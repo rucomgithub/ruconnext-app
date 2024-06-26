@@ -30,6 +30,7 @@ class CourseType {
   String? startColor;
   String? endColor;
   String? imagePath;
+  bool? check;
 
   CourseType(
       {this.cname = "",
@@ -39,7 +40,8 @@ class CourseType {
       this.grade = "",
       this.startColor = "",
       this.endColor = "",
-      this.imagePath = ""});
+      this.imagePath = "",
+      this.check = false});
 
   CourseType.fromJson(Map<String, dynamic> json) {
     cname = json['cName'];

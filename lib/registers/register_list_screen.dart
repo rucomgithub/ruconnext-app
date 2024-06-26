@@ -88,6 +88,18 @@ class _RegisterListScreenState extends State<RegisterListScreen>
     );
 
     listViews.add(
+      TitleNoneView(
+        titleTxt: 'วิชาที่เคยลงทะเบียนเรียน',
+        subTxt: 'รายละเอียด',
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController!,
+            curve:
+                Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController!,
+      ),
+    );
+
+    listViews.add(
       RegisterRowView(
         mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
             CurvedAnimation(
@@ -100,7 +112,7 @@ class _RegisterListScreenState extends State<RegisterListScreen>
 
     listViews.add(
       TitleNoneView(
-        titleTxt: 'รายการวิชาแยกตามความถนัด',
+        titleTxt: 'วิชาอื่นๆ แยกตามความถนัด',
         subTxt: 'รายละเอียด',
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,

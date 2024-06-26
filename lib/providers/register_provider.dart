@@ -16,7 +16,6 @@ class RegisterProvider extends ChangeNotifier {
   RegisterProvider({required RegisterService service}) : _service = service;
 
   bool isLoading = false;
-  bool isCatalogLoading = false;
 
   Map<String, List<String>> _listGroupYearSemester = {};
   Map<String, List<String>> get listGroupYearSemester => _listGroupYearSemester;
@@ -88,14 +87,14 @@ class RegisterProvider extends ChangeNotifier {
   }
 
   Future<void> getRegisterAll() async {
-    isCatalogLoading = true;
+    isLoading = true;
     _error = '';
 
     if (registeryear.recordyear != null) {
       try {
         final response = await _service.getAllRegisterList("");
         _registerall = response;
-        isCatalogLoading = false;
+        isLoading = false;
       } on Exception catch (e) {
         _error = 'เกิดข้อผิดพลาด';
       }
@@ -107,6 +106,7 @@ class RegisterProvider extends ChangeNotifier {
   Future<void> getAllRegisterByYear(String year) async {
     isLoading = true;
     _error = '';
+    notifyListeners();
 
     try {
       final response = await _service.getAllRegisterList(year);
@@ -258,20 +258,22 @@ class RegisterProvider extends ChangeNotifier {
     Map<String, Percentage> result = {};
 
     dataList.forEach((key, v) {
-      double percent = (v.counter / targetValue) * 100;
+      double percent = (v.counter / targetValue) * 95;
       List<CourseType> listSort = sortCourses(v.listcoursetype, v.listregister);
 
       listSort.forEach((course) {
         if (containsCourse(v.listregister, course.courseno.toString())) {
-          course.imagePath = 'assets/fitness_app/breakfast.png';
+          course.imagePath = 'check';
           course.startColor = '#6F72CA';
           course.endColor = '#1E1466';
+          course.check = true;
           //startColor = '#6F72CA';
           //endColor = '#1E1466';
         } else {
           course.imagePath = 'assets/fitness_app/lunch.png';
           course.startColor = '#738AE6';
           course.endColor = '#5C5EDD';
+          course.check = false;
           //startColor = '#738AE6';
           //endColor = '#5C5EDD';
         }
@@ -361,7 +363,11 @@ class RegisterProvider extends ChangeNotifier {
       case 'courseno':
         return element.courseno;
       case 'type':
-        return element.type;
+        String type = element.type.toString();
+        if (element.type == "ไม่สามารถจัดกลุ่มได้") {
+          type = "General";
+        }
+        return type;
       case 'typeno':
         return element.typeno;
       default:

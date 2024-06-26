@@ -1,3 +1,4 @@
+import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:flutter/material.dart';
@@ -23,13 +24,15 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
 
   @override
   void initState() {
+    Provider.of<RegisterProvider>(context, listen: false).getAllRegisterYear();
+    Provider.of<RegisterProvider>(context, listen: false).getAllMr30Catalog();
     animationController = AnimationController(
-        duration: const Duration(milliseconds: 1000), vsync: this);
+        duration: const Duration(milliseconds: 600), vsync: this);
     super.initState();
   }
 
   Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 50));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 600));
     return true;
   }
 
@@ -40,7 +43,7 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
   }
 
   Future<void> refreshData(BuildContext context) async {
-    //print("refresh");
+    print("refresh catalog");
     await loadData(context);
   }
 
@@ -56,7 +59,7 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
     return RefreshIndicator(
       onRefresh: () => refreshData(context),
       child: Consumer<RegisterProvider>(builder: (context1, provider, _) {
-        if (provider.isCatalogLoading) {
+        if (provider.isLoading) {
           return Center(
             child: SizedBox(),
           );
@@ -447,7 +450,17 @@ class CatalogRowView extends StatelessWidget {
                       child: SizedBox(
                         width: 40,
                         height: 40,
-                        child: Image.asset(course!.imagePath!),
+                        child: course!.check!
+                            ? Icon(
+                                Icons.check_box,
+                                color: AppTheme.ru_yellow,
+                                size: 20,
+                              )
+                            : Icon(
+                                Icons.check_box_outline_blank,
+                                color: AppTheme.ru_yellow,
+                                size: 20,
+                              ),
                       ),
                     )
                   ],
