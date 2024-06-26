@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:th.ac.ru.uSmart/rotcs/rotcs_home_screen.dart';
-
 class RotcsListData {
   RotcsListData({
     this.imagePath = '',

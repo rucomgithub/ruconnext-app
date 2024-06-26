@@ -13,7 +13,6 @@ import 'package:th.ac.ru.uSmart/pages/mr30_catalog.dart';
 import 'package:th.ac.ru.uSmart/pages/order_traking_page.dart';
 import 'package:th.ac.ru.uSmart/pages/ru_map.dart';
 import 'package:th.ac.ru.uSmart/registers/register_home_screen.dart';
-import 'package:th.ac.ru.uSmart/rotcs/rotcs_home_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregion_login.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregis_home_screen.dart';
 import 'package:th.ac.ru.uSmart/schedule/schedule_home_screen.dart';
@@ -48,7 +47,6 @@ class HomeList {
   }
 
   static List<HomeList> homeList = [
-
     HomeList(
       imagePath: 'assets/fitness_app/A18.png',
       iconsData: Icons.vertical_shades_rounded,

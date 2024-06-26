@@ -35,8 +35,6 @@ import 'package:th.ac.ru.uSmart/providers/ruregis_mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregis_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/sch_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/student_provider.dart';
-import 'package:th.ac.ru.uSmart/rotcs/rotcs_extend_screen.dart';
-import 'package:th.ac.ru.uSmart/rotcs/rotcs_register_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregis/mr30_home_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregion_login.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregion_mr30.dart';
@@ -193,8 +191,6 @@ class MyApp extends StatelessWidget {
             GetPage(name: '/runewsdetail', page: () => RunewsdetailPage()),
             GetPage(name: '/insurance', page: () => InsuranceHomeScreen()),
             GetPage(name: '/rotcs', page: () => RotcsHomeScreen()),
-            GetPage(name: '/rotcsregister', page: () => RotcsRegisterScreen()),
-            GetPage(name: '/rotcsextend', page: () => RotcsExtendScreen()),
             GetPage(
                 name: '/fitness',
                 page: () =>
