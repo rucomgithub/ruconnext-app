@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:auth_buttons/auth_buttons.dart' show GoogleAuthButton;
 import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
+import 'package:th.ac.ru.uSmart/providers/authen_regis.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregis_provider.dart';
 import '../providers/authenprovider.dart';
 import 'package:provider/provider.dart';
@@ -116,7 +117,7 @@ class _RuregionAppLoginPageState extends State<RuregionAppLoginPage> {
     );
   }
   void doLogin(usr,pwd) {
-       Provider.of<RuregisProvider>(context, listen: false).doLoginRegionApp(context,usr,pwd);
+       Provider.of<AuthenRuRegionAppProvider>(context, listen: false).getAuthenRuRegionApp(context,usr,pwd);
 
   }
 }

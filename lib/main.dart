@@ -14,6 +14,7 @@ import 'package:th.ac.ru.uSmart/manual/mr30_help_screen.dart';
 import 'package:th.ac.ru.uSmart/manual/regis_help_screen.dart';
 import 'package:th.ac.ru.uSmart/pages/ru_map.dart';
 import 'package:th.ac.ru.uSmart/pages/runewsdetail_page.dart';
+import 'package:th.ac.ru.uSmart/providers/authen_regis.dart';
 import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
 import 'package:th.ac.ru.uSmart/providers/mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/region_enroll_provider.dart';
@@ -151,6 +152,8 @@ class MyApp extends StatelessWidget {
               create: (_) => RuregionProvider()),
           ChangeNotifierProvider<RegionEnrollProvider>(
               create: (_) => RegionEnrollProvider()),
+            ChangeNotifierProvider<AuthenRuRegionAppProvider>(
+              create: (_) => AuthenRuRegionAppProvider()),
         ],
 //       child: MaterialApp(
 //         title: 'RU ConneXt',

@@ -9,6 +9,8 @@ class RuregionLoginStorage {
   static const String key = 'regionApplogin';
 
   static Future<void> saveProfile(Loginregion res) async {
+    print('save profile $res');
+   
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final regionlogin = res.toJson();
     await prefs.setString(key, jsonEncode(regionlogin));

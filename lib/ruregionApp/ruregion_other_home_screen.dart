@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/model/ruregion_other_list_model.dart';
 import 'package:th.ac.ru.uSmart/other/other_list_view.dart';
+import 'package:th.ac.ru.uSmart/providers/authen_regis.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregis_provider.dart';
 import 'package:th.ac.ru.uSmart/ruconnext_app_theme.dart';
 import 'package:th.ac.ru.uSmart/ruregionApp/profile_region_view.dart';
@@ -13,7 +14,8 @@ import 'package:th.ac.ru.uSmart/ruregionApp/ruregion_other_list_view.dart';
 
 class RuRegionOtherHomeScreen extends StatefulWidget {
   @override
-  _RuRegionOtherHomeScreenState createState() => _RuRegionOtherHomeScreenState();
+  _RuRegionOtherHomeScreenState createState() =>
+      _RuRegionOtherHomeScreenState();
 }
 
 class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
@@ -24,16 +26,16 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now().add(const Duration(days: 5));
 
-
   @override
   void initState() {
     animationController = AnimationController(
         duration: const Duration(milliseconds: 400), vsync: this);
     super.initState();
-    Provider.of<RuregisProvider>(context, listen: false).fetchProfileAppRuregis();
-
+    Provider.of<RuregisProvider>(context, listen: false)
+        .fetchProfileAppRuregis();
+    Provider.of<AuthenRuRegionAppProvider>(context, listen: false).getProfile();
     getData();
-    
+
     //Noti.initialize(flutterLocalNotificationsPlugin);
   }
 
@@ -51,7 +53,9 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
 
   @override
   Widget build(BuildContext context) {
-   var provruregis = Provider.of<RuregisProvider>(context, listen: false);
+    var provruregis =
+        Provider.of<AuthenRuRegionAppProvider>(context, listen: false);
+
     return Container(
       color: FitnessAppTheme.background,
       child: Scaffold(
@@ -62,33 +66,23 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
             if (!snapshot.hasData) {
               return const SizedBox();
             } else {
-              //print('register : ${authen.profile.accessToken}');
-                  //    return authen.profile.accessToken != null
-                  // ? Stack(
-                  //     children: <Widget>[
-                  //       tabBody,
-                  //     ],
-                  //   )
-                  // : LoginPage();
-              return provruregis.auth != null ?
-              
-              Stack(
-                children: <Widget>[
-               
-                  
-                  Column(
-                    children: <Widget>[
-                   
-                      getAppBarUI(),
-                     ProfileRegionView(
-                       animation: animationController,
-                       animationController: animationController,
-                     ),
-                      getListUI(),
-                    ],
-                  )
-                ],
-              ): RuregionAppLoginPage();
+              // print('login res ${provruregis.loginres.rec![0].username}');
+              return provruregis.loginres.tf != null
+                  ? Stack(
+                      children: <Widget>[
+                        Column(
+                          children: <Widget>[
+                            getAppBarUI(),
+                            ProfileRegionView(
+                              animation: animationController,
+                              animationController: animationController,
+                            ),
+                            getListUI(),
+                          ],
+                        )
+                      ],
+                    )
+                  : RuregionAppLoginPage();
             }
           },
         ),
@@ -167,6 +161,8 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
   }
 
   Widget getAppBarUI() {
+      var provruregis =
+        Provider.of<AuthenRuRegionAppProvider>(context, listen: false);
     return Container(
       decoration: BoxDecoration(
         color: RuConnextAppTheme.buildLightTheme().backgroundColor,
@@ -222,14 +218,15 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-            
                   Material(
                     color: Colors.transparent,
                     child: InkWell(
                       borderRadius: const BorderRadius.all(
                         Radius.circular(32.0),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                            provruregis.logout();
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Icon(Icons.logout),
