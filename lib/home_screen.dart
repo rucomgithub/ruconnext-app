@@ -23,7 +23,6 @@ class MyHomePage extends StatefulWidget {
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
-  
 }
 
 String? token;
@@ -38,22 +37,22 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     Provider.of<GradeProvider>(context, listen: false).getAllGrade();
     Provider.of<RegisterProvider>(context, listen: false).getAllRegister();
     Provider.of<RegisterProvider>(context, listen: false).getRegisterAll();
-    
+
     Provider.of<RegisterProvider>(context, listen: false).getAllRegisterYear();
     Provider.of<RegisterProvider>(context, listen: false).getAllMr30Catalog();
-    
+
     //Provider.of<RegisterProvider>(context, listen: false).getMR30Register();
 
     // Provider.of<StudentProvider>(context, listen: false).getMr30Catalog();
-      
+
     Provider.of<MR30Provider>(context, listen: false).getAllMR30();
     Provider.of<MR30Provider>(context, listen: false).getAllMR30Year();
 
     Provider.of<ScheduleProvider>(context, listen: false).fetchSchedules();
-  
+
     animationController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
-        
+
     super.initState();
   }
 
@@ -74,14 +73,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     context.read<MR30Provider>().getHaveToday();
     context.read<MR30Provider>().filterTimeCourseStudy();
-   // context.read<RegisterProvider>().getHaveTodayRegister();
+    // context.read<RegisterProvider>().getHaveTodayRegister();
     var brightness = MediaQuery.of(context).platformBrightness;
     var mr30 = context.watch<MR30Provider>();
-      // var mr30catalogs = context.watch<StudentProvider>();
+    // var mr30catalogs = context.watch<StudentProvider>();
     var scheduleProv = context.watch<ScheduleProvider>();
     bool isLightMode = brightness == Brightness.light;
     return Scaffold(
-      
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: FutureBuilder<bool>(
         future: getData(),
@@ -110,8 +108,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  appBar(),
-                 // Text('$')
+                  Container(color: AppTheme.ru_dark_blue, child: appBar()),
+                  // Text('$')
                   FadeTransition(
                       opacity: animationForImage, child: homeImageSlider()),
                   Padding(
@@ -121,52 +119,50 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         Icon(Icons.list,
                             color: Color.fromARGB(255, 15, 0, 84), size: 18.0),
                         Text(
-                           'กิจกรรมวันนี้',
+                          'กิจกรรมวันนี้',
                           style: TextStyle(
                             fontSize: 16,
                             fontFamily: AppTheme.ruFontKanit,
                             fontWeight: FontWeight.bold,
-                               decoration: TextDecoration.underline,
+                            decoration: TextDecoration.underline,
                           ),
-                        ), 
-                  
+                        ),
                       ],
                     ),
                   ),
-      
+
                   ListView.builder(
                     padding: const EdgeInsets.all(1),
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: mr30.havetodayNow.length > 0 ? 1 : 0,         
+                    itemCount: mr30.havetodayNow.length > 0 ? 1 : 0,
                     itemBuilder: (context, index) {
                       return Card(
                         child: Padding(
                           padding: const EdgeInsets.all(1.0),
                           child: ListTile(
-                          title: Text(
-                            '${mr30.havetodayNow[index].courseNo}',
-                            style: TextStyle(
-                              fontSize: 12,
+                            title: Text(
+                              '${mr30.havetodayNow[index].courseNo}',
+                              style: TextStyle(
+                                fontSize: 12,
+                              ),
                             ),
-                          ),
-                          trailing: Text(
-                              '${StringTimeStudy((mr30.havetodayNow[index].timePeriod).toString())}'),
-                              onTap: () {
+                            trailing: Text(
+                                '${StringTimeStudy((mr30.havetodayNow[index].timePeriod).toString())}'),
+                            onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        TodayHomeScreen()),
+                                    builder: (context) => TodayHomeScreen()),
                               );
                             },
-                          leading: Icon(Icons.bookmarks_rounded),
-                        ),
+                            leading: Icon(Icons.bookmarks_rounded),
+                          ),
                         ),
                       );
                     },
                   ),
-                  
+
                   //schedule
                   ListView.builder(
                     padding: const EdgeInsets.all(1),
@@ -174,61 +170,62 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: scheduleProv.schedules.length > 0 ? 1 : 0,
                     itemBuilder: (context, index) {
-                      return scheduleProv.isLoading ? Text(''):
-                       Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(1.0),
-                          child: ListTile(
-                            title: Text(
-                              '${formatDate(scheduleProv.schedules[0].startDate)} - ${formatDate(scheduleProv.schedules[0].endDate)}',
-                              style: TextStyle(
-                                fontFamily: AppTheme.ruFontKanit,
-                                color: AppTheme.ru_dark_blue,
-                                fontSize: 13,
-                              ),
-                            ),
-                            subtitle: Text(
-                              '${scheduleProv.schedules[0].eventName}',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontFamily: AppTheme.ruFontKanit,
-                                color: AppTheme.ru_text_grey,
-                              ),
-                            ),
-                            // trailing: Text(
-                            //   ' ${commingTime(DateTime.parse(scheduleProv.schedules[0].startDate), DateTime.now(), DateTime.parse(scheduleProv.schedules[0].endDate))}',
-                            //   style: TextStyle(
-                            //       color: Colors.redAccent,
-                            //       fontSize: 12,
-                            //       fontStyle: FontStyle.italic),
-                            // ),
-                            trailing:BlinkText(
-                              '${commingTimeNewLine(DateTime.parse(scheduleProv.schedules[0].startDate), DateTime.now(), DateTime.parse(scheduleProv.schedules[0].endDate))}',
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  fontStyle: FontStyle.italic),
-                                beginColor: Colors.redAccent,
-                                endColor: Colors.red.shade50
-                              ),//                             trailing: BlinkText(
+                      return scheduleProv.isLoading
+                          ? Text('')
+                          : Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(1.0),
+                                child: ListTile(
+                                  title: Text(
+                                    '${formatDate(scheduleProv.schedules[0].startDate)} - ${formatDate(scheduleProv.schedules[0].endDate)}',
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.ruFontKanit,
+                                      color: AppTheme.ru_dark_blue,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    '${scheduleProv.schedules[0].eventName}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontFamily: AppTheme.ruFontKanit,
+                                      color: AppTheme.ru_text_grey,
+                                    ),
+                                  ),
+                                  // trailing: Text(
+                                  //   ' ${commingTime(DateTime.parse(scheduleProv.schedules[0].startDate), DateTime.now(), DateTime.parse(scheduleProv.schedules[0].endDate))}',
+                                  //   style: TextStyle(
+                                  //       color: Colors.redAccent,
+                                  //       fontSize: 12,
+                                  //       fontStyle: FontStyle.italic),
+                                  // ),
+                                  trailing: BlinkText(
+                                      '${commingTimeNewLine(DateTime.parse(scheduleProv.schedules[0].startDate), DateTime.now(), DateTime.parse(scheduleProv.schedules[0].endDate))}',
+                                      style: TextStyle(
+                                          fontSize: 11,
+                                          fontStyle: FontStyle.italic),
+                                      beginColor: Colors.redAccent,
+                                      endColor: Colors.red
+                                          .shade50), //                             trailing: BlinkText(
 
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ScheduleHomeScreen()),
-                              );
-                            },
-                            leading: Icon(
-                              Icons.timer,
-                              // color: Colors.lightBlue,
-                            ),
-                          ),
-                        ),
-                      );
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ScheduleHomeScreen()),
+                                    );
+                                  },
+                                  leading: Icon(
+                                    Icons.timer,
+                                    // color: Colors.lightBlue,
+                                  ),
+                                ),
+                              ),
+                            );
                     },
                   ),
-               
+
                   Expanded(
                     child: FutureBuilder<bool>(
                       future: getData(),
@@ -320,8 +317,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   style: TextStyle(
                     fontSize: 22,
                     fontFamily: AppTheme.ruFontKanit,
-                    
-                    color: AppTheme.darkText ,
+                    color: AppTheme.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -333,7 +329,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             child: Container(
               width: AppBar().preferredSize.height - 8,
               height: AppBar().preferredSize.height - 8,
-              color:  Colors.white ,
+              color: AppTheme.ru_dark_blue,
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
@@ -341,7 +337,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       BorderRadius.circular(AppBar().preferredSize.height),
                   child: Icon(
                     multiple ? Icons.dashboard : Icons.view_agenda,
-                    color:  AppTheme.dark_grey ,
+                    color: AppTheme.white,
                   ),
                   onTap: () {
                     setState(() {
@@ -352,7 +348,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               ),
             ),
           ),
-         
         ],
       ),
     );

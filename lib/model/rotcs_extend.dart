@@ -82,6 +82,7 @@ class RotcsExtendDetail {
   String? id;
   String? registerYear;
   String? registerSemester;
+  String? description;
   String? credit;
   String? created;
   String? modified;
@@ -91,6 +92,7 @@ class RotcsExtendDetail {
       this.registerYear,
       this.registerSemester,
       this.credit,
+      this.description,
       this.created,
       this.modified});
 
@@ -99,6 +101,7 @@ class RotcsExtendDetail {
     registerYear = json['registerYear'];
     registerSemester = json['registerSemester'];
     credit = json['credit'];
+    description = json['description'];
     created = json['created'];
     modified = json['modified'];
   }
@@ -108,6 +111,7 @@ class RotcsExtendDetail {
     data['id'] = this.id;
     data['registerYear'] = this.registerYear;
     data['registerSemester'] = this.registerSemester;
+    data['description'] = this.description;
     data['credit'] = this.credit;
     data['created'] = this.created;
     data['modified'] = this.modified;

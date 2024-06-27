@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:th.ac.ru.uSmart/model/rotcs_extend.dart';
@@ -17,6 +19,9 @@ class RotcsProvider extends ChangeNotifier {
 
   RotcsExtend _rotcsextend = RotcsExtend();
   RotcsExtend get rotcsextend => _rotcsextend;
+
+  Map<String, List<RotcsExtendDetail>> _listGroupDetail = {};
+  Map<String, List<RotcsExtendDetail>> get listGroupDetail => _listGroupDetail;
 
   String _rotcserror = '';
   String get rotcserror => _rotcserror;
@@ -52,13 +57,34 @@ class RotcsProvider extends ChangeNotifier {
   }
 
   Future<void> getAllExtend() async {
-    //RotcsRegister rotcsregister = await RotcsRegisterStorage.getRegister();
     isLoading = true;
 
     try {
       final response = await _service.getExtendAll();
       //print('save stoage.......');
       await RotcsExtendStorage.saveExtend(response);
+
+      RotcsExtend extend = await RotcsExtendStorage.getExtend();
+      // Extract the "detail" list from the JSON data
+      List<RotcsExtendDetail> details = extend.detail!;
+
+      // Sort the details list by registerYear and registerSemester
+      details.sort((a, b) {
+        int yearComparison = a.registerYear!.compareTo(b.registerYear!);
+        if (yearComparison != 0) {
+          return yearComparison;
+        }
+        return a.registerSemester!.compareTo(b.registerSemester!);
+      });
+
+      extend.detail = details;
+
+      for (int i = 0; i < extend.detail!.length; i++) {
+        details[i].description = (i == 0) ? "ผ่อนผัน" : "ยืนยันสิทธิ์";
+      }
+
+      await RotcsExtendStorage.saveExtend(extend);
+
       isLoading = false;
     } on Exception catch (e) {
       _rotcserror = 'เกิดข้อผิดพลาด ${e.toString()}';

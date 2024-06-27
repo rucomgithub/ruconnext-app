@@ -129,7 +129,7 @@ class ExtendItemView extends StatelessWidget {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(
-                          top: 32, left: 8, right: 8, bottom: 16),
+                          top: 8, left: 8, right: 8, bottom: 8),
                       child: Container(
                         decoration: BoxDecoration(
                           boxShadow: <BoxShadow>[
@@ -155,58 +155,31 @@ class ExtendItemView extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              top: 54, left: 16, right: 16, bottom: 8),
+                              top: 16, left: 32, right: 16, bottom: 8),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(
-                                'รายงานประจำปีการศึกษา ${detail!.yearReport}',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.ruFontKanit,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                  letterSpacing: 0.2,
-                                  color: AppTheme.darkText,
-                                ),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 8, bottom: 8),
-                                  child: SingleChildScrollView(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        SizedBox(
-                                          height: 100.0,
-                                          width: 200.0,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'สถานศึกษาวิชาทหาร ${detail!.locationArmy}',
-                                                style: TextStyle(
-                                                  fontFamily:
-                                                      AppTheme.ruFontKanit,
-                                                  fontWeight: FontWeight.w200,
-                                                  fontSize: 12,
-                                                  letterSpacing: 0.2,
-                                                  color: AppTheme.white,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 8, bottom: 8),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'สถานศึกษาวิชาทหาร ${detail!.locationArmy}',
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.ruFontKanit,
+                                          fontWeight: FontWeight.w200,
+                                          fontSize: 14,
+                                          letterSpacing: 0.2,
+                                          color: AppTheme.white,
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -255,7 +228,7 @@ class ExtendItemView extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      top: 30,
+                      top: 10,
                       left: 10,
                       child: Container(
                         width: 44,
@@ -267,13 +240,29 @@ class ExtendItemView extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      top: 30,
-                      left: 10,
+                      top: 15,
+                      left: 15,
                       child: SizedBox(
                         width: 40,
                         height: 40,
                         child: Icon(Icons.app_registration),
                         //child: Text(gradeListData!.),
+                      ),
+                    ),
+                    Positioned(
+                      top: 20,
+                      left: 60,
+                      child: Container(
+                        child: Text(
+                          'รายงานตัว นศท. ประจำปี ${detail!.yearReport}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: AppTheme.ruFontKanit,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            color: AppTheme.darkText,
+                          ),
+                        ),
                       ),
                     ),
                   ],

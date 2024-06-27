@@ -75,8 +75,8 @@ class _RotcsListScreenState extends State<RotcsListScreen>
 
     listViews.add(
       TitleNoneView(
-        titleTxt: 'รายงานลงทะเบียนฝึก นศท.',
-        subTxt: 'รายละเอียดรายการลงทะเบียนฝึก นศท.',
+        titleTxt: 'การฝึกเรียนวิชาหทาร',
+        subTxt: 'รายละเอียดรายการการฝึกเรียนวิชาหทาร.',
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
             curve:
@@ -98,8 +98,8 @@ class _RotcsListScreenState extends State<RotcsListScreen>
 
     listViews.add(
       TitleNoneView(
-        titleTxt: 'ขอผ่อนผันการเกณฑ์ทหาร',
-        subTxt: 'รายละเอียดรายการขอผ่อนผันการเกณฑ์ทหาร.',
+        titleTxt: 'การผ่อนผันการเกณฑ์ทหาร',
+        subTxt: 'รายละเอียดรายการผ่อนผันการเกณฑ์ทหาร.',
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
             curve:

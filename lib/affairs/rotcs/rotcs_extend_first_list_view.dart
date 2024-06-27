@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/model/rotcs_extend.dart';
 import 'package:th.ac.ru.uSmart/providers/rotcs_provider.dart';
 
-class RotcsExtendListView extends StatefulWidget {
-  const RotcsExtendListView(
+class RotcsExtendFirstListView extends StatefulWidget {
+  const RotcsExtendFirstListView(
       {Key? key, this.mainScreenAnimationController, this.mainScreenAnimation})
       : super(key: key);
 
@@ -15,10 +15,11 @@ class RotcsExtendListView extends StatefulWidget {
   final Animation<double>? mainScreenAnimation;
 
   @override
-  _RotcsExtendListViewState createState() => _RotcsExtendListViewState();
+  _RotcsExtendFirstListViewState createState() =>
+      _RotcsExtendFirstListViewState();
 }
 
-class _RotcsExtendListViewState extends State<RotcsExtendListView>
+class _RotcsExtendFirstListViewState extends State<RotcsExtendFirstListView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
   List<GradeListData> gradeListData = GradeListData.tabIconsList;
@@ -129,7 +130,7 @@ class ExtendItemView extends StatelessWidget {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(
-                          top: 8, left: 8, right: 8, bottom: 8),
+                          top: 32, left: 8, right: 8, bottom: 16),
                       child: Container(
                         decoration: BoxDecoration(
                           boxShadow: <BoxShadow>[
@@ -155,50 +156,58 @@ class ExtendItemView extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              top: 16, left: 32, right: 16, bottom: 8),
+                              top: 54, left: 16, right: 16, bottom: 8),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                'ปีการศึกษา ${detail!.registerSemester}/${detail!.registerYear}',
+                                'ผ่อนผัน ${detail!.registerYear}/${detail!.registerSemester}',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,
-                                  fontWeight: FontWeight.w200,
-                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
                                   letterSpacing: 0.2,
-                                  color: AppTheme.white,
+                                  color: AppTheme.darkText,
                                 ),
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 8, bottom: 8),
-                                child: SingleChildScrollView(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'จำนวน ${detail!.credit} หน่วยกิต ',
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.ruFontKanit,
-                                              fontWeight: FontWeight.w200,
-                                              fontSize: 14,
-                                              letterSpacing: 0.2,
-                                              color: AppTheme.white,
-                                            ),
+                              Expanded(
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 8, bottom: 8),
+                                  child: SingleChildScrollView(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        SizedBox(
+                                          height: 100.0,
+                                          width: 200.0,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'บันทึกรายการ ${detail!.created}',
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      AppTheme.ruFontKanit,
+                                                  fontWeight: FontWeight.w200,
+                                                  fontSize: 12,
+                                                  letterSpacing: 0.2,
+                                                  color: AppTheme.white,
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
-                                    ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -220,14 +229,14 @@ class ExtendItemView extends StatelessWidget {
                                     ),
                                     child: Padding(
                                       padding: const EdgeInsets.all(2.0),
-                                      child: Icon(Icons.save),
+                                      child: Icon(Icons.copyright),
                                     ),
                                   ),
                                   Container(
                                     child: Padding(
                                       padding: const EdgeInsets.all(6.0),
                                       child: Text(
-                                        '${detail!.created}',
+                                        'ยืนยัน ${detail!.credit} หน่วยกิต',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontFamily: AppTheme.ruFontKanit,
@@ -247,7 +256,7 @@ class ExtendItemView extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      top: 10,
+                      top: 30,
                       left: 10,
                       child: Container(
                         width: 44,
@@ -259,29 +268,13 @@ class ExtendItemView extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      top: 15,
-                      left: 15,
+                      top: 30,
+                      left: 10,
                       child: SizedBox(
                         width: 40,
                         height: 40,
                         child: Icon(Icons.app_registration),
                         //child: Text(gradeListData!.),
-                      ),
-                    ),
-                    Positioned(
-                      top: 20,
-                      left: 60,
-                      child: Container(
-                        child: Text(
-                          '${detail!.description}',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: AppTheme.ruFontKanit,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            color: AppTheme.darkText,
-                          ),
-                        ),
                       ),
                     ),
                   ],

@@ -131,10 +131,13 @@ class RegisterProvider extends ChangeNotifier {
     try {
       final response = await _service.getCourseType();
       _mr30catalog = response;
-      // print(_registerall);
+      //print(_register);
       _listMr30Catalog =
           groupListByCourseType(_mr30catalog.coursetype!, ['typeno', 'type']);
-      _listMr30CatalogPercentage = orderListByCourseTypeTest();
+      if(_register.year != null) {
+        _listMr30CatalogPercentage = orderListByCourseTypeTest();
+      }
+      
 
       isLoading = false;
     } on Exception catch (e) {
