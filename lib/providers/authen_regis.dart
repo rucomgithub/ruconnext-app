@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:th.ac.ru.uSmart/services/ruregis_service.dart';
+import 'package:th.ac.ru.uSmart/store/ruregion_login.dart';
 import '../services/authenservice.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -10,28 +12,27 @@ import '../store/mr30.dart';
 import '../store/profile.dart';
 
 class AuthenProvider extends ChangeNotifier {
-  final _service = AuthenService();
   final _googleSingIn = GoogleSignIn();
+  final _ruregisService = RuregisService();
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  Profile _profile = Profile();
-  Profile get profile => _profile;
+  Profile _loginres = Profile();
+  Profile get loginres => _loginres;
 
-Future<void> getAuthenRuRegionApp(context) async {
+Future<void> getAuthenRuRegionApp(context,username, password) async {
     _isLoading = true;
     notifyListeners();
     try {
       _isLoading = false;
-      _profile = await _service.getAuthenGoogleDev();
-      await ProfileStorage.saveProfile(_profile);
+      final response = await _ruregisService.postLogin(username, password);
+      await RuregionLoginStorage.saveProfile(response);
       Get.offNamedUntil('/', (route) => true);
     } catch (e) {
       await _googleSingIn.signOut();
       _isLoading = false;
       var snackbar = SnackBar(content: Text('$e'));
-      //print('$e');
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
 
@@ -77,7 +78,7 @@ Future<void> getAuthenRuRegionApp(context) async {
 
 
     Future<void> logout() async {
-    _profile = new Profile();
+    _loginres = new Profile();
     await ProfileStorage.removeProfile();
     await MR30Storage.removeMR30();
     await _googleSingIn.signOut();
@@ -87,7 +88,7 @@ Future<void> getAuthenRuRegionApp(context) async {
   }
 
     Future<void> getProfile() async {
-    _profile = await ProfileStorage.getProfile();
+    _loginres = await ProfileStorage.getProfile();
     _isLoading = false;
     notifyListeners();
   }
