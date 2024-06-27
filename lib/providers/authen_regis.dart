@@ -19,7 +19,7 @@ class AuthenProvider extends ChangeNotifier {
   Profile _profile = Profile();
   Profile get profile => _profile;
 
-Future<void> getAuthenGoogleDev(context) async {
+Future<void> getAuthenRuRegionApp(context) async {
     _isLoading = true;
     notifyListeners();
     try {
@@ -38,28 +38,43 @@ Future<void> getAuthenGoogleDev(context) async {
     notifyListeners();
   }
 
-  // Future<void> getAuthenGoogle(context) async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   _isLoading = true;
-  //   notifyListeners();
+  
+// void doLogin(context, username, password) async {
+//     _isLoading = true;
+//     _error = '';
 
-  //   try {
-  //     _isLoading = true;
-  //     //print("-------------login success-------------------");
-  //     _profile = await _service.getAuthenGoogle();
-  //     //print('-------------profile success------------------- ${_profile}');
-  //     await prefs.setString('profile', jsonEncode(_profile));
-  //     Get.offNamedUntil('/', (route) => true);
-  //   } catch (e) {
-  //     _isLoading = false;
-  //     var snackbar = SnackBar(content: Text('Error: $e'));
-  //     //print('${e.toString()}');
-  //     ScaffoldMessenger.of(context).showSnackBar(snackbar);
-  //     await _googleSingIn.disconnect();
-  //   }
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+//     // final sres = prefs.getString('regionlogin')!;
+//     notifyListeners();
+//     try {
+//       final response = await _ruregisService.postLogin(username, password);
+//       _logindata = response;
+//       _logindata.rec?.forEach((element) {
+//         stdcode = element.username!;
+//       });
+//       // print(_logindata.tf);
+//       if (_logindata.tf == true) {
+//         await prefs.setString('regionlogin', jsonEncode(stdcode));
+//         Get.offNamedUntil('/ruregionhome', (route) => true);
+//         // Get.offNamedUntil('/', (route) => true);
+//       } else {
+//         var snackbar = SnackBar(content: Text('รหัสนศหรือรหัสผ่านไม่ถูกต้อง'));
+//         ScaffoldMessenger.of(context).showSnackBar(snackbar);
+//       }
+//     } on Exception catch (e) {
+//       var snackbar = SnackBar(content: Text('$e'));
+//       ScaffoldMessenger.of(context).showSnackBar(snackbar);
 
-  //   notifyListeners();
-  // }
+//       _isLoading = false;
+//       _error = 'เกิดข้อผิดพลาดดึงข้อมูลนักศึกษา';
+//     }
+
+//     //await _service.asyncName();
+
+//     _isLoading = false;
+//     notifyListeners();
+//   }
+
 
     Future<void> logout() async {
     _profile = new Profile();
