@@ -31,10 +31,8 @@ class _AffairsHomeScreenState extends State<AffairsHomeScreen>
     Provider.of<SchProvider>(context, listen: false).getScholarShip();
 
     animationController = AnimationController(
-        duration: const Duration(milliseconds: 1000), vsync: this);
+        duration: const Duration(milliseconds: 600), vsync: this);
     super.initState();
-    getData();
-    //Noti.initialize(flutterLocalNotificationsPlugin);
   }
 
   Future<bool> getData() async {

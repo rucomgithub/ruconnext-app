@@ -27,12 +27,12 @@ class _RotcsExtendListViewState extends State<RotcsExtendListView>
   void initState() {
     Provider.of<RotcsProvider>(context, listen: false).getAllExtend();
     animationController = AnimationController(
-        duration: const Duration(milliseconds: 2000), vsync: this);
+        duration: const Duration(milliseconds: 600), vsync: this);
     super.initState();
   }
 
   Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 600));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
     return true;
   }
 
@@ -265,7 +265,7 @@ class ExtendItemView extends StatelessWidget {
                         width: 40,
                         height: 40,
                         child: Icon(Icons.app_registration),
-                        //child: Text(gradeListData!.),
+                        //child: Image.asset('assets/fitness_app/AF1.png'),
                       ),
                     ),
                     Positioned(

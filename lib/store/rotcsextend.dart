@@ -16,12 +16,12 @@ class RotcsExtendStorage {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final extendString = prefs.getString(key);
     //print('cache storage: $extendString');
-    if (extendString != null) {
-      final extendJson = jsonDecode(extendString);
-      return RotcsExtend.fromJson(extendJson);
+    if (extendString == null) {
+      return RotcsExtend();
     }
 
-    return RotcsExtend();
+    final extendJson = jsonDecode(extendString);
+    return RotcsExtend.fromJson(extendJson);
   }
 
   static Future<void> removeExtend() async {

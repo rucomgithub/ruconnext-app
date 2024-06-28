@@ -27,7 +27,7 @@ class _RotcsHomeScreenState extends State<RotcsHomeScreen>
 
   @override
   void initState() {
-    //Provider.of<InsuranceProvider>(context, listen: false).getInsuracneAll();
+    Provider.of<AuthenProvider>(context, listen: false).getProfile();
     tabIconsList.forEach((TabIconData tab) {
       tab.isSelected = false;
     });
@@ -60,17 +60,7 @@ class _RotcsHomeScreenState extends State<RotcsHomeScreen>
             future: getData(),
             builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
               if (!snapshot.hasData) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const CircularProgressIndicator(),
-                      ],
-                    ),
-                  ],
-                );
+                return SizedBox();
               } else {
                 // return Stack(
                 //   children: <Widget>[

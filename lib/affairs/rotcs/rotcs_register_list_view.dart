@@ -27,12 +27,12 @@ class _RotcsRegisterListViewState extends State<RotcsRegisterListView>
   void initState() {
     Provider.of<RotcsProvider>(context, listen: false).getAllExtend();
     animationController = AnimationController(
-        duration: const Duration(milliseconds: 2000), vsync: this);
+        duration: const Duration(milliseconds: 600), vsync: this);
     super.initState();
   }
 
   Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 600));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
     return true;
   }
 
