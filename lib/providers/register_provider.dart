@@ -134,10 +134,9 @@ class RegisterProvider extends ChangeNotifier {
       //print(_register);
       _listMr30Catalog =
           groupListByCourseType(_mr30catalog.coursetype!, ['typeno', 'type']);
-      if(_register.year != null) {
+      if (_register.year != null) {
         _listMr30CatalogPercentage = orderListByCourseTypeTest();
       }
-      
 
       isLoading = false;
     } on Exception catch (e) {
@@ -267,15 +266,15 @@ class RegisterProvider extends ChangeNotifier {
       listSort.forEach((course) {
         if (containsCourse(v.listregister, course.courseno.toString())) {
           course.imagePath = 'check';
-          course.startColor = '#6F72CA';
-          course.endColor = '#1E1466';
+          course.startColor = '#738AE6';
+          course.endColor = '#5C5EDD';
           course.check = true;
           //startColor = '#6F72CA';
           //endColor = '#1E1466';
         } else {
           course.imagePath = 'assets/fitness_app/lunch.png';
           course.startColor = '#738AE6';
-          course.endColor = '#5C5EDD';
+          course.endColor = '#FFB295';
           course.check = false;
           //startColor = '#738AE6';
           //endColor = '#5C5EDD';
@@ -382,8 +381,8 @@ class RegisterProvider extends ChangeNotifier {
       List<REGISTERECORD> data, List<String> keys) {
     List<REGISTERECORDVIEW> temp = [];
     var groups = LinkedHashMap<String, List<REGISTERECORDVIEW>>();
-    String startColor = '#6F72CA';
-    String endColor = '#1E1466';
+    String startColor = '#738AE6';
+    String endColor = '#5C5EDD';
     String imagePath = 'assets/fitness_app/breakfast.png';
 
     data.asMap().forEach((index, element) {

@@ -1,9 +1,11 @@
+import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/model/coursetype.dart';
+import 'package:th.ac.ru.uSmart/providers/mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/register_provider.dart';
 
 class Mr30CatalogRowView extends StatefulWidget {
@@ -74,7 +76,7 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
                       0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
                   child: Padding(
                     padding: const EdgeInsets.only(
-                        left: 24, right: 24, top: 16, bottom: 18),
+                        left: 30, right: 16, top: 16, bottom: 16),
                     child: prov.listMr30CatalogPercentage.isEmpty
                         ? Container(
                             padding: const EdgeInsets.only(
@@ -284,6 +286,7 @@ class Mr30CatalogListValueView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var mr30Prov = context.watch<MR30Provider>();
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -293,7 +296,7 @@ class Mr30CatalogListValueView extends StatelessWidget {
             transform: Matrix4.translationValues(
                 200 * (1.0 - animation!.value), 0.0, 0.0),
             child: Container(
-              height: 150.0,
+              height: 160.0,
               width: double.infinity,
               child: ListView.builder(
                 itemCount: listData!.length,
@@ -313,6 +316,15 @@ class Mr30CatalogListValueView extends StatelessWidget {
                     children: [
                       CatalogRowView(
                         index: index,
+                        callback: () {
+                          Get.toNamed('/ondemand', arguments: {
+                            'course': '${listData![index].courseno}',
+                            'semester':
+                                '${mr30Prov.yearsemester.semester.toString()}',
+                            'year':
+                                '${mr30Prov.yearsemester.year.toString().substring(2, 4)}'
+                          });
+                        },
                         course: listData!.elementAt(index),
                         animation: animation,
                         animationController: animationController!,
@@ -334,11 +346,13 @@ class CatalogRowView extends StatelessWidget {
       {Key? key,
       this.index,
       this.course,
+      this.callback,
       this.animationController,
       this.animation})
       : super(key: key);
 
   final int? index;
+  final VoidCallback? callback;
   final CourseType? course;
   final AnimationController? animationController;
   final Animation<double>? animation;
@@ -359,23 +373,14 @@ class CatalogRowView extends StatelessWidget {
             child: InkWell(
               highlightColor: Colors.transparent,
               borderRadius: BorderRadius.all(Radius.circular(4.0)),
-              onTap: () {
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) => MasterGradeYearScreen(
-                //           animationController: animationController!,
-                //           yearSemester: gradeListData!.yearSemester,
-                //           grades: gradeListData!.grades),
-                //     ));
-              },
+              onTap: callback,
               child: SizedBox(
-                width: 120,
+                width: 140,
                 child: Stack(
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(
-                          top: 16, left: 16, right: 16, bottom: 16),
+                          top: 8, left: 8, right: 8, bottom: 8),
                       child: Container(
                         decoration: BoxDecoration(
                           boxShadow: <BoxShadow>[
@@ -402,31 +407,69 @@ class CatalogRowView extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              top: 45, left: 16, right: 16, bottom: 0),
+                              top: 50, left: 8, right: 8, bottom: 8),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(
-                                course!.courseno!,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: FitnessAppTheme.fontName,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 10,
-                                  color: FitnessAppTheme.nearlyBlack,
+                              Center(
+                                child: Text(
+                                  '${course!.cname.toString()}',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.ruFontKanit,
+                                    fontSize: 8,
+                                    color: AppTheme.ru_yellow,
+                                  ),
                                 ),
                               ),
-                              Text(
-                                '${course!.cname}',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: FitnessAppTheme.fontName,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 8,
-                                  color: FitnessAppTheme.white,
+                              FittedBox(
+                                fit: BoxFit.contain,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: <Widget>[
+                                    Container(
+                                      width: 100,
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.nearlyWhite,
+                                        shape: BoxShape.rectangle,
+                                        borderRadius: const BorderRadius.only(
+                                          bottomRight: Radius.circular(16.0),
+                                          bottomLeft: Radius.circular(16.0),
+                                          topLeft: Radius.circular(16.0),
+                                          topRight: Radius.circular(16.0),
+                                        ),
+                                        boxShadow: <BoxShadow>[
+                                          BoxShadow(
+                                              color: AppTheme.nearlyBlack
+                                                  .withOpacity(0.4),
+                                              offset: Offset(2.0, 2.0),
+                                              blurRadius: 4.0),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.book),
+                                              Text(
+                                                '${course!.courseno.toString()}',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      AppTheme.ruFontKanit,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 14,
+                                                  color: AppTheme.nearlyBlack,
+                                                ),
+                                              )
+                                            ],
+                                          )),
+                                    ),
+                                  ],
                                 ),
-                              ),
+                              )
                             ],
                           ),
                         ),
