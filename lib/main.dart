@@ -18,6 +18,7 @@ import 'package:th.ac.ru.uSmart/manual/regis_help_screen.dart';
 import 'package:th.ac.ru.uSmart/pages/ru_map.dart';
 import 'package:th.ac.ru.uSmart/pages/runewsdetail_page.dart';
 import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
+import 'package:th.ac.ru.uSmart/providers/home_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/insurance_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/region_enroll_provider.dart';
@@ -126,6 +127,7 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider<AuthenProvider>(
               create: (_) => AuthenProvider()),
+          ChangeNotifierProvider<HomeProvider>(create: (_) => HomeProvider()),
           ChangeNotifierProvider<StudentProvider>(
               create: (_) => StudentProvider()),
           ChangeNotifierProvider<RunewsProvider>(

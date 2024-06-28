@@ -1,6 +1,7 @@
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/pages/home_image_slider.dart';
 import 'package:th.ac.ru.uSmart/providers/grade_provider.dart';
+import 'package:th.ac.ru.uSmart/providers/home_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/register_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/student_provider.dart';
@@ -71,9 +72,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    context.read<HomeProvider>().getTimeHomePage();
     context.read<MR30Provider>().getHaveToday();
     context.read<MR30Provider>().filterTimeCourseStudy();
-    // context.read<RegisterProvider>().getHaveTodayRegister();
+    //context.read<RegisterProvider>().getHaveTodayRegister();
     var brightness = MediaQuery.of(context).platformBrightness;
     var mr30 = context.watch<MR30Provider>();
     // var mr30catalogs = context.watch<StudentProvider>();

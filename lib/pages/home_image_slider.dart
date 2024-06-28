@@ -1,7 +1,8 @@
 import 'dart:async';
-import 'package:intl/intl.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:th.ac.ru.uSmart/providers/home_provider.dart';
 
 import '../app_theme.dart';
 
@@ -20,18 +21,12 @@ class profileImage {
 }
 
 class _homeImageSliderState extends State<homeImageSlider> {
-  int _current = 0;
   String title = "";
+  IconData icon = Icons.brightness_5;
   ColorFilter colorFilter = ColorFilter.mode(Colors.yellow, BlendMode.modulate);
-  dynamic _selectedIndex = {};
 
-  CarouselController _carouselController = new CarouselController();
   int currentIndex = 0;
   String imgClock = '';
-  profileImage profileImages = profileImage(
-      title: 'สวัสดีตอนเช้า',
-      imageHome: 'assets/fitness_app/banner1.png',
-      description: 'แดดเช้า');
   List<profileImage> _products = [
     profileImage(
         title: 'สวัสดีตอนเช้า',
@@ -50,35 +45,14 @@ class _homeImageSliderState extends State<homeImageSlider> {
   @override
   void initState() {
     super.initState();
-    // Start the loop when the widget is created
-    DateTime now = DateTime.now();
-    DateTime morning = DateTime(now.year, now.month, now.day, 8, 0);
-    DateTime afternoon = DateTime(now.year, now.month, now.day, 13, 0);
-    DateTime evening = DateTime(now.year, now.month, now.day, 18, 0);
-    print(afternoon);
-    final hour = DateTime.now().hour;
-
-    if (hour >= 6 && hour < 12) {
-      title = 'สวัสดีตอนเช้า';
-      colorFilter = ColorFilter.mode(Colors.yellow, BlendMode.modulate);
-    } else if (hour >= 12 && hour < 18) {
-      title = 'สวัสดีตอนบ่าย';
-      colorFilter = ColorFilter.mode(Colors.orange, BlendMode.modulate);
-    } else {
-      title = 'สวัสดีตอนเย็น';
-      colorFilter = ColorFilter.mode(Colors.blue, BlendMode.modulate);
-    }
-
-    Timer.periodic(Duration(seconds: 2), (Timer timer) {
-      setState(() {
-        // Update the current index and loop back to the beginning when we reach the end
-        currentIndex = (currentIndex + 1) % _products.length;
-      });
-    });
+    // Provider.of<HomeProvider>(context, listen: false).getTimeHomePage();
   }
 
   @override
   Widget build(BuildContext context) {
+    title = context.watch<HomeProvider>().title;
+    icon = context.watch<HomeProvider>().icon;
+    colorFilter = context.watch<HomeProvider>().colorFilter;
     return CarouselSlider(
       options: CarouselOptions(
         height: 150,
@@ -148,7 +122,10 @@ class _homeImageSliderState extends State<homeImageSlider> {
                                         ),
                                         child: Padding(
                                           padding: const EdgeInsets.all(2.0),
-                                          child: Icon(Icons.brightness_6),
+                                          child: Icon(
+                                            icon,
+                                            color: AppTheme.ru_yellow,
+                                          ),
                                         ),
                                       ),
                                       Container(
@@ -160,7 +137,7 @@ class _homeImageSliderState extends State<homeImageSlider> {
                                             style: TextStyle(
                                               fontFamily: AppTheme.ruFontKanit,
                                               fontWeight: FontWeight.w500,
-                                              fontSize: 14,
+                                              fontSize: 12,
                                               letterSpacing: 0.2,
                                               color: AppTheme.nearlyWhite,
                                             ),
