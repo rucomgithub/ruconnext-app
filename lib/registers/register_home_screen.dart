@@ -1,5 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/models/tabIcon_data.dart';
+import 'package:th.ac.ru.uSmart/providers/mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/registers/register_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -40,6 +41,7 @@ class _RegisterHomeScreenState extends State<RegisterHomeScreen>
     Provider.of<AuthenProvider>(context, listen: false).getProfile();
     Provider.of<RegisterProvider>(context, listen: false).getAllRegister();
     Provider.of<RegisterProvider>(context, listen: false).getRegisterAll();
+    Provider.of<MR30Provider>(context, listen: false).getYearSemesterLatest();
     getData();
   }
 
