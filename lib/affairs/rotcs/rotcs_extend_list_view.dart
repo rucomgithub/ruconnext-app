@@ -27,7 +27,7 @@ class _RotcsExtendListViewState extends State<RotcsExtendListView>
   void initState() {
     Provider.of<RotcsProvider>(context, listen: false).getAllExtend();
     animationController = AnimationController(
-        duration: const Duration(milliseconds: 600), vsync: this);
+        duration: const Duration(milliseconds: 1000), vsync: this);
     super.initState();
   }
 

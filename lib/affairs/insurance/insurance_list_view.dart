@@ -27,7 +27,7 @@ class _InsuraceListViewState extends State<InsuraceListView>
   void initState() {
     //Provider.of<InsuranceProvider>(context, listen: false).getInsuracneAll();
     animationController = AnimationController(
-        duration: const Duration(milliseconds: 2000), vsync: this);
+        duration: const Duration(milliseconds: 1000), vsync: this);
     super.initState();
   }
 
