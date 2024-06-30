@@ -55,7 +55,7 @@ class _homeImageSliderState extends State<homeImageSlider> {
     colorFilter = context.watch<HomeProvider>().colorFilter;
     return CarouselSlider(
       options: CarouselOptions(
-        height: 150,
+        height: 224,
         aspectRatio: 16 / 9,
         viewportFraction: 1.2,
         initialPage: 0,
