@@ -383,27 +383,15 @@ class CatalogRowView extends StatelessWidget {
                           top: 8, left: 8, right: 8, bottom: 8),
                       child: Container(
                         decoration: BoxDecoration(
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                                color: HexColor(course!.endColor!)
-                                    .withOpacity(0.6),
-                                offset: const Offset(1.1, 4.0),
-                                blurRadius: 8.0),
-                          ],
-                          gradient: LinearGradient(
-                            colors: <HexColor>[
-                              HexColor(course!.startColor!),
-                              HexColor(course!.endColor!),
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
+                          color: AppTheme.ru_grey.withOpacity(0.2),
                           borderRadius: const BorderRadius.only(
-                            bottomRight: Radius.circular(8.0),
-                            bottomLeft: Radius.circular(8.0),
-                            topLeft: Radius.circular(48.0),
-                            topRight: Radius.circular(8.0),
+                            bottomRight: Radius.circular(16.0),
+                            bottomLeft: Radius.circular(16.0),
+                            topLeft: Radius.circular(16.0),
+                            topRight: Radius.circular(57.0),
                           ),
+                          border: Border.all(
+                              color: AppTheme.ru_dark_blue, width: 8),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.only(
@@ -412,15 +400,14 @@ class CatalogRowView extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Center(
-                                child: Text(
-                                  '${course!.cname.toString()}',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.ruFontKanit,
-                                    fontSize: 8,
-                                    color: AppTheme.ru_yellow,
-                                  ),
+                              Text(
+                                '${course!.cname.toString()}',
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 3,
+                                style: TextStyle(
+                                  fontFamily: AppTheme.ruFontKanit,
+                                  fontSize: 8,
+                                  color: AppTheme.ru_text_light_blue,
                                 ),
                               ),
                               FittedBox(
@@ -430,7 +417,7 @@ class CatalogRowView extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: <Widget>[
                                     Container(
-                                      width: 100,
+                                      width: 90,
                                       decoration: BoxDecoration(
                                         color: AppTheme.nearlyWhite,
                                         shape: BoxShape.rectangle,
@@ -451,8 +438,13 @@ class CatalogRowView extends StatelessWidget {
                                       child: Padding(
                                           padding: const EdgeInsets.all(4.0),
                                           child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: [
-                                              Icon(Icons.book),
+                                              Icon(
+                                                Icons.book,
+                                                size: 15,
+                                              ),
                                               Text(
                                                 '${course!.courseno.toString()}',
                                                 textAlign: TextAlign.center,
@@ -461,7 +453,7 @@ class CatalogRowView extends StatelessWidget {
                                                       AppTheme.ruFontKanit,
                                                   fontWeight: FontWeight.w600,
                                                   fontSize: 14,
-                                                  color: AppTheme.nearlyBlack,
+                                                  color: AppTheme.ru_dark_blue,
                                                 ),
                                               )
                                             ],
@@ -476,13 +468,21 @@ class CatalogRowView extends StatelessWidget {
                       ),
                     ),
                     Positioned(
+                      right: 12,
+                      top: 9,
+                      child: CustomPaint(
+                        size: Size(40, 40),
+                        painter: TrianglePainter(),
+                      ),
+                    ),
+                    Positioned(
                       top: 20,
                       left: 20,
                       child: Container(
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: FitnessAppTheme.nearlyWhite.withOpacity(0.2),
+                          color: AppTheme.white.withOpacity(0.5),
                           shape: BoxShape.circle,
                         ),
                       ),
@@ -514,5 +514,27 @@ class CatalogRowView extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+class TrianglePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()..color = AppTheme.ru_dark_blue;
+
+    Path path = Path();
+    path.moveTo(2, 0); // Start at the top left corner of the triangle
+    path.lineTo(size.width,
+        size.height); // Move to the bottom right corner of the triangle
+    path.lineTo(
+        8, size.height); // Move to the bottom left corner of the triangle
+    path.close(); // Close the path
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
   }
 }
