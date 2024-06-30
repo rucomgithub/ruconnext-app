@@ -228,26 +228,17 @@ class ExtendItemView extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      top: 10,
-                      left: 10,
-                      child: Container(
-                        width: 44,
-                        height: 44,
-                        decoration: BoxDecoration(
-                          color: AppTheme.nearlyWhite.withOpacity(0.2),
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 15,
-                      left: 15,
+                      top: 12,
+                      left: 12,
                       child: SizedBox(
-                        width: 40,
-                        height: 40,
-                        child: Icon(Icons.app_registration),
-                        //child: Text(gradeListData!.),
-                      ),
+                          width: 40,
+                          height: 40,
+                          //child: Icon(Icons.app_registration),
+                          child: CircleAvatar(
+                            backgroundImage:
+                                AssetImage('assets/fitness_app/AF1.png'),
+                            radius: 100,
+                          )),
                     ),
                     Positioned(
                       top: 20,

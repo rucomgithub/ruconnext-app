@@ -80,7 +80,7 @@ class RotcsProvider extends ChangeNotifier {
       extend.detail = details;
 
       for (int i = 0; i < extend.detail!.length; i++) {
-        details[i].description = (i == 0) ? "ผ่อนผัน" : "ยืนยันสิทธิ์";
+        details[i].description = (i == 0) ? "ผ่อนผัน" : "รักษาสิทธิ์";
       }
 
       await RotcsExtendStorage.saveExtend(extend);
