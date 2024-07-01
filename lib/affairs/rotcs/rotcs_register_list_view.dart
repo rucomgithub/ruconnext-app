@@ -228,16 +228,31 @@ class ExtendItemView extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      top: 12,
-                      left: 12,
+                      top: 10,
+                      left: 10,
                       child: SizedBox(
                           width: 40,
                           height: 40,
                           //child: Icon(Icons.app_registration),
-                          child: CircleAvatar(
-                            backgroundImage:
-                                AssetImage('assets/fitness_app/AF1.png'),
-                            radius: 100,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromARGB(255, 255, 255, 255)
+                                      .withOpacity(0.5),
+                                  spreadRadius: 4,
+                                  blurRadius: 8,
+                                  offset: Offset(
+                                      0, 2), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            child: CircleAvatar(
+                              backgroundImage:
+                                  AssetImage('assets/fitness_app/AF1.png'),
+                              radius: 100,
+                            ),
                           )),
                     ),
                     Positioned(
