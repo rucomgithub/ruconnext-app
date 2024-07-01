@@ -53,120 +53,127 @@ class _homeImageSliderState extends State<homeImageSlider> {
     title = context.watch<HomeProvider>().title;
     icon = context.watch<HomeProvider>().icon;
     colorFilter = context.watch<HomeProvider>().colorFilter;
-    return CarouselSlider(
-      options: CarouselOptions(
-        height: 224,
-        aspectRatio: 16 / 9,
-        viewportFraction: 1.2,
-        initialPage: 0,
-        enableInfiniteScroll: true,
-        reverse: false,
-        autoPlay: true,
-        autoPlayInterval: Duration(seconds: 10),
-        autoPlayAnimationDuration: Duration(milliseconds: 10),
-        autoPlayCurve: Curves.fastOutSlowIn,
-        enlargeCenterPage: true,
-        enlargeFactor: 0.3,
-        scrollDirection: Axis.horizontal,
-      ),
-      items: _products.map((data) {
-        return Builder(
-          builder: (BuildContext context) {
-            return Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.symmetric(horizontal: 5.0),
-              decoration: BoxDecoration(color: Colors.transparent),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                        height: 220,
-                        margin: const EdgeInsets.only(top: 0),
-                        clipBehavior: Clip.hardEdge,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(20.0),
-                            bottomRight: Radius.circular(20.0),
+    return Container(
+      color: AppTheme.ru_dark_blue.withOpacity(0.9),
+      child: CarouselSlider(
+        options: CarouselOptions(
+          height: 130,
+          aspectRatio: 16 / 9,
+          viewportFraction: 1.2,
+          initialPage: 0,
+          enableInfiniteScroll: true,
+          reverse: false,
+          autoPlay: true,
+          autoPlayInterval: Duration(seconds: 10),
+          autoPlayAnimationDuration: Duration(milliseconds: 10),
+          autoPlayCurve: Curves.fastOutSlowIn,
+          enlargeCenterPage: true,
+          enlargeFactor: 0.3,
+          scrollDirection: Axis.horizontal,
+        ),
+        items: _products.map((data) {
+          return Builder(
+            builder: (BuildContext context) {
+              return Container(
+                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.symmetric(horizontal: 5.0),
+                decoration: BoxDecoration(color: Colors.transparent),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                          height: 220,
+                          margin: const EdgeInsets.only(top: 0),
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(20.0),
+                              bottomRight: Radius.circular(20.0),
+                            ),
                           ),
-                        ),
-                        child: Stack(
-                          children: [
-                            AspectRatio(
-                                aspectRatio: 3,
-                                child: ColorFiltered(
-                                  colorFilter: colorFilter,
-                                  child: Image.asset(
-                                    data.imageHome!,
-                                    fit: BoxFit.cover,
-                                  ),
-                                )),
-                            Positioned(
-                              left: 5.0,
-                              child: Container(
-                                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: <Widget>[
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: AppTheme.nearlyWhite,
-                                          shape: BoxShape.circle,
-                                          boxShadow: <BoxShadow>[
-                                            BoxShadow(
-                                                color: AppTheme.nearlyBlack
-                                                    .withOpacity(0.4),
-                                                offset: Offset(2.0, 2.0),
-                                                blurRadius: 4.0),
-                                          ],
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(2.0),
-                                          child: Icon(
-                                            icon,
-                                            color: AppTheme.ru_yellow,
+                          child: Stack(
+                            children: [
+                              AspectRatio(
+                                  aspectRatio: 3,
+                                  child: ColorFiltered(
+                                    colorFilter: colorFilter,
+                                    child: Image.asset(
+                                      data.imageHome!,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )),
+                              Positioned(
+                                left: 5.0,
+                                child: Container(
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 10.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: <Widget>[
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: AppTheme.nearlyWhite,
+                                            shape: BoxShape.circle,
+                                            boxShadow: <BoxShadow>[
+                                              BoxShadow(
+                                                  color: AppTheme.nearlyBlack
+                                                      .withOpacity(0.4),
+                                                  offset: Offset(2.0, 2.0),
+                                                  blurRadius: 4.0),
+                                            ],
                                           ),
-                                        ),
-                                      ),
-                                      Container(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(6.0),
-                                          child: Text(
-                                            title,
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.ruFontKanit,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 12,
-                                              letterSpacing: 0.2,
-                                              color: AppTheme.nearlyWhite,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(2.0),
+                                            child: Icon(
+                                              icon,
+                                              color: AppTheme.ru_yellow,
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  )
-                                  // child: Text(
-                                  //    title,
-                                  //   textAlign: TextAlign.center,
-                                  //   style: TextStyle(
-                                  //     fontFamily: AppTheme.ruFontKanit,
-                                  //     color: Colors.white,
-                                  //     fontSize: 16.0,
-                                  //     fontWeight: FontWeight.w100,
-                                  //   ),
-                                  // ),
-                                  ),
-                            ),
-                          ],
-                        )),
-                  ],
+                                        Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(6.0),
+                                            child: Text(
+                                              title,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontFamily:
+                                                    AppTheme.ruFontKanit,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12,
+                                                letterSpacing: 0.2,
+                                                color: AppTheme.nearlyWhite,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                    // child: Text(
+                                    //    title,
+                                    //   textAlign: TextAlign.center,
+                                    //   style: TextStyle(
+                                    //     fontFamily: AppTheme.ruFontKanit,
+                                    //     color: Colors.white,
+                                    //     fontSize: 16.0,
+                                    //     fontWeight: FontWeight.w100,
+                                    //   ),
+                                    // ),
+                                    ),
+                              ),
+                            ],
+                          )),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
-        );
-      }).toList(),
+              );
+            },
+          );
+        }).toList(),
+      ),
     );
     // return CarouselSlider(
     //   options: CarouselOptions(
