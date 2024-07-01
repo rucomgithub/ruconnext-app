@@ -360,7 +360,7 @@ class RowRegisterView extends StatelessWidget {
                                 style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,
                                   fontSize: 14,
-                                  color: AppTheme.ru_yellow,
+                                  color: AppTheme.ru_text_light_blue,
                                 ),
                               ),
                               FittedBox(
