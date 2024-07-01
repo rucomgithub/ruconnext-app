@@ -263,8 +263,8 @@ class InsuranceItemView extends StatelessWidget {
                       top: 30,
                       left: 10,
                       child: Container(
-                        width: 44,
-                        height: 44,
+                        width: 40,
+                        height: 40,
                         decoration: BoxDecoration(
                           color: AppTheme.nearlyWhite.withOpacity(0.2),
                           shape: BoxShape.circle,
@@ -272,12 +272,16 @@ class InsuranceItemView extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      top: 30,
-                      left: 10,
+                      top: 35,
+                      left: 15,
                       child: SizedBox(
-                        width: 40,
-                        height: 40,
-                        child: Image.asset('assets/images/news3.png'),
+                        width: 30,
+                        height: 30,
+                        child: CircleAvatar(
+                          backgroundImage:
+                              AssetImage('assets/fitness_app/AF2.png'),
+                          radius: 50,
+                        ),
                         //child: Text(gradeListData!.),
                       ),
                     ),

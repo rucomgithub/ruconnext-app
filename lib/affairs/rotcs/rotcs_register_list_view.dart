@@ -230,30 +230,28 @@ class ExtendItemView extends StatelessWidget {
                     Positioned(
                       top: 10,
                       left: 10,
+                      child: Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: AppTheme.nearlyWhite.withOpacity(0.2),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 15,
+                      left: 15,
                       child: SizedBox(
-                          width: 40,
-                          height: 40,
-                          //child: Icon(Icons.app_registration),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color.fromARGB(255, 255, 255, 255)
-                                      .withOpacity(0.5),
-                                  spreadRadius: 4,
-                                  blurRadius: 8,
-                                  offset: Offset(
-                                      0, 2), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                            child: CircleAvatar(
-                              backgroundImage:
-                                  AssetImage('assets/fitness_app/AF1.png'),
-                              radius: 100,
-                            ),
-                          )),
+                        width: 30,
+                        height: 30,
+                        child: CircleAvatar(
+                          backgroundImage:
+                              AssetImage('assets/fitness_app/AF1.png'),
+                          radius: 50,
+                        ),
+                        //child: Text(gradeListData!.),
+                      ),
                     ),
                     Positioned(
                       top: 20,
