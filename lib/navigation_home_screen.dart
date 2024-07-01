@@ -35,14 +35,13 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
   void initState() {
     drawerIndex = DrawerIndex.HOME;
     screenView = const MyHomePage();
-    Provider.of<GradeProvider>(context, listen: false).getAllGrade();
     super.initState();
-    print('messaging.......');
+    print('messaging token:');
     messaging = FirebaseMessaging.instance;
     messaging.getToken().then((value) => {print('Token Navigate: $value')});
     FirebaseMessaging.onMessage.listen(showFlutterNotification);
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage event) {
-      Get.toNamed('/runews');
+      Get.toNamed('/affairs');
     });
   }
 

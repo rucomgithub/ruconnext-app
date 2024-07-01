@@ -87,6 +87,8 @@ class RegisterProvider extends ChangeNotifier {
   }
 
   Future<void> getRegisterAll() async {
+    final REGISTERYEAR registeryear =
+        await RegisterYearStorage.getRegisterYear();
     isLoading = true;
     _error = '';
 
@@ -106,7 +108,6 @@ class RegisterProvider extends ChangeNotifier {
   Future<void> getAllRegisterByYear(String year) async {
     isLoading = true;
     _error = '';
-    notifyListeners();
 
     try {
       final response = await _service.getAllRegisterList(year);

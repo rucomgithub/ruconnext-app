@@ -115,7 +115,7 @@ class _RegisterRowViewState extends State<RegisterRowView>
                                     blurRadius: 10.0),
                               ],
                             ),
-                            height: 240.0 * prov.listGroupCourse.length,
+                            height: 250.0 * prov.listGroupCourse.length,
                             width: double.infinity,
                             child: ListView.builder(
                               padding: const EdgeInsets.only(
