@@ -244,13 +244,15 @@ class ExtendItemView extends StatelessWidget {
                       top: 20,
                       left: 60,
                       child: Container(
+                        alignment: Alignment.centerLeft,
+                        width: 200,
                         child: Text(
                           'รายงานตัว นศท. ประจำปี ${detail!.yearReport}',
-                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontFamily: AppTheme.ruFontKanit,
                             fontWeight: FontWeight.w500,
-                            fontSize: 16,
+                            fontSize: 14,
                             color: AppTheme.darkText,
                           ),
                         ),
