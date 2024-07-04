@@ -10,8 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../fitness_app/fitness_app_theme.dart';
+import '../../model/checkregis_model.dart';
 import '../../model/register_model.dart';
-import '../../model/ruregion_mr30_model.dart';
+
 
 class RuregionFeeListView extends StatefulWidget {
   const RuregionFeeListView(
@@ -94,8 +95,8 @@ class _RuregionFeeListViewState extends State<RuregionFeeListView>
                                 animationController?.forward();
                                 String name = feeData
                                     .ruregisfee.rec![index].feename!;
-                                List<Rec> values =
-                                    feeData.ruregisfee.rec!;
+                                List<Results> values =
+                                    feeData.summaryrec;
                                 return AreaView(
                                   index: index,
                                   name: name,
@@ -136,7 +137,7 @@ class AreaView extends StatelessWidget {
 
   final int? index;
   final String? name;
-  final List<Rec>? values;
+  final List<Results>? values;
   final AnimationController? animationController;
   final Animation<double>? animation;
 
@@ -219,7 +220,7 @@ class AreaView extends StatelessWidget {
                               height: 25,
                               child: ListTile(
                                 title: Text(
-                                  '${index + 1}. ${values![index].feename}  ',
+                                  '${index + 1}. ${values![index].fEENAME}  ',
                                   style: TextStyle(
                                     fontFamily: AppTheme.ruFontKanit,
                                     fontSize: 14,
@@ -227,7 +228,7 @@ class AreaView extends StatelessWidget {
                                   ),
                                 ),
                                 trailing: Text(
-                                  ' ${values![index].feeamount} ',
+                                  ' ${values![index].fEEAMOUNT} ',
                                   style: TextStyle(
                                     fontFamily: AppTheme.ruFontKanit,
                                     fontSize: 14,

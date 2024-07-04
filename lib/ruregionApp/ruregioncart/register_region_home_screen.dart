@@ -1,5 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/models/tabIcon_data.dart';
+import 'package:th.ac.ru.uSmart/providers/authen_regis.dart';
 import 'package:th.ac.ru.uSmart/registers/register_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,7 +40,7 @@ class _RuRegionAppCartHomeScreenState extends State<RuRegionAppCartHomeScreen>
         duration: const Duration(milliseconds: 600), vsync: this);
     tabBody = RuregionCartListScreen(animationController: animationController);
     super.initState();
-    Provider.of<AuthenProvider>(context, listen: false).getProfile();
+    Provider.of<AuthenRuRegionAppProvider>(context, listen: false).getProfile();
     Provider.of<RegisterProvider>(context, listen: false).getAllRegister();
     getData();
   }
@@ -63,7 +64,7 @@ class _RuRegionAppCartHomeScreenState extends State<RuRegionAppCartHomeScreen>
             if (!snapshot.hasData) {
               return const SizedBox();
             } else {
-              print('register : ${authen.profile.accessToken}');
+              print('registers : ${authen.profile.accessToken}');
               return  Stack(
                       children: <Widget>[
                         tabBody,

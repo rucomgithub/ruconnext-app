@@ -24,7 +24,7 @@ class _ProfileRegionCartViewState extends State<ProfileRegionCartView> {
   bool isChecked = false;
   @override
   Widget build(BuildContext context) {
-    var ruregisProv = context.watch<RuregisProvider>().ruregisApp;
+    var ruregisProv = context.watch<RuregisProvider>().ruregionApp;
     var mr30ruregisrec = context.watch<RUREGISMR30Provider>().mr30ruregionrec;
     var sumcredit = context.watch<RUREGISMR30Provider>().sumIntCredit;
     print('view $ruregisProv');

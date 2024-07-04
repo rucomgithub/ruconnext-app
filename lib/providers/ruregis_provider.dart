@@ -15,6 +15,7 @@ import 'package:th.ac.ru.uSmart/model/save_enroll_model.dart';
 
 import 'package:th.ac.ru.uSmart/services/ruregis_service.dart';
 import 'package:flutter/material.dart';
+import 'package:th.ac.ru.uSmart/store/profileApp.dart';
 import 'package:th.ac.ru.uSmart/store/ruregion_login.dart';
 
 // import 'package:shared_preferences/shared_preferences.dart';
@@ -56,8 +57,11 @@ class RuregisProvider extends ChangeNotifier {
   Ruregis _ruregis = Ruregis();
   Ruregis get ruregis => _ruregis;
 
-    Ruregis _ruregisApp = Ruregis();
+  Ruregis _ruregisApp = Ruregis();
   Ruregis get ruregisApp => _ruregisApp;
+
+  Ruregis _ruregionApp = Ruregis();
+  Ruregis get ruregionApp => _ruregionApp;
 
   Loginregion _logindata = Loginregion();
   Loginregion get logindata => _logindata;
@@ -211,6 +215,25 @@ class RuregisProvider extends ChangeNotifier {
       final response = await _ruregisService.getProfileRuregis(stdcode);
       _ruregisApp = response;
       print('res fetch');
+      _isLoadingRuregisProfile = false;
+    } on Exception catch (e) {
+      _isLoadingRuregisProfile = false;
+      _error = 'เกิดข้อผิดพลาดดึงข้อมูลนักศึกษา';
+    }
+
+    notifyListeners();
+  }
+
+    Future<void> fetchProfileAppRuregion() async {
+     _isLoadingRuregisProfile = true;
+    _error = '';
+       print('res fetch1');
+  
+    try {
+      final response = await _ruregisService.getProfileRuregionApp(stdcode);
+      _ruregionApp = response;
+        await ProfileAppStorage.saveProfileApp(response);
+      print('res fetch2 $_ruregionApp');
       _isLoadingRuregisProfile = false;
     } on Exception catch (e) {
       _isLoadingRuregisProfile = false;

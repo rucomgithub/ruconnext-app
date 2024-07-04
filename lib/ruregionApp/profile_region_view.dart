@@ -1,5 +1,6 @@
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/main.dart';
+import 'package:th.ac.ru.uSmart/providers/authen_regis.dart';
 import 'package:th.ac.ru.uSmart/providers/register_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +17,7 @@ class ProfileRegionView extends StatefulWidget {
 
   @override
   State<ProfileRegionView> createState() => _ProfileRegionViewState();
+  
 }
 
 class _ProfileRegionViewState extends State<ProfileRegionView> {
@@ -23,8 +25,10 @@ class _ProfileRegionViewState extends State<ProfileRegionView> {
 
   @override
   Widget build(BuildContext context) {
-    var ruregisProv = context.watch<RuregisProvider>().ruregisApp;
-    print('view $ruregisProv');
+    var ruregisProv = context.watch<RuregisProvider>().ruregionApp;
+        var provruregis =
+        Provider.of<AuthenRuRegionAppProvider>(context, listen: false);
+    print('view ${provruregis.loginres.rec![0].username}');
 
     var loading = context.watch<RuregisProvider>().isLoadingRuregisProfile;
     if (loading) {

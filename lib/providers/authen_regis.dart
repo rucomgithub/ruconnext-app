@@ -22,14 +22,19 @@ class AuthenRuRegionAppProvider extends ChangeNotifier {
   Loginregion _loginres = Loginregion();
   Loginregion get loginres => _loginres;
 
-Future<void> getAuthenRuRegionApp(context,username, password) async {
+  Future<void> getAuthenRuRegionApp(context, username, password) async {
     _isLoading = true;
     notifyListeners();
     try {
       _isLoading = false;
       final response = await _ruregisService.postLogin(username, password);
-      await RuregionLoginStorage.saveProfile(response);
-      Get.offNamedUntil('/', (route) => true);
+      if (response.tf == true) {
+        await RuregionLoginStorage.saveProfile(response);
+        Get.offNamedUntil('/', (route) => true);
+      } else {
+        var snackbar = SnackBar(content: Text('รหัสนศหรือรหัสผ่านไม่ถูกต้อง'));
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      }
     } catch (e) {
       // await _googleSingIn.signOut();
       _isLoading = false;
@@ -40,21 +45,17 @@ Future<void> getAuthenRuRegionApp(context,username, password) async {
     notifyListeners();
   }
 
-  
-    Future<void> logout() async {
+  Future<void> logout() async {
     _loginres = new Loginregion();
     await RuregionLoginStorage.removeProfile();
-
 
     Get.offNamedUntil('/', (route) => true);
     notifyListeners();
   }
 
-    Future<void> getProfile() async {
+  Future<void> getProfile() async {
     _loginres = await RuregionLoginStorage.getProfile();
     _isLoading = false;
     notifyListeners();
   }
-
-
 }

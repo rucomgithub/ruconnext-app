@@ -32,7 +32,7 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
         duration: const Duration(milliseconds: 400), vsync: this);
     super.initState();
     Provider.of<RuregisProvider>(context, listen: false)
-        .fetchProfileAppRuregis();
+        .fetchProfileAppRuregion();
     Provider.of<AuthenRuRegionAppProvider>(context, listen: false).getProfile();
     getData();
 

@@ -28,6 +28,8 @@ class RuregionAppLoginStorage {
   static Future<void> removeProfile() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove(key);
+      final profileString = prefs.getString(key);
+
   }
 
 }

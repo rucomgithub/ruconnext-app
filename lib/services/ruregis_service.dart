@@ -8,6 +8,8 @@ import 'package:th.ac.ru.uSmart/model/message_region_model.dart';
 import 'package:th.ac.ru.uSmart/model/region_login_model.dart';
 import 'package:th.ac.ru.uSmart/model/ruregion_mr30_model.dart';
 import 'package:th.ac.ru.uSmart/model/save_enroll_model.dart';
+import 'package:th.ac.ru.uSmart/store/profileApp.dart';
+import 'package:th.ac.ru.uSmart/store/ruregionApp_login.dart';
 import '../model/ruregis_model.dart';
 import '../model/calpay_model.dart';
 import '../model/ruregis_fee_model.dart';
@@ -68,6 +70,76 @@ class RuregisService {
       //   var response = await dioapi.api.get('$ruregisurl/profileApp.jsp?STUDENTID=6601602904',
       var response = await dioapi.api.get(
         '$ruregionurl/region_student_profile/6299499991',
+      );
+      if (response.statusCode == 200) {
+        print('datas ${response.data}');
+
+        ruregisdata = Ruregis.fromJson(response.data);
+        print('data ${ruregisdata}');
+      } else {
+        throw ('Error Get Data');
+      }
+    } catch (err) {
+      print(err);
+      throw (err);
+    }
+
+    return ruregisdata;
+  }
+
+  Future<Summary_reg> postCalPayRegionApp(profile,sumcredit,numcourse,semester,year) async {
+    Summary_reg registerdata = Summary_reg.fromJson({});
+    Ruregis profileApp = await ProfileAppStorage.getProfileApp();
+    try {
+      var params = {
+    "STD_CODE": profileApp.sTDCODE,
+    "STUDY_SEMESTER": semester,
+    "STUDY_YEAR": year, 
+    "FACULTY_NO": profileApp.fACULTYNO,
+    "MAJOR_NO": profileApp.mAJORNO, 
+    "CAMPUS_NO": profileApp.cAMPUSNO, 
+    "CURR_NO": profileApp.cURRNO, 
+    "TOTAL_CREDIT": '11', 
+    "NUM_COURSE": '4', 
+    "GRADUATE_STATUS":  profileApp.gRADUATESTATUS, 
+    "STD_STATUS_CURRENT": profileApp.sTDSTATUSCURRENT
+    
+    };
+    //print('============================$params');
+      await dioapi.createIntercepter();
+      var response = await dioapi.api.post(
+        '$ruregionurl/region_calculate_payment',
+        options: Options(
+          headers: {
+            HttpHeaders.contentTypeHeader: "application/json",
+          },
+        ),
+        data: jsonEncode(params),
+      );
+      if (response.statusCode == 200) {
+     //print('Response Get Data Summary : ${registerdata}');
+        registerdata = Summary_reg.fromJson(response.data);
+           
+      } else {
+        throw ('Error Get Data cal ');
+      }
+    } catch (err) {
+      ////print(err);
+      throw (err);
+    }
+
+    return registerdata;
+  }
+    Future<Ruregis> getProfileRuregionApp(stdcode) async {
+      print('get profile');
+    Ruregis ruregisdata = Ruregis.fromJson({});
+    Loginregion profile = await RuregionAppLoginStorage.getProfile();
+    print('data  ${profile.rec![0].username}');
+    try {
+      await dioapi.createIntercepter();
+      //   var response = await dioapi.api.get('$ruregisurl/profileApp.jsp?STUDENTID=6601602904',
+      var response = await dioapi.api.get(
+        '$ruregionurl/region_student_profile/${profile.rec![0].username}',
       );
       if (response.statusCode == 200) {
         print('datas ${response.data}');
