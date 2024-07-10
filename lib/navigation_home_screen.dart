@@ -9,9 +9,7 @@ import 'package:th.ac.ru.uSmart/home_screen.dart';
 import 'package:th.ac.ru.uSmart/invite_friend_screen.dart';
 import 'package:th.ac.ru.uSmart/manual/manual_home_screen.dart';
 import 'package:th.ac.ru.uSmart/pages/aboutRam_screen.dart';
-import 'package:th.ac.ru.uSmart/providers/grade_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class NavigationHomeScreen extends StatefulWidget {
   @override
@@ -39,6 +37,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
     print('messaging token:');
     messaging = FirebaseMessaging.instance;
     messaging.getToken().then((value) => {print('Token Navigate: $value')});
+    print('messaging token:');
     FirebaseMessaging.onMessage.listen(showFlutterNotification);
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage event) {
       Get.toNamed('/affairs');

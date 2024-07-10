@@ -112,8 +112,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 children: <Widget>[
                   Container(color: AppTheme.ru_dark_blue, child: appBar()),
                   // Text('$')
-                  FadeTransition(
-                      opacity: animationForImage, child: homeImageSlider()),
+                  Container(
+                    height: 200,
+                    width: MediaQuery.of(context).size.width,
+                    child: FadeTransition(
+                        opacity: animationForImage, child: homeImageSlider()),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(3),
                     child: Row(

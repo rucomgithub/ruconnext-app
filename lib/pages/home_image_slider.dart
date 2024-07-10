@@ -54,18 +54,19 @@ class _homeImageSliderState extends State<homeImageSlider> {
     icon = context.watch<HomeProvider>().icon;
     colorFilter = context.watch<HomeProvider>().colorFilter;
     return Container(
-      color: AppTheme.ru_dark_blue.withOpacity(0.9),
+      width: MediaQuery.of(context).size.width,
+      color: Color.fromARGB(255, 233, 233, 230).withOpacity(0.5),
       child: CarouselSlider(
         options: CarouselOptions(
-          height: 130,
+          height: MediaQuery.of(context).size.height * 0.6,
           aspectRatio: 16 / 9,
-          viewportFraction: 1.2,
+          viewportFraction: 0.8,
           initialPage: 0,
           enableInfiniteScroll: true,
           reverse: false,
           autoPlay: true,
-          autoPlayInterval: Duration(seconds: 10),
-          autoPlayAnimationDuration: Duration(milliseconds: 10),
+          autoPlayInterval: Duration(seconds: 20),
+          autoPlayAnimationDuration: Duration(milliseconds: 1000),
           autoPlayCurve: Curves.fastOutSlowIn,
           enlargeCenterPage: true,
           enlargeFactor: 0.3,
