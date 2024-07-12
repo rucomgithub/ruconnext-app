@@ -67,6 +67,7 @@ class _RegisterHomeScreenState extends State<RegisterHomeScreen>
               print('register : ${authen.profile.accessToken}');
               return authen.profile.accessToken != null
                   ? Stack(
+                      fit: StackFit.expand,
                       children: <Widget>[
                         tabBody,
                       ],

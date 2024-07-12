@@ -29,6 +29,17 @@ class _Mr30HomeScreenState extends State<Mr30HomeScreen>
     color: FitnessAppTheme.background,
   );
 
+  _renderBg() {
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/bg.png'),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
   @override
   void initState() {
     tabIconsList.forEach((TabIconData tab) {
@@ -57,8 +68,7 @@ class _Mr30HomeScreenState extends State<Mr30HomeScreen>
       data: HotelAppTheme.buildLightTheme(),
       child: Container(
         child: Scaffold(
-          backgroundColor:
-              isLightMode == true ? AppTheme.white : AppTheme.nearlyBlack,
+          backgroundColor: AppTheme.white,
           body: FutureBuilder<bool>(
             future: getData(),
             builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
@@ -69,14 +79,16 @@ class _Mr30HomeScreenState extends State<Mr30HomeScreen>
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const CircularProgressIndicator(),
+                        const SizedBox(),
                       ],
                     ),
                   ],
                 );
               } else {
                 return Stack(
+                  fit: StackFit.expand,
                   children: <Widget>[
+                    _renderBg(),
                     tabBody,
                   ],
                 );

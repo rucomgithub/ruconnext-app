@@ -66,6 +66,8 @@ String StringTimeStudy(String periodtime) {
   String strEndtime = "";
   String strtime = "";
 
+  print(timeCurrent);
+
   if (timeCurrent >= timeStart && timeCurrent < timeEnd) {
     strEndtime =
         '${(period[1]).toString().substring(0, 2)}:${(period[1]).toString().substring(2, 4)}';
@@ -90,6 +92,7 @@ String StringTimeStudy(String periodtime) {
   }
   return strcheck;
 }
+
 //สำหรับ schedule
 String formatDate(String dateStr) {
   DateFormat inputFormat = DateFormat('yyyy-MM-dd');
@@ -135,6 +138,7 @@ String commingTime(DateTime date1, DateTime date2, DateTime date3) {
 
   return txtResponse;
 }
+
 String commingTimeNewLine(DateTime date1, DateTime date2, DateTime date3) {
   var txtResponse = null;
   // print("xxxx${daysBetween(date2, date1).toString()}");

@@ -40,6 +40,17 @@ class _ScheduleHomeScreenState extends State<ScheduleHomeScreen>
     return true;
   }
 
+  _renderBg() {
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/bg.png'),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
   @override
   void dispose() {
     animationController?.dispose();
@@ -57,7 +68,9 @@ class _ScheduleHomeScreenState extends State<ScheduleHomeScreen>
       child: Container(
         child: Scaffold(
           body: Stack(
+            fit: StackFit.expand,
             children: <Widget>[
+              _renderBg(),
               InkWell(
                 splashColor: Colors.transparent,
                 focusColor: Colors.transparent,
@@ -96,8 +109,7 @@ class _ScheduleHomeScreenState extends State<ScheduleHomeScreen>
                           ];
                         },
                         body: Container(
-                          color:
-                              AppTheme.background,
+                          color: AppTheme.background,
                           child: ListView.builder(
                             itemCount: scheduleProv.schedules.length,
                             padding: const EdgeInsets.only(top: 8),
@@ -399,8 +411,7 @@ class _ScheduleHomeScreenState extends State<ScheduleHomeScreen>
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Icon(FontAwesomeIcons.magnifyingGlass,
-                      size: 20,
-                      color: AppTheme.background),
+                      size: 20, color: AppTheme.background),
                 ),
               ),
             ),

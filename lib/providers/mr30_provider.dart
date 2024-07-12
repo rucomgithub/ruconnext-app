@@ -13,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../model/mr30year_model.dart';
 import '../model/profile.dart';
 import '../services/mr30service.dart';
-// import '../utils/noti.dart';
+import '../utils/noti.dart';
 
 class MR30Provider extends ChangeNotifier {
   late BuildContext _context;
@@ -159,7 +159,7 @@ class MR30Provider extends ChangeNotifier {
     notifyListeners();
   }
 
-    void getAllMR30RUREGIS() async {
+  void getAllMR30RUREGIS() async {
     isLoading = true;
     _errormr30ruregis = '';
     try {
@@ -292,7 +292,8 @@ class MR30Provider extends ChangeNotifier {
 
     notifyListeners();
   }
-void addRuregisMR30(RECORD record) async {
+
+  void addRuregisMR30(RECORD record) async {
     _stringDup = '';
     notifyListeners();
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -301,7 +302,8 @@ void addRuregisMR30(RECORD record) async {
       print('not null $_mr30ruregisrecord');
       final String mr30 = prefs.getString('mr30ruregis')!;
       _mr30ruregisrecord = RECORD.decode(mr30);
-      var dup = _mr30ruregisrecord.where((RECORD r) => r.id!.contains(record.id!));
+      var dup =
+          _mr30ruregisrecord.where((RECORD r) => r.id!.contains(record.id!));
       if (dup.isNotEmpty) {
         _stringDup = 'เลือกซ้ำ';
         _mr30ruregisrecord.removeWhere((item) => item.id == record.id);
@@ -326,10 +328,9 @@ void addRuregisMR30(RECORD record) async {
 
     getStudyList();
     await prefs.setString('mr30ruregis', jsonEncode(_mr30ruregisrecord));
-    
+
     notifyListeners();
   }
-  
 
   void getRecordMr30() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -387,7 +388,7 @@ void addRuregisMR30(RECORD record) async {
     notifyListeners();
   }
 
-    void getRuregisStudyList() async {
+  void getRuregisStudyList() async {
     List<RECORD> listmr30 = await getListFromPreferences('mr30ruregis');
 
     _studylist = listmr30;
@@ -507,8 +508,99 @@ void addRuregisMR30(RECORD record) async {
     notifyListeners();
   }
 
+  void getHaveCourseNotTimeEnd() async {
+    print('getHaveCourseNotTimeEnd......');
+    initializeDateFormatting('th_TH', null);
+
+    YearSemester yearSemester = await YearSemtesterStorage.getYearSemester();
+
+    List<RECORD> listmr30 = await getListFromPreferences('mr30');
+    List<RECORD> listmr30register =
+        await getListFromPreferences('mr30register');
+
+    String dayName = dayNormal() + '|' + daySummer();
+
+    _havetodayNow =
+        filterList(listmr30, dayName, yearSemester.year, yearSemester.semester);
+    _havetodayNow.forEach((element) => element.register = false);
+
+    _havetodayRegister = filterList(
+        listmr30register, dayName, yearSemester.year, yearSemester.semester);
+    _havetodayRegister.forEach((element) => element.register = true);
+    _havetodayNow.addAll(_havetodayRegister);
+
+    _havetodayNow.sort((a, b) {
+      int compareResult =
+          b.register.toString().compareTo(a.register.toString());
+      if (compareResult != 0) {
+        return compareResult;
+      } else {
+        return a.timePeriod.toString().compareTo(b.timePeriod.toString());
+      }
+    });
+
+    final day1 = DateFormat.E().format(DateTime.now());
+    var firstDayOfWeek = "";
+    var DayOfWeek = "";
+
+    switch (day1) {
+      case 'Mon': // mon{}
+        firstDayOfWeek = "M";
+        DayOfWeek = "MWF";
+        break;
+      case 'Tue': // tue
+        firstDayOfWeek = "TU";
+        DayOfWeek = "TTS";
+        break;
+      case "Wed": // wed
+        firstDayOfWeek = "W";
+        DayOfWeek = "MWF";
+        break;
+      case "Thu": // thir
+        firstDayOfWeek = "TH";
+        DayOfWeek = "TTS";
+        break;
+      case "Fri": // fri
+        firstDayOfWeek = "F";
+        DayOfWeek = "MWF";
+        break;
+      case "Sat": // sat
+        firstDayOfWeek = "S";
+        DayOfWeek = "TTS";
+        break;
+      case "Sun": // sun
+        firstDayOfWeek = "SU";
+        break;
+      default:
+        firstDayOfWeek = "";
+    }
+
+    _havetodayNow = _havetodayNow
+        .where((RECORD r) =>
+            !StringTimeStudy(r.timePeriod.toString())
+                .contains('หมดเวลาเรียน') &&
+            (r.dayNameS!.toString().contains(firstDayOfWeek) ||
+                r.dayNameS!.toString().contains(DayOfWeek)))
+        .toList();
+
+    String checktime = "0:10";
+    List<RECORD> noti = _havetodayNow
+        .where((RECORD r) => checkTimeStudy(r.timePeriod.toString(), checktime))
+        .toList();
+
+    if (noti.isNotEmpty) {
+      String courseNos = noti.map((record) => record.courseNo).join(', ');
+      Noti.showTodayNotification(
+          title: 'notification',
+          body: 'อีก $checktime จะเริ่มเรียนวิชา $courseNos',
+          fln: flutterLocalNotificationsPlugin);
+    }
+
+    notifyListeners();
+  }
+
   void getHaveToday() async {
-    //print('getHaveToday');
+    print('getHaveToday');
     initializeDateFormatting('th_TH', null);
 
     YearSemester yearSemester = await YearSemtesterStorage.getYearSemester();
@@ -527,19 +619,6 @@ void addRuregisMR30(RECORD record) async {
         listmr30register, dayName, yearSemester.year, yearSemester.semester);
     _havetodayRegister.forEach((element) => element.register = true);
     _havetoday.addAll(_havetodayRegister);
-
-    String checktime = "0:10";
-    List<RECORD> noti = _havetoday
-        .where((RECORD r) => checkTimeStudy(r.timePeriod.toString(), checktime))
-        .toList();
-
-    // if (noti.isNotEmpty) {
-    //   String courseNos = noti.map((record) => record.courseNo).join(', ');
-    //   //Noti.showTodayNotification(
-    //       title: 'notification',
-    //       body: 'อีก $checktime จะเริ่มเรียนวิชา $courseNos',
-    //       fln: flutterLocalNotificationsPlugin);
-    // }
 
     _havetoday.sort((a, b) {
       int compareResult =
@@ -617,102 +696,5 @@ void addRuregisMR30(RECORD record) async {
       }
     });
     notifyListeners();
-  }
-
-  void filterTimeCourseStudy() async {
-    return ;
-  //   initializeDateFormatting('th_TH', null);
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   List<RECORD> listmr30 = [];
-  //   final mr30 = prefs.getString('mr30');
-  //   if (mr30 != null) {
-  //     listmr30 = RECORD.decode(mr30);
-  //   } else {
-  //     listmr30 = [];
-  //   }
-  //   // String mr30 = prefs.getString('mr30') ?? '';
-  //   // List<RECORD> listmr30 = RECORD.decode(mr30);
-  //   List<RECORD> listmr30register = [];
-  //   final mr30register = prefs.getString('mr30register');
-  //   if (mr30register != null) {
-  //     listmr30register = RECORD.decode(mr30register);
-  //     //print('mr30register: $mr30register\n');
-  //   } else {
-  //     listmr30register = [];
-  //   }
-
-  //   final day1 = DateFormat.E().format(DateTime.now());
-  //   var firstDayOfWeek = "";
-  //   var DayOfWeek = "";
-
-  //   switch (day1) {
-  //     case 'Mon': // mon{}
-  //       firstDayOfWeek = "M";
-  //       DayOfWeek = "MWF";
-  //       break;
-  //     case 'Tue': // tue
-  //       firstDayOfWeek = "TU";
-  //       DayOfWeek = "TTS";
-  //       break;
-  //     case "Wed": // wed
-  //       firstDayOfWeek = "W";
-  //       DayOfWeek = "MWF";
-  //       break;
-  //     case "Thu": // thir
-  //       firstDayOfWeek = "TH";
-  //       DayOfWeek = "TTS";
-  //       break;
-  //     case "Fri": // fri
-  //       firstDayOfWeek = "F";
-  //       DayOfWeek = "MWF";
-  //       break;
-  //     case "Sat": // sat
-  //       firstDayOfWeek = "S";
-  //       DayOfWeek = "TTS";
-  //       break;
-  //     case "Sun": // sun
-  //       firstDayOfWeek = "SU";
-  //       break;
-  //     default:
-  //       firstDayOfWeek = "";
-  //   }
-
-  //   _havetodayNow = listmr30
-  //       .where((RECORD r) =>
-  //           !StringTimeStudy(r.timePeriod.toString())
-  //               .contains('หมดเวลาเรียน') &&
-  //           (r.dayNameS!.toString().contains(firstDayOfWeek) ||
-  //               r.dayNameS!.toString().contains(DayOfWeek)))
-  //       .toList();
-
-  //   _havetodayNow.forEach((element) {
-  //     element.register = false;
-  //   });
-  //   _havetodayRegister = listmr30register
-  //       .where((RECORD r) =>
-  //           !StringTimeStudy(r.timePeriod.toString())
-  //               .contains('หมดเวลาเรียน') &&
-  //           (r.dayNameS!.toString().contains(firstDayOfWeek) ||
-  //               r.dayNameS!.toString().contains(DayOfWeek)))
-  //       .toList();
-  //   _havetodayRegister.forEach((element) {
-  //     element.register = true;
-  //   });
-
-  //   _havetodayNow.addAll(_havetodayRegister);
-  //   _havetodayNow.sort((a, b) {
-  //     int compareResult =
-  //         b.register.toString().compareTo(a.register.toString());
-  //     if (compareResult != 0) {
-  //       return compareResult; // sort by name ascending
-  //     } else {
-  //       return a.timePeriod
-  //           .toString()
-  //           .compareTo(b.timePeriod.toString()); // sort by age descending
-  //     }
-  //   });
-  //   // print('filter ${_havetodayNow.length}');
-  //   notifyListeners();
-  // }
   }
 }

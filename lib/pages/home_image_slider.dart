@@ -60,7 +60,7 @@ class _homeImageSliderState extends State<homeImageSlider> {
         options: CarouselOptions(
           height: MediaQuery.of(context).size.height * 0.6,
           aspectRatio: 16 / 9,
-          viewportFraction: 0.8,
+          viewportFraction: 0.82,
           initialPage: 0,
           enableInfiniteScroll: true,
           reverse: false,
@@ -83,7 +83,7 @@ class _homeImageSliderState extends State<homeImageSlider> {
                   child: Column(
                     children: [
                       Container(
-                          height: 220,
+                          height: 120,
                           margin: const EdgeInsets.only(top: 0),
                           clipBehavior: Clip.hardEdge,
                           decoration: BoxDecoration(

@@ -14,7 +14,7 @@ class HomeProvider extends ChangeNotifier {
   ColorFilter get colorFilter => _colorFilter;
 
   void getTimeHomePage() async {
-    //print('getTimeHome');
+    print('getTimeHome');
     _title = await getTitile();
     _icon = await getIcon();
     _colorFilter = await getColorFilter();

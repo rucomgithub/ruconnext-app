@@ -131,10 +131,8 @@ class RUREGISMR30Provider extends ChangeNotifier {
     notifyListeners();
   }
 
- 
-
   void getAllMR30() async {
-        print('get all');
+    print('get all');
     isLoading = true;
     _errormr30 = '';
     try {
@@ -162,7 +160,7 @@ class RUREGISMR30Provider extends ChangeNotifier {
     notifyListeners();
   }
 
-    void getAllMR30RUREGIS() async {
+  void getAllMR30RUREGIS() async {
     isLoading = true;
     _errormr30ruregis = '';
     try {
@@ -295,7 +293,8 @@ class RUREGISMR30Provider extends ChangeNotifier {
 
     notifyListeners();
   }
-void addRuregisMR30(RECORD record) async {
+
+  void addRuregisMR30(RECORD record) async {
     _stringDup = '';
     notifyListeners();
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -304,7 +303,8 @@ void addRuregisMR30(RECORD record) async {
       print('not null $_mr30ruregisrecord');
       final String mr30 = prefs.getString('mr30ruregis')!;
       _mr30ruregisrecord = RECORD.decode(mr30);
-      var dup = _mr30ruregisrecord.where((RECORD r) => r.id!.contains(record.id!));
+      var dup =
+          _mr30ruregisrecord.where((RECORD r) => r.id!.contains(record.id!));
       if (dup.isNotEmpty) {
         _stringDup = 'เลือกซ้ำ';
         _mr30ruregisrecord.removeWhere((item) => item.id == record.id);
@@ -329,10 +329,9 @@ void addRuregisMR30(RECORD record) async {
 
     getStudyList();
     await prefs.setString('mr30ruregis', jsonEncode(_mr30ruregisrecord));
-    
+
     notifyListeners();
   }
-  
 
   void getRecordMr30() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -390,7 +389,7 @@ void addRuregisMR30(RECORD record) async {
     notifyListeners();
   }
 
-    void getRuregisStudyList() async {
+  void getRuregisStudyList() async {
     List<RECORD> listmr30 = await getListFromPreferences('mr30ruregis');
 
     _studylist = listmr30;

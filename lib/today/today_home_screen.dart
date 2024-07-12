@@ -65,9 +65,20 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
     Provider.of<MR30Provider>(context, listen: false).getSchedule();
     Provider.of<MR30Provider>(context, listen: false).getHaveTodayList();
     Provider.of<MR30Provider>(context, listen: false).getHaveToday();
-    Provider.of<MR30Provider>(context, listen: false).filterTimeCourseStudy();
+    Provider.of<MR30Provider>(context, listen: false).getHaveCourseNotTimeEnd();
     await Future<dynamic>.delayed(const Duration(milliseconds: 600));
     return true;
+  }
+
+  _renderBg() {
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/bg.png'),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
   }
 
   @override
@@ -84,7 +95,9 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
       child: Container(
         child: Scaffold(
           body: Stack(
+            fit: StackFit.expand,
             children: <Widget>[
+              _renderBg(),
               InkWell(
                 splashColor: Colors.transparent,
                 focusColor: Colors.transparent,

@@ -150,6 +150,17 @@ class _RegisterListScreenState extends State<RegisterListScreen>
     return true;
   }
 
+  _renderBg() {
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/bg.png'),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -157,7 +168,9 @@ class _RegisterListScreenState extends State<RegisterListScreen>
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Stack(
+          fit: StackFit.expand,
           children: <Widget>[
+            _renderBg(),
             getMainListViewUI(),
             getAppBarUI(),
             SizedBox(

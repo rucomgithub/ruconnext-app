@@ -57,6 +57,17 @@ class _StudyHomeScreenState extends State<StudyHomeScreen>
     return true;
   }
 
+  _renderBg() {
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/bg.png'),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
   @override
   void dispose() {
     animationController?.dispose();
@@ -71,7 +82,9 @@ class _StudyHomeScreenState extends State<StudyHomeScreen>
       child: Container(
         child: Scaffold(
           body: Stack(
+            fit: StackFit.expand,
             children: <Widget>[
+              _renderBg(),
               InkWell(
                 splashColor: Colors.transparent,
                 focusColor: Colors.transparent,
