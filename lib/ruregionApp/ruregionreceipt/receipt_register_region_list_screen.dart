@@ -9,24 +9,28 @@ import 'package:th.ac.ru.uSmart/ruregionApp/ruregioncart/button_confirm_view.dar
 import 'package:th.ac.ru.uSmart/ruregionApp/ruregioncart/fee_region_list_view.dart';
 import 'package:th.ac.ru.uSmart/ruregionApp/ruregioncart/location_exam.dart';
 import 'package:th.ac.ru.uSmart/ruregionApp/ruregioncart/profile_region_cart_view.dart';
+import 'package:th.ac.ru.uSmart/ruregionApp/ruregionreceipt/button_qr_view.dart';
+import 'package:th.ac.ru.uSmart/ruregionApp/ruregionreceipt/receipt_location_exam.dart';
+import 'package:th.ac.ru.uSmart/ruregionApp/ruregionreceipt/receipt_profile_region_cart_view.dart';
 import 'package:th.ac.ru.uSmart/ruregisApp/ruregiscart/fee_list_view.dart';
 import 'package:th.ac.ru.uSmart/ruregisApp/ruregiscart/profile_cart_view.dart';
 import 'package:th.ac.ru.uSmart/widget/Rubar.dart';
 import '../../mr30/titlenone_view.dart';
-import 'register_region_list_view.dart';
-import 'register_region_view.dart';
+import 'receipt_register_region_list_view.dart';
+import 'receipt_register_region_view.dart';
 
-class RuregionCartListScreen extends StatefulWidget {
-  const RuregionCartListScreen({Key? key, this.animationController})
+class ReceiptRuregionCartListScreen extends StatefulWidget {
+  const ReceiptRuregionCartListScreen({Key? key, this.animationController})
       : super(key: key);
 
   final AnimationController? animationController;
   @override
-  _RuregionCartListScreenState createState() => _RuregionCartListScreenState();
+  _ReceiptRuregionCartListScreenState createState() =>
+      _ReceiptRuregionCartListScreenState();
 }
 
-class _RuregionCartListScreenState extends State<RuregionCartListScreen>
-    with TickerProviderStateMixin {
+class _ReceiptRuregionCartListScreenState
+    extends State<ReceiptRuregionCartListScreen> with TickerProviderStateMixin {
   Animation<double>? topBarAnimation;
 
   List<Widget> listViews = <Widget>[];
@@ -70,13 +74,14 @@ class _RuregionCartListScreenState extends State<RuregionCartListScreen>
     const int count = 9;
 
     listViews.add(
-      ProfileRegionCartView(
+      ReceiptProfileRegionCartView(
         animation: widget.animationController,
         animationController: widget.animationController,
       ),
     );
+
     listViews.add(
-      LocationExamView(
+      ReceiptRuregionCartListView(
         mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
             CurvedAnimation(
                 parent: widget.animationController!,
@@ -86,7 +91,7 @@ class _RuregionCartListScreenState extends State<RuregionCartListScreen>
       ),
     );
     listViews.add(
-      RuregionCartListView(
+      ReceiptLocationExamView(
         mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
             CurvedAnimation(
                 parent: widget.animationController!,
@@ -96,7 +101,7 @@ class _RuregionCartListScreenState extends State<RuregionCartListScreen>
       ),
     );
     listViews.add(
-      ButtonConfirmView(
+      ButtonQRView(
         mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
             CurvedAnimation(
                 parent: widget.animationController!,
@@ -209,7 +214,8 @@ class _RuregionCartListScreenState extends State<RuregionCartListScreen>
                             Expanded(
                               child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Rubar(textTitle: 'ตะกร้าวิชา')),
+                                  child:
+                                      Rubar(textTitle: 'ยืนยันการลงทะเบียน')),
                             ),
                           ],
                         ),

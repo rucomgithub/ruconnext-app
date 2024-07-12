@@ -2,7 +2,7 @@ class Summary_reg {
   bool? success;
   String? message;
   int? sumTotal;
-  List<Results>? results;
+  List<ResultsFee>? results;
 
   Summary_reg({this.success, this.message, this.sumTotal, this.results});
 
@@ -11,9 +11,9 @@ class Summary_reg {
     message = json['message'];
     sumTotal = json['sum_total'];
     if (json['results'] != null) {
-      results = <Results>[];
+      results = <ResultsFee>[];
       json['results'].forEach((v) {
-        results!.add(new Results.fromJson(v));
+        results!.add(new ResultsFee.fromJson(v));
       });
     }
   }
@@ -30,15 +30,15 @@ class Summary_reg {
   }
 }
 
-class Results {
+class ResultsFee {
   int? fEENO;
   String? fEENAME;
   int? fEEAMOUNT;
   String? fEETYPE;
 
-  Results({this.fEENO, this.fEENAME, this.fEEAMOUNT, this.fEETYPE});
+  ResultsFee({this.fEENO, this.fEENAME, this.fEEAMOUNT, this.fEETYPE});
 
-  Results.fromJson(Map<String, dynamic> json) {
+  ResultsFee.fromJson(Map<String, dynamic> json) {
     fEENO = json['FEE_NO'];
     fEENAME = json['FEE_NAME'];
     fEEAMOUNT = json['FEE_AMOUNT'];

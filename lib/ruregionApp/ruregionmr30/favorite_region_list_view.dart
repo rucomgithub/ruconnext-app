@@ -103,17 +103,17 @@ class Mr30ItemView extends StatelessWidget {
       {Key? key, this.mr30Data, this.animationController, this.animation})
       : super(key: key);
 
-  final Results? mr30Data;
+  final ResultsMr30? mr30Data;
   final AnimationController? animationController;
   final Animation<double>? animation;
 
   @override
   Widget build(BuildContext context) {
     //var ondemand = context.read<OndemandProvider>();
-    var ruregionprov = context.watch<RuregionProvider>();
+    var ruregionprov = context.watch<RUREGISMR30Provider>();
     void removeToCart(c) {
       print('remove $c');
-      ruregionprov.removeRuregisPref(c);
+      ruregionprov.removeRuregionPref(c);
     }
 
     var mr30prov = Provider.of<MR30Provider>(context, listen: false);

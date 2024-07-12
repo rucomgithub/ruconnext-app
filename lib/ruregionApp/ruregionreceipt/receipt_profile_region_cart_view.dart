@@ -1,5 +1,6 @@
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/main.dart';
+import 'package:th.ac.ru.uSmart/providers/region_receipt_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/register_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,34 +11,37 @@ import 'package:th.ac.ru.uSmart/providers/ruregis_provider.dart';
 import '../../fitness_app/fitness_app_theme.dart';
 import '../../utils/registeryeardropdown.dart';
 
-class ProfileRegionCartView extends StatefulWidget {
+class ReceiptProfileRegionCartView extends StatefulWidget {
   final AnimationController? animationController;
   final Animation<double>? animation;
 
-  const ProfileRegionCartView(
+  const ReceiptProfileRegionCartView(
       {Key? key, this.animationController, this.animation})
       : super(key: key);
 
   @override
-  State<ProfileRegionCartView> createState() => _ProfileRegionCartViewState();
-  
+  State<ReceiptProfileRegionCartView> createState() =>
+      _ReceiptProfileRegionCartViewState();
 }
 
-class _ProfileRegionCartViewState extends State<ProfileRegionCartView> {
+class _ReceiptProfileRegionCartViewState
+    extends State<ReceiptProfileRegionCartView> {
   String? _selectedOption;
   bool isChecked = false;
-    var dropdownvalue;
-      @override
+  var dropdownvalue;
+  @override
   void initState() {
-    Provider.of<RuregionCheckCartProvider>(context, listen: false).fetchLocationExam();
+    Provider.of<RuregionCheckCartProvider>(context, listen: false)
+        .fetchLocationExam();
 
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     var ruregisProv = context.watch<RuregisProvider>().ruregionApp;
-
-
+    var locationexam = context.watch<RuregionReceiptProvider>().examLocate;
+    var isGrad = context.watch<RuregionReceiptProvider>().isGrad;
     var loading = context.watch<RuregisProvider>().isLoadingRuregisProfile;
     if (loading) {
       return AnimatedBuilder(
@@ -221,40 +225,56 @@ class _ProfileRegionCartViewState extends State<ProfileRegionCartView> {
                         //   ),
                         // ),
                         SizedBox(
-                          height: 5,
+                          height: 1,
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(right: 4),
+                          padding: const EdgeInsets.only(top: 8.0),
                           child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
+                            mainAxisAlignment: MainAxisAlignment
+                                .spaceBetween, // Distribute space evenly
+                            children: [
                               Container(
                                 child: Row(
                                   children: [
                                     Checkbox(
                                       checkColor: Colors.white,
-                                      value: isChecked,
+                                      value: isGrad,
                                       onChanged: (bool? value) {
-                                        setState(() {
-                                          isChecked = value!;
-                                              Provider.of<RuregionCheckCartProvider>(context, listen: false).getStatusGraduate(value);
-                                             Provider.of<RuregionCheckCartProvider>(context, listen: false).checkButtonComfirm();
-
-                                        });
+                                        null;
                                       },
                                     ),
-                                    Text('ขอจบ'),
+                                    Text(
+                                      'ขอจบ',
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.ruFontKanit,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 15,
+                                        letterSpacing: 0.0,
+                                        color: FitnessAppTheme.nearlyBlack,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
-                              Expanded(
-                                child: SizedBox(),
+                              Container(
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '$locationexam',
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.ruFontKanit,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 15,
+                                        letterSpacing: 0.0,
+                                        color: FitnessAppTheme.nearlyBlack,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                          
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),

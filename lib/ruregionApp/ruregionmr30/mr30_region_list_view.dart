@@ -26,12 +26,7 @@ class RuregionMr30ListView extends StatefulWidget {
 class _RuregionMr30ListViewState extends State<RuregionMr30ListView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
-  List<String> areaListData = <String>[
-    'assets/fitness_app/area1.png',
-    'assets/fitness_app/area2.png',
-    'assets/fitness_app/area3.png',
-    'assets/fitness_app/area1.png',
-  ];
+
 
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
@@ -197,7 +192,7 @@ class Mr30ItemView extends StatelessWidget {
   }) : super(key: key);
 
   final int? index;
-  final Results? course;
+  final ResultsMr30? course;
   final AnimationController? animationController;
   final Animation<double>? animation;
 
@@ -208,7 +203,7 @@ class Mr30ItemView extends StatelessWidget {
 
     // print('mr30 filter ${mr30fil.results}');
 
-    void addToCart(Results course) {
+    void addToCart(ResultsMr30 course) {
       print('add to cart ${course}');
       // ruregionprov.addRuregionMR30(context,mr30ruregion.results![index]);
       ruregionprov.addRuregisAppMR30(context,course);

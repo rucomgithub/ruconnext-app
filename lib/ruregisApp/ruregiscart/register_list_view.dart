@@ -91,7 +91,7 @@ class _RuregisCartListViewState extends State<RuregisCartListView>
                                 animationController?.forward();
                                 String name = ruregisProv
                                     .mr30ruregionrec[index].cOURSENAME!;
-                                List<Results> values =
+                                List<ResultsMr30> values =
                                     ruregisProv.mr30ruregionrec;
                                 return AreaView(
                                   index: index,
@@ -133,7 +133,7 @@ class AreaView extends StatelessWidget {
 
   final int? index;
   final String? name;
-  final List<Results>? values;
+  final List<ResultsMr30>? values;
   final AnimationController? animationController;
   final Animation<double>? animation;
 

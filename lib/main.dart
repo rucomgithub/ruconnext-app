@@ -18,6 +18,7 @@ import 'package:th.ac.ru.uSmart/providers/authen_regis.dart';
 import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
 import 'package:th.ac.ru.uSmart/providers/mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/region_enroll_provider.dart';
+import 'package:th.ac.ru.uSmart/providers/region_receipt_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/register_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/rotcs_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/runewsprovider.dart';
@@ -26,6 +27,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:th.ac.ru.uSmart/providers/ruregion_check_cart.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregion_mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregis_fee_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregis_mr30_provider.dart';
@@ -37,6 +39,7 @@ import 'package:th.ac.ru.uSmart/rotcs/rotcs_register_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregionApp/ruregion_other_home_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregionApp/ruregioncart/register_region_home_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregionApp/ruregionmr30/mr30_region_home_screen.dart';
+import 'package:th.ac.ru.uSmart/ruregionApp/ruregionreceipt/receipt_register_region_home_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregis/mr30_home_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregion_login.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregion_mr30.dart';
@@ -152,8 +155,12 @@ class MyApp extends StatelessWidget {
               create: (_) => RuregionProvider()),
           ChangeNotifierProvider<RegionEnrollProvider>(
               create: (_) => RegionEnrollProvider()),
-            ChangeNotifierProvider<AuthenRuRegionAppProvider>(
+          ChangeNotifierProvider<AuthenRuRegionAppProvider>(
               create: (_) => AuthenRuRegionAppProvider()),
+          ChangeNotifierProvider<RuregionCheckCartProvider>(
+              create: (_) => RuregionCheckCartProvider()),
+          ChangeNotifierProvider<RuregionReceiptProvider>(
+              create: (_) => RuregionReceiptProvider()),
         ],
 //       child: MaterialApp(
 //         title: 'RU ConneXt',
@@ -206,25 +213,31 @@ class MyApp extends StatelessWidget {
             GetPage(name: '/regishelp', page: () => RegisHelpScreen()),
             GetPage(name: '/rurgissearch', page: () => RuregisSearchScreen()),
             GetPage(name: '/rurgissearch2', page: () => Mr30Home2Screen()),
-            GetPage(name: '/ruregisconfirm', page: () => RuRegisConfirmScreen()),
-            GetPage(name: '/ruregionreceipt', page: () => RuregionReceiptScreen()),
+            GetPage(
+                name: '/ruregisconfirm', page: () => RuRegisConfirmScreen()),
+            GetPage(
+                name: '/ruregionreceipt', page: () => RuregionReceiptScreen()),
             GetPage(name: '/ruregiscart', page: () => RuregisCartScreen()),
             GetPage(name: '/ruregionmr30', page: () => RuregionMR30Screen()),
             GetPage(name: '/ruregionqrcode', page: () => RuregionQRScreen()),
             GetPage(name: '/ruregionlogin', page: () => RuregionLoginPage()),
             GetPage(name: '/ruregionhome', page: () => RuRegisHomeScreen()),
-
             GetPage(name: '/ruregishome', page: () => RuRegisOtherHomeScreen()),
             GetPage(name: '/ruregismr30', page: () => RuregisMr30HomeScreen()),
             GetPage(name: '/ruregisqrcode', page: () => RuregisQRScreen()),
             GetPage(name: '/ruregisqcart', page: () => RuregisCartHomeScreen()),
-
-            GetPage(name: '/ruregionApphome', page: () => RuRegionOtherHomeScreen()),
-            GetPage(name: '/ruregionAppmr30', page: () => RuregionMr30HomeScreen()),
+            GetPage(
+                name: '/ruregionApphome',
+                page: () => RuRegionOtherHomeScreen()),
+            GetPage(
+                name: '/ruregionAppmr30', page: () => RuregionMr30HomeScreen()),
             GetPage(name: '/ruregionAppqrcode', page: () => RuregionQRScreen()),
-            GetPage(name: '/ruregionAppcart', page: () => RuRegionAppCartHomeScreen()),
-            
-
+            GetPage(
+                name: '/ruregionAppcart',
+                page: () => RuRegionAppCartHomeScreen()),
+            GetPage(
+                name: '/ruregionAppreceipt',
+                page: () => ReceiptRuRegionHomeScreen()),
           ],
           debugShowCheckedModeBanner: false,
         ));

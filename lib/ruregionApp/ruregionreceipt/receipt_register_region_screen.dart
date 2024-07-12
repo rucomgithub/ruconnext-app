@@ -1,31 +1,19 @@
-import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
-import 'package:th.ac.ru.uSmart/mr30/nodata_view.dart';
-import 'package:th.ac.ru.uSmart/providers/register_provider.dart';
-import 'package:th.ac.ru.uSmart/registers/register_nodata_view.dart';
+import 'package:th.ac.ru.uSmart/fitness_app/ui_view/rank_list_view.dart';
+import 'package:th.ac.ru.uSmart/fitness_app/ui_view/rank_view.dart';
+import 'package:th.ac.ru.uSmart/fitness_app/ui_view/running_view.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:th.ac.ru.uSmart/ruregionApp/ruregioncart/button_confirm_view.dart';
-import 'package:th.ac.ru.uSmart/ruregionApp/ruregioncart/fee_region_list_view.dart';
-import 'package:th.ac.ru.uSmart/ruregionApp/ruregioncart/location_exam.dart';
-import 'package:th.ac.ru.uSmart/ruregionApp/ruregioncart/profile_region_cart_view.dart';
-import 'package:th.ac.ru.uSmart/ruregisApp/ruregiscart/fee_list_view.dart';
-import 'package:th.ac.ru.uSmart/ruregisApp/ruregiscart/profile_cart_view.dart';
-import 'package:th.ac.ru.uSmart/widget/Rubar.dart';
-import '../../mr30/titlenone_view.dart';
-import 'register_region_list_view.dart';
-import 'register_region_view.dart';
 
-class RuregionCartListScreen extends StatefulWidget {
-  const RuregionCartListScreen({Key? key, this.animationController})
-      : super(key: key);
+import '../../fitness_app/fitness_app_theme.dart';
+
+class ReceiptRuregionCartScreen extends StatefulWidget {
+  const ReceiptRuregionCartScreen({Key? key, this.animationController}) : super(key: key);
 
   final AnimationController? animationController;
   @override
-  _RuregionCartListScreenState createState() => _RuregionCartListScreenState();
+  _ReceiptRuregionCartScreenState createState() => _ReceiptRuregionCartScreenState();
 }
 
-class _RuregionCartListScreenState extends State<RuregionCartListScreen>
+class _ReceiptRuregionCartScreenState extends State<ReceiptRuregionCartScreen>
     with TickerProviderStateMixin {
   Animation<double>? topBarAnimation;
 
@@ -67,36 +55,29 @@ class _RuregionCartListScreenState extends State<RuregionCartListScreen>
   }
 
   void addAllListData() {
-    const int count = 9;
+    const int count = 10;
 
     listViews.add(
-      ProfileRegionCartView(
-        animation: widget.animationController,
-        animationController: widget.animationController,
+      RankView(
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController!,
+            curve:
+                Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController!,
       ),
     );
     listViews.add(
-      LocationExamView(
-        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(
-                parent: widget.animationController!,
-                curve: Interval((1 / count) * 5, 1.0,
-                    curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController!,
+      RunningView(
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController!,
+            curve:
+                Interval((1 / count) * 3, 1.0, curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController!,
       ),
     );
+
     listViews.add(
-      RuregionCartListView(
-        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(
-                parent: widget.animationController!,
-                curve: Interval((1 / count) * 5, 1.0,
-                    curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController!,
-      ),
-    );
-    listViews.add(
-      ButtonConfirmView(
+      RankListView(
         mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
             CurvedAnimation(
                 parent: widget.animationController!,
@@ -197,19 +178,21 @@ class _RuregionCartListScreenState extends State<RuregionCartListScreen>
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: IconButton(
-                                icon: Icon(Icons.arrow_back),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ),
                             Expanded(
                               child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Rubar(textTitle: 'ตะกร้าวิชา')),
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  'อันดับการลงทะเบียน',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontFamily: FitnessAppTheme.fontName,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 22 + 6 - 6 * topBarOpacity,
+                                    letterSpacing: 1.2,
+                                    color: FitnessAppTheme.darkerText,
+                                  ),
+                                ),
+                              ),
                             ),
                           ],
                         ),

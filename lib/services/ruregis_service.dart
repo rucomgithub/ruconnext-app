@@ -8,6 +8,7 @@ import 'package:th.ac.ru.uSmart/model/message_region_model.dart';
 import 'package:th.ac.ru.uSmart/model/region_login_model.dart';
 import 'package:th.ac.ru.uSmart/model/ruregion_mr30_model.dart';
 import 'package:th.ac.ru.uSmart/model/save_enroll_model.dart';
+import 'package:th.ac.ru.uSmart/store/mr30App.dart';
 import 'package:th.ac.ru.uSmart/store/profileApp.dart';
 import 'package:th.ac.ru.uSmart/store/ruregionApp_login.dart';
 import '../model/ruregis_model.dart';
@@ -33,11 +34,9 @@ class RuregisService {
   final ruregisurl = dotenv.env['RUREGIS_API'];
   final ruregionurl = dotenv.env['RUREGION_API'];
   final appUrl = dotenv.env['APP_URL_DEV'];
-  var stdcode ;
+  var stdcode;
   var semester;
   var year;
-
-  
 
   Future<Ruregis> getProfileRuregion(stdcode) async {
     Ruregis ruregisdata = Ruregis.fromJson({});
@@ -87,25 +86,32 @@ class RuregisService {
     return ruregisdata;
   }
 
-  Future<Summary_reg> postCalPayRegionApp(profile,sumcredit,numcourse,semester,year) async {
+  Future<Summary_reg> postCalPayRegionApp() async {
     Summary_reg registerdata = Summary_reg.fromJson({});
     Ruregis profileApp = await ProfileAppStorage.getProfileApp();
+    List<ResultsMr30> mr30App = await MR30AppStorage.getMR30App();
+    int totalCredits = 0;
+
+    for (var item in mr30App) {
+      totalCredits += item.cREDIT!; // assuming item.credit is an int
+    }
+    print(totalCredits);
+    print(profileApp);
     try {
       var params = {
-    "STD_CODE": profileApp.sTDCODE,
-    "STUDY_SEMESTER": semester,
-    "STUDY_YEAR": year, 
-    "FACULTY_NO": profileApp.fACULTYNO,
-    "MAJOR_NO": profileApp.mAJORNO, 
-    "CAMPUS_NO": profileApp.cAMPUSNO, 
-    "CURR_NO": profileApp.cURRNO, 
-    "TOTAL_CREDIT": '11', 
-    "NUM_COURSE": '4', 
-    "GRADUATE_STATUS":  profileApp.gRADUATESTATUS, 
-    "STD_STATUS_CURRENT": profileApp.sTDSTATUSCURRENT
-    
-    };
-    //print('============================$params');
+        "STD_CODE": profileApp.sTDCODE,
+        "STUDY_SEMESTER": "1",
+        "STUDY_YEAR": "2567",
+        "FACULTY_NO": profileApp.fACULTYNO,
+        "MAJOR_NO": profileApp.mAJORNO,
+        "CAMPUS_NO": profileApp.cAMPUSNO,
+        "CURR_NO": profileApp.cURRNO,
+        "TOTAL_CREDIT": totalCredits.toString(),
+        "NUM_COURSE": mr30App.length.toString(),
+        "GRADUATE_STATUS": profileApp.gRADUATESTATUS,
+        "STD_STATUS_CURRENT": profileApp.sTDSTATUSCURRENT
+      };
+      //print('============================$params');
       await dioapi.createIntercepter();
       var response = await dioapi.api.post(
         '$ruregionurl/region_calculate_payment',
@@ -117,21 +123,21 @@ class RuregisService {
         data: jsonEncode(params),
       );
       if (response.statusCode == 200) {
-     //print('Response Get Data Summary : ${registerdata}');
+        //print('Response Get Data Summary : ${registerdata}');
         registerdata = Summary_reg.fromJson(response.data);
-           
       } else {
         throw ('Error Get Data cal ');
       }
     } catch (err) {
-      ////print(err);
+      print(err);
       throw (err);
     }
 
     return registerdata;
   }
-    Future<Ruregis> getProfileRuregionApp(stdcode) async {
-      print('get profile');
+
+  Future<Ruregis> getProfileRuregionApp(stdcode) async {
+    print('get profile');
     Ruregis ruregisdata = Ruregis.fromJson({});
     Loginregion profile = await RuregionAppLoginStorage.getProfile();
     print('data  ${profile.rec![0].username}');
@@ -157,7 +163,7 @@ class RuregisService {
     return ruregisdata;
   }
 
-    Future<Getenroll> getEnrollRegion(stdcode,sem,year) async {
+  Future<Getenroll> getEnrollRegion(stdcode, sem, year) async {
     Getenroll ruregisdata = Getenroll.fromJson({});
     try {
       await dioapi.createIntercepter();
@@ -203,7 +209,7 @@ class RuregisService {
     return counterregiondata;
   }
 
-  Future<MessageRegion> getMessageRegion(stdcode,sem,year) async {
+  Future<MessageRegion> getMessageRegion(stdcode, sem, year) async {
     MessageRegion messageregiondata = MessageRegion.fromJson({});
     try {
       await dioapi.createIntercepter();
@@ -226,7 +232,7 @@ class RuregisService {
     return messageregiondata;
   }
 
-    Future<Genqr> getQRCODE(stdcode,sem,year,tel) async {
+  Future<Genqr> getQRCODE(stdcode, sem, year, tel) async {
     Genqr genqrregiondata = Genqr.fromJson({});
     try {
       await dioapi.createIntercepter();
@@ -253,7 +259,6 @@ class RuregisService {
     SaveEnroll enrolldata = SaveEnroll.fromJson({});
 
     try {
-     
       await dioapi.createIntercepter();
       var response = await dioapi.api.post(
         '$ruregionurl/region_generate_qr',
@@ -265,9 +270,8 @@ class RuregisService {
         data: jsonEncode(x),
       );
       if (response.statusCode == 200) {
-     //print('Response Get Data Summary : ${enrolldata}');
+        //print('Response Get Data Summary : ${enrolldata}');
         enrolldata = SaveEnroll.fromJson(response.data);
-           
       } else {
         throw ('Error Get Data cal ');
       }
@@ -278,11 +282,11 @@ class RuregisService {
 
     return enrolldata;
   }
- Future<SaveEnroll> postEnroll(x) async {
+
+  Future<SaveEnroll> postEnroll(x) async {
     SaveEnroll enrolldata = SaveEnroll.fromJson({});
     print(x);
     try {
-     
       await dioapi.createIntercepter();
       var response = await dioapi.api.post(
         '$ruregionurl/region_save_enroll',
@@ -294,9 +298,8 @@ class RuregisService {
         data: jsonEncode(x),
       );
       if (response.statusCode == 200) {
-     //print('Response Get Data Summary : ${enrolldata}');
+        //print('Response Get Data Summary : ${enrolldata}');
         enrolldata = SaveEnroll.fromJson(response.data);
-           
       } else {
         throw ('Error Get Data cal ');
       }
@@ -308,63 +311,60 @@ class RuregisService {
     return enrolldata;
   }
 
-Future<Loginregion> postLogin(String username, String password) async {
+  Future<Loginregion> postLogin(String username, String password) async {
     Loginregion logindata = Loginregion.fromJson({});
-  //print('${username} ${password}');
+    //print('${username} ${password}');
 
-  try {
-    // Create FormData object
-    FormData formData = FormData.fromMap({
-      'username': username,
-      'password': password,
-    });
+    try {
+      // Create FormData object
+      FormData formData = FormData.fromMap({
+        'username': username,
+        'password': password,
+      });
 
-    await dioapi.createIntercepter();
-    var response = await dioapi.api.post(
-      'http://beta-e-service.ru.ac.th:88/api_loginReginal/login.php',
-      data: formData,
-      options: Options(
-        headers: {
-          HttpHeaders.contentTypeHeader: "application/x-www-form-urlencoded",
-        },
-      ),
-    );
+      await dioapi.createIntercepter();
+      var response = await dioapi.api.post(
+        'http://beta-e-service.ru.ac.th:88/api_loginReginal/login.php',
+        data: formData,
+        options: Options(
+          headers: {
+            HttpHeaders.contentTypeHeader: "application/x-www-form-urlencoded",
+          },
+        ),
+      );
 
-    if (response.statusCode == 200) {
-       logindata = Loginregion.fromJson(response.data);
-   
-      // //print(res);
+      if (response.statusCode == 200) {
+        logindata = Loginregion.fromJson(response.data);
 
-    
-    } else {
-      throw ('Error Get Data cal ');
+        // //print(res);
+      } else {
+        throw ('Error Get Data cal ');
+      }
+    } catch (err) {
+      throw (err);
     }
-  } catch (err) {
-    throw (err);
+    return logindata;
   }
-  return logindata;
 
-}
-
-  Future<Summary_reg> postCalPayRegion(profile,sumcredit,numcourse,semester,year) async {
+  Future<Summary_reg> postCalPayRegion(
+      profile, sumcredit, numcourse, semester, year) async {
     Summary_reg registerdata = Summary_reg.fromJson({});
 
     try {
       var params = {
-    "STD_CODE": profile.sTDCODE,
-    "STUDY_SEMESTER": semester,
-    "STUDY_YEAR": year, 
-    "FACULTY_NO": profile.fACULTYNO,
-    "MAJOR_NO": profile.mAJORNO, 
-    "CAMPUS_NO": profile.cAMPUSNO, 
-    "CURR_NO": profile.cURRNO, 
-    "TOTAL_CREDIT": sumcredit.toString(), 
-    "NUM_COURSE": numcourse.toString(), 
-    "GRADUATE_STATUS":  profile.gRADUATESTATUS, 
-    "STD_STATUS_CURRENT": profile.sTDSTATUSCURRENT
-    
-    };
-    //print('============================$params');
+        "STD_CODE": profile.sTDCODE,
+        "STUDY_SEMESTER": semester,
+        "STUDY_YEAR": year,
+        "FACULTY_NO": profile.fACULTYNO,
+        "MAJOR_NO": profile.mAJORNO,
+        "CAMPUS_NO": profile.cAMPUSNO,
+        "CURR_NO": profile.cURRNO,
+        "TOTAL_CREDIT": sumcredit.toString(),
+        "NUM_COURSE": numcourse.toString(),
+        "GRADUATE_STATUS": profile.gRADUATESTATUS,
+        "STD_STATUS_CURRENT": profile.sTDSTATUSCURRENT
+      };
+      //print('============================$params');
       await dioapi.createIntercepter();
       var response = await dioapi.api.post(
         '$ruregionurl/region_calculate_payment',
@@ -376,9 +376,8 @@ Future<Loginregion> postLogin(String username, String password) async {
         data: jsonEncode(params),
       );
       if (response.statusCode == 200) {
-     //print('Response Get Data Summary : ${registerdata}');
+        //print('Response Get Data Summary : ${registerdata}');
         registerdata = Summary_reg.fromJson(response.data);
-           
       } else {
         throw ('Error Get Data cal ');
       }
@@ -413,7 +412,7 @@ Future<Loginregion> postLogin(String username, String password) async {
     return ruregisfeedata;
   }
 
-  Future<Locationexam> getLocationExam(stdcode,semester,year) async {
+  Future<Locationexam> getLocationExam(stdcode, semester, year) async {
     Locationexam locationexamdata = Locationexam.fromJson({});
     try {
       await dioapi.createIntercepter();
@@ -436,7 +435,7 @@ Future<Loginregion> postLogin(String username, String password) async {
     return locationexamdata;
   }
 
-  Future<MR30RUREGION> getMR30RUREGION(stdcode,sem,year) async {
+  Future<MR30RUREGION> getMR30RUREGION(stdcode, sem, year) async {
     MR30RUREGION ruregionmr30data = MR30RUREGION.fromJson({});
     try {
       await dioapi.createIntercepter();
@@ -457,8 +456,9 @@ Future<Loginregion> postLogin(String username, String password) async {
     }
 
     return ruregionmr30data;
-  }//**************************************/
- Future<MR30RUREGION> getMR30RUREGIS(stdcode,sem,year) async {
+  } //**************************************/
+
+  Future<MR30RUREGION> getMR30RUREGIS(stdcode, sem, year) async {
     MR30RUREGION ruregionmr30data = MR30RUREGION.fromJson({});
     print('x');
     try {
@@ -477,11 +477,12 @@ Future<Loginregion> postLogin(String username, String password) async {
       }
     } catch (err) {
       //print(err);
-     throw ('Error Get Data');
+      throw ('Error Get Data');
     }
 
     return ruregionmr30data;
   }
+
   Future<Ruregis> checkCreditRuregis() async {
     Ruregis ruregisdata = Ruregis.fromJson({});
     try {

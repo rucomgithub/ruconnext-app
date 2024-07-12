@@ -1,5 +1,7 @@
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/model/checkregis_model.dart';
+import 'package:th.ac.ru.uSmart/model/enroll_region_model.dart';
+import 'package:th.ac.ru.uSmart/providers/region_receipt_provider.dart';
 
 import 'package:th.ac.ru.uSmart/providers/register_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregion_check_cart.dart';
@@ -12,31 +14,29 @@ import 'package:provider/provider.dart';
 
 import '../../fitness_app/fitness_app_theme.dart';
 import '../../model/register_model.dart';
-import '../../model/ruregion_mr30_model.dart';
 
-class RuregionCartListView extends StatefulWidget {
-  const RuregionCartListView(
+
+class ReceiptRuregionCartListView extends StatefulWidget {
+  const ReceiptRuregionCartListView(
       {Key? key, this.mainScreenAnimationController, this.mainScreenAnimation})
       : super(key: key);
 
   final AnimationController? mainScreenAnimationController;
   final Animation<double>? mainScreenAnimation;
   @override
-  _RuregionCartListViewState createState() => _RuregionCartListViewState();
+  _ReceiptRuregionCartListViewState createState() => _ReceiptRuregionCartListViewState();
 }
 
-class _RuregionCartListViewState extends State<RuregionCartListView>
+class _ReceiptRuregionCartListViewState extends State<ReceiptRuregionCartListView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
 
   bool isChecked = false;
   @override
   void initState() {
-    Provider.of<RuregionCheckCartProvider>(context, listen: false)
-        .courseSame();
-    Provider.of<RegisterProvider>(context, listen: false).getAllRegister();
-    Provider.of<RuregionCheckCartProvider>(context, listen: false)
-        .getCalPayRegionApp();
+     Provider.of<RuregionReceiptProvider>(context, listen: false)
+        .getEnrollRegionProv('6299499991', '1', '2567');
+  
     animationController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
     super.initState();
@@ -77,8 +77,8 @@ class _RuregionCartListViewState extends State<RuregionCartListView>
       child: AnimatedBuilder(
         animation: widget.mainScreenAnimationController!,
         builder: (BuildContext context, Widget? child) {
-          var ruregioncheckcart = context.watch<RuregionCheckCartProvider>();
-          return ruregioncheckcart.isLoadingCourse
+          var ruregionreceipt = context.watch<RuregionReceiptProvider>();
+          return ruregionreceipt.isLoading
               ? const Center(
                   child: CircularProgressIndicator(),
                 )
@@ -123,10 +123,10 @@ class _RuregionCartListViewState extends State<RuregionCartListView>
                                           ),
                                         );
                                         animationController?.forward();
-                                        String name = ruregioncheckcart
-                                            .mr30Apprec[index].cOURSENAME!;
-                                        List<ResultsMr30> values =
-                                            ruregioncheckcart.mr30Apprec;
+                                        String name = ruregionreceipt
+                                            .receiptRu24RegionalResultsrec[index].cOURSENO!;
+                                        List<ReceiptRu24RegionalResults> values =
+                                            ruregionreceipt.receiptRu24RegionalResultsrec;
                                         return AreaView(
                                           index: index,
                                           name: name,
@@ -172,8 +172,8 @@ class _RuregionCartListViewState extends State<RuregionCartListView>
       child: AnimatedBuilder(
         animation: widget.mainScreenAnimationController!,
         builder: (BuildContext context, Widget? child) {
-          var feeData = context.watch<RuregionCheckCartProvider>();
-          return feeData.isLoadingFee
+          var feeData = context.watch<RuregionReceiptProvider>();
+          return feeData.isLoading
               ? const Center(
                   child: CircularProgressIndicator(),
                 )
@@ -213,13 +213,13 @@ class _RuregionCartListViewState extends State<RuregionCartListView>
                                   );
                                   animationController?.forward();
                                   String name =
-                                      feeData.summary.results![index].fEENAME!;
-                                  List<ResultsFee> values =
-                                      feeData.summary.results!;
+                                      feeData.enrollruregion.receiptDetailRegionalResults![index].fEENAME!;
+                                  List<ReceiptDetailRegionalResults> values =
+                                      feeData.enrollruregion.receiptDetailRegionalResults!;
                                   return AreaViewFee(
                                     index: index,
                                     name: name,
-                                    values: feeData.summary.results!,
+                                    values: feeData.enrollruregion.receiptDetailRegionalResults!,
                                     animation: animation,
                                     animationController: animationController!,
                                   );
@@ -257,16 +257,16 @@ class AreaViewFee extends StatelessWidget {
 
   final int? index;
   final String? name;
-  final List<ResultsFee>? values;
+  final List<ReceiptDetailRegionalResults>? values;
   
   final AnimationController? animationController;
   final Animation<double>? animation;
 
   @override
   Widget build(BuildContext context) {
-    var ruregisfeeProv = context.watch<RuregionCheckCartProvider>();
-    var feeData = context.watch<RuregionCheckCartProvider>().summary;
-
+    var ruregisfeeProv = context.watch<RuregionReceiptProvider>();
+    // var feeData = context.watch<RuregionReceiptProvider>().receiptDetailRegionalResultsrec;
+  var receiptheader = context.watch<RuregionReceiptProvider>().receiptRegionalResultsrec;
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -376,16 +376,16 @@ class AreaViewFee extends StatelessWidget {
                                 color: FitnessAppTheme.nearlyBlack,
                               ),
                             ),
-                            Text(
-                              'รวม ${feeData.sumTotal} บาท', // Replace with your right-aligned text
-                              textAlign: TextAlign.end,
-                              style: TextStyle(
-                                fontFamily: AppTheme.ruFontKanit,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18,
-                                color: FitnessAppTheme.nearlyBlack,
-                              ),
-                            ),
+                            // Text(
+                            //   'รวม ${receiptheader[0].tOTALAMOUNT} บาท', // Replace with your right-aligned text
+                            //   textAlign: TextAlign.end,
+                            //   style: TextStyle(
+                            //     fontFamily: AppTheme.ruFontKanit,
+                            //     fontWeight: FontWeight.w600,
+                            //     fontSize: 18,
+                            //     color: FitnessAppTheme.nearlyBlack,
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
@@ -413,13 +413,13 @@ class AreaView extends StatelessWidget {
 
   final int? index;
   final String? name;
-  final List<ResultsMr30>? values;
+  final List<ReceiptRu24RegionalResults>? values;
   final AnimationController? animationController;
   final Animation<double>? animation;
 
   @override
   Widget build(BuildContext context) {
-    var sumcredit = context.watch<RUREGISMR30Provider>().sumIntCredit;
+    var sumcredit = context.watch<RuregionReceiptProvider>().sumIntCredit;
     bool isCourseDup = true;
     isCourseDup = context.watch<RuregionCheckCartProvider>().isCourseDup;
 
@@ -474,7 +474,7 @@ class AreaView extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              '$sumcredit หน่วยกิต', // Replace with your right-aligned text
+                              'วันและคาบสอบ', // Replace with your right-aligned text
                               textAlign: TextAlign.end,
                               style: TextStyle(
                                 fontFamily: AppTheme.ruFontKanit,
@@ -514,11 +514,7 @@ class AreaView extends StatelessWidget {
                                 trailing: RichText(
                                   text: TextSpan(
                                     children: [
-                                      TextSpan(
-                                        text:
-                                            '${values![index].cOURSEDUP ?? ' '}',
-                                        style: TextStyle(color: Colors.red),
-                                      ),
+                                    
                                       TextSpan(
                                         text:
                                             ' ${values![index].eXAMDATE} (${values![index].eXAMPERIOD})',

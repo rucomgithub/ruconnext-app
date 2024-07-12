@@ -4,7 +4,7 @@ class MR30RUREGION {
   bool? success;
   String? message;
   bool? rEGISSTATUS;
-  List<Results>? results;
+  List<ResultsMr30>? results;
 
   MR30RUREGION({this.success, this.message, this.results});
 
@@ -13,9 +13,9 @@ class MR30RUREGION {
     message = json['message'];
     rEGISSTATUS = json['REGIS_STATUS'];
     if (json['results'] != null) {
-      results = <Results>[];
+      results = <ResultsMr30>[];
       json['results'].forEach((v) {
-        results!.add(new Results.fromJson(v));
+        results!.add(new ResultsMr30.fromJson(v));
       });
     }
   }
@@ -32,7 +32,7 @@ class MR30RUREGION {
   }
 }
 
-class Results {
+class ResultsMr30 {
   String? rEGISYEAR;
   String? rEGISSEMESTER;
   String? cAMPUSNO;
@@ -46,7 +46,7 @@ class Results {
   String? cOURSENAME;
   String? cOURSEDUP;
 
-  Results(
+  ResultsMr30(
       {this.rEGISYEAR,
       this.rEGISSEMESTER,
       this.cAMPUSNO,
@@ -60,7 +60,7 @@ class Results {
       this.cOURSENAME,
       this.cOURSEDUP});
 
-  Results.fromJson(Map<String, dynamic> json) {
+  ResultsMr30.fromJson(Map<String, dynamic> json) {
     rEGISYEAR = json['REGIS_YEAR'];
     rEGISSEMESTER = json['REGIS_SEMESTER'];
     cAMPUSNO = json['CAMPUS_NO'];
@@ -93,8 +93,8 @@ class Results {
   }
 
 
-  static List<Results> decode(String mr30ruregion) =>
+  static List<ResultsMr30> decode(String mr30ruregion) =>
       (json.decode(mr30ruregion) as List<dynamic>)
-          .map<Results>((item) => Results.fromJson(item))
+          .map<ResultsMr30>((item) => ResultsMr30.fromJson(item))
           .toList();
 }

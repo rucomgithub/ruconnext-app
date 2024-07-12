@@ -3,6 +3,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/model/ruregion_mr30_model.dart';
 import 'package:th.ac.ru.uSmart/services/ruregis_service.dart';
+import 'package:th.ac.ru.uSmart/store/mr30App.dart';
 import 'package:th.ac.ru.uSmart/store/profile.dart';
 import 'package:th.ac.ru.uSmart/model/yearsemester.dart';
 import 'package:th.ac.ru.uSmart/store/yearsemester.dart';
@@ -38,9 +39,9 @@ class RUREGISMR30Provider extends ChangeNotifier {
   MR30RUREGION _mr30ruregion = MR30RUREGION();
   MR30RUREGION get mr30ruregion => _mr30ruregion;
   int sumIntCredit = 0;
-  List<Results> _mr30ruregionrec = [];
-  List<Results> get mr30ruregionrec => _mr30ruregionrec;
-
+  List<ResultsMr30> _mr30ruregionrec = [];
+  List<ResultsMr30> get mr30ruregionrec => _mr30ruregionrec;
+  ResultsMr30 getmr30ruregionrec = ResultsMr30();
   bool isCourseDup = true;
   String examDup = '';
   YearSemester _yearsemester = YearSemester(year: "", semester: "");
@@ -753,16 +754,16 @@ class RUREGISMR30Provider extends ChangeNotifier {
 
     notifyListeners();
   }
-  void addRuregisAppMR30(context, Results record) async {
+  void addRuregisAppMR30(context, ResultsMr30 record) async {
     
     notifyListeners();
     print(record);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (_mr30ruregionrec.isNotEmpty) {
       final String mr30ruregion = prefs.getString('mr30ruregis')!;
-      _mr30ruregionrec = Results.decode(mr30ruregion);
+      _mr30ruregionrec = ResultsMr30.decode(mr30ruregion);
       var dup = _mr30ruregionrec
-          .where((Results r) => r.cOURSENO!.contains(record.cOURSENO!));
+          .where((ResultsMr30 r) => r.cOURSENO!.contains(record.cOURSENO!));
       if (dup.isNotEmpty) {
         var snackbar = SnackBar(
           content: Text('เลือกวิชาซ้ำ'),
@@ -770,6 +771,7 @@ class RUREGISMR30Provider extends ChangeNotifier {
         );
         ScaffoldMessenger.of(context).showSnackBar(snackbar);
       } else {
+     
         var snackbar = SnackBar(
           content: Text('บันทึกสำเร็จ'),
           duration: Duration(milliseconds: 500), // Set the duration to 3 seconds
@@ -802,9 +804,25 @@ class RUREGISMR30Provider extends ChangeNotifier {
           countElements++,
         });
     sumIntCredit = sumCredit.round();
-
+    // getmr30ruregionrec =  _mr30ruregionrec as Results;
+    // print(getmr30ruregionrec);
+    
+    await MR30AppStorage.saveMR30App(_mr30ruregionrec);
     await prefs.setString('mr30ruregis', jsonEncode(_mr30ruregionrec));
 
     notifyListeners();
   }
+  void removeRuregionPref(courseid) async {
+  print('provider remove $courseid');
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+    print('provider remove $_mr30ruregionrec');
+  // Print the cOURSENO of each item being checked and whether it matches courseid
+  _mr30ruregionrec.removeWhere((item) {
+    print('Checking item with cOURSENO: ${item.cOURSENO}');
+    return item.cOURSENO == courseid;
+  });
+  await MR30AppStorage.saveMR30App(_mr30ruregionrec);
+  await prefs.setString('mr30ruregis', jsonEncode(_mr30ruregionrec));
+  notifyListeners();
+}
 }

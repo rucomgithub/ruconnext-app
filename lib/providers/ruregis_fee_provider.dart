@@ -34,8 +34,8 @@ class RuregisFeeProvider extends ChangeNotifier {
   List<RECORD> _mr30record = [];
   List<RECORD> get mr30record => _mr30record;
 
-  List<Results> _summaryrec = [];
-  List<Results> get summaryrec => _summaryrec;
+  List<ResultsFee> _summaryrec = [];
+  List<ResultsFee> get summaryrec => _summaryrec;
   int sumIntCredit = 0;
 
   Future<void> fetchFeeRuregis() async {
@@ -107,25 +107,15 @@ class RuregisFeeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-Future<void> getCalPayRegionApp(mr30,stdcode,semester,year) async {
+Future<void> getCalPayRegionApp() async {
+
     isLoading = true;
-
-    //final Map<String, dynamic> jsonData = json.decode(mr30ruregion);
-    double sumCredit = 0;
-    int countElements = 0;
-    mr30.forEach((element) => {
-          sumCredit += element.cREDIT,
-          countElements++,
-        });
-    sumIntCredit = sumCredit.round();
-
     try {
-      final response = await _ruregisService.getProfileRuregion(stdcode);
-      // print('${response} ${sumIntCredit} ${countElements}');
-      final responseCheck = await _ruregisService.postCalPayRegionApp(
-          response, sumIntCredit, countElements,semester,year);
+  print('getCalPayRegionApp');
+      final responseCheck = await _ruregisService.postCalPayRegionApp();
       _summary = responseCheck;
-      // print('summary ${_summary.success}');
+
+       print('summary ${_summary}');
     } on Exception catch (e) {
     } catch (e) {}
 
@@ -133,6 +123,9 @@ Future<void> getCalPayRegionApp(mr30,stdcode,semester,year) async {
 
     notifyListeners();
   }
+
+
+  
   Future<void> summaryFee() async {
     isLoading = true;
     _error = '';

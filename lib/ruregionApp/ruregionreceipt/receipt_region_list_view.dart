@@ -1,6 +1,8 @@
 import 'package:th.ac.ru.uSmart/app_theme.dart';
+import 'package:th.ac.ru.uSmart/model/ruregis_fee_model.dart';
 
 import 'package:th.ac.ru.uSmart/providers/register_provider.dart';
+import 'package:th.ac.ru.uSmart/providers/ruregis_fee_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregis_mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregis_provider.dart';
 import 'package:th.ac.ru.uSmart/registers/register_nodata_view.dart';
@@ -8,33 +10,29 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../fitness_app/fitness_app_theme.dart';
+import '../../model/checkregis_model.dart';
 import '../../model/register_model.dart';
-import '../../model/ruregion_mr30_model.dart';
 
-class RuregisFeeListView extends StatefulWidget {
-  const RuregisFeeListView(
+
+class ReceiptRuregionFeeReceiptListView extends StatefulWidget {
+  const ReceiptRuregionFeeReceiptListView(
       {Key? key, this.mainScreenAnimationController, this.mainScreenAnimation})
       : super(key: key);
 
   final AnimationController? mainScreenAnimationController;
   final Animation<double>? mainScreenAnimation;
   @override
-  _RuregisFeeListViewState createState() => _RuregisFeeListViewState();
+  _ReceiptRuregionFeeReceiptListViewState createState() => _ReceiptRuregionFeeReceiptListViewState();
 }
 
-class _RuregisFeeListViewState extends State<RuregisFeeListView>
+class _ReceiptRuregionFeeReceiptListViewState extends State<ReceiptRuregionFeeReceiptListView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
-  List<String> areaListData = <String>[
-    'assets/fitness_app/area1.png',
-    'assets/fitness_app/area2.png',
-    'assets/fitness_app/area3.png',
-    'assets/fitness_app/area1.png',
-  ];
+
 
   @override
   void initState() {
-    Provider.of<RegisterProvider>(context, listen: false).getAllRegister();
+    Provider.of<RuregisFeeProvider>(context, listen: false).getCalPayRegionApp();
     animationController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
     super.initState();
@@ -51,9 +49,9 @@ class _RuregisFeeListViewState extends State<RuregisFeeListView>
     return AnimatedBuilder(
       animation: widget.mainScreenAnimationController!,
       builder: (BuildContext context, Widget? child) {
-        var registerProv = context.watch<RegisterProvider>();
-        var ruregisProv = context.watch<RUREGISMR30Provider>();
-        return registerProv.isLoading
+
+        var  feeData = context.watch<RuregisFeeProvider>();
+        return feeData.isLoading
             ? const Center(
                 child: CircularProgressIndicator(),
               )
@@ -89,10 +87,10 @@ class _RuregisFeeListViewState extends State<RuregisFeeListView>
                                   ),
                                 );
                                 animationController?.forward();
-                                String name = ruregisProv
-                                    .mr30ruregionrec[index].cOURSENAME!;
-                                List<ResultsMr30> values =
-                                    ruregisProv.mr30ruregionrec;
+                                String name = feeData
+                                    .summary.results![index].fEENAME!;
+                                List<ResultsFee> values =
+                                    feeData.summary.results!;
                                 return AreaView(
                                   index: index,
                                   name: name,
@@ -133,13 +131,15 @@ class AreaView extends StatelessWidget {
 
   final int? index;
   final String? name;
-  final List<ResultsMr30>? values;
+  final List<ResultsFee>? values;
   final AnimationController? animationController;
   final Animation<double>? animation;
 
   @override
   Widget build(BuildContext context) {
-   var sumcredit = context.watch<RUREGISMR30Provider>().sumIntCredit;
+    var ruregisfeeProv = context.watch<RuregisFeeProvider>();
+  var  feeData = context.watch<RuregisFeeProvider>().summary;
+
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -214,7 +214,7 @@ class AreaView extends StatelessWidget {
                               height: 25,
                               child: ListTile(
                                 title: Text(
-                                  '${index + 1}. ${values![index].cOURSENO} (${values![index].cREDIT}) ',
+                                  '${index + 1}. ${values![index].fEENAME}  ',
                                   style: TextStyle(
                                     fontFamily: AppTheme.ruFontKanit,
                                     fontSize: 14,
@@ -222,7 +222,7 @@ class AreaView extends StatelessWidget {
                                   ),
                                 ),
                                 trailing: Text(
-                                  ' ${values![index].eXAMDATE} (${values![index].eXAMPERIOD})',
+                                  ' ${values![index].fEEAMOUNT} .-',
                                   style: TextStyle(
                                     fontFamily: AppTheme.ruFontKanit,
                                     fontSize: 14,

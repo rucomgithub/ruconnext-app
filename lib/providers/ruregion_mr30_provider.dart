@@ -32,17 +32,17 @@ class RuregionProvider extends ChangeNotifier {
   MR30RUREGION _mr30ruregion = MR30RUREGION();
   MR30RUREGION get mr30ruregion => _mr30ruregion;
 
-  List<Results> _mr30ruregionrec = [];
-  List<Results> get mr30ruregionrec => _mr30ruregionrec;
+  List<ResultsMr30> _mr30ruregionrec = [];
+  List<ResultsMr30> get mr30ruregionrec => _mr30ruregionrec;
 
   MR30RUREGION _mr30sameruregion = MR30RUREGION();
   MR30RUREGION get mr30sameruregion => _mr30sameruregion;
 
-  List<Results> _mr30sameruregionrec = [];
-  List<Results> get mr30sameruregionrec => _mr30sameruregionrec;
+  List<ResultsMr30> _mr30sameruregionrec = [];
+  List<ResultsMr30> get mr30sameruregionrec => _mr30sameruregionrec;
 
-  List<Results> _mr30Compareruregionrec = [];
-  List<Results> get mr30Compareruregionrec => _mr30Compareruregionrec;
+  List<ResultsMr30> _mr30Compareruregionrec = [];
+  List<ResultsMr30> get mr30Compareruregionrec => _mr30Compareruregionrec;
 
   Future<void> fetchMR30RUREGION(stdcode, sem, year) async {
     isLoading = true;
@@ -68,7 +68,7 @@ class RuregionProvider extends ChangeNotifier {
   void filterMr30(String filter) {
     filterStr = filter;
     _mr30filter.results = _mr30ruregion.results
-        ?.where((Results m) =>
+        ?.where((ResultsMr30 m) =>
             m.cOURSENO!.toUpperCase().contains(filterStr.toUpperCase()))
         .toList();
     filterStr = '';
@@ -107,8 +107,8 @@ void removeRuregisPref(courseid) async {
     if (mr30sameruregion != null) {
       int cntCourse = 0;
 
-      _mr30sameruregionrec = Results.decode(mr30sameruregion);
-      _mr30Compareruregionrec = Results.decode(mr30sameruregion);
+      _mr30sameruregionrec = ResultsMr30.decode(mr30sameruregion);
+      _mr30Compareruregionrec = ResultsMr30.decode(mr30sameruregion);
 
       for (var i = 0; i < this._mr30sameruregionrec.length; i++) {
         var tmpStr = 1;
@@ -158,7 +158,7 @@ void removeRuregisPref(courseid) async {
     notifyListeners();
   }
 
-  void addRuregionMR30(context, Results record) async {
+  void addRuregionMR30(context, ResultsMr30 record) async {
     notifyListeners();
     print('s $record');
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -166,9 +166,9 @@ void removeRuregisPref(courseid) async {
     if (_mr30ruregionrec.isNotEmpty) {
       // print('not null $_mr30ruregionrec');
       final String mr30ruregion = prefs.getString('mr30ruregion')!;
-      _mr30ruregionrec = Results.decode(mr30ruregion);
+      _mr30ruregionrec = ResultsMr30.decode(mr30ruregion);
       var dup = _mr30ruregionrec
-          .where((Results r) => r.cOURSENO!.contains(record.cOURSENO!));
+          .where((ResultsMr30 r) => r.cOURSENO!.contains(record.cOURSENO!));
       if (dup.isNotEmpty) {
         var snackbar = SnackBar(
           content: Text('เลือกวิชาซ้ำ'),
@@ -217,16 +217,16 @@ void removeRuregisPref(courseid) async {
     notifyListeners();
   }
 
-  void addRuregisMR30(context, Results record) async {
+  void addRuregisMR30(context, ResultsMr30 record) async {
     
     notifyListeners();
     print(record);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (_mr30ruregionrec.isNotEmpty) {
       final String mr30ruregion = prefs.getString('mr30ruregis')!;
-      _mr30ruregionrec = Results.decode(mr30ruregion);
+      _mr30ruregionrec = ResultsMr30.decode(mr30ruregion);
       var dup = _mr30ruregionrec
-          .where((Results r) => r.cOURSENO!.contains(record.cOURSENO!));
+          .where((ResultsMr30 r) => r.cOURSENO!.contains(record.cOURSENO!));
       if (dup.isNotEmpty) {
         var snackbar = SnackBar(
           content: Text('เลือกวิชาซ้ำ'),

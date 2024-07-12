@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:th.ac.ru.uSmart/model/region_login_model.dart';
 import 'package:th.ac.ru.uSmart/services/ruregis_service.dart';
+import 'package:th.ac.ru.uSmart/store/mr30App.dart';
 import 'package:th.ac.ru.uSmart/store/ruregion_login.dart';
 import '../services/authenservice.dart';
 import 'package:get/get.dart';
@@ -48,7 +49,7 @@ class AuthenRuRegionAppProvider extends ChangeNotifier {
   Future<void> logout() async {
     _loginres = new Loginregion();
     await RuregionLoginStorage.removeProfile();
-
+    await MR30AppStorage.removeMR30App();
     Get.offNamedUntil('/', (route) => true);
     notifyListeners();
   }

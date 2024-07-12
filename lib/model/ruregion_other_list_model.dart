@@ -25,7 +25,7 @@ class RuregionOtherListData {
       titleTxt: 'ตรวจสอบสถานะการลงทะเบียน',
       subTxt:
           'ตรวจสอบสถานะการลงทะเบียน',
-      navigateScreen: '/ruregionmr30',
+      navigateScreen: '/ruregionAppreceipt',
     ),
         RuregionOtherListData(
       imagePath: 'assets/fitness_app/A7.png',
