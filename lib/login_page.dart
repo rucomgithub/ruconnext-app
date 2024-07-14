@@ -18,64 +18,33 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  // final _googleSingIn = GoogleSignIn();
-  // // ignore: non_constant_identifier_names
-  // Future<Profile> GetGoogleToken() async {
-  //   GoogleSignInAccount? user = await _googleSingIn.signIn();
-  //   print('user: ${user}');
-  //   GoogleSignInAuthentication googleSignInAuthentication =
-  //       await user!.authentication;
-  //   return Profile();
-  // }
-
-  // Future<void> login(Map<dynamic, dynamic>? formValue) async {
-  //   Profile profile = await GetGoogleToken();
-  //   // ignore: avoid_print
-  //   print('profile: ${profile.toJson()}');
-
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  //   await prefs.setString('profile', jsonEncode(profile.toJson()));
-
-  //   print(profile);
-
-  //   //get token from server
-  //   try {
-  //     var params = {"std_code": '${profile.studentCode}'};
-
-  //     var response = await Dio().post(
-  //       'https://backend-services.ru.ac.th/ru-smart-api/google/authorization',
-  //       options: Options(
-  //         headers: {
-  //           HttpHeaders.contentTypeHeader: "application/json",
-  //           "authorization": "Bearer ${profile.googleToken}",
-  //         },
-  //       ),
-  //       data: jsonEncode(params),
-  //     );
-
-  //     Rutoken token = Rutoken.fromJson(response.data);
-  //     // ignore: avoid_print
-  //     print('RUToken : ${token.accessToken}');
-
-  //     await prefs.setString('token', jsonEncode(token));
-
-  //     Get.offNamedUntil('/home', (route) => false);
-  //   } on DioError catch (err) {
-  //     final errorMessage = DioException.fromDioError(err).toString();
-  //     var snackbar = SnackBar(content: Text('${errorMessage}'));
-  //     ScaffoldMessenger.of(context).showSnackBar(snackbar);
-  //     await _googleSingIn.disconnect();
-  //   } catch (e) {
-  //     var snackbar = SnackBar(content: Text('${e.toString()}'));
-  //     ScaffoldMessenger.of(context).showSnackBar(snackbar);
-  //     await _googleSingIn.disconnect();
-  //   }
-  // }
+class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
   String inputText = '';
   final String targetValue = "$usertest";
+
+  @override
+  void initState() {
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 2),
+    );
+    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+        parent: _controller,
+        curve: Interval((1 / 20) * 5, 1.0, curve: Curves.fastOutSlowIn)));
+
+    //Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
+    _controller.forward(); // Start the animation
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,162 +60,173 @@ class _LoginPageState extends State<LoginPage> {
               child: CircularProgressIndicator(),
             );
           }
-          return Container(
-            decoration: BoxDecoration(
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                    color: AppTheme.ru_text_light_blue.withOpacity(0.2),
-                    offset: const Offset(0, -2),
-                    blurRadius: 8.0),
-              ],
-            ),
-            child: Stack(
-              children: [
-                RuWallpaper(),
-                SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 50, left: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Column(
+          return FadeTransition(
+            opacity: _animation,
+            child: Transform(
+              transform: Matrix4.translationValues(
+                  0.0, 30 * (1.0 - _animation.value), 0.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                        color: AppTheme.nearlyBlack.withOpacity(0.2),
+                        offset: const Offset(0, -2),
+                        blurRadius: 8.0),
+                  ],
+                ),
+                child: Stack(
+                  children: [
+                    RuWallpaper(),
+                    SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 50, left: 20),
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Image.asset('assets/images/rumail.png',
-                                    height: 60),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Image.asset('assets/images/rumail.png',
+                                        height: 60),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          70 /
+                                          100,
+                                      height: 5,
+                                      padding: const EdgeInsets.all(20.0),
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.ru_yellow,
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(0.0),
+                                          bottomLeft: Radius.circular(0.0),
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      'อีเมลนักศึกษา มหาวิทยาลัยรามคำแหง',
+                                      style: TextStyle(
+                                        color: AppTheme.ru_text_ocean_blue,
+                                        fontSize: 18,
+                                        fontFamily: AppTheme.ruFontKanit,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
                                 Container(
                                   width: MediaQuery.of(context).size.width *
-                                      70 /
+                                      90 /
                                       100,
-                                  height: 5,
+                                  height: MediaQuery.of(context).size.height *
+                                      25 /
+                                      100,
                                   padding: const EdgeInsets.all(20.0),
                                   decoration: BoxDecoration(
-                                    color: AppTheme.ru_yellow,
+                                    color: Colors.white,
                                     borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(0.0),
-                                      bottomLeft: Radius.circular(0.0),
+                                      topLeft: Radius.circular(50.0),
+                                      bottomLeft: Radius.circular(50.0),
+                                    ),
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                          'assets/fitness_app/banner2.png'),
+                                      fit: BoxFit.cover, // Adjust this property
                                     ),
                                   ),
                                 ),
-                                Text(
-                                  'อีเมลนักศึกษา มหาวิทยาลัยรามคำแหง',
-                                  style: TextStyle(
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 20.0, left: 20, right: 20),
+                            child: TextField(
+                                onChanged: (text) {
+                                  setState(() {
+                                    inputText = text;
+                                  });
+                                },
+                                decoration: InputDecoration(
+                                  labelText:
+                                      'Enter Student Code 10-digit Number',
+                                  labelStyle: TextStyle(
                                     color: AppTheme.ru_text_ocean_blue,
                                     fontSize: 18,
                                     fontFamily: AppTheme.ruFontKanit,
                                   ),
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Container(
-                              width:
-                                  MediaQuery.of(context).size.width * 90 / 100,
-                              height:
-                                  MediaQuery.of(context).size.height * 25 / 100,
-                              padding: const EdgeInsets.all(20.0),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(50.0),
-                                  bottomLeft: Radius.circular(50.0),
+                                style: TextStyle(
+                                  color: AppTheme
+                                      .ru_dark_blue, // Change the font color to your preference
+                                  fontSize: 18, // Adjust the font size
+                                  // Add more text style properties as needed
                                 ),
-                                image: DecorationImage(
-                                  image: AssetImage('assets/hotel/SBB.png'),
-                                  fit: BoxFit.cover, // Adjust this property
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 20.0, left: 20, right: 20),
-                        child: TextField(
-                            onChanged: (text) {
-                              setState(() {
-                                inputText = text;
-                              });
-                            },
-                            decoration: InputDecoration(
-                              labelText: 'Enter Student Code 10-digit Number',
-                              labelStyle: TextStyle(
-                                color: AppTheme.ru_text_ocean_blue,
-                                fontSize: 18,
-                                fontFamily: AppTheme.ruFontKanit,
-                              ),
-                            ),
-                            style: TextStyle(
-                              color: AppTheme
-                                  .ru_dark_blue, // Change the font color to your preference
-                              fontSize: 18, // Adjust the font size
-                              // Add more text style properties as needed
-                            ),
-                            keyboardType: TextInputType.number,
-                            maxLength: 10,
-                            cursorColor: AppTheme.ru_yellow),
-                      ),
-                      if (inputText.length == 10)
-                        if (inputText == targetValue)
-                          GoogleAuthButton(
-                            text: "เข้าสู่ระบบ",
-                            style: AuthButtonStyle(
-                              textStyle: TextStyle(
-                                  color: AppTheme.ru_dark_blue,
-                                  fontSize: 18,
-                                  fontFamily: AppTheme.ruFontKanit,
-                                  fontWeight: FontWeight.bold),
-                              buttonColor: AppTheme.nearlyWhite,
-                              iconSize: 45.0,
-                              borderRadius:
-                                  20, // เพิ่มค่าให้มากเพื่อให้เป็นวงกลม
-                              width:
-                                  240, // ขนาดความกว้างและความสูงให้เท่ากันเพื่อให้เป็นวงกลม
-                              height: 60,
-                              padding: EdgeInsets.all(0),
-                            ),
-                            onPressed: () {
-                              authen.getAuthenGoogleDev(context);
-                            },
-                          )
-                        else
-                          GoogleAuthButton(
-                            text: "เข้าสู่ระบบ",
-                            style: AuthButtonStyle(
-                              textStyle: TextStyle(
-                                  color: AppTheme.ru_dark_blue,
-                                  fontSize: 18,
-                                  fontFamily: AppTheme.ruFontKanit,
-                                  fontWeight: FontWeight.bold),
-                              buttonColor: AppTheme.nearlyWhite,
-                              iconSize: 45.0,
-                              borderRadius:
-                                  20, // เพิ่มค่าให้มากเพื่อให้เป็นวงกลม
-                              width:
-                                  240, // ขนาดความกว้างและความสูงให้เท่ากันเพื่อให้เป็นวงกลม
-                              height: 60,
-                              padding: EdgeInsets.all(0),
-                            ),
-                            onPressed: () {
-                              authen.getAuthenGoogle(context);
-                            },
+                                keyboardType: TextInputType.number,
+                                maxLength: 10,
+                                cursorColor: AppTheme.ru_dark_blue),
                           ),
-                    ],
-                  ),
+                          if (inputText.length == 10)
+                            if (inputText == targetValue)
+                              GoogleAuthButton(
+                                text: "เข้าสู่ระบบ",
+                                style: AuthButtonStyle(
+                                  textStyle: TextStyle(
+                                      color: AppTheme.ru_dark_blue,
+                                      fontSize: 18,
+                                      fontFamily: AppTheme.ruFontKanit,
+                                      fontWeight: FontWeight.bold),
+                                  buttonColor: AppTheme.nearlyWhite,
+                                  iconSize: 45.0,
+                                  borderRadius:
+                                      20, // เพิ่มค่าให้มากเพื่อให้เป็นวงกลม
+                                  width:
+                                      240, // ขนาดความกว้างและความสูงให้เท่ากันเพื่อให้เป็นวงกลม
+                                  height: 60,
+                                  padding: EdgeInsets.all(0),
+                                ),
+                                onPressed: () {
+                                  authen.getAuthenGoogleDev(context);
+                                },
+                              )
+                            else
+                              GoogleAuthButton(
+                                text: "เข้าสู่ระบบ",
+                                style: AuthButtonStyle(
+                                  textStyle: TextStyle(
+                                      color: AppTheme.ru_dark_blue,
+                                      fontSize: 18,
+                                      fontFamily: AppTheme.ruFontKanit,
+                                      fontWeight: FontWeight.bold),
+                                  buttonColor: AppTheme.nearlyWhite,
+                                  iconSize: 45.0,
+                                  borderRadius:
+                                      20, // เพิ่มค่าให้มากเพื่อให้เป็นวงกลม
+                                  width:
+                                      240, // ขนาดความกว้างและความสูงให้เท่ากันเพื่อให้เป็นวงกลม
+                                  height: 60,
+                                  padding: EdgeInsets.all(0),
+                                ),
+                                onPressed: () {
+                                  authen.getAuthenGoogle(context);
+                                },
+                              ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           );
         },

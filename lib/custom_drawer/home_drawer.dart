@@ -198,14 +198,14 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                 fontWeight: FontWeight.w600,
                                 fontSize: 16,
                                 color: isLightMode
-                                    ? AppTheme.nearlyBlack
-                                    : AppTheme.notWhite,
+                                    ? AppTheme.notWhite
+                                    : AppTheme.nearlyBlack,
                               ),
                               textAlign: TextAlign.left,
                             ),
                             trailing: Icon(
                               Icons.login,
-                              color: Color.fromARGB(255, 54, 244, 162),
+                              color: AppTheme.ru_yellow,
                             ),
                             onTap: () {
                               Get.toNamed('/login');
@@ -285,11 +285,12 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   Text(
                     listData.labelName,
                     style: TextStyle(
+                      fontFamily: AppTheme.ruFontKanit,
                       fontWeight: FontWeight.w500,
                       fontSize: 16,
                       color: widget.screenIndex == listData.index
-                          ? Color.fromARGB(255, 179, 178, 178)
-                          : Color.fromARGB(255, 87, 85, 85),
+                          ? AppTheme.ru_grey
+                          : AppTheme.ru_dark_blue,
                     ),
                     textAlign: TextAlign.left,
                   ),

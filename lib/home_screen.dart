@@ -137,7 +137,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         caption: "Ru Connext",
                         iconname: Icon(Icons.help, color: AppTheme.nearlyWhite),
                         callback: () {
-                          Get.toNamed("/manualhelp");
+                          Get.toNamed("/manual");
                         },
                       ),
                       Expanded(
