@@ -28,10 +28,6 @@ class RankView extends StatelessWidget {
                   left: 24, right: 24, top: 16, bottom: 18),
               child: Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                    AppTheme.ru_dark_blue,
-                    HexColor("#1B75BB")
-                  ], begin: Alignment.topLeft, end: Alignment.bottomRight),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(8.0),
                       bottomLeft: Radius.circular(8.0),
@@ -39,10 +35,18 @@ class RankView extends StatelessWidget {
                       topRight: Radius.circular(68.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: AppTheme.grey.withOpacity(0.6),
-                        offset: Offset(1.1, 1.1),
-                        blurRadius: 10.0),
+                        color: HexColor("#FF19196B").withOpacity(0.6),
+                        offset: const Offset(1.1, 4.0),
+                        blurRadius: 8.0),
                   ],
+                  gradient: LinearGradient(
+                    colors: <HexColor>[
+                      HexColor("#FF19196B"),
+                      HexColor("#FF1919EB"),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -70,7 +74,7 @@ class RankView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(right: 4),
                         child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Padding(
@@ -104,8 +108,8 @@ class RankView extends StatelessWidget {
                                 shape: BoxShape.circle,
                                 boxShadow: <BoxShadow>[
                                   BoxShadow(
-                                      color: AppTheme.nearlyBlack
-                                          .withOpacity(0.4),
+                                      color:
+                                          AppTheme.nearlyBlack.withOpacity(0.4),
                                       offset: Offset(8.0, 8.0),
                                       blurRadius: 8.0),
                                 ],
@@ -113,8 +117,8 @@ class RankView extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.all(0.0),
                                 child: Icon(
-                                  Icons.arrow_right,
-                                  color: HexColor("#6F56E8"),
+                                  Icons.grade,
+                                  color: HexColor("FF19196B"),
                                   size: 44,
                                 ),
                               ),

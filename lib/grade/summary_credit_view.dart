@@ -19,14 +19,17 @@ class SummaryCreditView extends StatefulWidget {
   _SummaryCreditViewState createState() => _SummaryCreditViewState();
 }
 
-class _SummaryCreditViewState extends State<SummaryCreditView> with TickerProviderStateMixin {
+class _SummaryCreditViewState extends State<SummaryCreditView>
+    with TickerProviderStateMixin {
   Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 50));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
     return true;
   }
 
   @override
   Widget build(BuildContext context) {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
     var prov = Provider.of<GradeProvider>(context, listen: false);
     return AnimatedBuilder(
       animation: widget.mainScreenAnimationController!,
@@ -37,16 +40,15 @@ class _SummaryCreditViewState extends State<SummaryCreditView> with TickerProvid
             transform: Matrix4.translationValues(
                 0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
             child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 24, right: 24, top: 16, bottom: 18),
+              padding: const EdgeInsets.all(8),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 255, 255, 255),
+                  color: isLightMode ? AppTheme.nearlyWhite : AppTheme.ru_grey,
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(8.0),
                       bottomLeft: Radius.circular(8.0),
                       bottomRight: Radius.circular(8.0),
-                      topRight: Radius.circular(68.0)),
+                      topRight: Radius.circular(40.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
                         color: AppTheme.ru_grey.withOpacity(0.2),
@@ -70,7 +72,7 @@ class _SummaryCreditViewState extends State<SummaryCreditView> with TickerProvid
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: <Widget>[
-                                         Padding(
+                                    Padding(
                                       padding: const EdgeInsets.only(
                                           left: 8, bottom: 8),
                                       child: Text(
@@ -89,7 +91,7 @@ class _SummaryCreditViewState extends State<SummaryCreditView> with TickerProvid
                                       padding: const EdgeInsets.only(
                                           left: 4, bottom: 3),
                                       child: Text(
-                                         '${prov.summaryCreditPass['PASS']!.toString()}',
+                                        '${prov.summaryCreditPass['PASS']!.toString()}',
                                         //'87',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(

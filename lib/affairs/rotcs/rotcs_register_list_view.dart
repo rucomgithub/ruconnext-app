@@ -134,14 +134,14 @@ class ExtendItemView extends StatelessWidget {
                         decoration: BoxDecoration(
                           boxShadow: <BoxShadow>[
                             BoxShadow(
-                                color: HexColor('#000000').withOpacity(0.6),
+                                color: HexColor("#FF19196B").withOpacity(0.6),
                                 offset: const Offset(1.1, 4.0),
                                 blurRadius: 8.0),
                           ],
                           gradient: LinearGradient(
                             colors: <HexColor>[
-                              HexColor('#48A860'),
-                              HexColor('#74C365'),
+                              HexColor("#FF19196B"),
+                              HexColor("#FF1919EB"),
                             ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
@@ -174,7 +174,7 @@ class ExtendItemView extends StatelessWidget {
                                         style: TextStyle(
                                           fontFamily: AppTheme.ruFontKanit,
                                           fontWeight: FontWeight.w200,
-                                          fontSize: 14,
+                                          fontSize: 12,
                                           letterSpacing: 0.2,
                                           color: AppTheme.white,
                                         ),
@@ -266,7 +266,7 @@ class ExtendItemView extends StatelessWidget {
                             fontFamily: AppTheme.ruFontKanit,
                             fontWeight: FontWeight.w500,
                             fontSize: 14,
-                            color: AppTheme.darkText,
+                            color: AppTheme.nearlyWhite,
                           ),
                         ),
                       ),

@@ -3,8 +3,11 @@ import 'package:th.ac.ru.uSmart/affairs/insurance/insurance_list_view.dart';
 import 'package:th.ac.ru.uSmart/affairs/insurance/insurance_logo_view.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/mr30/titlenone_view.dart';
 import 'package:th.ac.ru.uSmart/widget/Rubar.dart';
+import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
+import 'package:th.ac.ru.uSmart/widget/top_bar.dart';
 
 class InsuranceListScreen extends StatefulWidget {
   const InsuranceListScreen({Key? key, this.animationController})
@@ -104,24 +107,43 @@ class _InsuranceListScreenState extends State<InsuranceListScreen>
   }
 
   Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 600));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
     return true;
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppTheme.background,
+      color: FitnessAppTheme.background,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: Stack(
-          children: <Widget>[
-            getMainListViewUI(),
-            getAppBarUI(),
-            SizedBox(
-              height: MediaQuery.of(context).padding.bottom,
-            )
-          ],
+        body: Padding(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TopBar(
+                caption: "กรมธรรม์ประกันภัย",
+                //iconname: Icon(Icons.help, color: AppTheme.nearlyWhite),
+                callback: () {
+                  //Get.toNamed("/gradehelp");
+                },
+              ),
+              Expanded(
+                child: Stack(
+                  children: <Widget>[
+                    RuWallpaper(),
+                    getMainListViewUI(),
+                    //getAppBarUI(),
+                    SizedBox(
+                      height: MediaQuery.of(context).padding.bottom,
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -136,12 +158,12 @@ class _InsuranceListScreenState extends State<InsuranceListScreen>
         } else {
           return ListView.builder(
             controller: scrollController,
-            padding: EdgeInsets.only(
-              top: AppBar().preferredSize.height +
-                  MediaQuery.of(context).padding.top +
-                  24,
-              bottom: 1 + MediaQuery.of(context).padding.bottom,
-            ),
+            // padding: EdgeInsets.only(
+            //   top: AppBar().preferredSize.height +
+            //       MediaQuery.of(context).padding.top +
+            //       24,
+            //   bottom: 1 + MediaQuery.of(context).padding.bottom,
+            // ),
             itemCount: listViews.length,
             scrollDirection: Axis.vertical,
             itemBuilder: (BuildContext context, int index) {

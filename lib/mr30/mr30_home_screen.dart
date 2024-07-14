@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/models/tabIcon_data.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/training/training_screen.dart';
@@ -63,53 +64,76 @@ class _Mr30HomeScreenState extends State<Mr30HomeScreen>
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
-    var authen = context.watch<AuthenProvider>();
-    return Theme(
-      data: HotelAppTheme.buildLightTheme(),
-      child: Container(
-        child: Scaffold(
-          backgroundColor: AppTheme.white,
-          body: FutureBuilder<bool>(
-            future: getData(),
-            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-              if (!snapshot.hasData) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SizedBox(),
-                      ],
-                    ),
-                  ],
-                );
-              } else {
-                return Stack(
-                  fit: StackFit.expand,
-                  children: <Widget>[
-                    _renderBg(),
-                    tabBody,
-                  ],
-                );
-              }
-
-              // return authen.isLoggedIn
-              //     ? Stack(
-              //         children: <Widget>[
-              //           tabBody,
-              //         ],
-              //       )
-              //     : LoginPage();
-            },
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: AppTheme.nearlyWhite, // Change back arrow color to white
+        ),
+        title: Text(
+          'มร.30',
+          style: TextStyle(
+            fontSize: 22,
+            fontFamily: AppTheme.ruFontKanit,
+            color: AppTheme.nearlyWhite,
+            fontWeight: FontWeight.bold,
           ),
         ),
+        centerTitle: true, // Centers the title
+        backgroundColor:
+            AppTheme.ru_dark_blue, // Background color of the AppBar
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.help,
+              color: AppTheme.nearlyWhite,
+            ),
+            onPressed: () {
+              Get.toNamed("/mr30help");
+            },
+          ),
+        ],
+      ),
+      backgroundColor:
+          isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
+      body: FutureBuilder<bool>(
+        future: getData(),
+        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          if (!snapshot.hasData) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(),
+                  ],
+                ),
+              ],
+            );
+          } else {
+            return Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                _renderBg(),
+                tabBody,
+              ],
+            );
+          }
+
+          // return authen.isLoggedIn
+          //     ? Stack(
+          //         children: <Widget>[
+          //           tabBody,
+          //         ],
+          //       )
+          //     : LoginPage();
+        },
       ),
     );
   }
 
   Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 600));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
     return true;
   }
 }

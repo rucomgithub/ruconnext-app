@@ -1,9 +1,13 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/pages/ImageLoader.dart';
 import 'package:th.ac.ru.uSmart/providers/student_provider.dart';
 import 'package:th.ac.ru.uSmart/utils/faculty_color.dart';
 import 'package:th.ac.ru.uSmart/widget/Rubar.dart';
+import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
+import 'package:th.ac.ru.uSmart/widget/top_bar.dart';
 import '../login_page.dart';
 import 'package:flutter/material.dart';
 import '../model/homelist.dart';
@@ -40,17 +44,6 @@ class _FlipCardPageState extends State<FlipCardPage>
     return true;
   }
 
-  _renderBg() {
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/bg.png'),
-          fit: BoxFit.cover,
-        ),
-      ),
-    );
-  }
-
   _renderAppBar(context) {
     return Text('');
   }
@@ -66,14 +59,36 @@ class _FlipCardPageState extends State<FlipCardPage>
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
     return Scaffold(
-      // appBar: AppBar(
-      //   elevation: 0,
-      //   backgroundColor: Colors.grey,
-      //   title: const Text('บัตรนักศึกษาอิเล็กทรอนิกส์', style: TextStyle(
-      //     color: Colors.black,
-      //   ),),
-      // ),
-      backgroundColor: AppTheme.white,
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: AppTheme.nearlyWhite, // Change back arrow color to white
+        ),
+        title: Text(
+          'บัตรนักศึกษาอิเล็กทรอนิกส์',
+          style: TextStyle(
+            fontSize: 22,
+            fontFamily: AppTheme.ruFontKanit,
+            color: AppTheme.nearlyWhite,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true, // Centers the title
+        backgroundColor:
+            AppTheme.ru_dark_blue, // Background color of the AppBar
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.help,
+              color: AppTheme.nearlyWhite,
+            ),
+            onPressed: () {
+              Get.toNamed("/cardhelp");
+            },
+          ),
+        ],
+      ),
+      backgroundColor:
+          isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
       body: FutureBuilder<bool>(
         future: getData(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
@@ -81,50 +96,55 @@ class _FlipCardPageState extends State<FlipCardPage>
             return const SizedBox();
           } else {
             var authen = context.watch<AuthenProvider>();
-            return Padding(
-              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  appBar(),
-                  // ImageLoader(),
-                  Expanded(
-                    child: FutureBuilder<bool>(
-                      future: getData(),
-                      builder:
-                          (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                        if (!snapshot.hasData) {
-                          return const SizedBox();
-                        } else {
-                          return authen.profile.studentCode != null
-                              ? Stack(
-                                  fit: StackFit.expand,
-                                  children: <Widget>[
-                                    _renderBg(),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.stretch,
-                                      children: <Widget>[
-                                        _renderAppBar(context),
-                                        Expanded(
-                                          flex: 8,
-                                          child: _renderContent(context),
-                                        ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: Container(),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                )
-                              : LoginPage();
-                        }
-                      },
-                    ),
-                  ),
+            return Container(
+              decoration: BoxDecoration(
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      offset: const Offset(0, -2),
+                      blurRadius: 8.0),
                 ],
+              ),
+              child: Padding(
+                padding:
+                    EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+                child: FutureBuilder<bool>(
+                  future: getData(),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                    if (!snapshot.hasData) {
+                      return const SizedBox();
+                    } else {
+                      return authen.profile.studentCode != null
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Stack(
+                                    fit: StackFit.expand,
+                                    children: <Widget>[
+                                      RuWallpaper(),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
+                                        children: <Widget>[
+                                          _renderAppBar(context),
+                                          Expanded(
+                                            flex: 8,
+                                            child: _renderContent(context),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            )
+                          : LoginPage();
+                    }
+                  },
+                ),
               ),
             );
           }
@@ -134,6 +154,9 @@ class _FlipCardPageState extends State<FlipCardPage>
   }
 
   _renderContent(BuildContext context) {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
+
     var authen = context.watch<AuthenProvider>();
     var studentProv = context.watch<StudentProvider>();
     var region = studentProv.student.regionalnamethai!;
@@ -154,9 +177,11 @@ class _FlipCardPageState extends State<FlipCardPage>
             image: DecorationImage(
               image: AssetImage('assets/images/ID.png'),
               fit: BoxFit.cover,
+              opacity: isLightMode ? 1.0 : 0.4,
             ),
+            color: AppTheme.ru_grey.withOpacity(0.5),
             border: Border.all(
-              color: Colors.grey.withOpacity(0.5),
+              color: AppTheme.ru_grey.withOpacity(0.5),
               width: 0.8,
             ),
             borderRadius: BorderRadius.circular(10),
@@ -400,8 +425,6 @@ class _FlipCardPageState extends State<FlipCardPage>
   }
 
   Widget appBar() {
-    var brightness = MediaQuery.of(context).platformBrightness;
-    bool isLightMode = brightness == Brightness.light;
     return SizedBox(
       height: AppBar().preferredSize.height,
       child: Row(
@@ -413,7 +436,10 @@ class _FlipCardPageState extends State<FlipCardPage>
               width: AppBar().preferredSize.height - 8,
               height: AppBar().preferredSize.height - 8,
               child: IconButton(
-                icon: Icon(Icons.arrow_back),
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: AppTheme.ru_yellow,
+                ),
                 onPressed: () {
                   // Handle back button pressed
                   Navigator.pop(context);
@@ -422,90 +448,54 @@ class _FlipCardPageState extends State<FlipCardPage>
             ),
           ),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 4),
-              child: Rubar(textTitle: 'บัตรนักศึกษาอิเล็กทรอนิกส์'),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text(
+                  'บัตรนักศึกษาอิเล็กทรอนิกส์',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontFamily: AppTheme.ruFontKanit,
+                    color: AppTheme.ru_yellow,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 8, right: 8),
             child: Container(
-              width: AppBar().preferredSize.height - 8,
-              height: AppBar().preferredSize.height - 8,
-              color: Colors.white,
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  borderRadius:
-                      BorderRadius.circular(AppBar().preferredSize.height),
-                  onTap: () {
-                    setState(() {
-                      multiple = !multiple;
-                    });
-                  },
-                ),
+              width: AppBar().preferredSize.height,
+              height: AppBar().preferredSize.height,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(32.0),
+                      ),
+                      onTap: () {
+                        Get.toNamed("/cardhelp");
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.help,
+                          color: AppTheme.ru_yellow,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
         ],
       ),
-    );
-  }
-}
-
-class HomeListView extends StatelessWidget {
-  const HomeListView(
-      {Key? key,
-      this.listData,
-      this.callBack,
-      this.animationController,
-      this.animation})
-      : super(key: key);
-
-  final HomeList? listData;
-  final VoidCallback? callBack;
-  final AnimationController? animationController;
-  final Animation<double>? animation;
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: animationController!,
-      builder: (BuildContext context, Widget? child) {
-        return FadeTransition(
-          opacity: animation!,
-          child: Transform(
-            transform: Matrix4.translationValues(
-                0.0, 50 * (1.0 - animation!.value), 0.0),
-            child: AspectRatio(
-              aspectRatio: 1.5,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-                child: Stack(
-                  alignment: AlignmentDirectional.center,
-                  children: <Widget>[
-                    Positioned.fill(
-                      child: Image.asset(
-                        listData!.imagePath,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                    Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        splashColor: Colors.grey.withOpacity(0.2),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(4.0)),
-                        onTap: callBack,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        );
-      },
     );
   }
 }

@@ -34,7 +34,7 @@ class _YearSemesterListViewState extends State<YearSemesterListView>
   }
 
   Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 50));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
     return true;
   }
 
@@ -46,6 +46,8 @@ class _YearSemesterListViewState extends State<YearSemesterListView>
 
   @override
   Widget build(BuildContext context) {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
     var prov = Provider.of<GradeProvider>(context, listen: false);
     return AnimatedBuilder(
       animation: widget.mainScreenAnimationController!,
@@ -55,32 +57,49 @@ class _YearSemesterListViewState extends State<YearSemesterListView>
           child: Transform(
             transform: Matrix4.translationValues(
                 0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
-            child: Container(
-              height: 216,
-              width: double.infinity,
-              child: ListView.builder(
-                padding: const EdgeInsets.only(
-                    top: 0, bottom: 0, right: 16, left: 16),
-                itemCount: prov.gradeYearSemester.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  final int count = prov.gradeYearSemester.length > 10
-                      ? 10
-                      : prov.gradeYearSemester.length;
-                  final Animation<double> animation =
-                      Tween<double>(begin: 0.0, end: 1.0).animate(
-                          CurvedAnimation(
-                              parent: animationController!,
-                              curve: Interval((1 / count) * index, 1.0,
-                                  curve: Curves.fastOutSlowIn)));
-                  animationController?.forward();
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: isLightMode ? AppTheme.nearlyWhite : AppTheme.ru_grey,
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(8.0),
+                      bottomLeft: Radius.circular(8.0),
+                      bottomRight: Radius.circular(8.0),
+                      topRight: Radius.circular(40.0)),
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                        color: AppTheme.ru_grey.withOpacity(0.2),
+                        offset: const Offset(1.1, 1.1),
+                        blurRadius: 10.0),
+                  ],
+                ),
+                height: 216,
+                width: double.infinity,
+                child: ListView.builder(
+                  padding: const EdgeInsets.only(
+                      top: 8, bottom: 8, right: 8, left: 8),
+                  itemCount: prov.gradeYearSemester.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    final int count = prov.gradeYearSemester.length > 10
+                        ? 10
+                        : prov.gradeYearSemester.length;
+                    final Animation<double> animation =
+                        Tween<double>(begin: 0.0, end: 1.0).animate(
+                            CurvedAnimation(
+                                parent: animationController!,
+                                curve: Interval((1 / count) * index, 1.0,
+                                    curve: Curves.fastOutSlowIn)));
+                    animationController?.forward();
 
-                  return YearSemesterView(
-                    gradeListData: prov.gradeYearSemester[index],
-                    animation: animation,
-                    animationController: animationController!,
-                  );
-                },
+                    return YearSemesterView(
+                      gradeListData: prov.gradeYearSemester[index],
+                      animation: animation,
+                      animationController: animationController!,
+                    );
+                  },
+                ),
               ),
             ),
           ),
@@ -133,15 +152,14 @@ class YearSemesterView extends StatelessWidget {
                         decoration: BoxDecoration(
                           boxShadow: <BoxShadow>[
                             BoxShadow(
-                                color: HexColor(gradeListData!.endColor)
-                                    .withOpacity(0.6),
+                                color: HexColor("#FF19196B").withOpacity(0.6),
                                 offset: const Offset(1.1, 4.0),
                                 blurRadius: 8.0),
                           ],
                           gradient: LinearGradient(
                             colors: <HexColor>[
-                              HexColor(gradeListData!.startColor),
-                              HexColor(gradeListData!.endColor),
+                              HexColor("#FF19196B"),
+                              HexColor("#FF1919EB"),
                             ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
@@ -194,8 +212,7 @@ class YearSemesterView extends StatelessWidget {
                                                 .values
                                                 .join('\n'),
                                             style: TextStyle(
-                                              fontFamily:
-                                                  AppTheme.ruFontKanit,
+                                              fontFamily: AppTheme.ruFontKanit,
                                               fontWeight: FontWeight.w500,
                                               fontSize: 10,
                                               letterSpacing: 0.2,
@@ -219,8 +236,7 @@ class YearSemesterView extends StatelessWidget {
                                           gradeListData!.creditsum.toString(),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
-                                            fontFamily:
-                                                AppTheme.ruFontKanit,
+                                            fontFamily: AppTheme.ruFontKanit,
                                             fontWeight: FontWeight.w500,
                                             fontSize: 12,
                                             letterSpacing: 0.2,
@@ -233,8 +249,7 @@ class YearSemesterView extends StatelessWidget {
                                           child: Text(
                                             'หน่วยกิต',
                                             style: TextStyle(
-                                              fontFamily:
-                                                  AppTheme.ruFontKanit,
+                                              fontFamily: AppTheme.ruFontKanit,
                                               fontWeight: FontWeight.w500,
                                               fontSize: 12,
                                               letterSpacing: 0.2,
@@ -260,8 +275,7 @@ class YearSemesterView extends StatelessWidget {
                                         padding: const EdgeInsets.all(6.0),
                                         child: Icon(
                                           Icons.add,
-                                          color:
-                                              HexColor(gradeListData!.endColor),
+                                          color: HexColor("#FFFEFEFE"),
                                           size: 24,
                                         ),
                                       ),
@@ -284,10 +298,10 @@ class YearSemesterView extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      top: 0,
-                      left: 8,
+                      top: 5,
+                      left: 15,
                       child: SizedBox(
-                        width: 80,
+                        width: 60,
                         height: 80,
                         child: Image.asset(gradeListData!.imagePath),
                         //child: Text(gradeListData!.),

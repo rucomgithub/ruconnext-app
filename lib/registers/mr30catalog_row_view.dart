@@ -34,7 +34,7 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
   }
 
   Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 600));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
     return true;
   }
 
@@ -58,6 +58,8 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
   @override
   Widget build(BuildContext context) {
     var prov = Provider.of<RegisterProvider>(context, listen: false);
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
     return RefreshIndicator(
       onRefresh: () => refreshData(context),
       child: Consumer<RegisterProvider>(builder: (context1, provider, _) {
@@ -74,44 +76,60 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
                 child: Transform(
                   transform: Matrix4.translationValues(
                       0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 30, right: 16, top: 16, bottom: 16),
-                    child: prov.listMr30CatalogPercentage.isEmpty
-                        ? Container(
+                  child: prov.listMr30CatalogPercentage.isEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.only(
+                              top: 8, bottom: 8, right: 16, left: 16),
+                          child: Container(
+                              padding: const EdgeInsets.only(
+                                  top: 8, bottom: 8, right: 8, left: 8),
+                              decoration: BoxDecoration(
+                                // image: DecorationImage(
+                                //   image: AssetImage('assets/images/ID.png'),
+                                //   fit: BoxFit.cover,
+                                //   opacity: isLightMode ? 0.6 : 0.2,
+                                // ),
+                                color: isLightMode
+                                    ? AppTheme.nearlyWhite
+                                    : AppTheme.ru_grey,
+                                borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(8.0),
+                                    bottomLeft: Radius.circular(8.0),
+                                    bottomRight: Radius.circular(8.0),
+                                    topRight: Radius.circular(40.0)),
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                      color: AppTheme.ru_grey.withOpacity(0.2),
+                                      offset: const Offset(1.1, 1.1),
+                                      blurRadius: 10.0),
+                                ],
+                              ),
+                              child: Text('ไม่พบข้อมูลลงทะเบียน')),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(
+                              top: 8, bottom: 8, right: 16, left: 16),
+                          child: Container(
                             padding: const EdgeInsets.only(
-                                top: 32, bottom: 8, right: 8, left: 8),
+                                top: 8, bottom: 8, right: 8, left: 8),
                             decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 240, 232, 232),
-                              borderRadius: BorderRadius.only(
+                              // image: DecorationImage(
+                              //   image: AssetImage('assets/images/ID.png'),
+                              //   fit: BoxFit.cover,
+                              //   opacity: isLightMode ? 0.6 : 0.2,
+                              // ),
+                              color: isLightMode
+                                  ? AppTheme.nearlyWhite
+                                  : AppTheme.ru_grey,
+                              borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(8.0),
                                   bottomLeft: Radius.circular(8.0),
                                   bottomRight: Radius.circular(8.0),
-                                  topRight: Radius.circular(68.0)),
+                                  topRight: Radius.circular(40.0)),
                               boxShadow: <BoxShadow>[
                                 BoxShadow(
-                                    color:
-                                        FitnessAppTheme.grey.withOpacity(0.2),
-                                    offset: Offset(1.1, 1.1),
-                                    blurRadius: 10.0),
-                              ],
-                            ),
-                            child: Text('ไม่พบข้อมูลลงทะเบียน'))
-                        : Container(
-                            padding: const EdgeInsets.only(
-                                top: 32, bottom: 16, right: 8, left: 8),
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 245, 242, 242),
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(8.0),
-                                  bottomLeft: Radius.circular(8.0),
-                                  bottomRight: Radius.circular(8.0),
-                                  topRight: Radius.circular(68.0)),
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                    color:
-                                        FitnessAppTheme.grey.withOpacity(0.2),
-                                    offset: Offset(1.1, 1.1),
+                                    color: AppTheme.ru_grey.withOpacity(0.2),
+                                    offset: const Offset(1.1, 1.1),
                                     blurRadius: 10.0),
                               ],
                             ),
@@ -120,7 +138,7 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
                             width: double.infinity,
                             child: ListView.builder(
                               padding: const EdgeInsets.only(
-                                  top: 8, bottom: 8, right: 8, left: 8),
+                                  top: 0, bottom: 8, right: 8, left: 8),
                               itemCount: prov.listMr30CatalogPercentage.length,
                               scrollDirection: Axis.vertical,
                               itemBuilder: (BuildContext context, int index) {
@@ -147,7 +165,9 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
                                           right: 16,
                                           left: 8),
                                       decoration: BoxDecoration(
-                                        color: FitnessAppTheme.nearlyWhite,
+                                        color: isLightMode
+                                            ? AppTheme.nearlyWhite
+                                            : AppTheme.ru_grey,
                                         borderRadius: BorderRadius.only(
                                             topLeft: Radius.circular(8.0),
                                             bottomLeft: Radius.circular(8.0),
@@ -265,7 +285,7 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
                               },
                             ),
                           ),
-                  ),
+                        ),
                 ),
               );
             },
@@ -295,43 +315,46 @@ class Mr30CatalogListValueView extends StatelessWidget {
           child: Transform(
             transform: Matrix4.translationValues(
                 200 * (1.0 - animation!.value), 0.0, 0.0),
-            child: Container(
-              height: 160.0,
-              width: double.infinity,
-              child: ListView.builder(
-                itemCount: listData!.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  final int count =
-                      listData!.length > 10 ? 10 : listData!.length;
-                  final Animation<double> animation =
-                      Tween<double>(begin: 0.0, end: 1.0).animate(
-                          CurvedAnimation(
-                              parent: animationController!,
-                              curve: Interval((1 / count) * index, 1.0,
-                                  curve: Curves.fastOutSlowIn)));
-                  animationController?.forward();
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CatalogRowView(
-                        index: index,
-                        callback: () {
-                          Get.toNamed('/ondemand', arguments: {
-                            'course': '${listData![index].courseno}',
-                            'semester':
-                                '${mr30Prov.yearsemester.semester.toString()}',
-                            'year':
-                                '${mr30Prov.yearsemester.year.toString().substring(2, 4)}'
-                          });
-                        },
-                        course: listData!.elementAt(index),
-                        animation: animation,
-                        animationController: animationController!,
-                      )
-                    ],
-                  );
-                },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: 160.0,
+                width: double.infinity,
+                child: ListView.builder(
+                  itemCount: listData!.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    final int count =
+                        listData!.length > 10 ? 10 : listData!.length;
+                    final Animation<double> animation =
+                        Tween<double>(begin: 0.0, end: 1.0).animate(
+                            CurvedAnimation(
+                                parent: animationController!,
+                                curve: Interval((1 / count) * index, 1.0,
+                                    curve: Curves.fastOutSlowIn)));
+                    animationController?.forward();
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CatalogRowView(
+                          index: index,
+                          callback: () {
+                            Get.toNamed('/ondemand', arguments: {
+                              'course': '${listData![index].courseno}',
+                              'semester':
+                                  '${mr30Prov.yearsemester.semester.toString()}',
+                              'year':
+                                  '${mr30Prov.yearsemester.year.toString().substring(2, 4)}'
+                            });
+                          },
+                          course: listData!.elementAt(index),
+                          animation: animation,
+                          animationController: animationController!,
+                        )
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
           ),
@@ -383,19 +406,30 @@ class CatalogRowView extends StatelessWidget {
                           top: 8, left: 8, right: 8, bottom: 8),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: AppTheme.ru_grey.withOpacity(0.2),
-                          borderRadius: const BorderRadius.only(
-                            bottomRight: Radius.circular(16.0),
-                            bottomLeft: Radius.circular(16.0),
-                            topLeft: Radius.circular(16.0),
-                            topRight: Radius.circular(57.0),
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                                color: HexColor("#FF19196B").withOpacity(0.6),
+                                offset: const Offset(1.1, 4.0),
+                                blurRadius: 8.0),
+                          ],
+                          gradient: LinearGradient(
+                            colors: <HexColor>[
+                              HexColor("#FF19196B"),
+                              HexColor("#FF1919EB"),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                           ),
-                          border: Border.all(
-                              color: AppTheme.ru_dark_blue, width: 8),
+                          borderRadius: const BorderRadius.only(
+                            bottomRight: Radius.circular(8.0),
+                            bottomLeft: Radius.circular(8.0),
+                            topLeft: Radius.circular(48.0),
+                            topRight: Radius.circular(8.0),
+                          ),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              top: 50, left: 8, right: 8, bottom: 8),
+                              top: 36, left: 8, right: 8, bottom: 8),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -407,7 +441,7 @@ class CatalogRowView extends StatelessWidget {
                                 style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,
                                   fontSize: 8,
-                                  color: AppTheme.ru_text_light_blue,
+                                  color: AppTheme.nearlyWhite,
                                 ),
                               ),
                               FittedBox(
@@ -468,19 +502,11 @@ class CatalogRowView extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      right: 12,
-                      top: 9,
-                      child: CustomPaint(
-                        size: Size(40, 40),
-                        painter: TrianglePainter(),
-                      ),
-                    ),
-                    Positioned(
-                      top: 20,
-                      left: 20,
+                      top: 0,
+                      left: 0,
                       child: Container(
-                        width: 40,
-                        height: 40,
+                        width: 55,
+                        height: 55,
                         decoration: BoxDecoration(
                           color: AppTheme.white.withOpacity(0.5),
                           shape: BoxShape.circle,
@@ -488,21 +514,21 @@ class CatalogRowView extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      top: 20,
-                      left: 20,
+                      top: 0,
+                      left: 0,
                       child: SizedBox(
-                        width: 40,
-                        height: 40,
+                        width: 50,
+                        height: 50,
                         child: course!.check!
                             ? Icon(
                                 Icons.check_box,
                                 color: AppTheme.ru_yellow,
-                                size: 20,
+                                size: 30,
                               )
                             : Icon(
                                 Icons.check_box_outline_blank,
                                 color: AppTheme.ru_yellow,
-                                size: 20,
+                                size: 30,
                               ),
                       ),
                     )

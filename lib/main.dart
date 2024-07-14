@@ -13,6 +13,7 @@ import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/help_screen.dart';
 import 'package:th.ac.ru.uSmart/manual/card_help_screen.dart';
 import 'package:th.ac.ru.uSmart/manual/home_help_screen.dart';
+import 'package:th.ac.ru.uSmart/manual/manual_home_screen.dart';
 import 'package:th.ac.ru.uSmart/manual/mr30_help_screen.dart';
 import 'package:th.ac.ru.uSmart/manual/regis_help_screen.dart';
 import 'package:th.ac.ru.uSmart/pages/ru_map.dart';
@@ -197,6 +198,7 @@ class MyApp extends StatelessWidget {
                 name: '/fitness',
                 page: () =>
                     token == null ? const LoginPage() : FitnessAppHomeScreen()),
+            GetPage(name: '/manual', page: () => ManualHomeScreen()),
             GetPage(name: '/ondemand', page: () => OndemandHomeScreen()),
             GetPage(name: '/homehelp', page: () => HomeHelpScreen()),
             GetPage(name: '/cardhelp', page: () => CardHelpScreen()),

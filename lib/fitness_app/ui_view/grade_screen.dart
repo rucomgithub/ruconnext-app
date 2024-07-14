@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/ui_view/area_list_view.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/ui_view/rank_list_view.dart';
@@ -6,6 +7,8 @@ import 'package:th.ac.ru.uSmart/fitness_app/ui_view/running_view.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/ui_view/title_view.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/ui_view/workout_view.dart';
 import 'package:flutter/material.dart';
+import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
+import 'package:th.ac.ru.uSmart/widget/top_bar.dart';
 
 import '../fitness_app_theme.dart';
 import 'grade_list_view.dart';
@@ -101,18 +104,68 @@ class _GradeScreenState extends State<GradeScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppTheme.white,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Stack(
-          children: <Widget>[
-            getMainListViewUI(),
-            getAppBarUI(),
-            SizedBox(
-              height: MediaQuery.of(context).padding.bottom,
-            )
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: AppTheme.nearlyWhite, // Change back arrow color to white
+        ),
+        title: Text(
+          'สรุปรายการเกรด',
+          style: TextStyle(
+            fontSize: 22,
+            fontFamily: AppTheme.ruFontKanit,
+            color: AppTheme.nearlyWhite,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true, // Centers the title
+        backgroundColor:
+            AppTheme.ru_dark_blue, // Background color of the AppBar
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.help,
+              color: AppTheme.nearlyWhite,
+            ),
+            onPressed: () {
+              Get.toNamed("/gradehelp");
+            },
+          ),
+        ],
+      ),
+      backgroundColor:
+          isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
+      body: Container(
+        decoration: BoxDecoration(
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                offset: const Offset(0, -2),
+                blurRadius: 8.0),
           ],
+        ),
+        child: Padding(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Stack(
+                  children: <Widget>[
+                    RuWallpaper(),
+                    getMainListViewUI(),
+                    //getAppBarUI(),
+                    SizedBox(
+                      height: MediaQuery.of(context).padding.bottom,
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -127,12 +180,12 @@ class _GradeScreenState extends State<GradeScreen>
         } else {
           return ListView.builder(
             controller: scrollController,
-            padding: EdgeInsets.only(
-              top: AppBar().preferredSize.height +
-                  MediaQuery.of(context).padding.top +
-                  24,
-              bottom: 62 + MediaQuery.of(context).padding.bottom,
-            ),
+            // padding: EdgeInsets.only(
+            //   top: AppBar().preferredSize.height +
+            //       MediaQuery.of(context).padding.top +
+            //       24,
+            //   bottom: 62 + MediaQuery.of(context).padding.bottom,
+            // ),
             itemCount: listViews.length,
             scrollDirection: Axis.vertical,
             itemBuilder: (BuildContext context, int index) {
@@ -164,8 +217,7 @@ class _GradeScreenState extends State<GradeScreen>
                     ),
                     boxShadow: <BoxShadow>[
                       BoxShadow(
-                          color: AppTheme.grey
-                              .withOpacity(0.4 * topBarOpacity),
+                          color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
                           offset: const Offset(1.1, 1.1),
                           blurRadius: 10.0),
                     ],
@@ -184,7 +236,7 @@ class _GradeScreenState extends State<GradeScreen>
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                                IconButton(
+                            IconButton(
                               icon: Icon(Icons.arrow_back),
                               onPressed: () {
                                 Navigator.of(context).pop();
@@ -206,7 +258,6 @@ class _GradeScreenState extends State<GradeScreen>
                                 ),
                               ),
                             ),
-                            
                           ],
                         ),
                       )

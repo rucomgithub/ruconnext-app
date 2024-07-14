@@ -54,8 +54,7 @@ class _InsuranceHomeScreenState extends State<InsuranceHomeScreen>
       data: HotelAppTheme.buildLightTheme(),
       child: Container(
         child: Scaffold(
-          backgroundColor:
-              isLightMode == true ? AppTheme.white : AppTheme.nearlyBlack,
+          backgroundColor: AppTheme.white,
           body: FutureBuilder<bool>(
             future: getData(),
             builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {

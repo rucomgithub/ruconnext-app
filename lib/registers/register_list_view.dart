@@ -52,72 +52,67 @@ class _RegisterListViewState extends State<RegisterListView>
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            :  Stack(
-                    children: <Widget>[
-                      SizedBox(
-                        height: MediaQuery.of(context).padding.bottom,
-                      ),
-                      FadeTransition(
-                        opacity: widget.mainScreenAnimation!,
-                        child: Transform(
-                          transform: Matrix4.translationValues(
-                              0.0,
-                              30 * (1.0 - widget.mainScreenAnimation!.value),
-                              0.0),
-                          child: AspectRatio(
-                            aspectRatio: 1.0,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 8.0, right: 8),
-                              child: GridView(
-                                padding: const EdgeInsets.only(
-                                    left: 16, right: 16, top: 16, bottom: 16),
-                                physics: const BouncingScrollPhysics(),
-                                scrollDirection: Axis.vertical,
-                                children: List<Widget>.generate(
-                                  registerProv.listGroupYearSemester.length,
-                                  (int index) {
-                                    final int count = registerProv
-                                        .listGroupYearSemester.length;
-                                    final Animation<double> animation =
-                                        Tween<double>(begin: 0.0, end: 1.0)
-                                            .animate(
-                                      CurvedAnimation(
-                                        parent: animationController!,
-                                        curve: Interval(
-                                            (1 / count) * index, 1.0,
-                                            curve: Curves.fastOutSlowIn),
-                                      ),
-                                    );
-                                    animationController?.forward();
-                                    String name = registerProv
-                                        .listGroupYearSemester.keys
-                                        .elementAt(index);
-                                    List<String> values = registerProv
-                                        .listGroupYearSemester[name]!;
-                                    return AreaView(
-                                      index: index,
-                                      name: name,
-                                      values: values,
-                                      animation: animation,
-                                      animationController: animationController!,
-                                    );
-                                  },
-                                ),
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 1,
-                                  mainAxisSpacing: 24.0,
-                                  crossAxisSpacing: 24.0,
-                                  childAspectRatio: 1.0,
-                                ),
-                              ),
+            : Stack(
+                children: <Widget>[
+                  SizedBox(
+                    height: MediaQuery.of(context).padding.bottom,
+                  ),
+                  FadeTransition(
+                    opacity: widget.mainScreenAnimation!,
+                    child: Transform(
+                      transform: Matrix4.translationValues(0.0,
+                          30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
+                      child: AspectRatio(
+                        aspectRatio: 1.0,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 8.0, right: 8),
+                          child: GridView(
+                            padding: const EdgeInsets.only(
+                                left: 16, right: 16, top: 16, bottom: 16),
+                            physics: const BouncingScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            children: List<Widget>.generate(
+                              registerProv.listGroupYearSemester.length,
+                              (int index) {
+                                final int count =
+                                    registerProv.listGroupYearSemester.length;
+                                final Animation<double> animation =
+                                    Tween<double>(begin: 0.0, end: 1.0).animate(
+                                  CurvedAnimation(
+                                    parent: animationController!,
+                                    curve: Interval((1 / count) * index, 1.0,
+                                        curve: Curves.fastOutSlowIn),
+                                  ),
+                                );
+                                animationController?.forward();
+                                String name = registerProv
+                                    .listGroupYearSemester.keys
+                                    .elementAt(index);
+                                List<String> values =
+                                    registerProv.listGroupYearSemester[name]!;
+                                return AreaView(
+                                  index: index,
+                                  name: name,
+                                  values: values,
+                                  animation: animation,
+                                  animationController: animationController!,
+                                );
+                              },
+                            ),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 1,
+                              mainAxisSpacing: 24.0,
+                              crossAxisSpacing: 24.0,
+                              childAspectRatio: 1.0,
                             ),
                           ),
                         ),
                       ),
-                    ],
-                  );
+                    ),
+                  ),
+                ],
+              );
       },
     );
   }
@@ -185,7 +180,7 @@ class AreaView extends StatelessWidget {
                   highlightColor: Colors.transparent,
                   hoverColor: Colors.transparent,
                   borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                  splashColor: FitnessAppTheme.nearlyDarkBlue.withOpacity(0.2),
+                  splashColor: AppTheme.ru_dark_blue.withOpacity(0.2),
                   onTap: () {},
                   child: Column(
                     children: <Widget>[
@@ -199,7 +194,7 @@ class AreaView extends StatelessWidget {
                             fontFamily: AppTheme.ruFontKanit,
                             fontWeight: FontWeight.w600,
                             fontSize: 20,
-                            color: FitnessAppTheme.nearlyDarkBlue,
+                            color: AppTheme.ru_dark_blue,
                           ),
                         ),
                       ),

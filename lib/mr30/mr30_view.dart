@@ -38,10 +38,6 @@ class _Mr30ViewState extends State<Mr30View> {
                   left: 24, right: 24, top: 16, bottom: 18),
               child: Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [AppTheme.ru_text_ocean_blue, HexColor("#1B75BB")],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(8.0),
                       bottomLeft: Radius.circular(8.0),
@@ -49,45 +45,32 @@ class _Mr30ViewState extends State<Mr30View> {
                       topRight: Radius.circular(68.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: AppTheme.grey.withOpacity(0.6),
-                        offset: Offset(1.1, 1.1),
-                        blurRadius: 10.0),
+                        color: HexColor("#FF19196B").withOpacity(0.6),
+                        offset: const Offset(1.1, 4.0),
+                        blurRadius: 8.0),
                   ],
+                  gradient: LinearGradient(
+                    colors: <HexColor>[
+                      HexColor("#FF19196B"),
+                      HexColor("#FF1919EB"),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 4),
-                            child: Icon(
-                              Icons.list,
-                              color: AppTheme.white,
-                              size: 16,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 4.0),
-                            child: Text(
-                              'รายการที่สนใจ ${mr30.length} รายการ',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: AppTheme.ruFontKanit,
-                                fontSize: 11,
-                                letterSpacing: 0.0,
-                                color: AppTheme.white,
-                              ),
-                            ),
-                          ),
+                          YearDropdownWidget(),
                           Expanded(
                             child: SizedBox(),
                           ),
-                          YearDropdownWidget(),
                         ],
                       ),
                       Container(
@@ -120,13 +103,37 @@ class _Mr30ViewState extends State<Mr30View> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(right: 4),
+                        padding: const EdgeInsets.all(8.0),
                         child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[],
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: Icon(
+                                Icons.list,
+                                color: AppTheme.white,
+                                size: 16,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 4.0),
+                              child: Text(
+                                'รายการที่สนใจ ${mr30.length} รายการ',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontFamily: AppTheme.ruFontKanit,
+                                  fontSize: 11,
+                                  letterSpacing: 0.0,
+                                  color: AppTheme.white,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: SizedBox(),
+                            ),
+                          ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),

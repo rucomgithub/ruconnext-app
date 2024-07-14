@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/providers/register_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -54,7 +55,7 @@ class _RegisterYearDropdownWidgetState
           fontSize: 16 //font size on dropdown button
           ),
       value: _selectedOption,
-      dropdownColor: Colors.blueGrey,
+      dropdownColor: AppTheme.grey,
       items: _options.map((option) {
         return DropdownMenuItem(
           value: option,

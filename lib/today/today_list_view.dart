@@ -6,7 +6,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-
 import '../app_theme.dart';
 import '../model/mr30_model.dart';
 import '../providers/mr30_provider.dart';
@@ -55,8 +54,8 @@ class TodayListView extends StatelessWidget {
             transform: Matrix4.translationValues(
                 0.0, 50 * (1.0 - animation!.value), 0.0),
             child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 24, right: 24, top: 8, bottom: 16),
+              padding:
+                  const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
               child: InkWell(
                 splashColor: Colors.transparent,
                 onTap: callback,
@@ -108,7 +107,8 @@ class TodayListView extends StatelessWidget {
                                               style: TextStyle(
                                                   fontSize: 22,
                                                   fontFamily:
-                                                      AppTheme.ruFontKanit),
+                                                      AppTheme.ruFontKanit,
+                                                  color: AppTheme.ru_dark_blue),
                                             ),
                                             Row(
                                               crossAxisAlignment:
@@ -121,8 +121,8 @@ class TodayListView extends StatelessWidget {
                                                   '${record!.dayNameS} ${record!.timePeriod}',
                                                   style: TextStyle(
                                                       fontSize: 14,
-                                                      color: Colors.grey
-                                                          .withOpacity(0.8)),
+                                                      color:
+                                                          AppTheme.nearlyBlack),
                                                 ),
                                                 const SizedBox(
                                                   width: 4,
@@ -150,14 +150,13 @@ class TodayListView extends StatelessWidget {
                                                     //         ),),
                                                     // );
                                                   },
-                                                  
+
                                                   //        onTap: () {
                                                   // // _openGoogleMapApp();
                                                   // },
                                                   child: Text(
                                                     //'${hotelData!.dist.toStringAsFixed(1)} km to city',
                                                     '${record!.courseRoom}',
-
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                     style: TextStyle(
@@ -166,9 +165,8 @@ class TodayListView extends StatelessWidget {
                                                             FontWeight.bold,
                                                         fontFamily: AppTheme
                                                             .ruFontKanit,
-                                                        color: Color.fromARGB(
-                                                                255, 4, 85, 205)
-                                                            .withOpacity(0.8)),
+                                                        color: AppTheme
+                                                            .ru_text_ocean_blue),
                                                   ),
                                                 ),
                                               ],
@@ -176,53 +174,16 @@ class TodayListView extends StatelessWidget {
                                             Padding(
                                               padding:
                                                   const EdgeInsets.only(top: 4),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  // RatingBar(
-                                                  //   initialRating:
-                                                  //       hotelData!.rating,
-                                                  //   direction: Axis.horizontal,
-                                                  //   allowHalfRating: true,
-                                                  //   itemCount: 5,
-                                                  //   itemSize: 24,
-                                                  //   ratingWidget: RatingWidget(
-                                                  //     full: Icon(
-                                                  //       Icons.star_rate_rounded,
-                                                  //       color: HotelAppTheme
-                                                  //               .buildLightTheme()
-                                                  //           .primaryColor,
-                                                  //     ),
-                                                  //     half: Icon(
-                                                  //       Icons.star_half_rounded,
-                                                  //       color: HotelAppTheme
-                                                  //               .buildLightTheme()
-                                                  //           .primaryColor,
-                                                  //     ),
-                                                  //     empty: Icon(
-                                                  //       Icons
-                                                  //           .star_border_rounded,
-                                                  //       color: HotelAppTheme
-                                                  //               .buildLightTheme()
-                                                  //           .primaryColor,
-                                                  //     ),
-                                                  //   ),
-                                                  //   itemPadding:
-                                                  //       EdgeInsets.zero,
-                                                  //   onRatingUpdate: (rating) {
-                                                  //     print(rating);
-                                                  //   },
-                                                  // ),
-
-                                                  Text(
-                                                    '${record!.courseInstructor}',
-                                                    style: TextStyle(
-                                                        fontSize: 10,
-                                                        fontFamily: AppTheme
-                                                            .ruFontKanit,
-                                                        color: Colors.grey
-                                                            .withOpacity(0.8)),
-                                                  ),
-                                                ],
+                                              child: Text(
+                                                '${record!.courseInstructor}',
+                                                style: TextStyle(
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    fontSize: 12,
+                                                    fontFamily:
+                                                        AppTheme.ruFontKanit,
+                                                    color:
+                                                        AppTheme.nearlyBlack),
                                               ),
                                             ),
                                             Padding(
@@ -250,20 +211,19 @@ class TodayListView extends StatelessWidget {
                                           CrossAxisAlignment.end,
                                       children: <Widget>[
                                         Text(
-                                          '${record!.courseSemester}/${record!.courseYear}',
+                                          '${record!.courseYear}/${record!.courseSemester}',
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
-                                            fontFamily: AppTheme.ruFontKanit,
-                                            fontSize: 22,
-                                          ),
+                                              fontFamily: AppTheme.ruFontKanit,
+                                              fontSize: 22,
+                                              color: AppTheme.ru_dark_blue),
                                         ),
                                         Text(
                                           '${record!.courseCredit}',
                                           style: TextStyle(
                                               fontSize: 14,
                                               fontFamily: AppTheme.ruFontKanit,
-                                              color:
-                                                  Colors.grey.withOpacity(0.8)),
+                                              color: AppTheme.nearlyBlack),
                                         ),
                                       ],
                                     ),

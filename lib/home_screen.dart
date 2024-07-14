@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/pages/home_image_slider.dart';
 import 'package:th.ac.ru.uSmart/providers/grade_provider.dart';
@@ -11,6 +12,8 @@ import 'package:th.ac.ru.uSmart/today/today_list_view.dart';
 import 'package:th.ac.ru.uSmart/utils/custom_functions.dart';
 import 'package:blinking_text/blinking_text.dart';
 import 'package:provider/provider.dart';
+import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
+import 'package:th.ac.ru.uSmart/widget/top_menu_bar.dart';
 import 'login_page.dart';
 import 'package:flutter/material.dart';
 import 'model/homelist.dart';
@@ -79,14 +82,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    //context.read<RegisterProvider>().getHaveTodayRegister();
-    var brightness = MediaQuery.of(context).platformBrightness;
     var mr30 = context.watch<MR30Provider>();
-    // var mr30catalogs = context.watch<StudentProvider>();
     var scheduleProv = context.watch<ScheduleProvider>();
+    var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor:
+          isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
       body: FutureBuilder<bool>(
         future: getData(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
@@ -116,196 +118,243 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     .getHaveCourseNotTimeEnd();
               },
               child: Container(
+                decoration: BoxDecoration(
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        offset: const Offset(0, -2),
+                        blurRadius: 8.0),
+                  ],
+                ),
                 child: Padding(
                   padding:
                       EdgeInsets.only(top: MediaQuery.of(context).padding.top),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(color: AppTheme.ru_dark_blue, child: appBar()),
-                      // Text('$')
-                      Container(
-                        height: 120,
-                        width: MediaQuery.of(context).size.width,
-                        child: FadeTransition(
-                            opacity: animationForImage,
-                            child: homeImageSlider()),
+                    children: [
+                      TopMenuBar(
+                        caption: "Ru Connext",
+                        iconname: Icon(Icons.help, color: AppTheme.nearlyWhite),
+                        callback: () {
+                          Get.toNamed("/manualhelp");
+                        },
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(4),
-                        child: Row(
+                      Expanded(
+                        child: Stack(
                           children: [
-                            Icon(Icons.list,
-                                color: Color.fromARGB(255, 15, 0, 84),
-                                size: 18.0),
-                            Text(
-                              'กิจกรรมวันนี้',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: AppTheme.ruFontKanit,
-                                fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      ListView.builder(
-                        padding: const EdgeInsets.all(1),
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: mr30.havetodayNow.length > 0 ? 1 : 0,
-                        itemBuilder: (context, index) {
-                          return Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(1.0),
-                              child: ListTile(
-                                title: Text(
-                                  '${mr30.havetodayNow[index].courseNo}',
-                                  style: TextStyle(
-                                    fontSize: 12,
+                            RuWallpaper(),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                // Text('$')
+                                Container(
+                                  height: 120,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: FadeTransition(
+                                      opacity: animationForImage,
+                                      child: homeImageSlider()),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.list,
+                                          color: AppTheme.ru_text_ocean_blue,
+                                          size: 18.0),
+                                      Text(
+                                        'กิจกรรมวันนี้',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: AppTheme.ru_text_ocean_blue,
+                                          fontFamily: AppTheme.ruFontKanit,
+                                          fontWeight: FontWeight.bold,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                trailing: Text(
-                                    '${StringTimeStudy((mr30.havetodayNow[index].timePeriod).toString())}'),
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            TodayHomeScreen()),
-                                  );
-                                },
-                                leading: Icon(Icons.bookmarks_rounded),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
 
-                      //schedule
-                      ListView.builder(
-                        padding: const EdgeInsets.all(1),
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: scheduleProv.schedules.length > 0 ? 1 : 0,
-                        itemBuilder: (context, index) {
-                          return scheduleProv.isLoading
-                              ? Text('')
-                              : Card(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(1.0),
-                                    child: ListTile(
-                                      title: Text(
-                                        '${formatDate(scheduleProv.schedules[0].startDate)} - ${formatDate(scheduleProv.schedules[0].endDate)}',
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.ruFontKanit,
-                                          color: AppTheme.ru_dark_blue,
-                                          fontSize: 13,
-                                        ),
-                                      ),
-                                      subtitle: Text(
-                                        '${scheduleProv.schedules[0].eventName}',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontFamily: AppTheme.ruFontKanit,
-                                          color: AppTheme.ru_text_grey,
-                                        ),
-                                      ),
-                                      // trailing: Text(
-                                      //   ' ${commingTime(DateTime.parse(scheduleProv.schedules[0].startDate), DateTime.now(), DateTime.parse(scheduleProv.schedules[0].endDate))}',
-                                      //   style: TextStyle(
-                                      //       color: Colors.redAccent,
-                                      //       fontSize: 12,
-                                      //       fontStyle: FontStyle.italic),
-                                      // ),
-                                      trailing: BlinkText(
-                                          '${commingTimeNewLine(DateTime.parse(scheduleProv.schedules[0].startDate), DateTime.now(), DateTime.parse(scheduleProv.schedules[0].endDate))}',
-                                          style: TextStyle(
-                                              fontSize: 11,
-                                              fontStyle: FontStyle.italic),
-                                          beginColor: Colors.redAccent,
-                                          endColor: Colors.red
-                                              .shade50), //                             trailing: BlinkText(
-
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ScheduleHomeScreen()),
-                                        );
-                                      },
-                                      leading: Icon(
-                                        Icons.timer,
-                                        // color: Colors.lightBlue,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                        },
-                      ),
-
-                      Expanded(
-                        child: FutureBuilder<bool>(
-                          future: getData(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<bool> snapshot) {
-                            if (!snapshot.hasData) {
-                              return const SizedBox();
-                            } else {
-                              return
-                                  //   token == null ?
-                                  // LoginPage():
-
-                                  GridView(
-                                padding: const EdgeInsets.only(
-                                    top: 0, left: 12, right: 12),
-                                physics: const BouncingScrollPhysics(),
-                                scrollDirection: Axis.vertical,
-                                children: List<Widget>.generate(
-                                  homeList.length,
-                                  (int index) {
-                                    final int count = homeList.length;
-                                    final Animation<double> animation =
-                                        Tween<double>(begin: 0.0, end: 1.0)
-                                            .animate(
-                                      CurvedAnimation(
-                                        parent: animationController!,
-                                        curve: Interval(
-                                            (1 / count) * index, 1.0,
-                                            curve: Curves.fastOutSlowIn),
-                                      ),
-                                    );
-                                    animationController?.forward();
-                                    return HomeListView(
-                                      animation: animation,
-                                      animationController: animationController,
-                                      listData: homeList[index],
-                                      callBack: () {
-                                        Navigator.push<dynamic>(
-                                          context,
-                                          MaterialPageRoute<dynamic>(
-                                            builder: (BuildContext context) =>
-                                                homeList[index].navigateScreen!,
+                                ListView.builder(
+                                  padding: const EdgeInsets.all(1),
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount:
+                                      mr30.havetodayNow.length > 0 ? 1 : 0,
+                                  itemBuilder: (context, index) {
+                                    return Card(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(1.0),
+                                        child: ListTile(
+                                          title: Text(
+                                            '${mr30.havetodayNow[index].courseNo}',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                            ),
                                           ),
-                                        );
-                                      },
+                                          trailing: Text(
+                                              '${StringTimeStudy((mr30.havetodayNow[index].timePeriod).toString())}'),
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      TodayHomeScreen()),
+                                            );
+                                          },
+                                          leading:
+                                              Icon(Icons.bookmarks_rounded),
+                                        ),
+                                      ),
                                     );
                                   },
                                 ),
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: multiple ? 4 : 3,
-                                  mainAxisSpacing: 6.0,
-                                  crossAxisSpacing: 6.0,
-                                  childAspectRatio: 1.0,
+
+                                //schedule
+                                ListView.builder(
+                                  padding: const EdgeInsets.all(1),
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount:
+                                      scheduleProv.schedules.length > 0 ? 1 : 0,
+                                  itemBuilder: (context, index) {
+                                    return scheduleProv.isLoading
+                                        ? Text('')
+                                        : Card(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(1.0),
+                                              child: ListTile(
+                                                title: Text(
+                                                  '${formatDate(scheduleProv.schedules[0].startDate)} - ${formatDate(scheduleProv.schedules[0].endDate)}',
+                                                  style: TextStyle(
+                                                    fontFamily:
+                                                        AppTheme.ruFontKanit,
+                                                    color:
+                                                        AppTheme.ru_dark_blue,
+                                                    fontSize: 13,
+                                                  ),
+                                                ),
+                                                subtitle: Text(
+                                                  '${scheduleProv.schedules[0].eventName}',
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontFamily:
+                                                        AppTheme.ruFontKanit,
+                                                    color:
+                                                        AppTheme.ru_text_grey,
+                                                  ),
+                                                ),
+                                                // trailing: Text(
+                                                //   ' ${commingTime(DateTime.parse(scheduleProv.schedules[0].startDate), DateTime.now(), DateTime.parse(scheduleProv.schedules[0].endDate))}',
+                                                //   style: TextStyle(
+                                                //       color: Colors.redAccent,
+                                                //       fontSize: 12,
+                                                //       fontStyle: FontStyle.italic),
+                                                // ),
+                                                trailing: BlinkText(
+                                                    '${commingTimeNewLine(DateTime.parse(scheduleProv.schedules[0].startDate), DateTime.now(), DateTime.parse(scheduleProv.schedules[0].endDate))}',
+                                                    style: TextStyle(
+                                                        fontSize: 11,
+                                                        fontStyle:
+                                                            FontStyle.italic),
+                                                    beginColor:
+                                                        Colors.redAccent,
+                                                    endColor: Colors.red
+                                                        .shade50), //                             trailing: BlinkText(
+
+                                                onTap: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            ScheduleHomeScreen()),
+                                                  );
+                                                },
+                                                leading: Icon(
+                                                  Icons.timer,
+                                                  // color: Colors.lightBlue,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                  },
                                 ),
-                              );
-                            }
-                          },
+
+                                Expanded(
+                                  child: FutureBuilder<bool>(
+                                    future: getData(),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<bool> snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return const SizedBox();
+                                      } else {
+                                        return
+                                            //   token == null ?
+                                            // LoginPage():
+
+                                            GridView(
+                                          padding: const EdgeInsets.only(
+                                              top: 0, left: 12, right: 12),
+                                          physics:
+                                              const BouncingScrollPhysics(),
+                                          scrollDirection: Axis.vertical,
+                                          children: List<Widget>.generate(
+                                            homeList.length,
+                                            (int index) {
+                                              final int count = homeList.length;
+                                              final Animation<double>
+                                                  animation = Tween<double>(
+                                                          begin: 0.0, end: 1.0)
+                                                      .animate(
+                                                CurvedAnimation(
+                                                  parent: animationController!,
+                                                  curve: Interval(
+                                                      (1 / count) * index, 1.0,
+                                                      curve:
+                                                          Curves.fastOutSlowIn),
+                                                ),
+                                              );
+                                              animationController?.forward();
+                                              return HomeListView(
+                                                animation: animation,
+                                                animationController:
+                                                    animationController,
+                                                listData: homeList[index],
+                                                callBack: () {
+                                                  Navigator.push<dynamic>(
+                                                    context,
+                                                    MaterialPageRoute<dynamic>(
+                                                      builder: (BuildContext
+                                                              context) =>
+                                                          homeList[index]
+                                                              .navigateScreen!,
+                                                    ),
+                                                  );
+                                                },
+                                              );
+                                            },
+                                          ),
+                                          gridDelegate:
+                                              SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: multiple ? 4 : 3,
+                                            mainAxisSpacing: 6.0,
+                                            crossAxisSpacing: 6.0,
+                                            childAspectRatio: 1.0,
+                                          ),
+                                        );
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     ],

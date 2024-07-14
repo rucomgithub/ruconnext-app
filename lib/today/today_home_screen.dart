@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
+import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/hotel_booking/calendar_popup_view.dart';
 import 'package:th.ac.ru.uSmart/hotel_booking/hotel_list_view.dart';
 import 'package:th.ac.ru.uSmart/hotel_booking/model/hotel_list_data.dart';
@@ -13,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
+import 'package:th.ac.ru.uSmart/widget/top_bar.dart';
 import '../hotel_booking/hotel_app_theme.dart';
 import '../providers/mr30_provider.dart';
 import '../widget/Rubar.dart';
@@ -66,19 +69,8 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
     Provider.of<MR30Provider>(context, listen: false).getHaveTodayList();
     Provider.of<MR30Provider>(context, listen: false).getHaveToday();
     Provider.of<MR30Provider>(context, listen: false).getHaveCourseNotTimeEnd();
-    await Future<dynamic>.delayed(const Duration(milliseconds: 600));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 1000));
     return true;
-  }
-
-  _renderBg() {
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/bg.png'),
-          fit: BoxFit.cover,
-        ),
-      ),
-    );
   }
 
   @override
@@ -89,118 +81,154 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
     var mr30 = context.watch<MR30Provider>();
-    return Theme(
-      data: HotelAppTheme.buildLightTheme(),
-      child: Container(
-        child: Scaffold(
-          body: Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              _renderBg(),
-              InkWell(
-                splashColor: Colors.transparent,
-                focusColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                onTap: () {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                },
-                child: Column(
-                  children: <Widget>[
-                    getAppBarUI(),
-                    Expanded(
-                      child: NestedScrollView(
-                        controller: _scrollController,
-                        headerSliverBuilder:
-                            (BuildContext context, bool innerBoxIsScrolled) {
-                          return <Widget>[
-                            SliverPersistentHeader(
-                              pinned: true,
-                              floating: true,
-                              delegate: ContestTabHeader(
-                                getFilterBarUI(context),
-                              ),
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: AppTheme.nearlyWhite, // Change back arrow color to white
+        ),
+        title: Text(
+          'วันนี้เรียนอะไร ? (${mr30.yearsemester.year}/${mr30.yearsemester.semester})',
+          style: TextStyle(
+            fontSize: 22,
+            fontFamily: AppTheme.ruFontKanit,
+            color: AppTheme.nearlyWhite,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true, // Centers the title
+        backgroundColor:
+            AppTheme.ru_dark_blue, // Background color of the AppBar
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.help,
+              color: AppTheme.nearlyWhite,
+            ),
+            onPressed: () {
+              //Get.toNamed("/todayhelp");
+            },
+          ),
+        ],
+      ),
+      backgroundColor:
+          isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
+      body: Container(
+        decoration: BoxDecoration(
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                offset: const Offset(0, -2),
+                blurRadius: 8.0),
+          ],
+        ),
+        child: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            RuWallpaper(),
+            InkWell(
+              splashColor: Colors.transparent,
+              focusColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+              onTap: () {
+                FocusScope.of(context).requestFocus(FocusNode());
+              },
+              child: Column(
+                children: <Widget>[
+                  //getAppBarUI(),
+                  Expanded(
+                    child: NestedScrollView(
+                      controller: _scrollController,
+                      headerSliverBuilder:
+                          (BuildContext context, bool innerBoxIsScrolled) {
+                        return <Widget>[
+                          SliverPersistentHeader(
+                            pinned: true,
+                            floating: true,
+                            delegate: ContestTabHeader(
+                              getFilterBarUI(context),
                             ),
-                          ];
-                        },
-                        body: SmartRefresher(
-                          enablePullDown: true,
-                          enablePullUp: false,
-                          header: const WaterDropHeader(),
-                          footer: CustomFooter(
-                            builder: (BuildContext context, LoadStatus? mode) {
-                              Widget body;
-                              if (mode == LoadStatus.idle) {
-                                body = const Text("กำลังโหลดข้อมูล...");
-                              } else if (mode == LoadStatus.loading) {
-                                body = const CircularProgressIndicator();
-                              } else if (mode == LoadStatus.failed) {
-                                body = const Text(
-                                    "ไม่สามารถโหลดข้อมูลได้ กรุณาลองอีกครั้ง");
-                              } else if (mode == LoadStatus.canLoading) {
-                                body = const Text("release to load more");
-                              } else {
-                                body = const Text("ไม่พบข้อมูลแล้ว.");
-                              }
-                              return SizedBox(
-                                height: 55.0,
-                                child: Center(child: body),
-                              );
-                            },
                           ),
-                          controller: _refreshController,
-                          onRefresh: _onRefresh,
-                          onLoading: _onLoading,
-                          child: ListView.builder(
-                            itemCount: mr30.havetoday.length,
-                            padding: const EdgeInsets.only(top: 8),
-                            scrollDirection: Axis.vertical,
-                            itemBuilder: (BuildContext context, int index) {
-                              final int count = mr30.havetoday.length > 10
-                                  ? 10
-                                  : mr30.havetoday.length;
-                              final Animation<double> animation =
-                                  Tween<double>(begin: 0.0, end: 1.0).animate(
-                                      CurvedAnimation(
-                                          parent: animationController!,
-                                          curve: Interval(
-                                              (1 / count) * index, 1.0,
-                                              curve: Curves.fastOutSlowIn)));
-                              animationController?.forward();
-                              return TodayListView(
-                                record: mr30.havetoday[index],
-                                callback: () {
-                                  Get.toNamed('/ondemand', arguments: {
-                                    'course':
-                                        '${mr30.studylist[index].courseNo}',
-                                    'semester':
-                                        '${mr30.studylist[index].courseSemester.toString()}',
-                                    'year':
-                                        '${mr30.studylist[index].courseYear.toString().substring(2, 4)}'
-                                  });
-                                  //   Noti.showTodayNotification(
-                                  //       title: mr30.havetoday[index].courseNo
-                                  //           .toString(),
-                                  //       body: mr30.havetoday[index].showRu30
-                                  //           .toString(),
-                                  //       fln: flutterLocalNotificationsPlugin);
-                                },
-                                //hotelData: hotelList[index],
-                                index: index,
-                                animation: animation,
-                                animationController: animationController!,
-                              );
-                            },
-                          ),
+                        ];
+                      },
+                      body: SmartRefresher(
+                        enablePullDown: true,
+                        enablePullUp: false,
+                        header: const WaterDropHeader(),
+                        footer: CustomFooter(
+                          builder: (BuildContext context, LoadStatus? mode) {
+                            Widget body;
+                            if (mode == LoadStatus.idle) {
+                              body = const Text("กำลังโหลดข้อมูล...");
+                            } else if (mode == LoadStatus.loading) {
+                              body = const CircularProgressIndicator();
+                            } else if (mode == LoadStatus.failed) {
+                              body = const Text(
+                                  "ไม่สามารถโหลดข้อมูลได้ กรุณาลองอีกครั้ง");
+                            } else if (mode == LoadStatus.canLoading) {
+                              body = const Text("release to load more");
+                            } else {
+                              body = const Text("ไม่พบข้อมูลแล้ว.");
+                            }
+                            return SizedBox(
+                              height: 55.0,
+                              child: Center(child: body),
+                            );
+                          },
+                        ),
+                        controller: _refreshController,
+                        onRefresh: _onRefresh,
+                        onLoading: _onLoading,
+                        child: ListView.builder(
+                          itemCount: mr30.havetoday.length,
+                          padding: const EdgeInsets.only(top: 8),
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (BuildContext context, int index) {
+                            final int count = mr30.havetoday.length > 10
+                                ? 10
+                                : mr30.havetoday.length;
+                            final Animation<double> animation =
+                                Tween<double>(begin: 0.0, end: 1.0).animate(
+                                    CurvedAnimation(
+                                        parent: animationController!,
+                                        curve: Interval(
+                                            (1 / count) * index, 1.0,
+                                            curve: Curves.fastOutSlowIn)));
+                            animationController?.forward();
+                            return TodayListView(
+                              record: mr30.havetoday[index],
+                              callback: () {
+                                Get.toNamed('/ondemand', arguments: {
+                                  'course': '${mr30.studylist[index].courseNo}',
+                                  'semester':
+                                      '${mr30.studylist[index].courseSemester.toString()}',
+                                  'year':
+                                      '${mr30.studylist[index].courseYear.toString().substring(2, 4)}'
+                                });
+                                //   Noti.showTodayNotification(
+                                //       title: mr30.havetoday[index].courseNo
+                                //           .toString(),
+                                //       body: mr30.havetoday[index].showRu30
+                                //           .toString(),
+                                //       fln: flutterLocalNotificationsPlugin);
+                              },
+                              //hotelData: hotelList[index],
+                              index: index,
+                              animation: animation,
+                              animationController: animationController!,
+                            );
+                          },
                         ),
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                  )
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -502,7 +530,7 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
           color: HotelAppTheme.buildLightTheme().backgroundColor,
           child: Padding(
             padding:
-                const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 4),
+                const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
             child: Row(
               children: <Widget>[
                 Expanded(
@@ -511,14 +539,6 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'เรียนวันนี้ ${mr30Prov.havetoday.length} รายการ',
-                          style: TextStyle(
-                            fontFamily: AppTheme.ruFontKanit,
-                            fontWeight: FontWeight.w100,
-                            fontSize: 16,
-                          ),
-                        ),
                         Material(
                           color: Colors.transparent,
                           child: InkWell(
@@ -531,13 +551,20 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
                             child: Padding(
                               padding: const EdgeInsets.all(0.0),
                               child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Icon(Icons.list),
+                                  Icon(
+                                    Icons.list,
+                                    color: AppTheme.ru_text_ocean_blue,
+                                  ),
                                   Text(
                                     'วิชาเรียนทั้งหมด',
                                     style: TextStyle(
                                       fontFamily: AppTheme.ruFontKanit,
                                       fontWeight: FontWeight.w100,
+                                      color: AppTheme.ru_text_ocean_blue,
                                       fontSize: 16,
                                     ),
                                   )
@@ -546,51 +573,19 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
                             ),
                           ),
                         ),
+                        Text(
+                          'เรียนวันนี้ ${mr30Prov.havetoday.length} รายการ',
+                          style: TextStyle(
+                            fontFamily: AppTheme.ruFontKanit,
+                            fontWeight: FontWeight.w100,
+                            color: AppTheme.ru_text_ocean_blue,
+                            fontSize: 16,
+                          ),
+                        ),
                       ],
                     ),
                   ),
                 ),
-                // Material(
-                //   color: Colors.transparent,
-                //   child: InkWell(
-                //     focusColor: Colors.transparent,
-                //     highlightColor: Colors.transparent,
-                //     hoverColor: Colors.transparent,
-                //     splashColor: Colors.grey.withOpacity(0.2),
-                //     borderRadius: const BorderRadius.all(
-                //       Radius.circular(4.0),
-                //     ),
-                //     onTap: () {
-                //       FocusScope.of(context).requestFocus(FocusNode());
-                //       Navigator.push<dynamic>(
-                //         context,
-                //         MaterialPageRoute<dynamic>(
-                //             builder: (BuildContext context) => FiltersScreen(),
-                //             fullscreenDialog: true),
-                //       );
-                //     },
-                //     child: Padding(
-                //       padding: const EdgeInsets.only(left: 8),
-                //       child: Row(
-                //         children: <Widget>[
-                //           Text(
-                //             'Filter',
-                //             style: TextStyle(
-                //               fontWeight: FontWeight.w100,
-                //               fontSize: 16,
-                //             ),
-                //           ),
-                //           Padding(
-                //             padding: const EdgeInsets.all(8.0),
-                //             child: Icon(Icons.sort,
-                //                 color: HotelAppTheme.buildLightTheme()
-                //                     .primaryColor),
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -640,69 +635,13 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
         ],
       ),
       child: Padding(
-        padding: EdgeInsets.only(
-            top: MediaQuery.of(context).padding.top, left: 8, right: 8),
+        padding: const EdgeInsets.all(8.0),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
-              alignment: Alignment.centerLeft,
-              width: AppBar().preferredSize.height,
-              height: AppBar().preferredSize.height,
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(32.0),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(Icons.arrow_back),
-                  ),
-                ),
-              ),
-            ),
             Rubar(
                 textTitle:
                     'วันนี้เรียนอะไร ? (ปี ${mr30Prov.yearsemester.semester}/${mr30Prov.yearsemester.year})'),
-            Container(
-              width: AppBar().preferredSize.height + 40,
-              height: AppBar().preferredSize.height,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(32.0),
-                      ),
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        // child: Icon(Icons.favorite_border),
-                      ),
-                    ),
-                  ),
-                  Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(32.0),
-                      ),
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        // child: Icon(FontAwesomeIcons.locationDot),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
           ],
         ),
       ),

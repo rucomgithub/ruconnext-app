@@ -63,7 +63,7 @@ class _FavoriteListViewState extends State<FavoriteListView>
             transform: Matrix4.translationValues(
                 0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
             child: Container(
-              height: mr30.length > 0 ?  216 : 10,
+              height: mr30.length > 0 ? 216 : 10,
               width: double.infinity,
               child: ListView.builder(
                 padding: const EdgeInsets.only(
@@ -138,14 +138,14 @@ class Mr30ItemView extends StatelessWidget {
                         decoration: BoxDecoration(
                           boxShadow: <BoxShadow>[
                             BoxShadow(
-                                color: HexColor('#000000').withOpacity(0.6),
+                                color: HexColor("#FF19196B").withOpacity(0.6),
                                 offset: const Offset(1.1, 4.0),
                                 blurRadius: 8.0),
                           ],
                           gradient: LinearGradient(
                             colors: <HexColor>[
-                              HexColor('#1489EB'),
-                              HexColor('#1483EB'),
+                              HexColor("#FF19196B"),
+                              HexColor("#FF1919EB"),
                             ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
@@ -165,7 +165,7 @@ class Mr30ItemView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                               '${mr30Data!.courseNo!.toString()}',
+                                '${mr30Data!.courseNo!.toString()}',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,
@@ -258,8 +258,7 @@ class Mr30ItemView extends StatelessWidget {
                                           mr30Data!.courseCredit.toString(),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
-                                            fontFamily:
-                                                AppTheme.ruFontKanit,
+                                            fontFamily: AppTheme.ruFontKanit,
                                             fontWeight: FontWeight.w500,
                                             fontSize: 12,
                                             letterSpacing: 0.2,
@@ -272,8 +271,7 @@ class Mr30ItemView extends StatelessWidget {
                                           child: Text(
                                             'หน่วยกิต',
                                             style: TextStyle(
-                                              fontFamily:
-                                                  AppTheme.ruFontKanit,
+                                              fontFamily: AppTheme.ruFontKanit,
                                               fontWeight: FontWeight.w500,
                                               fontSize: 12,
                                               letterSpacing: 0.2,

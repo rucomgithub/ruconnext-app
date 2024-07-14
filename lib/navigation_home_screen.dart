@@ -49,7 +49,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppTheme.white,
+      color: AppTheme.nearlyWhite,
       child: SafeArea(
         top: false,
         bottom: false,

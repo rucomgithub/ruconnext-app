@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/ui_view/glass_view.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
@@ -5,6 +6,8 @@ import 'package:th.ac.ru.uSmart/mr30/favorite_list_view.dart';
 import 'package:th.ac.ru.uSmart/mr30/mr30_view.dart';
 import 'package:flutter/material.dart';
 import 'package:th.ac.ru.uSmart/widget/Rubar.dart';
+import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
+import 'package:th.ac.ru.uSmart/widget/top_bar.dart';
 
 import '../providers/grade_provider.dart';
 import '../fitness_app/ui_view/running_view.dart';
@@ -146,25 +149,38 @@ class _Mr30ListScreenState extends State<Mr30ListScreen>
   }
 
   Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 600));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
     return true;
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppTheme.background,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Stack(
-          children: <Widget>[
-            getMainListViewUI(),
-            getAppBarUI(),
-            SizedBox(
-              height: MediaQuery.of(context).padding.bottom,
-            )
-          ],
-        ),
+      decoration: BoxDecoration(
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              offset: const Offset(0, -2),
+              blurRadius: 8.0),
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Stack(
+              children: <Widget>[
+                RuWallpaper(),
+                getMainListViewUI(),
+                //getAppBarUI(),
+                SizedBox(
+                  height: MediaQuery.of(context).padding.bottom,
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -178,12 +194,12 @@ class _Mr30ListScreenState extends State<Mr30ListScreen>
         } else {
           return ListView.builder(
             controller: scrollController,
-            padding: EdgeInsets.only(
-              top: AppBar().preferredSize.height +
-                  MediaQuery.of(context).padding.top +
-                  24,
-              bottom: 1 + MediaQuery.of(context).padding.bottom,
-            ),
+            // padding: EdgeInsets.only(
+            //   top: AppBar().preferredSize.height +
+            //       MediaQuery.of(context).padding.top +
+            //       24,
+            //   bottom: 1 + MediaQuery.of(context).padding.bottom,
+            // ),
             itemCount: listViews.length,
             scrollDirection: Axis.vertical,
             itemBuilder: (BuildContext context, int index) {
@@ -215,8 +231,7 @@ class _Mr30ListScreenState extends State<Mr30ListScreen>
                     ),
                     boxShadow: <BoxShadow>[
                       BoxShadow(
-                          color: AppTheme.grey
-                              .withOpacity(0.4 * topBarOpacity),
+                          color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
                           offset: const Offset(1.1, 1.1),
                           blurRadius: 10.0),
                     ],
@@ -226,7 +241,6 @@ class _Mr30ListScreenState extends State<Mr30ListScreen>
                       SizedBox(
                         height: MediaQuery.of(context).padding.top,
                       ),
-                      
                       Padding(
                         padding: EdgeInsets.only(
                             left: 16,
@@ -236,7 +250,7 @@ class _Mr30ListScreenState extends State<Mr30ListScreen>
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                               IconButton(
+                            IconButton(
                               icon: Icon(Icons.arrow_back),
                               onPressed: () {
                                 Navigator.pop(context);

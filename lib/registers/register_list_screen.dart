@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/mr30/nodata_view.dart';
@@ -8,6 +9,8 @@ import 'package:th.ac.ru.uSmart/registers/mr30catalog_row_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/widget/Rubar.dart';
+import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
+import 'package:th.ac.ru.uSmart/widget/top_bar.dart';
 import '../mr30/titlenone_view.dart';
 import 'register_list_view.dart';
 import 'register_view.dart';
@@ -146,7 +149,7 @@ class _RegisterListScreenState extends State<RegisterListScreen>
   }
 
   Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 50));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
     return true;
   }
 
@@ -163,23 +166,69 @@ class _RegisterListScreenState extends State<RegisterListScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: FitnessAppTheme.background,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            _renderBg(),
-            getMainListViewUI(),
-            getAppBarUI(),
-            SizedBox(
-              height: MediaQuery.of(context).padding.bottom,
-            )
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: AppTheme.nearlyWhite, // Change back arrow color to white
+        ),
+        title: Text(
+          'ข้อมูลการลงทะเบียน',
+          style: TextStyle(
+            fontSize: 22,
+            fontFamily: AppTheme.ruFontKanit,
+            color: AppTheme.nearlyWhite,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true, // Centers the title
+        backgroundColor:
+            AppTheme.ru_dark_blue, // Background color of the AppBar
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.help,
+              color: AppTheme.nearlyWhite,
+            ),
+            onPressed: () {
+              Get.toNamed("/regishelp");
+            },
+          ),
+        ],
+      ),
+      backgroundColor:
+          isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
+      body: Container(
+        decoration: BoxDecoration(
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                offset: const Offset(0, -2),
+                blurRadius: 8.0),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Stack(
+                children: <Widget>[
+                  RuWallpaper(),
+                  getMainListViewUI(),
+                  //getAppBarUI(),
+                  SizedBox(
+                    height: MediaQuery.of(context).padding.bottom,
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),
     );
+    ;
   }
 
   Widget getMainListViewUI() {
@@ -191,12 +240,12 @@ class _RegisterListScreenState extends State<RegisterListScreen>
         } else {
           return ListView.builder(
             controller: scrollController,
-            padding: EdgeInsets.only(
-              top: AppBar().preferredSize.height +
-                  MediaQuery.of(context).padding.top +
-                  24,
-              bottom: 62 + MediaQuery.of(context).padding.bottom,
-            ),
+            // padding: EdgeInsets.only(
+            //   top: AppBar().preferredSize.height +
+            //       MediaQuery.of(context).padding.top +
+            //       24,
+            //   bottom: 62 + MediaQuery.of(context).padding.bottom,
+            // ),
             itemCount: listViews.length,
             scrollDirection: Axis.vertical,
             itemBuilder: (BuildContext context, int index) {
@@ -234,39 +283,12 @@ class _RegisterListScreenState extends State<RegisterListScreen>
                           blurRadius: 10.0),
                     ],
                   ),
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: MediaQuery.of(context).padding.top,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: 16,
-                            right: 16,
-                            top: 16 - 8.0 * topBarOpacity,
-                            bottom: 12 - 8.0 * topBarOpacity),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: IconButton(
-                                icon: Icon(Icons.arrow_back),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child:
-                                      Rubar(textTitle: 'ข้อมูลการลงทะเบียน')),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
+                  child: TopBar(
+                    caption: "ข้อมูลการลงทะเบียน",
+                    iconname: Icon(Icons.help, color: AppTheme.nearlyWhite),
+                    callback: () {
+                      Get.toNamed("/registerhelp");
+                    },
                   ),
                 ),
               ),

@@ -38,8 +38,6 @@ class HeadLogoView extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        color:
-                            RuConnextAppTheme.buildLightTheme().backgroundColor,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,

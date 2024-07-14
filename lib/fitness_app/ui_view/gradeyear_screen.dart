@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/ui_view/area_list_view.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/ui_view/rank_list_view.dart';
@@ -6,6 +7,8 @@ import 'package:th.ac.ru.uSmart/fitness_app/ui_view/running_view.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/ui_view/title_view.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/ui_view/workout_view.dart';
 import 'package:flutter/material.dart';
+import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
+import 'package:th.ac.ru.uSmart/widget/top_bar.dart';
 
 import '../fitness_app_theme.dart';
 import 'grade_list_view.dart';
@@ -112,17 +115,36 @@ class _GradeYearScreenState extends State<GradeYearScreen>
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppTheme.white,
+      color: FitnessAppTheme.background,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: Stack(
-          children: <Widget>[
-            getMainListViewUI(),
-            getAppBarUI(),
-            SizedBox(
-              height: MediaQuery.of(context).padding.bottom,
-            )
-          ],
+        body: Padding(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TopBar(
+                caption: "เกรดแยกตามปีภาค",
+                iconname: Icon(Icons.help, color: AppTheme.nearlyWhite),
+                callback: () {
+                  Get.toNamed("/gradehelp");
+                },
+              ),
+              Expanded(
+                child: Stack(
+                  children: <Widget>[
+                    RuWallpaper(),
+                    getMainListViewUI(),
+                    //getAppBarUI(),
+                    SizedBox(
+                      height: MediaQuery.of(context).padding.bottom,
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -137,12 +159,12 @@ class _GradeYearScreenState extends State<GradeYearScreen>
         } else {
           return ListView.builder(
             controller: scrollController,
-            padding: EdgeInsets.only(
-              top: AppBar().preferredSize.height +
-                  MediaQuery.of(context).padding.top +
-                  24,
-              bottom: 62 + MediaQuery.of(context).padding.bottom,
-            ),
+            // padding: EdgeInsets.only(
+            //   top: AppBar().preferredSize.height +
+            //       MediaQuery.of(context).padding.top +
+            //       24,
+            //   bottom: 62 + MediaQuery.of(context).padding.bottom,
+            // ),
             itemCount: listViews.length,
             scrollDirection: Axis.vertical,
             itemBuilder: (BuildContext context, int index) {
@@ -203,7 +225,7 @@ class _GradeYearScreenState extends State<GradeYearScreen>
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  'เกรดแยกตามปี/ภาค',
+                                  'เกรดแยกตามปี/ภาค...',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontFamily: AppTheme.ruFontKanit,

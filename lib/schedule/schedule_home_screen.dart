@@ -1,4 +1,6 @@
+import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
+import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/hotel_booking/calendar_popup_view.dart';
 import 'package:th.ac.ru.uSmart/hotel_booking/hotel_list_view.dart';
 import 'package:th.ac.ru.uSmart/hotel_booking/model/hotel_list_data.dart';
@@ -10,6 +12,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/widget/Rubar.dart';
+import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
+import 'package:th.ac.ru.uSmart/widget/top_bar.dart';
 import '../hotel_booking/filters_screen.dart';
 import '../hotel_booking/hotel_app_theme.dart';
 import '../providers/mr30_provider.dart';
@@ -36,19 +40,8 @@ class _ScheduleHomeScreenState extends State<ScheduleHomeScreen>
   }
 
   Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 3000));
     return true;
-  }
-
-  _renderBg() {
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/bg.png'),
-          fit: BoxFit.cover,
-        ),
-      ),
-    );
   }
 
   @override
@@ -59,93 +52,135 @@ class _ScheduleHomeScreenState extends State<ScheduleHomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    context.read<MR30Provider>().getHaveToday();
-
-    // var mr30 = context.watch<MR30Provider>();
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
     var scheduleProv = context.watch<ScheduleProvider>();
-    return Theme(
-      data: HotelAppTheme.buildLightTheme(),
-      child: Container(
-        child: Scaffold(
-          body: Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              _renderBg(),
-              InkWell(
-                splashColor: Colors.transparent,
-                focusColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                onTap: () {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                },
-                child: Column(
-                  children: <Widget>[
-                    getAppBarUI(),
-                    Expanded(
-                      child: NestedScrollView(
-                        controller: _scrollController,
-                        headerSliverBuilder:
-                            (BuildContext context, bool innerBoxIsScrolled) {
-                          return <Widget>[
-                            // SliverList(
-                            //   delegate: SliverChildBuilderDelegate(
-                            //       (BuildContext context, int index) {
-                            //     return Column(
-                            //       children: <Widget>[
-                            //         getSearchBarUI(),
-                            //         //getTimeDateUI(),
-                            //       ],
-                            //     );
-                            //   }, childCount: 1),
-                            // ),
-                            SliverPersistentHeader(
-                              pinned: true,
-                              floating: true,
-                              delegate: ContestTabHeader(
-                                getFilterBarUI(scheduleProv),
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: AppTheme.nearlyWhite, // Change back arrow color to white
+        ),
+        title: Text(
+          'ปฏิทินการศึกษา',
+          style: TextStyle(
+            fontSize: 22,
+            fontFamily: AppTheme.ruFontKanit,
+            color: AppTheme.nearlyWhite,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true, // Centers the title
+        backgroundColor:
+            AppTheme.ru_dark_blue, // Background color of the AppBar
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.help,
+              color: AppTheme.nearlyWhite,
+            ),
+            onPressed: () {
+              Get.toNamed("/schedulehelp");
+            },
+          ),
+        ],
+      ),
+      backgroundColor:
+          isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
+      body: Container(
+        decoration: BoxDecoration(
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                offset: const Offset(0, -2),
+                blurRadius: 8.0),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  RuWallpaper(),
+                  InkWell(
+                    splashColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    onTap: () {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                    },
+                    child: Column(
+                      children: <Widget>[
+                        //getAppBarUI(),
+                        Expanded(
+                          child: NestedScrollView(
+                            controller: _scrollController,
+                            headerSliverBuilder: (BuildContext context,
+                                bool innerBoxIsScrolled) {
+                              return <Widget>[
+                                // SliverList(
+                                //   delegate: SliverChildBuilderDelegate(
+                                //       (BuildContext context, int index) {
+                                //     return Column(
+                                //       children: <Widget>[
+                                //         getSearchBarUI(),
+                                //         //getTimeDateUI(),
+                                //       ],
+                                //     );
+                                //   }, childCount: 1),
+                                // ),
+                                SliverPersistentHeader(
+                                  pinned: true,
+                                  floating: true,
+                                  delegate: ContestTabHeader(
+                                    getFilterBarUI(scheduleProv),
+                                  ),
+                                ),
+                              ];
+                            },
+                            body: Container(
+                              child: ListView.builder(
+                                itemCount: scheduleProv.schedules.length,
+                                padding: const EdgeInsets.only(top: 8),
+                                scrollDirection: Axis.vertical,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final int count =
+                                      scheduleProv.schedules.length > 10
+                                          ? 10
+                                          : scheduleProv.schedules.length;
+                                  final Animation<double> animation =
+                                      Tween<double>(begin: 0.0, end: 1.0)
+                                          .animate(CurvedAnimation(
+                                              parent: animationController!,
+                                              curve: Interval(
+                                                  (1 / count) * index, 1.0,
+                                                  curve:
+                                                      Curves.fastOutSlowIn)));
+                                  animationController?.forward();
+                                  return ScheduleListView(
+                                    record: scheduleProv.schedules[index],
+                                    callback: () {},
+                                    //hotelData: hotelList[index],
+                                    index: index,
+                                    animation: animation,
+                                    animationController: animationController!,
+                                  );
+                                  // return Container(child: Text('data'));
+                                },
                               ),
                             ),
-                          ];
-                        },
-                        body: Container(
-                          color: AppTheme.background,
-                          child: ListView.builder(
-                            itemCount: scheduleProv.schedules.length,
-                            padding: const EdgeInsets.only(top: 8),
-                            scrollDirection: Axis.vertical,
-                            itemBuilder: (BuildContext context, int index) {
-                              final int count =
-                                  scheduleProv.schedules.length > 10
-                                      ? 10
-                                      : scheduleProv.schedules.length;
-                              final Animation<double> animation =
-                                  Tween<double>(begin: 0.0, end: 1.0).animate(
-                                      CurvedAnimation(
-                                          parent: animationController!,
-                                          curve: Interval(
-                                              (1 / count) * index, 1.0,
-                                              curve: Curves.fastOutSlowIn)));
-                              animationController?.forward();
-                              return ScheduleListView(
-                                record: scheduleProv.schedules[index],
-                                callback: () {},
-                                //hotelData: hotelList[index],
-                                index: index,
-                                animation: animation,
-                                animationController: animationController!,
-                              );
-                              // return Container(child: Text('data'));
-                            },
                           ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -447,17 +482,16 @@ class _ScheduleHomeScreenState extends State<ScheduleHomeScreen>
             padding:
                 const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 4),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'ทั้งหมด ${scheduleProv.schedules.length} รายการ',
-                      style: TextStyle(
-                        fontFamily: AppTheme.ruFontKanit,
-                        fontWeight: FontWeight.w100,
-                        fontSize: 16,
-                      ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'ทั้งหมด ${scheduleProv.schedules.length} รายการ',
+                    style: TextStyle(
+                      fontFamily: AppTheme.ruFontKanit,
+                      fontWeight: FontWeight.w100,
+                      fontSize: 16,
                     ),
                   ),
                 ),

@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/my_diary/yearsemester_list_view.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/ui_view/glass_view.dart';
@@ -5,11 +6,14 @@ import 'package:th.ac.ru.uSmart/fitness_app/ui_view/glass_view.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/ui_view/title_view.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/grade/course_rank_view.dart';
+import 'package:th.ac.ru.uSmart/grade/radar_view.dart';
 import 'package:th.ac.ru.uSmart/grade/summary_credit_view.dart';
 import 'package:th.ac.ru.uSmart/grade/summary_grade_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/widget/RadarChartWidget.dart';
+import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
+import 'package:th.ac.ru.uSmart/widget/top_bar.dart';
 
 import '../providers/grade_provider.dart';
 import '../fitness_app/ui_view/titlenone_view.dart';
@@ -68,8 +72,6 @@ class _MyGradeScreenState extends State<MyGradeScreen>
   void addAllListData() {
     const int count = 9;
 
-    var prov = Provider.of<GradeProvider>(context, listen: false);
-
     listViews.add(
       TitleNoneView(
         titleTxt: 'เกรดแยกตามปี/ภาค',
@@ -77,7 +79,7 @@ class _MyGradeScreenState extends State<MyGradeScreen>
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
             curve:
-                Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+                Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController!,
       ),
     );
@@ -87,7 +89,7 @@ class _MyGradeScreenState extends State<MyGradeScreen>
         mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
             CurvedAnimation(
                 parent: widget.animationController!,
-                curve: Interval((1 / count) * 3, 1.0,
+                curve: Interval((1 / count) * 5, 1.0,
                     curve: Curves.fastOutSlowIn))),
         mainScreenAnimationController: widget.animationController,
       ),
@@ -100,7 +102,7 @@ class _MyGradeScreenState extends State<MyGradeScreen>
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
             curve:
-                Interval((1 / count) * 6, 1.0, curve: Curves.fastOutSlowIn))),
+                Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController!,
       ),
     );
@@ -110,32 +112,32 @@ class _MyGradeScreenState extends State<MyGradeScreen>
         mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
             CurvedAnimation(
                 parent: widget.animationController!,
-                curve: Interval((1 / count) * 6, 1.0,
+                curve: Interval((1 / count) * 5, 1.0,
                     curve: Curves.fastOutSlowIn))),
         mainScreenAnimationController: widget.animationController!,
       ),
     );
 
     listViews.add(
-      TitleView(
+      TitleNoneView(
         titleTxt: 'ความถนัดของนักศึกษา',
         subTxt: 'รายละเอียด',
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
             curve:
-                Interval((1 / count) * 0, 1.0, curve: Curves.fastOutSlowIn))),
+                Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController!,
       ),
     );
 
     listViews.add(
-      SizedBox(
-        height: 250,
-        width: 250,
-        child: RadarChartWidget(
-            grades: prov.gradesCatalog,
-            counts: prov.countsCatalog,
-            ticks: prov.ticksCatalog),
+      RaDarView(
+        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
+            CurvedAnimation(
+                parent: widget.animationController!,
+                curve: Interval((1 / count) * 5, 1.0,
+                    curve: Curves.fastOutSlowIn))),
+        mainScreenAnimationController: widget.animationController!,
       ),
     );
     // listViews.add(
@@ -153,7 +155,7 @@ class _MyGradeScreenState extends State<MyGradeScreen>
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
             curve:
-                Interval((1 / count) * 0, 1.0, curve: Curves.fastOutSlowIn))),
+                Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController!,
       ),
     );
@@ -172,7 +174,7 @@ class _MyGradeScreenState extends State<MyGradeScreen>
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
             curve:
-                Interval((1 / count) * 1, 1.0, curve: Curves.fastOutSlowIn))),
+                Interval((1 / count) * 5, 1.0, curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController!,
       ),
     );
@@ -201,23 +203,70 @@ class _MyGradeScreenState extends State<MyGradeScreen>
   }
 
   Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 600));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
     return true;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppTheme.white,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Stack(
-          children: <Widget>[
-            getMainListViewUI(),
-            getAppBarUI(),
-            SizedBox(
-              height: MediaQuery.of(context).padding.bottom,
-            )
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: AppTheme.nearlyWhite, // Change back arrow color to white
+        ),
+        title: Text(
+          'ผลการศึกษา',
+          style: TextStyle(
+            fontSize: 22,
+            fontFamily: AppTheme.ruFontKanit,
+            color: AppTheme.nearlyWhite,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true, // Centers the title
+        backgroundColor:
+            AppTheme.ru_dark_blue, // Background color of the AppBar
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.help,
+              color: AppTheme.nearlyWhite,
+            ),
+            onPressed: () {
+              Get.toNamed("/gradehelp");
+            },
+          ),
+        ],
+      ),
+      backgroundColor:
+          isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
+      body: Container(
+        decoration: BoxDecoration(
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                offset: const Offset(0, -2),
+                blurRadius: 8.0),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Stack(
+                children: <Widget>[
+                  RuWallpaper(),
+                  getMainListViewUI(),
+                  //getAppBarUI(),
+                  SizedBox(
+                    height: MediaQuery.of(context).padding.bottom,
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -233,12 +282,6 @@ class _MyGradeScreenState extends State<MyGradeScreen>
         } else {
           return ListView.builder(
             controller: scrollController,
-            padding: EdgeInsets.only(
-              top: AppBar().preferredSize.height +
-                  MediaQuery.of(context).padding.top +
-                  24,
-              bottom: 62 + MediaQuery.of(context).padding.bottom,
-            ),
             itemCount: listViews.length,
             scrollDirection: Axis.vertical,
             itemBuilder: (BuildContext context, int index) {

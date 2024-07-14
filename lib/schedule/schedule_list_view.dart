@@ -118,7 +118,7 @@ class ScheduleListView extends StatelessWidget {
                         Column(
                           children: <Widget>[
                             AspectRatio(
-                              aspectRatio: 10,
+                              aspectRatio: 5,
                               child: Image.asset(
                                 'assets/hotel/SWB.png',
                                 fit: BoxFit.cover,
@@ -146,7 +146,8 @@ class ScheduleListView extends StatelessWidget {
                                               '${formatDate(record!.startDate)} - ${formatDate(record!.endDate)}',
                                               textAlign: TextAlign.left,
                                               style: TextStyle(
-                                                     fontFamily: AppTheme.ruFontKanit,
+                                                fontFamily:
+                                                    AppTheme.ruFontKanit,
                                                 //fontWeight: FontWeight.w600,
                                                 fontSize: 16,
                                               ),
@@ -233,8 +234,8 @@ class ScheduleListView extends StatelessWidget {
                                                     child: Text(
                                                       '${record!.eventName}',
                                                       style: TextStyle(
-                                                             fontFamily: AppTheme.ruFontKanit,
-                                                          
+                                                          fontFamily: AppTheme
+                                                              .ruFontKanit,
                                                           fontSize: 14,
                                                           color: Colors
                                                               .lightBlue
@@ -255,7 +256,8 @@ class ScheduleListView extends StatelessWidget {
                                                   Text(
                                                     '${commingTime(DateTime.parse(record!.startDate), DateTime.now(), DateTime.parse(record!.endDate))}',
                                                     style: TextStyle(
-                                                           fontFamily: AppTheme.ruFontKanit,
+                                                        fontFamily: AppTheme
+                                                            .ruFontKanit,
                                                         color: Colors.redAccent,
                                                         fontSize: 10,
                                                         fontStyle:

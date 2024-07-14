@@ -83,7 +83,7 @@ class TitleView extends StatelessWidget {
                                 fontFamily: AppTheme.ruFontKanit,
                                 fontSize: 16,
                                 letterSpacing: 0.5,
-                                color: AppTheme.ru_grey,
+                                color: AppTheme.ru_text_ocean_blue,
                               ),
                             ),
                             SizedBox(
@@ -91,7 +91,7 @@ class TitleView extends StatelessWidget {
                               width: 26,
                               child: Icon(
                                 Icons.arrow_forward,
-                                color: AppTheme.ru_dark_blue,
+                                color: AppTheme.ru_text_ocean_blue,
                                 size: 18,
                               ),
                             ),

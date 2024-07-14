@@ -42,7 +42,7 @@ class TitleNoneView extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                           fontSize: 18,
                           letterSpacing: 0.5,
-                          color: FitnessAppTheme.lightText,
+                          color: AppTheme.ru_text_ocean_blue,
                         ),
                       ),
                     ),

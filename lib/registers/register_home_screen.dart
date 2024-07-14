@@ -3,10 +3,9 @@ import 'package:th.ac.ru.uSmart/fitness_app/models/tabIcon_data.dart';
 import 'package:th.ac.ru.uSmart/providers/mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/registers/register_list_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:th.ac.ru.uSmart/widget/ru_bottom_bar.dart';
 import '../login_page.dart';
 import '../fitness_app/fitness_app_theme.dart';
-import '../mr30/mr30_list_screen.dart';
 import '../providers/authenprovider.dart';
 import '../providers/register_provider.dart';
 
@@ -29,14 +28,11 @@ class _RegisterHomeScreenState extends State<RegisterHomeScreen>
 
   @override
   void initState() {
-    tabIconsList.forEach((TabIconData tab) {
-      tab.isSelected = false;
-    });
-    tabIconsList[0].isSelected = true;
-
     animationController = AnimationController(
         duration: const Duration(milliseconds: 600), vsync: this);
+
     tabBody = RegisterListScreen(animationController: animationController);
+
     super.initState();
     Provider.of<AuthenProvider>(context, listen: false).getProfile();
     Provider.of<RegisterProvider>(context, listen: false).getAllRegister();
@@ -64,7 +60,7 @@ class _RegisterHomeScreenState extends State<RegisterHomeScreen>
             if (!snapshot.hasData) {
               return const SizedBox();
             } else {
-              print('register : ${authen.profile.accessToken}');
+              //print('register : ${authen.profile.accessToken}');
               return authen.profile.accessToken != null
                   ? Stack(
                       fit: StackFit.expand,
@@ -81,7 +77,7 @@ class _RegisterHomeScreenState extends State<RegisterHomeScreen>
   }
 
   Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 600));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
     return true;
   }
 }

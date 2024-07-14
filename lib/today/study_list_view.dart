@@ -1,3 +1,4 @@
+import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/hotel_booking/hotel_app_theme.dart';
 import 'package:th.ac.ru.uSmart/pages/ru_map.dart';
 import 'package:flutter/material.dart';
@@ -40,8 +41,8 @@ class StudyListView extends StatelessWidget {
             transform: Matrix4.translationValues(
                 0.0, 50 * (1.0 - animation!.value), 0.0),
             child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 24, right: 24, top: 8, bottom: 16),
+              padding:
+                  const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
               child: InkWell(
                 splashColor: Colors.transparent,
                 onTap: callback,
@@ -91,9 +92,9 @@ class StudyListView extends StatelessWidget {
                                               '${record!.courseNo}',
                                               textAlign: TextAlign.left,
                                               style: TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 22,
-                                              ),
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 22,
+                                                  color: AppTheme.ru_dark_blue),
                                             ),
                                             Row(
                                               crossAxisAlignment:
@@ -106,8 +107,8 @@ class StudyListView extends StatelessWidget {
                                                   '${record!.dayNameS} ${record!.timePeriod}',
                                                   style: TextStyle(
                                                       fontSize: 14,
-                                                      color: Colors.grey
-                                                          .withOpacity(0.8)),
+                                                      color:
+                                                          AppTheme.nearlyBlack),
                                                 ),
                                                 const SizedBox(
                                                   width: 4,
@@ -131,16 +132,14 @@ class StudyListView extends StatelessWidget {
                                                   child: Text(
                                                     //'${hotelData!.dist.toStringAsFixed(1)} km to city',
                                                     '${record!.courseRoom}',
-
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                     style: TextStyle(
                                                         fontSize: 14,
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        color: Color.fromARGB(
-                                                                255, 4, 85, 205)
-                                                            .withOpacity(0.8)),
+                                                        color: AppTheme
+                                                            .ru_text_light_blue),
                                                   ),
                                                 ),
                                               ],
@@ -148,63 +147,14 @@ class StudyListView extends StatelessWidget {
                                             Padding(
                                               padding:
                                                   const EdgeInsets.only(top: 4),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  // RatingBar(
-                                                  //   initialRating:
-                                                  //       hotelData!.rating,
-                                                  //   direction: Axis.horizontal,
-                                                  //   allowHalfRating: true,
-                                                  //   itemCount: 5,
-                                                  //   itemSize: 24,
-                                                  //   ratingWidget: RatingWidget(
-                                                  //     full: Icon(
-                                                  //       Icons.star_rate_rounded,
-                                                  //       color: HotelAppTheme
-                                                  //               .buildLightTheme()
-                                                  //           .primaryColor,
-                                                  //     ),
-                                                  //     half: Icon(
-                                                  //       Icons.star_half_rounded,
-                                                  //       color: HotelAppTheme
-                                                  //               .buildLightTheme()
-                                                  //           .primaryColor,
-                                                  //     ),
-                                                  //     empty: Icon(
-                                                  //       Icons
-                                                  //           .star_border_rounded,
-                                                  //       color: HotelAppTheme
-                                                  //               .buildLightTheme()
-                                                  //           .primaryColor,
-                                                  //     ),
-                                                  //   ),
-                                                  //   itemPadding:
-                                                  //       EdgeInsets.zero,
-                                                  //   onRatingUpdate: (rating) {
-                                                  //     print(rating);
-                                                  //   },
-                                                  // ),
-
-                                                  Text(
-                                                    '${record!.courseInstructor}',
-                                                    style: TextStyle(
-                                                        fontSize: 10,
-                                                        color: Colors.grey
-                                                            .withOpacity(0.8)),
-                                                  ),
-                                                ],
+                                              child: Text(
+                                                '${record!.courseInstructor}',
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    color:
+                                                        AppTheme.nearlyBlack),
                                               ),
                                             ),
-                                            // Padding(
-                                            //   padding:
-                                            //       const EdgeInsets.only(top: 4),
-                                            //   child: Row(
-                                            //     children: <Widget>[
-                                            //       TimeStudy(
-                                            //           record!.timePeriod!),
-                                            //     ],
-                                            //   ),
-                                            // ),
                                           ],
                                         ),
                                       ),
@@ -220,19 +170,18 @@ class StudyListView extends StatelessWidget {
                                           CrossAxisAlignment.end,
                                       children: <Widget>[
                                         Text(
-                                          '${record!.courseSemester}/${record!.courseYear}',
+                                          '${record!.courseYear}/${record!.courseSemester}',
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 22,
-                                          ),
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 22,
+                                              color: AppTheme.ru_dark_blue),
                                         ),
                                         Text(
                                           '${record!.courseCredit}',
                                           style: TextStyle(
                                               fontSize: 14,
-                                              color:
-                                                  Colors.grey.withOpacity(0.8)),
+                                              color: AppTheme.ru_dark_blue),
                                         ),
                                       ],
                                     ),

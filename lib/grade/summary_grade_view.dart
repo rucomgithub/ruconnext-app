@@ -11,8 +11,7 @@ class SummaryGradeView extends StatefulWidget {
   final AnimationController? animationController;
   final Animation<double>? animation;
 
-  const SummaryGradeView(
-      {Key? key, this.animationController, this.animation})
+  const SummaryGradeView({Key? key, this.animationController, this.animation})
       : super(key: key);
 
   @override
@@ -23,7 +22,8 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
   @override
   Widget build(BuildContext context) {
     var prov = Provider.of<GradeProvider>(context, listen: false);
-
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
     return AnimatedBuilder(
       animation: widget.animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -33,28 +33,31 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
             transform: new Matrix4.translationValues(
                 0.0, 30 * (1.0 - widget.animation!.value), 0.0),
             child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 24, right: 24, top: 16, bottom: 18),
+              padding: const EdgeInsets.all(8),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 255, 255, 255),
-                  borderRadius: BorderRadius.only(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/ID.png'),
+                    fit: BoxFit.cover,
+                    opacity: isLightMode ? 0.6 : 0.2,
+                  ),
+                  color: isLightMode ? AppTheme.nearlyWhite : AppTheme.ru_grey,
+                  borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(8.0),
                       bottomLeft: Radius.circular(8.0),
-                      bottomRight: Radius.circular(38.0),
-                      topRight: Radius.circular(68.0)),
+                      bottomRight: Radius.circular(8.0),
+                      topRight: Radius.circular(40.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: AppTheme.grey.withOpacity(0.2),
-                        offset: Offset(1.1, 1.1),
+                        color: AppTheme.ru_grey.withOpacity(0.2),
+                        offset: const Offset(1.1, 1.1),
                         blurRadius: 10.0),
                   ],
                 ),
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding:
-                          const EdgeInsets.only(top: 16, left: 16, right: 16),
+                      padding: const EdgeInsets.all(8),
                       child: Row(
                         children: <Widget>[
                           Expanded(
@@ -107,9 +110,8 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                                                           textAlign:
                                                               TextAlign.center,
                                                           style: TextStyle(
-                                                            fontFamily:
-                                                                AppTheme
-                                                                    .ruFontKanit,
+                                                            fontFamily: AppTheme
+                                                                .ruFontKanit,
                                                             fontSize: 18,
                                                             letterSpacing: -0.1,
                                                             color: AppTheme
@@ -121,9 +123,8 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                                                           textAlign:
                                                               TextAlign.center,
                                                           style: TextStyle(
-                                                            fontFamily:
-                                                                AppTheme
-                                                                    .ruFontKanit,
+                                                            fontFamily: AppTheme
+                                                                .ruFontKanit,
                                                             fontSize: 18,
                                                             letterSpacing: -0.1,
                                                             color: AppTheme
@@ -157,13 +158,11 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                                                           textAlign:
                                                               TextAlign.center,
                                                           style: TextStyle(
-                                                            fontFamily:
-                                                                AppTheme
-                                                                    .ruFontKanit,
+                                                            fontFamily: AppTheme
+                                                                .ruFontKanit,
                                                             fontSize: 16,
-                                                            color:
-                                                                AppTheme
-                                                                    .ru_text_ocean_blue,
+                                                            color: AppTheme
+                                                                .ru_text_ocean_blue,
                                                           ),
                                                         ),
                                                       ),
@@ -178,16 +177,14 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                                                           textAlign:
                                                               TextAlign.center,
                                                           style: TextStyle(
-                                                            fontFamily:
-                                                                AppTheme
-                                                                    .ruFontKanit,
+                                                            fontFamily: AppTheme
+                                                                .ruFontKanit,
                                                             fontSize: 12,
                                                             letterSpacing: -0.2,
-                                                            color:
-                                                                AppTheme
-                                                                    .ru_text_grey
-                                                                    .withOpacity(
-                                                                        0.5),
+                                                            color: AppTheme
+                                                                .ru_text_grey
+                                                                .withOpacity(
+                                                                    0.5),
                                                           ),
                                                         ),
                                                       ),
@@ -223,8 +220,7 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                                         ),
                                         border: new Border.all(
                                             width: 4,
-                                            color: AppTheme
-                                                .ru_dark_blue
+                                            color: AppTheme.ru_dark_blue
                                                 .withOpacity(0.2)),
                                       ),
                                       child: Column(
@@ -237,8 +233,7 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                                             '${prov.summaryCreditPass['PASS']!.toString()}',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                              fontFamily:
-                                                  AppTheme.ruFontKanit,
+                                              fontFamily: AppTheme.ruFontKanit,
                                               fontWeight: FontWeight.bold,
                                               fontSize: 24,
                                               letterSpacing: 0.0,
@@ -250,8 +245,7 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                                             'หน่วยกิตสะสม',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                              fontFamily:
-                                                  AppTheme.ruFontKanit,
+                                              fontFamily: AppTheme.ruFontKanit,
                                               fontSize: 12,
                                               letterSpacing: 0.0,
                                               color: AppTheme.ru_text_grey
@@ -266,11 +260,10 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                                     padding: const EdgeInsets.all(4.0),
                                     child: CustomPaint(
                                       painter: CurvePainter(
-
                                           colors: [
                                             HexColor("#e46f69"),
                                             HexColor("#ffea00"),
-                                            HexColor("#19b100"),  
+                                            HexColor("#19b100"),
                                           ],
                                           angle: 360 *
                                               ((100 *
@@ -327,13 +320,12 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
                               letterSpacing: 0.0,
-                              color: AppTheme.ru_text_grey,
+                              color: AppTheme.ru_dark_blue,
                             ),
                           ),
                         ),
                       ],
                     ),
-    
                   ],
                 ),
               ),

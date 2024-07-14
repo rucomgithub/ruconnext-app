@@ -33,14 +33,10 @@ class _RegisterViewState extends State<RegisterView> {
             transform: new Matrix4.translationValues(
                 0.0, 30 * (1.0 - widget.animation!.value), 0.0),
             child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 24, right: 24, top: 16, bottom: 18),
+              padding:
+                  const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
               child: Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                    FitnessAppTheme.nearlyDarkBlue,
-                    HexColor("#6F56E8")
-                  ], begin: Alignment.topLeft, end: Alignment.bottomRight),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(8.0),
                       bottomLeft: Radius.circular(8.0),
@@ -48,10 +44,18 @@ class _RegisterViewState extends State<RegisterView> {
                       topRight: Radius.circular(68.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: FitnessAppTheme.grey.withOpacity(0.6),
-                        offset: Offset(1.1, 1.1),
-                        blurRadius: 10.0),
+                        color: HexColor("#FF19196B").withOpacity(0.6),
+                        offset: const Offset(1.1, 4.0),
+                        blurRadius: 8.0),
                   ],
+                  gradient: LinearGradient(
+                    colors: <HexColor>[
+                      HexColor("#FF19196B"),
+                      HexColor("#FF1919EB"),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -78,9 +82,9 @@ class _RegisterViewState extends State<RegisterView> {
                       ),
                       RegisterYearDropdownWidget(),
                       Padding(
-                        padding: const EdgeInsets.only(right: 4),
+                        padding: const EdgeInsets.only(right: 8, top: 8),
                         child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Padding(
@@ -108,27 +112,27 @@ class _RegisterViewState extends State<RegisterView> {
                             Expanded(
                               child: SizedBox(),
                             ),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: FitnessAppTheme.nearlyWhite,
-                                shape: BoxShape.circle,
-                                boxShadow: <BoxShadow>[
-                                  BoxShadow(
-                                      color: FitnessAppTheme.nearlyBlack
-                                          .withOpacity(0.4),
-                                      offset: Offset(8.0, 8.0),
-                                      blurRadius: 8.0),
-                                ],
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(0.0),
-                                child: Icon(
-                                  Icons.search,
-                                  color: HexColor("#6F56E8"),
-                                  size: 44,
-                                ),
-                              ),
-                            )
+                            // Container(
+                            //   decoration: BoxDecoration(
+                            //     color: FitnessAppTheme.nearlyWhite,
+                            //     shape: BoxShape.circle,
+                            //     boxShadow: <BoxShadow>[
+                            //       BoxShadow(
+                            //           color: FitnessAppTheme.nearlyBlack
+                            //               .withOpacity(0.4),
+                            //           offset: Offset(8.0, 8.0),
+                            //           blurRadius: 8.0),
+                            //     ],
+                            //   ),
+                            //   child: Padding(
+                            //     padding: const EdgeInsets.all(0.0),
+                            //     child: Icon(
+                            //       Icons.search,
+                            //       color: HexColor("#6F56E8"),
+                            //       size: 44,
+                            //     ),
+                            //   ),
+                            // )
                           ],
                         ),
                       )
