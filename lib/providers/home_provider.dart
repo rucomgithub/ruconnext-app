@@ -14,7 +14,7 @@ class HomeProvider extends ChangeNotifier {
   IconData get icon => _icon;
 
   ColorFilter _colorFilter =
-      ColorFilter.mode(Color.fromARGB(255, 250, 225, 0), BlendMode.modulate);
+      ColorFilter.mode(Color.fromARGB(255, 221, 211, 116), BlendMode.modulate);
   ColorFilter get colorFilter => _colorFilter;
 
   StatefulWidget _page = MyHomePage();
@@ -84,13 +84,13 @@ class HomeProvider extends ChangeNotifier {
 
     if (hour >= 6 && hour < 12) {
       return ColorFilter.mode(
-          Color.fromARGB(255, 250, 225, 0), BlendMode.modulate);
+          Colors.yellow.withOpacity(0.5), BlendMode.modulate);
     } else if (hour >= 12 && hour < 18) {
       return ColorFilter.mode(
-          Color.fromARGB(255, 252, 152, 3), BlendMode.modulate);
+          Colors.orange.withOpacity(0.5), BlendMode.modulate);
     } else {
       return ColorFilter.mode(
-          Color.fromARGB(255, 2, 139, 250), BlendMode.modulate);
+          Colors.blueGrey.withOpacity(0.5), BlendMode.modulate);
     }
   }
 }

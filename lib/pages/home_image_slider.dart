@@ -75,100 +75,85 @@ class _homeImageSliderState extends State<homeImageSlider> {
         items: _products.map((data) {
           return Builder(
             builder: (BuildContext context) {
-              return Container(
-                //width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                decoration: BoxDecoration(color: Colors.transparent),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Container(
-                          height: 120,
-                          margin: const EdgeInsets.only(top: 0),
-                          clipBehavior: Clip.hardEdge,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(20.0),
-                              bottomRight: Radius.circular(20.0),
-                            ),
-                          ),
-                          child: Stack(
-                            children: [
-                              AspectRatio(
-                                  aspectRatio: 3,
-                                  child: ColorFiltered(
-                                    colorFilter: colorFilter,
-                                    child: Image.asset(
-                                      data.imageHome!,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  )),
-                              Positioned(
-                                left: 5.0,
-                                child: Container(
-                                    padding:
-                                        EdgeInsets.symmetric(vertical: 10.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: <Widget>[
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: AppTheme.nearlyWhite,
-                                            shape: BoxShape.circle,
-                                            boxShadow: <BoxShadow>[
-                                              BoxShadow(
-                                                  color: AppTheme.nearlyBlack
-                                                      .withOpacity(0.4),
-                                                  offset: Offset(2.0, 2.0),
-                                                  blurRadius: 4.0),
-                                            ],
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(2.0),
-                                            child: Icon(
-                                              icon,
-                                              color: AppTheme.ru_yellow,
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(6.0),
-                                            child: Text(
-                                              title,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontFamily:
-                                                    AppTheme.ruFontKanit,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 12,
-                                                letterSpacing: 0.2,
-                                                color: AppTheme.nearlyWhite,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Stack(
+                      children: [
+                        AspectRatio(
+                            aspectRatio: 3,
+                            child: Image.asset(
+                              data.imageHome!,
+                              fit: BoxFit.cover,
+                            )),
+                        // child: ColorFiltered(
+                        //   colorFilter: colorFilter,
+                        //   child: Image.asset(
+                        //     data.imageHome!,
+                        //     fit: BoxFit.cover,
+                        //   ),
+                        // )),
+                        Positioned(
+                          left: 5.0,
+                          child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 10.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: <Widget>[
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.nearlyWhite,
+                                      shape: BoxShape.circle,
+                                      boxShadow: <BoxShadow>[
+                                        BoxShadow(
+                                            color: AppTheme.nearlyBlack
+                                                .withOpacity(0.4),
+                                            offset: Offset(2.0, 2.0),
+                                            blurRadius: 4.0),
                                       ],
-                                    )
-                                    // child: Text(
-                                    //    title,
-                                    //   textAlign: TextAlign.center,
-                                    //   style: TextStyle(
-                                    //     fontFamily: AppTheme.ruFontKanit,
-                                    //     color: Colors.white,
-                                    //     fontSize: 16.0,
-                                    //     fontWeight: FontWeight.w100,
-                                    //   ),
-                                    // ),
                                     ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: Icon(
+                                        icon,
+                                        color: AppTheme.ru_yellow,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(6.0),
+                                      child: Text(
+                                        title,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.ruFontKanit,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 12,
+                                          letterSpacing: 0.2,
+                                          color: AppTheme.nearlyWhite,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                              // child: Text(
+                              //    title,
+                              //   textAlign: TextAlign.center,
+                              //   style: TextStyle(
+                              //     fontFamily: AppTheme.ruFontKanit,
+                              //     color: Colors.white,
+                              //     fontSize: 16.0,
+                              //     fontWeight: FontWeight.w100,
+                              //   ),
+                              // ),
                               ),
-                            ],
-                          )),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               );
             },

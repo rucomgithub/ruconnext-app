@@ -288,21 +288,29 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
               duration: Duration(milliseconds: 600),
               tabs: [
                 GButton(
-                  icon: Icons.home,
-                  text: 'หน้าแรก',
-                ),
+                    icon: Icons.home,
+                    text: 'หน้าแรก',
+                    textStyle: TextStyle(
+                        fontFamily: AppTheme.ruFontKanit,
+                        color: AppTheme.ru_dark_blue)),
                 GButton(
-                  icon: Icons.person,
-                  text: 'บัตรนักศึกษา',
-                ),
+                    icon: Icons.person,
+                    text: 'บัตรนักศึกษา',
+                    textStyle: TextStyle(
+                        fontFamily: AppTheme.ruFontKanit,
+                        color: AppTheme.ru_dark_blue)),
                 GButton(
-                  icon: Icons.calendar_today,
-                  text: 'ตารางเรียนวันนี้',
-                ),
+                    icon: Icons.calendar_today,
+                    text: 'ตารางเรียนวันนี้',
+                    textStyle: TextStyle(
+                        fontFamily: AppTheme.ruFontKanit,
+                        color: AppTheme.ru_dark_blue)),
                 GButton(
-                  icon: Icons.newspaper,
-                  text: 'ประชาสัมพันธ์',
-                ),
+                    icon: Icons.newspaper,
+                    text: 'ประชาสัมพันธ์',
+                    textStyle: TextStyle(
+                        fontFamily: AppTheme.ruFontKanit,
+                        color: AppTheme.ru_dark_blue)),
               ],
               selectedIndex: _selectedIndex,
               onTabChange: (index) => _onItemTapped(index),
