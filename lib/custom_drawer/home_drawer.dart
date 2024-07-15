@@ -171,7 +171,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                 fontFamily: AppTheme.ruFontKanit,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 16,
-                                color: AppTheme.notWhite,
+                                color: isLightMode
+                                    ? AppTheme.ru_dark_blue
+                                    : AppTheme.nearlyBlack,
                               ),
                               textAlign: TextAlign.left,
                             ),
@@ -198,14 +200,14 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                 fontWeight: FontWeight.w600,
                                 fontSize: 16,
                                 color: isLightMode
-                                    ? AppTheme.notWhite
+                                    ? AppTheme.ru_dark_blue
                                     : AppTheme.nearlyBlack,
                               ),
                               textAlign: TextAlign.left,
                             ),
                             trailing: Icon(
                               Icons.login,
-                              color: AppTheme.ru_yellow,
+                              color: AppTheme.ru_dark_blue,
                             ),
                             onTap: () {
                               Get.toNamed('/login');

@@ -111,7 +111,7 @@ class _SchHomeScreenState extends State<SchHomeScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TopBar(
-                        caption: 'ทุนการศึกษา',
+                        caption: 'ประวัติการรับทุนการศึกษา',
                         iconname: Icon(Icons.help, color: AppTheme.nearlyWhite),
                         callback: () {
                           //Get.toNamed("/schedulehelp");
@@ -252,7 +252,7 @@ class _SchHomeScreenState extends State<SchHomeScreen>
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'ข้อมูลทุนการศึกษาทั้งหมด',
+                      'ทุนการศึกษาทั้งหมด',
                       style: TextStyle(
                         fontWeight: FontWeight.w100,
                         fontSize: 16,
@@ -582,7 +582,7 @@ class _SchHomeScreenState extends State<SchHomeScreen>
             Expanded(
               child: Center(
                 child: Text(
-                  'ทุนการศึกษา',
+                  'ประวัติการรับทุนการศึกษา',
                   style: TextStyle(
                     fontFamily: AppTheme.ruFontKanit,
                     //fontWeight: FontWeight.w600,

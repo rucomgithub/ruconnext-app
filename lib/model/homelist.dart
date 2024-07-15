@@ -11,6 +11,7 @@ import 'package:th.ac.ru.uSmart/pages/aboutRam_screen.dart';
 import 'package:th.ac.ru.uSmart/pages/flipcard_screen.dart';
 import 'package:th.ac.ru.uSmart/pages/mr30_catalog.dart';
 import 'package:th.ac.ru.uSmart/pages/order_traking_page.dart';
+import 'package:th.ac.ru.uSmart/pages/profile_home_screen.dart';
 import 'package:th.ac.ru.uSmart/pages/ru_map.dart';
 import 'package:th.ac.ru.uSmart/registers/register_home_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregion_login.dart';
@@ -57,7 +58,7 @@ class HomeList {
       imagePath: 'assets/fitness_app/A1.png',
       iconsData: Icons.account_box,
       color: Colors.pink,
-      navigateScreen: FlipCardPage(),
+      navigateScreen: ProfileHomeScreen(),
     ),
     HomeList(
       imagePath: 'assets/fitness_app/A9.png',
