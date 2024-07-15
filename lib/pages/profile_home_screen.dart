@@ -1,8 +1,14 @@
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:th.ac.ru.uSmart/app_theme.dart';
+import 'package:th.ac.ru.uSmart/home_screen.dart';
 import 'package:th.ac.ru.uSmart/login_page.dart';
+import 'package:th.ac.ru.uSmart/navigation_home_screen.dart';
 import 'package:th.ac.ru.uSmart/pages/flipcard_screen.dart';
 import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
+import 'package:th.ac.ru.uSmart/screens/runewsScreen.dart';
+import 'package:th.ac.ru.uSmart/today/today_home_screen.dart';
 import '../fitness_app/fitness_app_theme.dart';
 
 String? tokenGrade;
@@ -34,6 +40,27 @@ class _ProfileHomeScreenState extends State<ProfileHomeScreen>
     super.dispose();
   }
 
+  int _selectedIndex = 1; // Tracks selected bottom bar item
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    if (index == 0) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => NavigationHomeScreen()));
+    } else if (index == 1) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => ProfileHomeScreen()));
+    } else if (index == 2) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => TodayHomeScreen()));
+    } else if (index == 3) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => RunewsScreen()));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var authen = context.watch<AuthenProvider>();
@@ -58,6 +85,60 @@ class _ProfileHomeScreenState extends State<ProfileHomeScreen>
                   : LoginPage();
             }
           },
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 5,
+                color: AppTheme.ru_yellow,
+              )
+            ],
+          ),
+          child: SafeArea(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
+              child: GNav(
+                gap: 8, // Gap between tabs (optional)
+                backgroundColor: AppTheme.white, // Adjust color as needed
+                activeColor:
+                    AppTheme.ru_dark_blue, // Adjust active color as needed
+                color: AppTheme.ru_dark_blue
+                    .withAlpha(200), // Adjust unselected color as needed
+                iconSize: 24, // Icon size (optional)
+                padding: EdgeInsets.symmetric(
+                    horizontal: 15, vertical: 8), // Padding (optional)
+                tabActiveBorder: Border.all(
+                    color: AppTheme.ru_dark_blue,
+                    width: 1), // Tab border (optional)
+                curve: Curves.easeOutExpo, // tab animation curves
+                duration: Duration(milliseconds: 600),
+                tabs: [
+                  GButton(
+                    icon: Icons.home,
+                    text: 'หน้าแรก',
+                  ),
+                  GButton(
+                    icon: Icons.person,
+                    text: 'บัตรนักศึกษา',
+                  ),
+                  GButton(
+                    icon: Icons.calendar_today,
+                    text: 'ตารางเรียนวันนี้',
+                  ),
+                  GButton(
+                    icon: Icons.newspaper,
+                    text: 'ประชาสัมพันธ์',
+                  ),
+                ],
+                selectedIndex: _selectedIndex,
+                onTabChange: (index) => _onItemTapped(index),
+              ),
+            ),
+          ),
         ),
       ),
     );

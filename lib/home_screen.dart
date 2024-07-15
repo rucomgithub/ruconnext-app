@@ -1,11 +1,18 @@
 import 'package:get/get.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
+import 'package:th.ac.ru.uSmart/grade/grade_app_home_screen.dart';
+import 'package:th.ac.ru.uSmart/home/homescreen.dart';
+import 'package:th.ac.ru.uSmart/navigation_home_screen.dart';
 import 'package:th.ac.ru.uSmart/pages/home_image_slider.dart';
+import 'package:th.ac.ru.uSmart/pages/profile_home_screen.dart';
 import 'package:th.ac.ru.uSmart/providers/grade_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/home_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/register_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/student_provider.dart';
+import 'package:th.ac.ru.uSmart/registers/register_home_screen.dart';
+import 'package:th.ac.ru.uSmart/screens/runewsScreen.dart';
 import 'package:th.ac.ru.uSmart/services/studentservice.dart';
 import 'package:th.ac.ru.uSmart/today/today_home_screen.dart';
 import 'package:th.ac.ru.uSmart/today/today_list_view.dart';
@@ -80,6 +87,27 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  int _selectedIndex = 0; // Tracks selected bottom bar item
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    if (index == 0) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => NavigationHomeScreen()));
+    } else if (index == 1) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => ProfileHomeScreen()));
+    } else if (index == 2) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => TodayHomeScreen()));
+    } else if (index == 3) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => RunewsScreen()));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var mr30 = context.watch<MR30Provider>();
@@ -87,6 +115,59 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
     return Scaffold(
+      appBar: AppBar(
+        leading: Container(),
+        iconTheme: IconThemeData(
+          color: isLightMode
+              ? AppTheme.nearlyWhite
+              : AppTheme.nearlyBlack, // Change back arrow color to white
+        ),
+        title: Text(
+          'Ru Connext',
+          style: TextStyle(
+            fontSize: 22,
+            fontFamily: AppTheme.ruFontKanit,
+            color: AppTheme.nearlyWhite,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true, // Centers the title
+        backgroundColor:
+            AppTheme.ru_dark_blue, // Background color of the AppBar
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.help,
+              color: isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
+            ),
+            onPressed: () {
+              Get.toNamed("/regishelp");
+            },
+          ),
+          Container(
+            width: AppBar().preferredSize.height - 8,
+            height: AppBar().preferredSize.height - 8,
+            color: AppTheme.ru_dark_blue,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius:
+                    BorderRadius.circular(AppBar().preferredSize.height),
+                child: Icon(
+                  multiple ? Icons.dashboard : Icons.view_agenda,
+                  color:
+                      isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
+                ),
+                onTap: () {
+                  setState(() {
+                    multiple = !multiple;
+                  });
+                },
+              ),
+            ),
+          )
+        ],
+      ),
       backgroundColor:
           isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
       body: FutureBuilder<bool>(
@@ -133,13 +214,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TopMenuBar(
-                        caption: "Ru Connext",
-                        iconname: Icon(Icons.help, color: AppTheme.nearlyWhite),
-                        callback: () {
-                          Get.toNamed("/manual");
-                        },
-                      ),
                       Expanded(
                         child: Stack(
                           children: [
@@ -365,6 +439,59 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           }
         },
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: AppTheme.white,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 5,
+              color: AppTheme.ru_yellow,
+            )
+          ],
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
+            child: GNav(
+              gap: 8, // Gap between tabs (optional)
+              backgroundColor: AppTheme.white, // Adjust color as needed
+              activeColor:
+                  AppTheme.ru_dark_blue, // Adjust active color as needed
+              color: AppTheme.ru_dark_blue
+                  .withAlpha(200), // Adjust unselected color as needed
+              iconSize: 24, // Icon size (optional)
+              padding: EdgeInsets.symmetric(
+                  horizontal: 15, vertical: 8), // Padding (optional)
+              tabActiveBorder: Border.all(
+                  color: AppTheme.ru_dark_blue,
+                  width: 1), // Tab border (optional)
+              curve: Curves.easeOutExpo, // tab animation curves
+              duration: Duration(milliseconds: 600),
+              tabs: [
+                GButton(
+                  icon: Icons.home,
+                  text: 'หน้าแรก',
+                ),
+                GButton(
+                  icon: Icons.person,
+                  text: 'บัตรนักศึกษา',
+                ),
+                GButton(
+                  icon: Icons.calendar_today,
+                  text: 'ตารางเรียนวันนี้',
+                ),
+                GButton(
+                  icon: Icons.newspaper,
+                  text: 'ประชาสัมพันธ์',
+                ),
+              ],
+              selectedIndex: _selectedIndex,
+              onTabChange: (index) => _onItemTapped(index),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -448,6 +575,8 @@ class HomeListView extends StatelessWidget {
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
+        var brightness = MediaQuery.of(context).platformBrightness;
+        bool isLightMode = brightness == Brightness.light;
         return FadeTransition(
           opacity: animation!,
           child: Transform(
@@ -456,7 +585,7 @@ class HomeListView extends StatelessWidget {
             child: AspectRatio(
               aspectRatio: 1.5,
               child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+                borderRadius: const BorderRadius.all(Radius.circular(15.0)),
                 child: Stack(
                   alignment: AlignmentDirectional.center,
                   children: <Widget>[
@@ -464,6 +593,7 @@ class HomeListView extends StatelessWidget {
                       child: Image.asset(
                         listData!.imagePath,
                         fit: BoxFit.contain,
+                        //colorBlendMode: BlendMode.saturation,
                       ),
                     ),
 

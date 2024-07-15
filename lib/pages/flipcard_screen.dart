@@ -87,8 +87,9 @@ class _FlipCardPageState extends State<FlipCardPage>
           ),
         ],
       ),
-      backgroundColor:
-          isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
+      backgroundColor: isLightMode
+          ? AppTheme.nearlyWhite
+          : AppTheme.nearlyBlack.withOpacity(0.2),
       body: FutureBuilder<bool>(
         future: getData(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
@@ -100,7 +101,7 @@ class _FlipCardPageState extends State<FlipCardPage>
               decoration: BoxDecoration(
                 boxShadow: <BoxShadow>[
                   BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
+                      color: Colors.white.withOpacity(0.2),
                       offset: const Offset(0, -2),
                       blurRadius: 8.0),
                 ],
@@ -179,9 +180,9 @@ class _FlipCardPageState extends State<FlipCardPage>
               fit: BoxFit.cover,
               opacity: isLightMode ? 1.0 : 0.4,
             ),
-            color: AppTheme.ru_grey.withOpacity(0.5),
+            color: AppTheme.white.withOpacity(0.5),
             border: Border.all(
-              color: AppTheme.ru_grey.withOpacity(0.5),
+              color: AppTheme.white.withOpacity(0.1),
               width: 0.8,
             ),
             borderRadius: BorderRadius.circular(10),
@@ -221,7 +222,7 @@ class _FlipCardPageState extends State<FlipCardPage>
                                   fontSize: 20,
                                   color: AppTheme.ru_dark_blue,
                                 )),
-                            Text('Ramkhamheang University',
+                            Text('Ramkhamhaeng University',
                                 style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,
                                   fontSize: 16,

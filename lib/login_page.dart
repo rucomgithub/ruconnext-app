@@ -49,13 +49,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    var brightness = MediaQuery.of(context).platformBrightness;
-    bool isLightMode = brightness == Brightness.light;
     return Container(
-      color: FitnessAppTheme.background,
+      color: Colors.transparent,
       child: Scaffold(
-        backgroundColor:
-            isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
+        backgroundColor: Colors.transparent,
         body: Consumer<AuthenProvider>(
           builder: (context, authen, child) {
             if (authen.isLoading) {

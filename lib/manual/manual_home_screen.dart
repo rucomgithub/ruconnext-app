@@ -53,6 +53,7 @@ class _ManualHomeScreenState extends State<ManualHomeScreen>
     bool isLightMode = brightness == Brightness.light;
     return Scaffold(
       appBar: AppBar(
+        leading: Container(),
         iconTheme: IconThemeData(
           color: AppTheme.nearlyWhite, // Change back arrow color to white
         ),

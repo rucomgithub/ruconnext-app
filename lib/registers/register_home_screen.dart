@@ -1,4 +1,5 @@
 import 'package:provider/provider.dart';
+import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/models/tabIcon_data.dart';
 import 'package:th.ac.ru.uSmart/providers/mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/registers/register_list_screen.dart';
@@ -51,7 +52,7 @@ class _RegisterHomeScreenState extends State<RegisterHomeScreen>
   Widget build(BuildContext context) {
     var authen = context.watch<AuthenProvider>();
     return Container(
-      color: FitnessAppTheme.background,
+      color: AppTheme.nearlyWhite,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: FutureBuilder<bool>(

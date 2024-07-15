@@ -76,7 +76,7 @@ class _homeImageSliderState extends State<homeImageSlider> {
           return Builder(
             builder: (BuildContext context) {
               return Container(
-                width: MediaQuery.of(context).size.width,
+                //width: MediaQuery.of(context).size.width,
                 margin: EdgeInsets.symmetric(horizontal: 5.0),
                 decoration: BoxDecoration(color: Colors.transparent),
                 child: SingleChildScrollView(
