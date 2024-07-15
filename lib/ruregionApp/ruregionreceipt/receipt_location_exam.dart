@@ -101,7 +101,7 @@ class _ReceiptLocationExamViewState extends State<ReceiptLocationExamView>
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'ลงทะเบียนทั้งหมด',
+                          'จำนวนวิชาลงทะเบียน',
                           style: TextStyle(
                             fontFamily: AppTheme.ruFontKanit,
                             fontWeight: FontWeight.normal,

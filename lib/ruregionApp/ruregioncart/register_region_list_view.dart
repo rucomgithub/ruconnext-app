@@ -50,15 +50,13 @@ class _RuregionCartListViewState extends State<RuregionCartListView>
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            mr30cart(context),
-            fee(context),
-          ],
-        ),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          mr30cart(context),
+          fee(context),
+        ],
       ),
     );
   }
