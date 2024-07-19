@@ -131,11 +131,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         title: Text(
           'Ru Connext',
           style: TextStyle(
-            fontSize: 22,
-            fontFamily: AppTheme.ruFontKanit,
-            color: AppTheme.nearlyWhite,
-            fontWeight: FontWeight.bold,
-          ),
+              fontSize: baseFontSize - 10,
+              fontFamily: AppTheme.ruFontKanit,
+              color: AppTheme.nearlyWhite,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 0.5),
         ),
         centerTitle: true, // Centers the title
         backgroundColor:
@@ -247,11 +247,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                     children: [
                                       Icon(Icons.list,
                                           color: AppTheme.ru_text_ocean_blue,
-                                          size: baseFontSize),
+                                          size: baseFontSize - 15),
                                       Text(
                                         'กิจกรรมวันนี้',
                                         style: TextStyle(
-                                          fontSize: baseFontSize,
+                                          fontSize: baseFontSize - 15,
                                           color: AppTheme.ru_text_ocean_blue,
                                           fontFamily: AppTheme.ruFontKanit,
                                           fontWeight: FontWeight.bold,

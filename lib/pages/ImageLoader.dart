@@ -22,6 +22,8 @@ Future<void> refreshData(BuildContext context) async {
 
 class _ImageLoaderState extends State<ImageLoader> {
   Uint8List? imageData;
+  double screenWidth = 180;
+  double screenHeight = 220;
 
   @override
   void initState() {
@@ -37,8 +39,8 @@ class _ImageLoaderState extends State<ImageLoader> {
       builder: (context, provider, _) {
         //print('image: ${provider.imageData}');
         return SizedBox(
-          width: 180,
-          height: 220,
+          width: screenWidth,
+          height: screenHeight,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: provider.imageData.length > 0

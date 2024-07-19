@@ -56,6 +56,9 @@ class _FlipCardPageState extends State<FlipCardPage>
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize = screenWidth * 0.05;
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
     return Scaffold(
@@ -66,11 +69,11 @@ class _FlipCardPageState extends State<FlipCardPage>
         title: Text(
           'บัตรนักศึกษาอิเล็กทรอนิกส์',
           style: TextStyle(
-            fontSize: 22,
-            fontFamily: AppTheme.ruFontKanit,
-            color: AppTheme.nearlyWhite,
-            fontWeight: FontWeight.bold,
-          ),
+              fontSize: baseFontSize - 10,
+              fontFamily: AppTheme.ruFontKanit,
+              color: AppTheme.nearlyWhite,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 0.5),
         ),
         centerTitle: true, // Centers the title
         backgroundColor:
@@ -156,6 +159,10 @@ class _FlipCardPageState extends State<FlipCardPage>
 
   _renderContent(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize = screenWidth * 0.05;
+
     bool isLightMode = brightness == Brightness.light;
 
     var authen = context.watch<AuthenProvider>();
@@ -196,8 +203,8 @@ class _FlipCardPageState extends State<FlipCardPage>
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                        width: 65,
-                        height: 65,
+                        width: screenWidth * 25 / 100,
+                        height: screenHeight * 15 / 100,
                         child: Padding(
                           padding: EdgeInsets.all(7.0),
                           child: ClipRRect(
@@ -208,8 +215,8 @@ class _FlipCardPageState extends State<FlipCardPage>
                           ),
                         )),
                     Container(
-                      height: 100,
-                      width: 250,
+                      height: screenHeight * 10 / 100,
+                      width: screenWidth * 60 / 100,
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Column(
@@ -219,34 +226,34 @@ class _FlipCardPageState extends State<FlipCardPage>
                             Text('มหาวิทยาลัยรามคำแหง',
                                 style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,
-                                  fontSize: 20,
+                                  fontSize: baseFontSize - 15,
                                   color: AppTheme.ru_dark_blue,
+                                  letterSpacing: 0.5,
                                 )),
                             Text('Ramkhamhaeng University',
                                 style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,
-                                  fontSize: 16,
+                                  fontSize: baseFontSize - 20,
                                   color: AppTheme.ru_yellow,
+                                  letterSpacing: 0.5,
                                 )),
-                            Padding(
-                              padding: const EdgeInsets.all(6.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Icon(
-                                    Icons.credit_card_sharp,
-                                    size: 14,
-                                    color: Colors.blue[900],
-                                  ),
-                                  SizedBox(width: 2),
-                                  Text('บัตรนักศึกษาอิเล็กทรอนิกส์',
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.ruFontKanit,
-                                        fontSize: 12,
-                                        color: AppTheme.ru_text_ocean_blue,
-                                      )),
-                                ],
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Icon(
+                                  Icons.credit_card_sharp,
+                                  size: baseFontSize - 20,
+                                  color: Colors.blue[900],
+                                ),
+                                SizedBox(width: 2),
+                                Text('บัตรนักศึกษาอิเล็กทรอนิกส์',
+                                    style: TextStyle(
+                                      letterSpacing: 0.5,
+                                      fontFamily: AppTheme.ruFontKanit,
+                                      fontSize: baseFontSize - 20,
+                                      color: AppTheme.ru_text_ocean_blue,
+                                    )),
+                              ],
                             )
                           ],
                         ),
@@ -269,8 +276,8 @@ class _FlipCardPageState extends State<FlipCardPage>
                       Column(
                         children: [
                           Container(
-                            width: 40,
-                            height: 80,
+                            height: screenHeight * 15 / 100,
+                            width: screenWidth * 10 / 100,
                             decoration: BoxDecoration(
                               color: getFacultyColor(
                                   studentProv.student.facultynamethai!),
@@ -289,7 +296,7 @@ class _FlipCardPageState extends State<FlipCardPage>
                               region,
                               style: TextStyle(
                                 fontFamily: AppTheme.ruFontKanit,
-                                fontSize: 12,
+                                fontSize: baseFontSize - 20,
                                 color: AppTheme.ru_yellow,
                               ),
                             ),
@@ -300,7 +307,7 @@ class _FlipCardPageState extends State<FlipCardPage>
                       QrImage(
                         data: authen.profile.studentCode!,
                         version: QrVersions.auto,
-                        size: 60,
+                        size: screenWidth * 15 / 100,
                         gapless: false,
                       )
                     ],
@@ -308,15 +315,18 @@ class _FlipCardPageState extends State<FlipCardPage>
                 ),
               ),
               Container(
-                width: 350, // Set the desired width of the flag
-                height: 170, // Set the desired height of the flag
+                height: screenHeight * 20 / 100,
+                width: screenWidth * 60 / 100,
                 child: Column(
                   children: [
                     Expanded(
                       flex: 4,
                       child: Container(
+                        height: screenHeight * 5 / 100,
+                        width: screenWidth * 60 / 100,
                         child: Container(
-                          width: 320,
+                          height: screenWidth * 5 / 100,
+                          width: screenWidth * 60 / 100,
                           child: Padding(
                               padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
                               child: Column(
@@ -326,29 +336,32 @@ class _FlipCardPageState extends State<FlipCardPage>
                                   Text('${studentProv.student.namethai!}',
                                       style: TextStyle(
                                         fontFamily: AppTheme.ruFontKanit,
-                                        fontSize: 14,
+                                        fontSize: baseFontSize - 20,
                                         color: AppTheme.white,
                                       )),
                                   Text(studentProv.student.nameeng!,
                                       style: TextStyle(
                                         fontFamily: AppTheme.ruFontKanit,
-                                        fontSize: 14,
+                                        fontSize: baseFontSize - 20,
                                         color: AppTheme.ru_yellow,
                                       ))
                                 ],
                               )),
                         ),
-                        color: Color.fromRGBO(
-                            4, 3, 77, 0.8), // Set the color for the red stripes
+                        color: AppTheme
+                            .ru_dark_blue, // Set the color for the red stripes
                       ),
                     ),
                     Expanded(
                       flex: 4,
                       child: Container(
+                        height: screenHeight * 5 / 100,
+                        width: screenWidth * 60 / 100,
                         child: Container(
-                          width: 320,
+                          height: screenHeight * 5 / 100,
+                          width: screenWidth * 60 / 100,
                           child: Padding(
-                              padding: EdgeInsets.all(8.0),
+                              padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
                               child: Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -356,20 +369,20 @@ class _FlipCardPageState extends State<FlipCardPage>
                                   Text(studentProv.student.facultynamethai!,
                                       style: TextStyle(
                                         fontFamily: AppTheme.ruFontKanit,
-                                        fontSize: 22,
+                                        fontSize: baseFontSize - 20,
                                         color: AppTheme.ru_dark_blue,
                                       )),
                                   Text(studentProv.student.majornamethai!,
                                       style: TextStyle(
                                         fontFamily: AppTheme.ruFontKanit,
-                                        fontSize: 20,
+                                        fontSize: baseFontSize - 20,
                                         color: AppTheme.white,
                                       ))
                                 ],
                               )),
                         ),
-                        color: Color.fromRGBO(255, 195, 0,
-                            0.7), // Set the color for the blue stripes
+                        color: AppTheme
+                            .ru_yellow, // Set the color for the blue stripes
                       ),
                     ),
                   ],
@@ -380,12 +393,12 @@ class _FlipCardPageState extends State<FlipCardPage>
                 child: Column(
                   children: [
                     Container(
-                      height: 70,
-                      width: 280,
+                      height: screenHeight * 10 / 100,
+                      width: screenWidth * 50 / 100,
                       child: Padding(
                         padding: EdgeInsets.all(5.0),
                         child: Image.network(
-                            'http://beta-e-service.ru.ac.th:8001/misservice/generate/barcode.php?barcode=${authen.profile.email!.substring(0, 10)}&width=240&height=60'),
+                            'http://beta-e-service.ru.ac.th:8001/misservice/generate/barcode.php?barcode=${authen.profile.email!.substring(0, 10)}&width=${screenWidth * 50 / 100}&height=${screenHeight * 10 / 100}'),
                       ),
                     ),
                   ],

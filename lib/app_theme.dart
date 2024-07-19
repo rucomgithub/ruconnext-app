@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 class AppTheme {
   AppTheme._();
 
-static const MaterialColor myColor = MaterialColor(0xFFEDF0F2, {
-      50: Color(0xFFFCE4EC),
-      100: Color(0xFFF8BBD0),
-      200: Color(0xFFF48FB1),
-      300: Color(0xFFF06292),
-      400: Color(0xFFEC407A),
-      500: Color(0xFFE91E63),
-      600: Color(0xFFD81B60),
-      700: Color(0xFFC2185B),
-      800: Color(0xFFAD1457),
-      900: Color(0xFF880E4F),
-    });
+  static const MaterialColor myColor = MaterialColor(0xFFEDF0F2, {
+    50: Color(0xFFFCE4EC),
+    100: Color(0xFFF8BBD0),
+    200: Color(0xFFF48FB1),
+    300: Color(0xFFF06292),
+    400: Color(0xFFEC407A),
+    500: Color(0xFFE91E63),
+    600: Color(0xFFD81B60),
+    700: Color(0xFFC2185B),
+    800: Color(0xFFAD1457),
+    900: Color(0xFF880E4F),
+  });
 
   static const Color notWhite = Color(0xFFEDF0F2);
   static const Color nearlyWhite = Color(0xFFFEFEFE);
@@ -43,7 +43,7 @@ static const MaterialColor myColor = MaterialColor(0xFFEDF0F2, {
   //static const String fontName = 'KanitRegular';
   static const String ruFontKanit = 'KanitRegular';
   static const String ruFontCharm = 'Charm';
-  
+
   static const TextTheme textTheme = TextTheme(
     headline4: display1,
     headline5: headline,
@@ -54,7 +54,8 @@ static const MaterialColor myColor = MaterialColor(0xFFEDF0F2, {
     caption: caption,
   );
 
-  static const TextStyle display1 = TextStyle( // h4 -> display1
+  static const TextStyle display1 = TextStyle(
+    // h4 -> display1
     fontFamily: ruFontKanit,
     fontWeight: FontWeight.bold,
     fontSize: 36,
@@ -63,7 +64,8 @@ static const MaterialColor myColor = MaterialColor(0xFFEDF0F2, {
     color: darkerText,
   );
 
-  static const TextStyle headline = TextStyle( // h5 -> headline
+  static const TextStyle headline = TextStyle(
+    // h5 -> headline
     fontFamily: ruFontKanit,
     fontWeight: FontWeight.bold,
     fontSize: 24,
@@ -71,7 +73,8 @@ static const MaterialColor myColor = MaterialColor(0xFFEDF0F2, {
     color: darkerText,
   );
 
-  static const TextStyle title = TextStyle( // h6 -> title
+  static const TextStyle title = TextStyle(
+    // h6 -> title
     fontFamily: ruFontKanit,
     fontWeight: FontWeight.bold,
     fontSize: 16,
@@ -79,7 +82,8 @@ static const MaterialColor myColor = MaterialColor(0xFFEDF0F2, {
     color: darkerText,
   );
 
-  static const TextStyle subtitle = TextStyle( // subtitle2 -> subtitle
+  static const TextStyle subtitle = TextStyle(
+    // subtitle2 -> subtitle
     fontFamily: ruFontKanit,
     fontWeight: FontWeight.w400,
     fontSize: 14,
@@ -87,7 +91,8 @@ static const MaterialColor myColor = MaterialColor(0xFFEDF0F2, {
     color: darkText,
   );
 
-  static const TextStyle body2 = TextStyle( // body1 -> body2
+  static const TextStyle body2 = TextStyle(
+    // body1 -> body2
     fontFamily: ruFontKanit,
     fontWeight: FontWeight.w400,
     fontSize: 14,
@@ -95,7 +100,8 @@ static const MaterialColor myColor = MaterialColor(0xFFEDF0F2, {
     color: darkText,
   );
 
-  static const TextStyle body1 = TextStyle( // body2 -> body1
+  static const TextStyle body1 = TextStyle(
+    // body2 -> body1
     fontFamily: ruFontKanit,
     fontWeight: FontWeight.w400,
     fontSize: 16,
@@ -103,14 +109,12 @@ static const MaterialColor myColor = MaterialColor(0xFFEDF0F2, {
     color: darkText,
   );
 
-  static const TextStyle caption = TextStyle( // Caption -> caption
+  static const TextStyle caption = TextStyle(
+    // Caption -> caption
     fontFamily: ruFontKanit,
     fontWeight: FontWeight.w400,
     fontSize: 12,
     letterSpacing: 0.2,
     color: lightText, // was lightText
   );
-
-
-
 }
