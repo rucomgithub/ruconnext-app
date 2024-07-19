@@ -64,6 +64,10 @@ class _ProfileHomeScreenState extends State<ProfileHomeScreen>
   @override
   Widget build(BuildContext context) {
     var authen = context.watch<AuthenProvider>();
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize = screenWidth * 0.05;
+
     return Container(
       color: FitnessAppTheme.background,
       child: Scaffold(
@@ -100,7 +104,7 @@ class _ProfileHomeScreenState extends State<ProfileHomeScreen>
           child: SafeArea(
             child: Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
+                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
               child: GNav(
                 gap: 8, // Gap between tabs (optional)
                 backgroundColor: AppTheme.white, // Adjust color as needed
@@ -121,24 +125,28 @@ class _ProfileHomeScreenState extends State<ProfileHomeScreen>
                       icon: Icons.home,
                       text: 'หน้าแรก',
                       textStyle: TextStyle(
+                          fontSize: baseFontSize - 20,
                           fontFamily: AppTheme.ruFontKanit,
                           color: AppTheme.ru_dark_blue)),
                   GButton(
                       icon: Icons.person,
                       text: 'บัตรนักศึกษา',
                       textStyle: TextStyle(
+                          fontSize: baseFontSize - 20,
                           fontFamily: AppTheme.ruFontKanit,
                           color: AppTheme.ru_dark_blue)),
                   GButton(
                       icon: Icons.calendar_today,
                       text: 'ตารางเรียนวันนี้',
                       textStyle: TextStyle(
+                          fontSize: baseFontSize - 20,
                           fontFamily: AppTheme.ruFontKanit,
                           color: AppTheme.ru_dark_blue)),
                   GButton(
                       icon: Icons.newspaper,
                       text: 'ประชาสัมพันธ์',
                       textStyle: TextStyle(
+                          fontSize: baseFontSize - 20,
                           fontFamily: AppTheme.ruFontKanit,
                           color: AppTheme.ru_dark_blue)),
                 ],

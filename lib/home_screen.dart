@@ -115,6 +115,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     var scheduleProv = context.watch<ScheduleProvider>();
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
+
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize = screenWidth * 0.05;
+
     return Scaffold(
       appBar: AppBar(
         leading: Container(),
@@ -225,7 +230,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               children: <Widget>[
                                 // Text('$')
                                 Container(
-                                  height: 120,
+                                  height: MediaQuery.of(context).size.width *
+                                      30 /
+                                      100,
                                   width: MediaQuery.of(context).size.width,
                                   child: FadeTransition(
                                       opacity: animationForImage,
@@ -240,15 +247,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                     children: [
                                       Icon(Icons.list,
                                           color: AppTheme.ru_text_ocean_blue,
-                                          size: 18.0),
+                                          size: baseFontSize),
                                       Text(
                                         'กิจกรรมวันนี้',
                                         style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: baseFontSize,
                                           color: AppTheme.ru_text_ocean_blue,
                                           fontFamily: AppTheme.ruFontKanit,
                                           fontWeight: FontWeight.bold,
-                                          decoration: TextDecoration.underline,
                                         ),
                                       ),
                                     ],
@@ -269,10 +275,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                           title: Text(
                                             '${mr30.havetodayNow[index].courseNo}',
                                             style: TextStyle(
-                                              fontSize: 12,
+                                              fontSize: baseFontSize - 20,
                                             ),
                                           ),
                                           trailing: Text(
+                                              style: TextStyle(
+                                                fontSize: baseFontSize - 20,
+                                              ),
                                               '${StringTimeStudy((mr30.havetodayNow[index].timePeriod).toString())}'),
                                           onTap: () {
                                             Navigator.push(
@@ -312,13 +321,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                                         AppTheme.ruFontKanit,
                                                     color:
                                                         AppTheme.ru_dark_blue,
-                                                    fontSize: 13,
+                                                    fontSize: baseFontSize - 15,
                                                   ),
                                                 ),
                                                 subtitle: Text(
                                                   '${scheduleProv.schedules[0].eventName}',
                                                   style: TextStyle(
-                                                    fontSize: 12,
+                                                    fontSize: baseFontSize - 20,
                                                     fontFamily:
                                                         AppTheme.ruFontKanit,
                                                     color:
@@ -335,7 +344,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                                 trailing: BlinkText(
                                                     '${commingTimeNewLine(DateTime.parse(scheduleProv.schedules[0].startDate), DateTime.now(), DateTime.parse(scheduleProv.schedules[0].endDate))}',
                                                     style: TextStyle(
-                                                        fontSize: 11,
+                                                        fontSize:
+                                                            baseFontSize - 20,
                                                         fontStyle:
                                                             FontStyle.italic),
                                                     beginColor:
@@ -453,7 +463,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
             child: GNav(
               gap: 8, // Gap between tabs (optional)
               backgroundColor: AppTheme.white, // Adjust color as needed
@@ -474,24 +485,28 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     icon: Icons.home,
                     text: 'หน้าแรก',
                     textStyle: TextStyle(
+                        fontSize: baseFontSize - 20,
                         fontFamily: AppTheme.ruFontKanit,
                         color: AppTheme.ru_dark_blue)),
                 GButton(
                     icon: Icons.person,
                     text: 'บัตรนักศึกษา',
                     textStyle: TextStyle(
+                        fontSize: baseFontSize - 20,
                         fontFamily: AppTheme.ruFontKanit,
                         color: AppTheme.ru_dark_blue)),
                 GButton(
                     icon: Icons.calendar_today,
                     text: 'ตารางเรียนวันนี้',
                     textStyle: TextStyle(
+                        fontSize: baseFontSize - 20,
                         fontFamily: AppTheme.ruFontKanit,
                         color: AppTheme.ru_dark_blue)),
                 GButton(
                     icon: Icons.newspaper,
                     text: 'ประชาสัมพันธ์',
                     textStyle: TextStyle(
+                        fontSize: baseFontSize - 20,
                         fontFamily: AppTheme.ruFontKanit,
                         color: AppTheme.ru_dark_blue)),
               ],

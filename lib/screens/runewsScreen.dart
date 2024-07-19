@@ -93,6 +93,9 @@ class _RunewsScreenState extends State<RunewsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize = screenWidth * 0.05;
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
     return Scaffold(
@@ -331,7 +334,8 @@ class _RunewsScreenState extends State<RunewsScreen> {
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
             child: GNav(
               gap: 8, // Gap between tabs (optional)
               backgroundColor: AppTheme.white, // Adjust color as needed
@@ -352,24 +356,28 @@ class _RunewsScreenState extends State<RunewsScreen> {
                     icon: Icons.home,
                     text: 'หน้าแรก',
                     textStyle: TextStyle(
+                        fontSize: baseFontSize - 20,
                         fontFamily: AppTheme.ruFontKanit,
                         color: AppTheme.ru_dark_blue)),
                 GButton(
                     icon: Icons.person,
                     text: 'บัตรนักศึกษา',
                     textStyle: TextStyle(
+                        fontSize: baseFontSize - 20,
                         fontFamily: AppTheme.ruFontKanit,
                         color: AppTheme.ru_dark_blue)),
                 GButton(
                     icon: Icons.calendar_today,
                     text: 'ตารางเรียนวันนี้',
                     textStyle: TextStyle(
+                        fontSize: baseFontSize - 20,
                         fontFamily: AppTheme.ruFontKanit,
                         color: AppTheme.ru_dark_blue)),
                 GButton(
                     icon: Icons.newspaper,
                     text: 'ประชาสัมพันธ์',
                     textStyle: TextStyle(
+                        fontSize: baseFontSize - 20,
                         fontFamily: AppTheme.ruFontKanit,
                         color: AppTheme.ru_dark_blue)),
               ],

@@ -49,6 +49,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize = screenWidth * 0.05;
+
     return Container(
       color: Colors.transparent,
       child: Scaffold(
@@ -112,7 +116,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                         'อีเมลนักศึกษา มหาวิทยาลัยรามคำแหง',
                                         style: TextStyle(
                                           color: AppTheme.ru_text_ocean_blue,
-                                          fontSize: 18,
+                                          fontSize: baseFontSize - 20,
                                           fontFamily: AppTheme.ruFontKanit,
                                         ),
                                       ),
@@ -165,14 +169,15 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                         'Enter Student Code 10-digit Number',
                                     labelStyle: TextStyle(
                                       color: AppTheme.ru_text_ocean_blue,
-                                      fontSize: 18,
+                                      fontSize: baseFontSize - 20,
                                       fontFamily: AppTheme.ruFontKanit,
                                     ),
                                   ),
                                   style: TextStyle(
                                     color: AppTheme
                                         .ru_dark_blue, // Change the font color to your preference
-                                    fontSize: 18, // Adjust the font size
+                                    fontSize: baseFontSize -
+                                        20, // Adjust the font size
                                     // Add more text style properties as needed
                                   ),
                                   keyboardType: TextInputType.number,
@@ -186,7 +191,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   style: AuthButtonStyle(
                                     textStyle: TextStyle(
                                         color: AppTheme.ru_dark_blue,
-                                        fontSize: 18,
+                                        fontSize: baseFontSize - 20,
                                         fontFamily: AppTheme.ruFontKanit,
                                         fontWeight: FontWeight.bold),
                                     buttonColor: AppTheme.nearlyWhite,
@@ -208,7 +213,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   style: AuthButtonStyle(
                                     textStyle: TextStyle(
                                         color: AppTheme.ru_dark_blue,
-                                        fontSize: 18,
+                                        fontSize: baseFontSize - 20,
                                         fontFamily: AppTheme.ruFontKanit,
                                         fontWeight: FontWeight.bold),
                                     buttonColor: AppTheme.nearlyWhite,
