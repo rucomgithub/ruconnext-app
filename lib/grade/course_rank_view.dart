@@ -17,6 +17,10 @@ class CourseRankView extends StatelessWidget {
     var prov = Provider.of<GradeProvider>(context, listen: false);
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -60,7 +64,7 @@ class CourseRankView extends StatelessWidget {
                               style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 16,
+                                  fontSize: baseFontSize - 4,
                                   letterSpacing: -0.1,
                                   color: AppTheme.ru_text_grey),
                             ),
@@ -81,7 +85,7 @@ class CourseRankView extends StatelessWidget {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontFamily: AppTheme.ruFontKanit,
-                                        fontSize: 22,
+                                        fontSize: baseFontSize + 4,
                                         color: AppTheme.ru_text_ocean_blue,
                                       ),
                                     ),
@@ -94,7 +98,7 @@ class CourseRankView extends StatelessWidget {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontFamily: AppTheme.ruFontKanit,
-                                        fontSize: 18,
+                                        fontSize: baseFontSize,
                                         letterSpacing: -0.2,
                                         color: AppTheme.ru_text_grey,
                                       ),
@@ -113,7 +117,7 @@ class CourseRankView extends StatelessWidget {
                                         Icons.access_time,
                                         color: AppTheme.ru_text_grey
                                             .withOpacity(0.5),
-                                        size: 16,
+                                        size: baseFontSize - 6,
                                       ),
                                       Padding(
                                         padding:
@@ -124,7 +128,7 @@ class CourseRankView extends StatelessWidget {
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             fontFamily: AppTheme.ruFontKanit,
-                                            fontSize: 14,
+                                            fontSize: baseFontSize - 6,
                                             letterSpacing: 0.0,
                                             color: AppTheme.ru_text_ocean_blue
                                                 .withOpacity(0.5),
@@ -141,7 +145,7 @@ class CourseRankView extends StatelessWidget {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontFamily: AppTheme.ruFontKanit,
-                                        fontSize: 14,
+                                        fontSize: baseFontSize - 6,
                                         letterSpacing: 0.0,
                                         color: AppTheme.ru_text_grey,
                                       ),
@@ -180,7 +184,7 @@ class CourseRankView extends StatelessWidget {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontFamily: AppTheme.ruFontKanit,
-                                    fontSize: 14,
+                                    fontSize: baseFontSize - 4,
                                     letterSpacing: -0.2,
                                     color: AppTheme.ru_text_ocean_blue,
                                   ),
@@ -192,7 +196,7 @@ class CourseRankView extends StatelessWidget {
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontFamily: AppTheme.ruFontKanit,
-                                      fontSize: 12,
+                                      fontSize: baseFontSize - 6,
                                       color: AppTheme.ru_text_grey,
                                     ),
                                   ),
@@ -215,7 +219,7 @@ class CourseRankView extends StatelessWidget {
                                       style: TextStyle(
                                         fontFamily: AppTheme.ruFontKanit,
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 14,
+                                        fontSize: baseFontSize - 4,
                                         letterSpacing: -0.2,
                                         color: AppTheme.ru_text_ocean_blue,
                                       ),
@@ -227,7 +231,7 @@ class CourseRankView extends StatelessWidget {
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontFamily: AppTheme.ruFontKanit,
-                                          fontSize: 12,
+                                          fontSize: baseFontSize - 6,
                                           color: AppTheme.ru_text_grey,
                                         ),
                                       ),
@@ -251,7 +255,7 @@ class CourseRankView extends StatelessWidget {
                                       style: TextStyle(
                                         fontFamily: AppTheme.ruFontKanit,
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 14,
+                                        fontSize: baseFontSize - 4,
                                         letterSpacing: -0.2,
                                         color: AppTheme.ru_text_ocean_blue,
                                       ),
@@ -263,7 +267,7 @@ class CourseRankView extends StatelessWidget {
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontFamily: AppTheme.ruFontKanit,
-                                          fontSize: 12,
+                                          fontSize: baseFontSize - 6,
                                           color: AppTheme.ru_text_grey,
                                         ),
                                       ),

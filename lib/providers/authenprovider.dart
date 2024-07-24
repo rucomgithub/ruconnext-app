@@ -5,6 +5,7 @@ import '../services/authenservice.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import '../model/profile.dart';
 import '../store/mr30.dart';
 import '../store/profile.dart';
@@ -19,20 +20,30 @@ class AuthenProvider extends ChangeNotifier {
   Profile _profile = Profile();
   Profile get profile => _profile;
 
-Future<void> getAuthenGoogleDev(context) async {
+  String _role = "-";
+  String get role => _role;
+
+  Future<void> getAuthenGoogleDev(context, String std_code) async {
+    print('getAuthenGoogleDev');
     _isLoading = true;
-    notifyListeners();
 
     try {
       _isLoading = false;
-      _profile = await _service.getAuthenGoogleDev();
+      _profile = await _service.getAuthenGoogleDev(std_code);
       await ProfileStorage.saveProfile(_profile);
+
+      Map<String, dynamic> decodedToken =
+          JwtDecoder.decode(_profile.accessToken.toString());
+      // Now you can use your decoded token
+      _role = decodedToken["role"];
+
       Get.offNamedUntil('/', (route) => true);
     } catch (e) {
       await _googleSingIn.signOut();
       _isLoading = false;
       var snackbar = SnackBar(content: Text('$e'));
-      //print('$e');
+      print('$e');
+      _role = '-';
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
 
@@ -42,7 +53,6 @@ Future<void> getAuthenGoogleDev(context) async {
   Future<void> getAuthenGoogle(context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _isLoading = true;
-    notifyListeners();
 
     try {
       _isLoading = true;
@@ -62,7 +72,7 @@ Future<void> getAuthenGoogleDev(context) async {
     notifyListeners();
   }
 
-    Future<void> logout() async {
+  Future<void> logout() async {
     _profile = new Profile();
     await ProfileStorage.removeProfile();
     await MR30Storage.removeMR30();
@@ -72,11 +82,9 @@ Future<void> getAuthenGoogleDev(context) async {
     notifyListeners();
   }
 
-    Future<void> getProfile() async {
+  Future<void> getProfile() async {
     _profile = await ProfileStorage.getProfile();
     _isLoading = false;
     notifyListeners();
   }
-
-
 }

@@ -1,4 +1,3 @@
-import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +23,10 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
     var prov = Provider.of<GradeProvider>(context, listen: false);
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return AnimatedBuilder(
       animation: widget.animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -112,7 +115,9 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                                                           style: TextStyle(
                                                             fontFamily: AppTheme
                                                                 .ruFontKanit,
-                                                            fontSize: 18,
+                                                            fontSize:
+                                                                baseFontSize -
+                                                                    6,
                                                             letterSpacing: -0.1,
                                                             color: AppTheme
                                                                 .ru_text_ocean_blue,
@@ -125,7 +130,9 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                                                           style: TextStyle(
                                                             fontFamily: AppTheme
                                                                 .ruFontKanit,
-                                                            fontSize: 18,
+                                                            fontSize:
+                                                                baseFontSize -
+                                                                    6,
                                                             letterSpacing: -0.1,
                                                             color: AppTheme
                                                                 .ru_text_grey,
@@ -160,7 +167,9 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                                                           style: TextStyle(
                                                             fontFamily: AppTheme
                                                                 .ruFontKanit,
-                                                            fontSize: 16,
+                                                            fontSize:
+                                                                baseFontSize -
+                                                                    6,
                                                             color: AppTheme
                                                                 .ru_text_ocean_blue,
                                                           ),
@@ -179,7 +188,9 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                                                           style: TextStyle(
                                                             fontFamily: AppTheme
                                                                 .ruFontKanit,
-                                                            fontSize: 12,
+                                                            fontSize:
+                                                                baseFontSize -
+                                                                    6,
                                                             letterSpacing: -0.2,
                                                             color: AppTheme
                                                                 .ru_text_grey
@@ -235,7 +246,7 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                                             style: TextStyle(
                                               fontFamily: AppTheme.ruFontKanit,
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 24,
+                                              fontSize: baseFontSize,
                                               letterSpacing: 0.0,
                                               color: Color.fromARGB(
                                                   255, 1, 15, 167),
@@ -246,9 +257,9 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               fontFamily: AppTheme.ruFontKanit,
-                                              fontSize: 12,
+                                              fontSize: baseFontSize - 6,
                                               letterSpacing: 0.0,
-                                              color: AppTheme.ru_text_grey
+                                              color: AppTheme.ru_text_ocean_blue
                                                   .withOpacity(0.5),
                                             ),
                                           ),
@@ -305,8 +316,8 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                               left: 20, right: 8, top: 8, bottom: 20),
                           child: Icon(
                             Icons.abc,
-                            color: AppTheme.ru_text_ocean_blue.withOpacity(1),
-                            size: 20,
+                            color: AppTheme.ru_text_ocean_blue,
+                            size: baseFontSize + 4,
                           ),
                         ),
                         Padding(
@@ -318,7 +329,7 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                             style: TextStyle(
                               fontFamily: AppTheme.ruFontKanit,
                               fontWeight: FontWeight.w500,
-                              fontSize: 16,
+                              fontSize: baseFontSize - 6,
                               letterSpacing: 0.0,
                               color: AppTheme.ru_dark_blue,
                             ),

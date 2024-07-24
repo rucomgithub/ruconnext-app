@@ -43,7 +43,7 @@ class ManualListData {
     ),
     ManualListData(
       imagePath: 'assets/fitness_app/A14.png',
-      titleTxt: 'หน้าข่าวประชาสัมพันธ์',
+      titleTxt: 'หน้าประชาสัมพันธ์',
       subTxt: 'การใช้งานข่าวประชาสัมพันธ์',
       navigateScreen: '/newshelp',
     ),

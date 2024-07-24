@@ -1,6 +1,10 @@
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:th.ac.ru.uSmart/navigation_home_screen.dart';
+import 'package:th.ac.ru.uSmart/schedule/schedule_home_screen.dart';
+import 'package:th.ac.ru.uSmart/screens/runewsScreen.dart';
 import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
 import 'package:th.ac.ru.uSmart/widget/top_bar.dart';
 import 'package:th.ac.ru.uSmart/widget/top_menu_bar.dart';
@@ -21,40 +25,81 @@ class _aboutRamState extends State<aboutRam> {
   List<dynamic> _products = [
     {
       'title': 'พ่อขุนรามคำแหง',
-      'image':
-          'https://www.xn--12cg1cxchd0a2gzc1c5d5a.net/wp-content/uploads/2018/09/king-sukhothai-03.jpg',
+      'image': 'https://www.ru.ac.th/th/images/porkunram.jpg',
       'description':
           'พ่อขุนรามคำแหงมหาราช หรือ ขุนรามราช หรือ พระบาทกมรเตงอัญศรีรามราช เป็นพระมหากษัตริย์พระองค์ที่ 3 ในราชวงศ์พระร่วงแห่งราชอาณาจักรสุโขทัย เสวยราชย์ประมาณ พ.ศ. 1822 ถึงประมาณ พ.ศ. 1842 พระองค์ทรงเป็นกษัตริย์พระองค์แรกของไทยที่ได้รับการยกย่องเป็น "มหาราช"'
     },
     {
-      'title': 'อาคารเวียงผา',
-      'image':
-          'https://igx.4sqi.net/img/general/600x600/7826402_1oo60CjivIyUplAanZFUraUsntP-z8JLoxvc0ue3oxM.jpg',
+      'title': 'ตราประจำมหาวิทยาลัย',
+      'image': 'https://www.ru.ac.th/th/images/sila01.jpg',
       'description':
-          '“เวียงผา” ได้นำมาตั้งเป็นชื่อของอาคารภายในมหาวิทยาลัยรามคำแหง อาคารเวียงผา มีลักษณะเป็นอาคารเรียนรวมสูง 5 ชั้น เช่นเดียวกันกับ อาคารเวียงคำ ที่แวดล้อมไปด้วยอาคารต่างๆ ของมหาวิทยาลัย เช่น อาคารรัตนธาร อาคารสำนักพิมพ์ ห้องอ่านหนังสือศรีอักษร อาคารจอดรถ และซุ้มนักศึกษาบริเวณด้านหลังอาคารศรีศรัธรา'
+          '“ประวัติความเป็นมา” ศิลาจารึกพ่อขุนรามคำแหง เมื่อ พ.ศ.๒๓๗๖ ณ เนินปราสาทเมืองเก่าสุโขทัย อำเภอเมือง จังหวัดสุโขทัย โดยพระบาทสมเด็จพระจอมเกล้าเจ้าอยู่หัว ขณะที่ทรงผนวชเป็นผู้ค้นพบ'
+    },
+    {
+      'title': 'ต้นไม้ ประจำมหาวิทยาลัย',
+      'image': 'https://www.ru.ac.th/th/images/tree1.jpg',
+      'description':
+          'สมเด็จพระเทพรัตนราชสุดาฯ สยามบรมราชกุมารี พระราชทานต้นสุพรรณิการ์ เป็นต้นไม้ประจำมหาวิทยาลัย ขณะนี้ปลูกไว้บริเวณหน้าอาคาร หอประชุมพ่อขุนรามคำแหงมหาราช เมื่อวันที่ 18 มกราคม 2542'
+    },
+    {
+      'title': 'วิสัยทัศน์',
+      'image': 'https://www.naewna.com/uploads/news/source/389623.jpg',
+      'description':
+          'มหาวิทยาลัยรามคำแหงเป็นตลาดวิชาดิจิทัล ที่ให้บริการส่งเสริมการเรียนรู้ตลอดชีวิต'
     },
     {
       'title': 'ปณิธาน',
       'image': 'https://www.naewna.com/uploads/news/source/389623.jpg',
       'description':
           'พัฒนามหาวิทยาลัยรามคำแหงให้เป็นแหล่งวิทยาการแบบตลาดวิชาควบคู่แบบจำกัดจำนวน มุ่งผลิตบัณฑิตที่มีความรู้คู่คุณธรรม และจิตสำนึกในความรับผิดชอบต่อสังคม '
+    },
+    {
+      'title': 'ผศ.วุฒิศักดิ์ ลาภเจริญทรัพย์',
+      'image': 'https://www.ru.ac.th/th/images/President/1720275748_.png',
+      'description':
+          'ประธานกรรมการส่งเสริมกิจการมหาวิทยาลัย กรรมการสภามหาวิทยาลัยรามคำแหง รักษาราชการแทน อธิการบดีมหาวิทยาลัยรามคำแหง'
     }
   ];
+
+  int _selectedMenu =
+      1; // Tracks selected bottom bar item/ Tracks selected bottom bar item
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedMenu = index;
+    });
+    if (index == 0) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => NavigationHomeScreen()));
+    } else if (index == 1) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => aboutRam()));
+    } else if (index == 2) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => ScheduleHomeScreen()));
+    } else if (index == 3) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => RunewsScreen()));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
-
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
           color: AppTheme.nearlyWhite, // Change back arrow color to white
         ),
         title: Text(
-          'ข้อมูลมหาวิทยาลัย',
+          'เกี่ยวกับราม',
           style: TextStyle(
-            fontSize: 22,
+            fontSize: baseFontSize - 2,
             fontFamily: AppTheme.ruFontKanit,
             color: AppTheme.nearlyWhite,
             fontWeight: FontWeight.bold,
@@ -178,8 +223,8 @@ class _aboutRamState extends State<aboutRam> {
                                           ),
                                           Text(
                                             data['title'],
-                                            style: const TextStyle(
-                                                fontSize: 24,
+                                            style: TextStyle(
+                                                fontSize: baseFontSize - 4,
                                                 fontFamily:
                                                     AppTheme.ruFontKanit,
                                                 fontWeight: FontWeight.bold),
@@ -188,15 +233,18 @@ class _aboutRamState extends State<aboutRam> {
                                             height: 20,
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.all(16),
+                                            padding: EdgeInsets.all(20),
                                             child: Text(
                                               data['description'],
                                               style: TextStyle(
-                                                  fontSize: 14,
+                                                  fontSize: baseFontSize - 6,
                                                   fontFamily:
                                                       AppTheme.ruFontKanit),
                                             ),
-                                          )
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -210,6 +258,72 @@ class _aboutRamState extends State<aboutRam> {
                 ),
               ),
             ],
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: AppTheme.white,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 5,
+              color: AppTheme.ru_yellow,
+            )
+          ],
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
+            child: GNav(
+              gap: 8, // Gap between tabs (optional)
+              backgroundColor: AppTheme.white, // Adjust color as needed
+              activeColor:
+                  AppTheme.ru_dark_blue, // Adjust active color as needed
+              color: AppTheme.ru_dark_blue
+                  .withAlpha(200), // Adjust unselected color as needed
+              iconSize: 24, // Icon size (optional)
+              padding: EdgeInsets.symmetric(
+                  horizontal: 15, vertical: 8), // Padding (optional)
+              tabActiveBorder: Border.all(
+                  color: AppTheme.ru_dark_blue,
+                  width: 1), // Tab border (optional)
+              curve: Curves.easeOutExpo, // tab animation curves
+              duration: Duration(milliseconds: 600),
+              tabs: [
+                GButton(
+                    icon: Icons.home,
+                    text: 'หน้าแรก',
+                    textStyle: TextStyle(
+                        fontSize: baseFontSize - 4,
+                        fontFamily: AppTheme.ruFontKanit,
+                        color: AppTheme.ru_dark_blue)),
+                GButton(
+                    icon: Icons.person,
+                    text: 'เกี่ยวกับราม',
+                    textStyle: TextStyle(
+                        fontSize: baseFontSize - 4,
+                        fontFamily: AppTheme.ruFontKanit,
+                        color: AppTheme.ru_dark_blue)),
+                GButton(
+                    icon: Icons.calendar_today,
+                    text: 'ปฏิทินการศึกษา',
+                    textStyle: TextStyle(
+                        fontSize: baseFontSize - 4,
+                        fontFamily: AppTheme.ruFontKanit,
+                        color: AppTheme.ru_dark_blue)),
+                GButton(
+                    icon: Icons.newspaper,
+                    text: 'ประชาสัมพันธ์',
+                    textStyle: TextStyle(
+                        fontSize: baseFontSize - 4,
+                        fontFamily: AppTheme.ruFontKanit,
+                        color: AppTheme.ru_dark_blue)),
+              ],
+              selectedIndex: _selectedMenu,
+              onTabChange: (index) => _onItemTapped(index),
+            ),
           ),
         ),
       ),

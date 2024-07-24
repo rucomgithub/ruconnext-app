@@ -5,7 +5,11 @@ import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/home_screen.dart';
 import 'package:th.ac.ru.uSmart/navigation_home_screen.dart';
+import 'package:th.ac.ru.uSmart/pages/aboutRam_screen.dart';
 import 'package:th.ac.ru.uSmart/pages/profile_home_screen.dart';
+import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
+import 'package:th.ac.ru.uSmart/providers/home_provider.dart';
+import 'package:th.ac.ru.uSmart/schedule/schedule_home_screen.dart';
 import 'package:th.ac.ru.uSmart/today/today_home_screen.dart';
 import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
 import 'package:th.ac.ru.uSmart/widget/top_bar.dart';
@@ -59,21 +63,22 @@ class _RunewsScreenState extends State<RunewsScreen> {
     });
   }
 
-  int _selectedIndex = 3; // Tracks selected bottom bar item
+  int _selectedMenu = 3; // Tracks selected bottom bar item
 
   void _onItemTapped(int index) {
+    Provider.of<HomeProvider>(context, listen: false).getTimeHomePage();
     setState(() {
-      _selectedIndex = index;
+      _selectedMenu = index;
     });
     if (index == 0) {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => NavigationHomeScreen()));
     } else if (index == 1) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => ProfileHomeScreen()));
-    } else if (index == 2) {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => TodayHomeScreen()));
+          context, MaterialPageRoute(builder: (context) => aboutRam()));
+    } else if (index == 2) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => ScheduleHomeScreen()));
     } else if (index == 3) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => RunewsScreen()));
@@ -93,9 +98,10 @@ class _RunewsScreenState extends State<RunewsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var authen = context.watch<AuthenProvider>();
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    double baseFontSize = screenWidth * 0.05;
+    double baseFontSize = screenWidth * 0.05 > 18 ? 18 : screenWidth * 0.05;
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
     return Scaffold(
@@ -104,9 +110,9 @@ class _RunewsScreenState extends State<RunewsScreen> {
           color: AppTheme.nearlyWhite, // Change back arrow color to white
         ),
         title: Text(
-          'กิจกรรมประชาสัมพันธ์',
+          'ประชาสัมพันธ์',
           style: TextStyle(
-            fontSize: 22,
+            fontSize: baseFontSize - 2,
             fontFamily: AppTheme.ruFontKanit,
             color: AppTheme.nearlyWhite,
             fontWeight: FontWeight.bold,
@@ -356,32 +362,32 @@ class _RunewsScreenState extends State<RunewsScreen> {
                     icon: Icons.home,
                     text: 'หน้าแรก',
                     textStyle: TextStyle(
-                        fontSize: baseFontSize - 20,
+                        fontSize: baseFontSize - 4,
                         fontFamily: AppTheme.ruFontKanit,
                         color: AppTheme.ru_dark_blue)),
                 GButton(
                     icon: Icons.person,
-                    text: 'บัตรนักศึกษา',
+                    text: 'เกี่ยวกับราม',
                     textStyle: TextStyle(
-                        fontSize: baseFontSize - 20,
+                        fontSize: baseFontSize - 4,
                         fontFamily: AppTheme.ruFontKanit,
                         color: AppTheme.ru_dark_blue)),
                 GButton(
                     icon: Icons.calendar_today,
-                    text: 'ตารางเรียนวันนี้',
+                    text: 'ปฏิทินการศึกษา',
                     textStyle: TextStyle(
-                        fontSize: baseFontSize - 20,
+                        fontSize: baseFontSize - 4,
                         fontFamily: AppTheme.ruFontKanit,
                         color: AppTheme.ru_dark_blue)),
                 GButton(
                     icon: Icons.newspaper,
                     text: 'ประชาสัมพันธ์',
                     textStyle: TextStyle(
-                        fontSize: baseFontSize - 20,
+                        fontSize: baseFontSize - 4,
                         fontFamily: AppTheme.ruFontKanit,
                         color: AppTheme.ru_dark_blue)),
               ],
-              selectedIndex: _selectedIndex,
+              selectedIndex: _selectedMenu,
               onTabChange: (index) => _onItemTapped(index),
             ),
           ),

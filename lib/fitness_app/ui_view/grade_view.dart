@@ -15,6 +15,10 @@ class GradeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var prov = Provider.of<GradeProvider>(context, listen: false);
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -56,13 +60,13 @@ class GradeView extends StatelessWidget {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
-                        child: const Text(
+                        child: Text(
                           'แสดงรายการวิชาตามเกรดที่สอบผ่าน',
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontFamily: AppTheme.ruFontKanit,
                             fontWeight: FontWeight.normal,
-                            fontSize: 20,
+                            fontSize: baseFontSize - 4,
                             letterSpacing: 0.0,
                             color: AppTheme.white,
                           ),
@@ -82,18 +86,18 @@ class GradeView extends StatelessWidget {
                               child: Icon(
                                 Icons.list,
                                 color: AppTheme.white,
-                                size: 16,
+                                size: baseFontSize + 4,
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 4.0),
                               child: Text(
-                                '${prov.groupGrade.length} รายการ',
+                                '${prov.groupGrade.length} กลุ่มรายการ',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 14,
+                                  fontSize: baseFontSize - 4,
                                   letterSpacing: 0.0,
                                   color: AppTheme.white,
                                 ),
@@ -119,7 +123,7 @@ class GradeView extends StatelessWidget {
                                 child: Icon(
                                   Icons.grade,
                                   color: HexColor("FF19196B"),
-                                  size: 44,
+                                  size: baseFontSize + 10,
                                 ),
                               ),
                             )

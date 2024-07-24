@@ -1,22 +1,16 @@
 import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/my_diary/yearsemester_list_view.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/ui_view/glass_view.dart';
-
-import 'package:th.ac.ru.uSmart/fitness_app/ui_view/title_view.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/grade/course_rank_view.dart';
 import 'package:th.ac.ru.uSmart/grade/radar_view.dart';
 import 'package:th.ac.ru.uSmart/grade/summary_credit_view.dart';
 import 'package:th.ac.ru.uSmart/grade/summary_grade_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:th.ac.ru.uSmart/widget/RadarChartWidget.dart';
+import 'package:th.ac.ru.uSmart/mr30/title_view.dart';
 import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
-import 'package:th.ac.ru.uSmart/widget/top_bar.dart';
-
+import 'package:th.ac.ru.uSmart/mr30/titlenone_view.dart';
 import '../providers/grade_provider.dart';
-import '../fitness_app/ui_view/titlenone_view.dart';
 
 class MyGradeScreen extends StatefulWidget {
   const MyGradeScreen({Key? key, this.animationController}) : super(key: key);
@@ -211,6 +205,11 @@ class _MyGradeScreenState extends State<MyGradeScreen>
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -219,7 +218,7 @@ class _MyGradeScreenState extends State<MyGradeScreen>
         title: Text(
           'ผลการศึกษา',
           style: TextStyle(
-            fontSize: 22,
+            fontSize: baseFontSize,
             fontFamily: AppTheme.ruFontKanit,
             color: AppTheme.nearlyWhite,
             fontWeight: FontWeight.bold,

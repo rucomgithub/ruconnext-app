@@ -3,7 +3,6 @@ import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:th.ac.ru.uSmart/providers/grade_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../fitness_app_theme.dart';
 
 class RankView extends StatelessWidget {
   final AnimationController? animationController;
@@ -18,6 +17,10 @@ class RankView extends StatelessWidget {
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
+        double screenWidth = MediaQuery.of(context).size.width;
+        double screenHeight = MediaQuery.of(context).size.height;
+        double baseFontSize =
+            screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
         return FadeTransition(
           opacity: animation!,
           child: new Transform(
@@ -56,13 +59,13 @@ class RankView extends StatelessWidget {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
-                        child: const Text(
+                        child: Text(
                           'อันดับวิชาที่ลงทะเบียนบ่อยที่สุด',
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontFamily: AppTheme.ruFontKanit,
                             fontWeight: FontWeight.normal,
-                            fontSize: 20,
+                            fontSize: baseFontSize - 4,
                             letterSpacing: 0.0,
                             color: AppTheme.white,
                           ),
@@ -82,7 +85,7 @@ class RankView extends StatelessWidget {
                               child: Icon(
                                 Icons.list,
                                 color: AppTheme.white,
-                                size: 16,
+                                size: baseFontSize + 4,
                               ),
                             ),
                             Padding(
@@ -93,7 +96,7 @@ class RankView extends StatelessWidget {
                                 style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 14,
+                                  fontSize: baseFontSize - 4,
                                   letterSpacing: 0.0,
                                   color: AppTheme.white,
                                 ),
@@ -119,7 +122,7 @@ class RankView extends StatelessWidget {
                                 child: Icon(
                                   Icons.grade,
                                   color: HexColor("FF19196B"),
-                                  size: 44,
+                                  size: baseFontSize + 10,
                                 ),
                               ),
                             )

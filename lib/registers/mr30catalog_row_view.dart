@@ -60,6 +60,10 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
     var prov = Provider.of<RegisterProvider>(context, listen: false);
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return RefreshIndicator(
       onRefresh: () => refreshData(context),
       child: Consumer<RegisterProvider>(builder: (context1, provider, _) {
@@ -209,12 +213,14 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(
+                                                        
                                                         fontFamily:
                                                             FitnessAppTheme
                                                                 .fontName,
+                                                                overflow: TextOverflow.ellipsis,
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        fontSize: 12,
+                                                        fontSize: baseFontSize - 8, 
                                                         color: FitnessAppTheme
                                                             .dark_grey,
                                                       ),
@@ -229,7 +235,8 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
                                                   fontFamily:
                                                       FitnessAppTheme.fontName,
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 12,
+                                                  fontSize: baseFontSize - 8, 
+                                                  overflow: TextOverflow.ellipsis,
                                                   color:
                                                       FitnessAppTheme.dark_grey,
                                                 ),
@@ -258,7 +265,8 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
                                                         fontFamily:
                                                             FitnessAppTheme
                                                                 .fontName,
-                                                        fontSize: 12,
+                                                        fontSize: baseFontSize - 8,
+                                                  overflow: TextOverflow.ellipsis,
                                                         color: FitnessAppTheme
                                                             .dark_grey,
                                                       ),
@@ -382,6 +390,10 @@ class CatalogRowView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -440,7 +452,7 @@ class CatalogRowView extends StatelessWidget {
                                 maxLines: 3,
                                 style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,
-                                  fontSize: 8,
+                                  fontSize: baseFontSize - 10,
                                   color: AppTheme.nearlyWhite,
                                 ),
                               ),
@@ -477,7 +489,7 @@ class CatalogRowView extends StatelessWidget {
                                             children: [
                                               Icon(
                                                 Icons.book,
-                                                size: 15,
+                                                size: baseFontSize -8,
                                               ),
                                               Text(
                                                 '${course!.courseno.toString()}',
@@ -486,7 +498,7 @@ class CatalogRowView extends StatelessWidget {
                                                   fontFamily:
                                                       AppTheme.ruFontKanit,
                                                   fontWeight: FontWeight.w600,
-                                                  fontSize: 14,
+                                                  fontSize: baseFontSize - 8 ,
                                                   color: AppTheme.ru_dark_blue,
                                                 ),
                                               )

@@ -30,6 +30,10 @@ class _RaDarViewState extends State<RaDarView> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     var prov = Provider.of<GradeProvider>(context, listen: false);
     return AnimatedBuilder(
       animation: widget.mainScreenAnimationController!,

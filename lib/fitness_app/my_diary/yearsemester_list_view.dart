@@ -49,6 +49,7 @@ class _YearSemesterListViewState extends State<YearSemesterListView>
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
     var prov = Provider.of<GradeProvider>(context, listen: false);
+
     return AnimatedBuilder(
       animation: widget.mainScreenAnimationController!,
       builder: (BuildContext context, Widget? child) {
@@ -120,6 +121,10 @@ class YearSemesterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -184,7 +189,7 @@ class YearSemesterView extends StatelessWidget {
                                 style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16,
+                                  fontSize: baseFontSize - 6,
                                   letterSpacing: 0.2,
                                   color: AppTheme.white,
                                 ),
@@ -214,7 +219,7 @@ class YearSemesterView extends StatelessWidget {
                                             style: TextStyle(
                                               fontFamily: AppTheme.ruFontKanit,
                                               fontWeight: FontWeight.w500,
-                                              fontSize: 10,
+                                              fontSize: baseFontSize - 10,
                                               letterSpacing: 0.2,
                                               color: AppTheme.white,
                                             ),
@@ -238,7 +243,7 @@ class YearSemesterView extends StatelessWidget {
                                           style: TextStyle(
                                             fontFamily: AppTheme.ruFontKanit,
                                             fontWeight: FontWeight.w500,
-                                            fontSize: 12,
+                                            fontSize: baseFontSize - 6,
                                             letterSpacing: 0.2,
                                             color: AppTheme.white,
                                           ),
@@ -251,7 +256,7 @@ class YearSemesterView extends StatelessWidget {
                                             style: TextStyle(
                                               fontFamily: AppTheme.ruFontKanit,
                                               fontWeight: FontWeight.w500,
-                                              fontSize: 12,
+                                              fontSize: baseFontSize - 6,
                                               letterSpacing: 0.2,
                                               color: AppTheme.white,
                                             ),

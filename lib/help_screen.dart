@@ -21,6 +21,7 @@ class _HelpScreenState extends State<HelpScreen> {
     bool isLightMode = brightness == Brightness.light;
     return Scaffold(
       appBar: AppBar(
+        leading: Container(),
         title: Text(
           'ช่วยเหลือ ?',
           style: TextStyle(

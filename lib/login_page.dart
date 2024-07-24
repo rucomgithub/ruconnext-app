@@ -10,7 +10,7 @@ import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
 import '../providers/authenprovider.dart';
 import 'package:provider/provider.dart';
 
-final usertest = dotenv.env['USERTEST'];
+final String? usertest = dotenv.env['USERTEST'];
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   late Animation<double> _animation;
 
   String inputText = '';
-  final String targetValue = "$usertest";
+  final List<String> targetValue = usertest?.split(',') ?? [];
 
   @override
   void initState() {
@@ -51,7 +51,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    double baseFontSize = screenWidth * 0.05;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
 
     return Container(
       color: Colors.transparent,
@@ -116,7 +117,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                         'อีเมลนักศึกษา มหาวิทยาลัยรามคำแหง',
                                         style: TextStyle(
                                           color: AppTheme.ru_text_ocean_blue,
-                                          fontSize: baseFontSize - 20,
+                                          fontSize: baseFontSize - 4,
                                           fontFamily: AppTheme.ruFontKanit,
                                         ),
                                       ),
@@ -166,10 +167,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   },
                                   decoration: InputDecoration(
                                     labelText:
-                                        'Enter Student Code 10-digit Number',
+                                        'Enter Student Code 10-digit Number ${targetValue.toString()}',
                                     labelStyle: TextStyle(
                                       color: AppTheme.ru_text_ocean_blue,
-                                      fontSize: baseFontSize - 20,
+                                      fontSize: baseFontSize - 6,
                                       fontFamily: AppTheme.ruFontKanit,
                                     ),
                                   ),
@@ -177,7 +178,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                     color: AppTheme
                                         .ru_dark_blue, // Change the font color to your preference
                                     fontSize: baseFontSize -
-                                        20, // Adjust the font size
+                                        6, // Adjust the font size
                                     // Add more text style properties as needed
                                   ),
                                   keyboardType: TextInputType.number,
@@ -185,13 +186,13 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   cursorColor: AppTheme.ru_dark_blue),
                             ),
                             if (inputText.length == 10)
-                              if (inputText == targetValue)
+                              if (targetValue.contains(inputText))
                                 GoogleAuthButton(
-                                  text: "เข้าสู่ระบบ",
+                                  text: "เข้าสู่ระบบทดสอบ",
                                   style: AuthButtonStyle(
                                     textStyle: TextStyle(
                                         color: AppTheme.ru_dark_blue,
-                                        fontSize: baseFontSize - 20,
+                                        fontSize: baseFontSize - 4,
                                         fontFamily: AppTheme.ruFontKanit,
                                         fontWeight: FontWeight.bold),
                                     buttonColor: AppTheme.nearlyWhite,
@@ -204,7 +205,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                     padding: EdgeInsets.all(0),
                                   ),
                                   onPressed: () {
-                                    authen.getAuthenGoogleDev(context);
+                                    authen.getAuthenGoogleDev(
+                                        context, inputText);
                                   },
                                 )
                               else
@@ -213,7 +215,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   style: AuthButtonStyle(
                                     textStyle: TextStyle(
                                         color: AppTheme.ru_dark_blue,
-                                        fontSize: baseFontSize - 20,
+                                        fontSize: baseFontSize - 4,
                                         fontFamily: AppTheme.ruFontKanit,
                                         fontWeight: FontWeight.bold),
                                     buttonColor: AppTheme.nearlyWhite,

@@ -72,6 +72,10 @@ class _StudyHomeScreenState extends State<StudyHomeScreen>
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
     var mr30 = context.watch<MR30Provider>();
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -80,7 +84,7 @@ class _StudyHomeScreenState extends State<StudyHomeScreen>
         title: Text(
           'วิชาเรียนทั้งหมด',
           style: TextStyle(
-            fontSize: 22,
+            fontSize: baseFontSize - 2,
             fontFamily: AppTheme.ruFontKanit,
             color: AppTheme.nearlyWhite,
             fontWeight: FontWeight.bold,
@@ -137,7 +141,7 @@ class _StudyHomeScreenState extends State<StudyHomeScreen>
                             pinned: true,
                             floating: true,
                             delegate: ContestTabHeader(
-                              getFilterBarUI(mr30),
+                              getFilterBarUI(mr30, baseFontSize),
                             ),
                           ),
                         ];
@@ -487,7 +491,7 @@ class _StudyHomeScreenState extends State<StudyHomeScreen>
     );
   }
 
-  Widget getFilterBarUI(MR30Provider mr30) {
+  Widget getFilterBarUI(MR30Provider mr30, double baseFontSize) {
     return Stack(
       children: <Widget>[
         Positioned(
@@ -522,7 +526,7 @@ class _StudyHomeScreenState extends State<StudyHomeScreen>
                     style: TextStyle(
                       fontWeight: FontWeight.w100,
                       color: AppTheme.ru_text_ocean_blue,
-                      fontSize: 16,
+                      fontSize: baseFontSize - 6,
                     ),
                   ),
                 ),

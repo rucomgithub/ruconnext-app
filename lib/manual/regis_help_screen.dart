@@ -118,7 +118,7 @@ Widget getAppBarUI(BuildContext context) {
           Expanded(
             child: Center(
               child: Text(
-                'การใช้งานข้อมูลการลงทะเบียนเรียน',
+                'การใช้งานข้อมูลการลงทะเบียน',
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 16,

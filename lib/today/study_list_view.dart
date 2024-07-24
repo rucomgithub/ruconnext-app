@@ -30,7 +30,10 @@ class StudyListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String hotel = 'hotel_3';
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     var havetoday = context.watch<MR30Provider>();
     return AnimatedBuilder(
       animation: animationController!,
@@ -93,7 +96,7 @@ class StudyListView extends StatelessWidget {
                                               textAlign: TextAlign.left,
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w600,
-                                                  fontSize: 22,
+                                                  fontSize: baseFontSize - 2,
                                                   color: AppTheme.ru_dark_blue),
                                             ),
                                             Row(
@@ -106,7 +109,8 @@ class StudyListView extends StatelessWidget {
                                                   //hotelData!.subTxt,
                                                   '${record!.dayNameS} ${record!.timePeriod}',
                                                   style: TextStyle(
-                                                      fontSize: 14,
+                                                      fontSize:
+                                                          baseFontSize - 4,
                                                       color:
                                                           AppTheme.nearlyBlack),
                                                 ),
@@ -115,7 +119,7 @@ class StudyListView extends StatelessWidget {
                                                 ),
                                                 Icon(
                                                   FontAwesomeIcons.locationDot,
-                                                  size: 12,
+                                                  size: baseFontSize - 4,
                                                   color: HotelAppTheme
                                                           .buildLightTheme()
                                                       .primaryColor,
@@ -135,7 +139,8 @@ class StudyListView extends StatelessWidget {
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                     style: TextStyle(
-                                                        fontSize: 14,
+                                                        fontSize:
+                                                            baseFontSize - 4,
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         color: AppTheme
@@ -150,7 +155,7 @@ class StudyListView extends StatelessWidget {
                                               child: Text(
                                                 '${record!.courseInstructor}',
                                                 style: TextStyle(
-                                                    fontSize: 12,
+                                                    fontSize: baseFontSize - 4,
                                                     color:
                                                         AppTheme.nearlyBlack),
                                               ),
@@ -174,13 +179,13 @@ class StudyListView extends StatelessWidget {
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                               fontWeight: FontWeight.w600,
-                                              fontSize: 22,
+                                              fontSize: baseFontSize - 4,
                                               color: AppTheme.ru_dark_blue),
                                         ),
                                         Text(
                                           '${record!.courseCredit}',
                                           style: TextStyle(
-                                              fontSize: 14,
+                                              fontSize: baseFontSize - 4,
                                               color: AppTheme.ru_dark_blue),
                                         ),
                                       ],

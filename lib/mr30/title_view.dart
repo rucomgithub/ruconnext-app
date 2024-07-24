@@ -20,6 +20,10 @@ class TitleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -40,9 +44,9 @@ class TitleView extends StatelessWidget {
                         style: TextStyle(
                           fontFamily: AppTheme.ruFontKanit,
                           fontWeight: FontWeight.w500,
-                          fontSize: 18,
+                          fontSize: baseFontSize - 4,
                           letterSpacing: 0.5,
-                          color: AppTheme.lightText,
+                          color: AppTheme.ru_text_ocean_blue,
                         ),
                       ),
                     ),
@@ -51,7 +55,7 @@ class TitleView extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(4.0)),
                       onTap: () {
                         switch (titleTxt) {
-                          case 'สืบค้นรายการ มร.30':
+                          case 'อันดับการลงทะเบียน':
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -81,8 +85,8 @@ class TitleView extends StatelessWidget {
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontFamily: AppTheme.ruFontKanit,
-                                fontWeight: FontWeight.normal,
-                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                fontSize: baseFontSize - 4,
                                 letterSpacing: 0.5,
                                 color: AppTheme.ru_dark_blue,
                               ),
@@ -92,7 +96,7 @@ class TitleView extends StatelessWidget {
                               width: 26,
                               child: Icon(
                                 Icons.arrow_forward,
-                                color: AppTheme.darkText,
+                                color: AppTheme.ru_dark_blue,
                                 size: 18,
                               ),
                             ),

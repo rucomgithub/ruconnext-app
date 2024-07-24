@@ -36,7 +36,7 @@ class _FlipCardPageState extends State<FlipCardPage>
     Provider.of<AuthenProvider>(context, listen: false).getProfile();
     //Provider.of<StudentProvider>(context, listen: false).refreshData();
     // Provider.of<StudentProvider>(context, listen: false).getImageProfile();
-    Provider.of<StudentProvider>(context, listen: false).getStudent();
+    //Provider.of<StudentProvider>(context, listen: false).getStudent();
   }
 
   Future<bool> getData() async {
@@ -58,7 +58,8 @@ class _FlipCardPageState extends State<FlipCardPage>
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    double baseFontSize = screenWidth * 0.05;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
     return Scaffold(
@@ -67,13 +68,13 @@ class _FlipCardPageState extends State<FlipCardPage>
           color: AppTheme.nearlyWhite, // Change back arrow color to white
         ),
         title: Text(
-          'บัตรนักศึกษาอิเล็กทรอนิกส์',
+          'บัตรนักศึกษา',
           style: TextStyle(
-              fontSize: baseFontSize - 10,
-              fontFamily: AppTheme.ruFontKanit,
-              color: AppTheme.nearlyWhite,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 0.5),
+            fontSize: baseFontSize,
+            fontFamily: AppTheme.ruFontKanit,
+            color: AppTheme.nearlyWhite,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         centerTitle: true, // Centers the title
         backgroundColor:
@@ -161,7 +162,8 @@ class _FlipCardPageState extends State<FlipCardPage>
     var brightness = MediaQuery.of(context).platformBrightness;
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    double baseFontSize = screenWidth * 0.05;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
 
     bool isLightMode = brightness == Brightness.light;
 
@@ -197,70 +199,61 @@ class _FlipCardPageState extends State<FlipCardPage>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                        width: screenWidth * 25 / 100,
-                        height: screenHeight * 15 / 100,
-                        child: Padding(
-                          padding: EdgeInsets.all(7.0),
-                          child: ClipRRect(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10.0)),
-                            child: Image.asset(
-                                'assets/images/Logo_VecRu_Thai.png'),
-                          ),
-                        )),
-                    Container(
-                      height: screenHeight * 10 / 100,
-                      width: screenWidth * 60 / 100,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                      width: screenWidth * 0.15,
+                      height: screenHeight * 0.1,
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('มหาวิทยาลัยรามคำแหง',
-                                style: TextStyle(
-                                  fontFamily: AppTheme.ruFontKanit,
-                                  fontSize: baseFontSize - 15,
-                                  color: AppTheme.ru_dark_blue,
-                                  letterSpacing: 0.5,
-                                )),
-                            Text('Ramkhamhaeng University',
-                                style: TextStyle(
-                                  fontFamily: AppTheme.ruFontKanit,
-                                  fontSize: baseFontSize - 20,
-                                  color: AppTheme.ru_yellow,
-                                  letterSpacing: 0.5,
-                                )),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Icon(
-                                  Icons.credit_card_sharp,
-                                  size: baseFontSize - 20,
-                                  color: Colors.blue[900],
-                                ),
-                                SizedBox(width: 2),
-                                Text('บัตรนักศึกษาอิเล็กทรอนิกส์',
-                                    style: TextStyle(
-                                      letterSpacing: 0.5,
-                                      fontFamily: AppTheme.ruFontKanit,
-                                      fontSize: baseFontSize - 20,
-                                      color: AppTheme.ru_text_ocean_blue,
-                                    )),
-                              ],
-                            )
-                          ],
+                        padding: EdgeInsets.all(7.0),
+                        child: ClipRRect(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10.0)),
+                          child:
+                              Image.asset('assets/images/Logo_VecRu_Thai.png'),
                         ),
-                      ),
-                    )
-                  ],
-                ),
+                      )),
+                  Container(
+                    width: screenWidth * 0.5,
+                    height: screenHeight * 0.08,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('มหาวิทยาลัยรามคำแหง',
+                            style: TextStyle(
+                              fontFamily: AppTheme.ruFontKanit,
+                              fontSize: baseFontSize - 6,
+                              color: AppTheme.ru_dark_blue,
+                            )),
+                        Text('Ramkhamhaeng University',
+                            style: TextStyle(
+                              fontFamily: AppTheme.ruFontKanit,
+                              fontSize: baseFontSize - 6,
+                              color: AppTheme.ru_yellow,
+                            )),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Icon(
+                              Icons.credit_card_sharp,
+                              size: baseFontSize - 6,
+                              color: Colors.blue[900],
+                            ),
+                            SizedBox(width: 2),
+                            Text('บัตรนักศึกษาอิเล็กทรอนิกส์',
+                                style: TextStyle(
+                                  fontFamily: AppTheme.ruFontKanit,
+                                  fontSize: baseFontSize - 6,
+                                  color: AppTheme.ru_text_ocean_blue,
+                                )),
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+                ],
               ),
               Container(
                 decoration: BoxDecoration(
@@ -276,8 +269,8 @@ class _FlipCardPageState extends State<FlipCardPage>
                       Column(
                         children: [
                           Container(
-                            height: screenHeight * 15 / 100,
-                            width: screenWidth * 10 / 100,
+                            height: screenHeight * 0.15,
+                            width: screenWidth * 0.1,
                             decoration: BoxDecoration(
                               color: getFacultyColor(
                                   studentProv.student.facultynamethai!),
@@ -296,7 +289,7 @@ class _FlipCardPageState extends State<FlipCardPage>
                               region,
                               style: TextStyle(
                                 fontFamily: AppTheme.ruFontKanit,
-                                fontSize: baseFontSize - 20,
+                                fontSize: baseFontSize - 6,
                                 color: AppTheme.ru_yellow,
                               ),
                             ),
@@ -307,7 +300,7 @@ class _FlipCardPageState extends State<FlipCardPage>
                       QrImage(
                         data: authen.profile.studentCode!,
                         version: QrVersions.auto,
-                        size: screenWidth * 15 / 100,
+                        size: screenWidth * 0.15,
                         gapless: false,
                       )
                     ],
@@ -315,18 +308,18 @@ class _FlipCardPageState extends State<FlipCardPage>
                 ),
               ),
               Container(
-                height: screenHeight * 20 / 100,
-                width: screenWidth * 60 / 100,
+                height: screenHeight * 0.2,
+                width: screenWidth * 0.6,
                 child: Column(
                   children: [
                     Expanded(
                       flex: 4,
                       child: Container(
-                        height: screenHeight * 5 / 100,
-                        width: screenWidth * 60 / 100,
+                        height: screenHeight * 0.1,
+                        width: screenWidth * 0.6,
                         child: Container(
-                          height: screenWidth * 5 / 100,
-                          width: screenWidth * 60 / 100,
+                          height: screenHeight * 0.05,
+                          width: screenWidth * 0.6,
                           child: Padding(
                               padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
                               child: Column(
@@ -336,13 +329,13 @@ class _FlipCardPageState extends State<FlipCardPage>
                                   Text('${studentProv.student.namethai!}',
                                       style: TextStyle(
                                         fontFamily: AppTheme.ruFontKanit,
-                                        fontSize: baseFontSize - 20,
+                                        fontSize: baseFontSize - 6,
                                         color: AppTheme.white,
                                       )),
                                   Text(studentProv.student.nameeng!,
                                       style: TextStyle(
                                         fontFamily: AppTheme.ruFontKanit,
-                                        fontSize: baseFontSize - 20,
+                                        fontSize: baseFontSize - 6,
                                         color: AppTheme.ru_yellow,
                                       ))
                                 ],
@@ -355,11 +348,11 @@ class _FlipCardPageState extends State<FlipCardPage>
                     Expanded(
                       flex: 4,
                       child: Container(
-                        height: screenHeight * 5 / 100,
-                        width: screenWidth * 60 / 100,
+                        height: screenHeight * 0.1,
+                        width: screenWidth * 0.6,
                         child: Container(
-                          height: screenHeight * 5 / 100,
-                          width: screenWidth * 60 / 100,
+                          height: screenHeight * 0.05,
+                          width: screenWidth * 0.6,
                           child: Padding(
                               padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
                               child: Column(
@@ -369,13 +362,13 @@ class _FlipCardPageState extends State<FlipCardPage>
                                   Text(studentProv.student.facultynamethai!,
                                       style: TextStyle(
                                         fontFamily: AppTheme.ruFontKanit,
-                                        fontSize: baseFontSize - 20,
+                                        fontSize: baseFontSize - 6,
                                         color: AppTheme.ru_dark_blue,
                                       )),
                                   Text(studentProv.student.majornamethai!,
                                       style: TextStyle(
                                         fontFamily: AppTheme.ruFontKanit,
-                                        fontSize: baseFontSize - 20,
+                                        fontSize: baseFontSize - 6,
                                         color: AppTheme.white,
                                       ))
                                 ],
@@ -393,12 +386,12 @@ class _FlipCardPageState extends State<FlipCardPage>
                 child: Column(
                   children: [
                     Container(
-                      height: screenHeight * 10 / 100,
-                      width: screenWidth * 50 / 100,
+                      height: screenHeight * 0.1,
+                      width: screenWidth * 0.6,
                       child: Padding(
                         padding: EdgeInsets.all(5.0),
                         child: Image.network(
-                            'http://beta-e-service.ru.ac.th:8001/misservice/generate/barcode.php?barcode=${authen.profile.email!.substring(0, 10)}&width=${screenWidth * 50 / 100}&height=${screenHeight * 10 / 100}'),
+                            'http://beta-e-service.ru.ac.th:8001/misservice/generate/barcode.php?barcode=${authen.profile.email!.substring(0, 10)}&width=${screenWidth * 0.6}&height=${screenHeight * 0.1}'),
                       ),
                     ),
                   ],

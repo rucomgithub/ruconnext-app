@@ -43,7 +43,10 @@ class TodayListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String hotel = 'hotel_3';
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     var havetoday = context.watch<MR30Provider>();
     return AnimatedBuilder(
       animation: animationController!,
@@ -105,7 +108,7 @@ class TodayListView extends StatelessWidget {
                                               '${record!.courseNo}',
                                               textAlign: TextAlign.left,
                                               style: TextStyle(
-                                                  fontSize: 22,
+                                                  fontSize: baseFontSize - 4,
                                                   fontFamily:
                                                       AppTheme.ruFontKanit,
                                                   color: AppTheme.ru_dark_blue),
@@ -120,7 +123,8 @@ class TodayListView extends StatelessWidget {
                                                   //hotelData!.subTxt,
                                                   '${record!.dayNameS} ${record!.timePeriod}',
                                                   style: TextStyle(
-                                                      fontSize: 14,
+                                                      fontSize:
+                                                          baseFontSize - 6,
                                                       color:
                                                           AppTheme.nearlyBlack),
                                                 ),
@@ -129,7 +133,7 @@ class TodayListView extends StatelessWidget {
                                                 ),
                                                 Icon(
                                                   FontAwesomeIcons.locationDot,
-                                                  size: 12,
+                                                  size: baseFontSize - 6,
                                                   color: HotelAppTheme
                                                           .buildLightTheme()
                                                       .primaryColor,
@@ -160,7 +164,8 @@ class TodayListView extends StatelessWidget {
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                     style: TextStyle(
-                                                        fontSize: 14,
+                                                        fontSize:
+                                                            baseFontSize - 6,
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         fontFamily: AppTheme
@@ -179,7 +184,7 @@ class TodayListView extends StatelessWidget {
                                                 style: TextStyle(
                                                     overflow:
                                                         TextOverflow.ellipsis,
-                                                    fontSize: 12,
+                                                    fontSize: baseFontSize - 6,
                                                     fontFamily:
                                                         AppTheme.ruFontKanit,
                                                     color:
@@ -191,8 +196,8 @@ class TodayListView extends StatelessWidget {
                                                   const EdgeInsets.only(top: 4),
                                               child: Row(
                                                 children: <Widget>[
-                                                  TimeStudy(
-                                                      record!.timePeriod!),
+                                                  TimeStudy(record!.timePeriod!,
+                                                      baseFontSize - 6),
                                                 ],
                                               ),
                                             ),
@@ -215,13 +220,13 @@ class TodayListView extends StatelessWidget {
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                               fontFamily: AppTheme.ruFontKanit,
-                                              fontSize: 22,
+                                              fontSize: baseFontSize - 6,
                                               color: AppTheme.ru_dark_blue),
                                         ),
                                         Text(
                                           '${record!.courseCredit}',
                                           style: TextStyle(
-                                              fontSize: 14,
+                                              fontSize: baseFontSize - 6,
                                               fontFamily: AppTheme.ruFontKanit,
                                               color: AppTheme.nearlyBlack),
                                         ),
@@ -288,12 +293,12 @@ class TodayListView extends StatelessWidget {
     );
   }
 
-  Text TimeStudy(String periodtime) {
+  Text TimeStudy(String periodtime, double baseFontSize) {
     String strcheck = StringTimeStudy(periodtime);
     return Text(
       strcheck,
       style: TextStyle(
-          fontSize: 14,
+          fontSize: baseFontSize - 2,
           fontFamily: AppTheme.ruFontKanit,
           color: Color.fromARGB(255, 189, 22, 22).withOpacity(0.8)),
     );

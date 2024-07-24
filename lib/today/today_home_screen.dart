@@ -109,7 +109,8 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    double baseFontSize = screenWidth * 0.05;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
 
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
@@ -122,7 +123,7 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
         title: Text(
           'วันนี้เรียนอะไร ? (${mr30.yearsemester.year}/${mr30.yearsemester.semester})',
           style: TextStyle(
-            fontSize: 22,
+            fontSize: baseFontSize - 2,
             fontFamily: AppTheme.ruFontKanit,
             color: AppTheme.nearlyWhite,
             fontWeight: FontWeight.bold,
@@ -179,7 +180,7 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
                             pinned: true,
                             floating: true,
                             delegate: ContestTabHeader(
-                              getFilterBarUI(context),
+                              getFilterBarUI(context, baseFontSize),
                             ),
                           ),
                         ];
@@ -296,28 +297,28 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
                     icon: Icons.home,
                     text: 'หน้าแรก',
                     textStyle: TextStyle(
-                        fontSize: baseFontSize - 20,
+                        fontSize: baseFontSize - 4,
                         fontFamily: AppTheme.ruFontKanit,
                         color: AppTheme.ru_dark_blue)),
                 GButton(
                     icon: Icons.person,
                     text: 'บัตรนักศึกษา',
                     textStyle: TextStyle(
-                        fontSize: baseFontSize - 20,
+                        fontSize: baseFontSize - 4,
                         fontFamily: AppTheme.ruFontKanit,
                         color: AppTheme.ru_dark_blue)),
                 GButton(
                     icon: Icons.calendar_today,
                     text: 'ตารางเรียนวันนี้',
                     textStyle: TextStyle(
-                        fontSize: baseFontSize - 20,
+                        fontSize: baseFontSize - 4,
                         fontFamily: AppTheme.ruFontKanit,
                         color: AppTheme.ru_dark_blue)),
                 GButton(
                     icon: Icons.newspaper,
                     text: 'ประชาสัมพันธ์',
                     textStyle: TextStyle(
-                        fontSize: baseFontSize - 20,
+                        fontSize: baseFontSize - 4,
                         fontFamily: AppTheme.ruFontKanit,
                         color: AppTheme.ru_dark_blue)),
               ],
@@ -601,7 +602,10 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
     );
   }
 
-  Widget getFilterBarUI(BuildContext mr30) {
+  Widget getFilterBarUI(
+    BuildContext mr30,
+    double baseFontSize,
+  ) {
     var mr30Prov = context.watch<MR30Provider>();
     return Stack(
       children: <Widget>[
@@ -610,7 +614,7 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
           left: 0,
           right: 0,
           child: Container(
-            height: 24,
+            height: 50,
             decoration: BoxDecoration(
               color: HotelAppTheme.buildLightTheme().backgroundColor,
               boxShadow: <BoxShadow>[
@@ -653,6 +657,7 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
                                 children: [
                                   Icon(
                                     Icons.list,
+                                    size: baseFontSize - 6,
                                     color: AppTheme.ru_text_ocean_blue,
                                   ),
                                   Text(
@@ -661,7 +666,7 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
                                       fontFamily: AppTheme.ruFontKanit,
                                       fontWeight: FontWeight.w100,
                                       color: AppTheme.ru_text_ocean_blue,
-                                      fontSize: 16,
+                                      fontSize: baseFontSize - 6,
                                     ),
                                   )
                                 ],
@@ -675,7 +680,7 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
                             fontFamily: AppTheme.ruFontKanit,
                             fontWeight: FontWeight.w100,
                             color: AppTheme.ru_text_ocean_blue,
-                            fontSize: 16,
+                            fontSize: baseFontSize - 6,
                           ),
                         ),
                       ],

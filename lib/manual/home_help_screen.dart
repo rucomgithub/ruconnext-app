@@ -121,7 +121,7 @@ Widget getAppBarUI(BuildContext context) {
           Expanded(
             child: Center(
               child: Text(
-                'การใช้งานหน้าแรก',
+                'หน้าแรก',
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 16,

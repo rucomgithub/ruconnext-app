@@ -1,11 +1,15 @@
 import 'package:get/get.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/hotel_booking/calendar_popup_view.dart';
 import 'package:th.ac.ru.uSmart/hotel_booking/hotel_list_view.dart';
 import 'package:th.ac.ru.uSmart/hotel_booking/model/hotel_list_data.dart';
+import 'package:th.ac.ru.uSmart/navigation_home_screen.dart';
+import 'package:th.ac.ru.uSmart/pages/aboutRam_screen.dart';
 import 'package:th.ac.ru.uSmart/providers/schedule_provider.dart';
 import 'package:th.ac.ru.uSmart/schedule/schedule_list_view.dart';
+import 'package:th.ac.ru.uSmart/screens/runewsScreen.dart';
 import 'package:th.ac.ru.uSmart/today/today_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -50,9 +54,35 @@ class _ScheduleHomeScreenState extends State<ScheduleHomeScreen>
     super.dispose();
   }
 
+  int _selectedMenu =
+      2; // Tracks selected bottom bar item/ Tracks selected bottom bar item
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedMenu = index;
+    });
+    if (index == 0) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => NavigationHomeScreen()));
+    } else if (index == 1) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => aboutRam()));
+    } else if (index == 2) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => ScheduleHomeScreen()));
+    } else if (index == 3) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => RunewsScreen()));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     bool isLightMode = brightness == Brightness.light;
     var scheduleProv = context.watch<ScheduleProvider>();
     return Scaffold(
@@ -63,7 +93,7 @@ class _ScheduleHomeScreenState extends State<ScheduleHomeScreen>
         title: Text(
           'ปฏิทินการศึกษา',
           style: TextStyle(
-            fontSize: 22,
+            fontSize: baseFontSize - 2,
             fontFamily: AppTheme.ruFontKanit,
             color: AppTheme.nearlyWhite,
             fontWeight: FontWeight.bold,
@@ -181,6 +211,72 @@ class _ScheduleHomeScreenState extends State<ScheduleHomeScreen>
               ),
             ),
           ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 5,
+              color: AppTheme.ru_yellow,
+            )
+          ],
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
+            child: GNav(
+              gap: 8, // Gap between tabs (optional)
+              backgroundColor: AppTheme.white, // Adjust color as needed
+              activeColor:
+                  AppTheme.ru_dark_blue, // Adjust active color as needed
+              color: AppTheme.ru_dark_blue
+                  .withAlpha(200), // Adjust unselected color as needed
+              iconSize: 24, // Icon size (optional)
+              padding: EdgeInsets.symmetric(
+                  horizontal: 15, vertical: 8), // Padding (optional)
+              tabActiveBorder: Border.all(
+                  color: AppTheme.ru_dark_blue,
+                  width: 1), // Tab border (optional)
+              curve: Curves.easeOutExpo, // tab animation curves
+              duration: Duration(milliseconds: 600),
+              tabs: [
+                GButton(
+                    icon: Icons.home,
+                    text: 'หน้าแรก',
+                    textStyle: TextStyle(
+                        fontSize: baseFontSize - 4,
+                        fontFamily: AppTheme.ruFontKanit,
+                        color: AppTheme.ru_dark_blue)),
+                GButton(
+                    icon: Icons.person,
+                    text: 'เกี่ยวกับราม',
+                    textStyle: TextStyle(
+                        fontSize: baseFontSize - 4,
+                        fontFamily: AppTheme.ruFontKanit,
+                        color: AppTheme.ru_dark_blue)),
+                GButton(
+                    icon: Icons.calendar_today,
+                    text: 'ปฏิทินการศึกษา',
+                    textStyle: TextStyle(
+                        fontSize: baseFontSize - 4,
+                        fontFamily: AppTheme.ruFontKanit,
+                        color: AppTheme.ru_dark_blue)),
+                GButton(
+                    icon: Icons.newspaper,
+                    text: 'ประชาสัมพันธ์',
+                    textStyle: TextStyle(
+                        fontSize: baseFontSize - 4,
+                        fontFamily: AppTheme.ruFontKanit,
+                        color: AppTheme.ru_dark_blue)),
+              ],
+              selectedIndex: _selectedMenu,
+              onTabChange: (index) => _onItemTapped(index),
+            ),
+          ),
         ),
       ),
     );

@@ -8,7 +8,7 @@ import '../model/profile.dart';
 import '../model/rutoken.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-final usertest = dotenv.env['USERTEST'];
+final String? usertest = dotenv.env['USERTEST'];
 
 class AuthenService {
   final authurlgoogle = dotenv.env['APP_URL'];
@@ -68,11 +68,10 @@ class AuthenService {
     }
   }
 
-  Future<Profile> getAuthenGoogleDev() async {
+  Future<Profile> getAuthenGoogleDev(String std_code) async {
     Profile profile;
     try {
-      String studentcode = "$usertest";
-      var params = {"std_code": studentcode};
+      var params = {"std_code": std_code};
       var response = await Dio().post(
         '$authurlgoogle/google/authorization-test',
         options: Options(
@@ -90,9 +89,9 @@ class AuthenService {
         // print('response ${response.data}');
         // print('rutoken : ${token.accessToken}');
         profile = Profile.fromJson({
-          'displayName': "$usertest",
-          'email': "$usertest@rumail.ru.ac.th",
-          'studentCode': studentcode,
+          'displayName': "$std_code",
+          'email': "$std_code@rumail.ru.ac.th",
+          'studentCode': std_code,
           'photoUrl': '',
           'googleToken': '',
           'accessToken': token.accessToken,

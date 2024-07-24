@@ -60,6 +60,10 @@ class _RegisterRowViewState extends State<RegisterRowView>
     var prov = Provider.of<RegisterProvider>(context, listen: false);
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return RefreshIndicator(
       onRefresh: () => refreshData(context),
       child: Consumer<RegisterProvider>(builder: (context1, provider, _) {
@@ -206,7 +210,7 @@ class _RegisterRowViewState extends State<RegisterRowView>
                                                     fontFamily: FitnessAppTheme
                                                         .fontName,
                                                     fontWeight: FontWeight.bold,
-                                                    fontSize: 14,
+                                                    fontSize: baseFontSize - 6,
                                                     letterSpacing: 0.2,
                                                     color: FitnessAppTheme
                                                         .dark_grey,
@@ -222,7 +226,7 @@ class _RegisterRowViewState extends State<RegisterRowView>
                                               fontFamily:
                                                   FitnessAppTheme.fontName,
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 14,
+                                              fontSize: baseFontSize - 6,
                                               letterSpacing: 0.2,
                                               color: FitnessAppTheme.dark_grey,
                                             ),
@@ -264,6 +268,7 @@ class ListRegisterListValueView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var mr30Prov = context.watch<MR30Provider>();
+
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -338,6 +343,10 @@ class RowRegisterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -393,7 +402,7 @@ class RowRegisterView extends StatelessWidget {
                                 maxLines: 3,
                                 style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,
-                                  fontSize: 14,
+                                  fontSize: baseFontSize - 6,
                                   color: AppTheme.nearlyWhite,
                                 ),
                               ),
@@ -430,7 +439,7 @@ class RowRegisterView extends StatelessWidget {
                                             children: [
                                               Icon(
                                                 Icons.book,
-                                                size: 15,
+                                                size: baseFontSize - 6,
                                               ),
                                               Text(
                                                 '${course!.courseNo.toString()}',
@@ -439,7 +448,7 @@ class RowRegisterView extends StatelessWidget {
                                                   fontFamily:
                                                       AppTheme.ruFontKanit,
                                                   fontWeight: FontWeight.w600,
-                                                  fontSize: 14,
+                                                  fontSize: baseFontSize - 6,
                                                   color: AppTheme.ru_dark_blue,
                                                 ),
                                               )

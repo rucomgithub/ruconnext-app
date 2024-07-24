@@ -4,8 +4,10 @@ import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/grade/grade_app_home_screen.dart';
 import 'package:th.ac.ru.uSmart/home/homescreen.dart';
 import 'package:th.ac.ru.uSmart/navigation_home_screen.dart';
+import 'package:th.ac.ru.uSmart/pages/aboutRam_screen.dart';
 import 'package:th.ac.ru.uSmart/pages/home_image_slider.dart';
 import 'package:th.ac.ru.uSmart/pages/profile_home_screen.dart';
+import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
 import 'package:th.ac.ru.uSmart/providers/grade_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/home_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/mr30_provider.dart';
@@ -87,22 +89,22 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  int _selectedIndex = 0; // Tracks selected bottom bar item
+  int _selectedMenu = 0; // Tracks selected bottom bar item
 
   void _onItemTapped(int index) {
     Provider.of<HomeProvider>(context, listen: false).getTimeHomePage();
     setState(() {
-      _selectedIndex = index;
+      _selectedMenu = index;
     });
     if (index == 0) {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => NavigationHomeScreen()));
     } else if (index == 1) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => ProfileHomeScreen()));
-    } else if (index == 2) {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => TodayHomeScreen()));
+          context, MaterialPageRoute(builder: (context) => aboutRam()));
+    } else if (index == 2) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => ScheduleHomeScreen()));
     } else if (index == 3) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => RunewsScreen()));
@@ -111,6 +113,22 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    var authen = context.watch<AuthenProvider>();
+    switch (authen.role) {
+      case "Doctor":
+        homeList = HomeList.homeListDoctor;
+        break;
+      case "Master":
+        homeList = HomeList.homeListMaster;
+        break;
+      case "Bachelor":
+        homeList = HomeList.homeListBachelor;
+        break;
+      default:
+        homeList = HomeList.homeList;
+        break;
+    }
+
     var mr30 = context.watch<MR30Provider>();
     var scheduleProv = context.watch<ScheduleProvider>();
     var brightness = MediaQuery.of(context).platformBrightness;
@@ -118,7 +136,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    double baseFontSize = screenWidth * 0.05;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
 
     return Scaffold(
       appBar: AppBar(
@@ -129,9 +148,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               : AppTheme.nearlyBlack, // Change back arrow color to white
         ),
         title: Text(
-          'Ru Connext',
+          'Ru Connext ${authen.role}',
           style: TextStyle(
-              fontSize: baseFontSize - 10,
+              fontSize: baseFontSize - 2,
               fontFamily: AppTheme.ruFontKanit,
               color: AppTheme.nearlyWhite,
               fontWeight: FontWeight.bold,
@@ -247,11 +266,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                     children: [
                                       Icon(Icons.list,
                                           color: AppTheme.ru_text_ocean_blue,
-                                          size: baseFontSize - 15),
+                                          size: baseFontSize - 6),
                                       Text(
                                         'กิจกรรมวันนี้',
                                         style: TextStyle(
-                                          fontSize: baseFontSize - 15,
+                                          fontSize: baseFontSize - 6,
                                           color: AppTheme.ru_text_ocean_blue,
                                           fontFamily: AppTheme.ruFontKanit,
                                           fontWeight: FontWeight.bold,
@@ -268,34 +287,41 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                   itemCount:
                                       mr30.havetodayNow.length > 0 ? 1 : 0,
                                   itemBuilder: (context, index) {
-                                    return Card(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(1.0),
-                                        child: ListTile(
-                                          title: Text(
-                                            '${mr30.havetodayNow[index].courseNo}',
-                                            style: TextStyle(
-                                              fontSize: baseFontSize - 20,
-                                            ),
-                                          ),
-                                          trailing: Text(
-                                              style: TextStyle(
-                                                fontSize: baseFontSize - 20,
+                                    return authen.role != "Bachelor"
+                                        ? SizedBox()
+                                        : Card(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(1.0),
+                                              child: ListTile(
+                                                title: Text(
+                                                  '${mr30.havetodayNow[index].courseNo}',
+                                                  style: TextStyle(
+                                                    fontSize: baseFontSize - 6,
+                                                  ),
+                                                ),
+                                                trailing: Text(
+                                                    '${StringTimeStudy((mr30.havetodayNow[index].timePeriod).toString())}',
+                                                    style: TextStyle(
+                                                        color: AppTheme
+                                                            .ru_text_grey,
+                                                        fontSize:
+                                                            baseFontSize - 8,
+                                                        fontStyle:
+                                                            FontStyle.italic)),
+                                                onTap: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            TodayHomeScreen()),
+                                                  );
+                                                },
+                                                leading: Icon(
+                                                    Icons.bookmarks_rounded),
                                               ),
-                                              '${StringTimeStudy((mr30.havetodayNow[index].timePeriod).toString())}'),
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      TodayHomeScreen()),
-                                            );
-                                          },
-                                          leading:
-                                              Icon(Icons.bookmarks_rounded),
-                                        ),
-                                      ),
-                                    );
+                                            ),
+                                          );
                                   },
                                 ),
 
@@ -307,8 +333,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                   itemCount:
                                       scheduleProv.schedules.length > 0 ? 1 : 0,
                                   itemBuilder: (context, index) {
-                                    return scheduleProv.isLoading
-                                        ? Text('')
+                                    return scheduleProv.isLoading ||
+                                            authen.role != "Bachelor"
+                                        ? SizedBox()
                                         : Card(
                                             child: Padding(
                                               padding:
@@ -321,13 +348,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                                         AppTheme.ruFontKanit,
                                                     color:
                                                         AppTheme.ru_dark_blue,
-                                                    fontSize: baseFontSize - 15,
+                                                    fontSize: baseFontSize - 6,
                                                   ),
                                                 ),
                                                 subtitle: Text(
                                                   '${scheduleProv.schedules[0].eventName}',
                                                   style: TextStyle(
-                                                    fontSize: baseFontSize - 20,
+                                                    fontSize: baseFontSize - 8,
                                                     fontFamily:
                                                         AppTheme.ruFontKanit,
                                                     color:
@@ -341,17 +368,15 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                                 //       fontSize: 12,
                                                 //       fontStyle: FontStyle.italic),
                                                 // ),
-                                                trailing: BlinkText(
+                                                trailing: Text(
                                                     '${commingTimeNewLine(DateTime.parse(scheduleProv.schedules[0].startDate), DateTime.now(), DateTime.parse(scheduleProv.schedules[0].endDate))}',
                                                     style: TextStyle(
+                                                        color: AppTheme
+                                                            .ru_text_grey,
                                                         fontSize:
-                                                            baseFontSize - 20,
-                                                        fontStyle:
-                                                            FontStyle.italic),
-                                                    beginColor:
-                                                        Colors.redAccent,
-                                                    endColor: Colors.red
-                                                        .shade50), //                             trailing: BlinkText(
+                                                            baseFontSize - 8,
+                                                        fontStyle: FontStyle
+                                                            .italic)), //                             trailing: BlinkText(
 
                                                 onTap: () {
                                                   Navigator.push(
@@ -485,32 +510,32 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     icon: Icons.home,
                     text: 'หน้าแรก',
                     textStyle: TextStyle(
-                        fontSize: baseFontSize - 20,
+                        fontSize: baseFontSize - 4,
                         fontFamily: AppTheme.ruFontKanit,
                         color: AppTheme.ru_dark_blue)),
                 GButton(
                     icon: Icons.person,
-                    text: 'บัตรนักศึกษา',
+                    text: 'เกี่ยวกับราม',
                     textStyle: TextStyle(
-                        fontSize: baseFontSize - 20,
+                        fontSize: baseFontSize - 4,
                         fontFamily: AppTheme.ruFontKanit,
                         color: AppTheme.ru_dark_blue)),
                 GButton(
                     icon: Icons.calendar_today,
-                    text: 'ตารางเรียนวันนี้',
+                    text: 'ปฏิทินการศึกษา',
                     textStyle: TextStyle(
-                        fontSize: baseFontSize - 20,
+                        fontSize: baseFontSize - 4,
                         fontFamily: AppTheme.ruFontKanit,
                         color: AppTheme.ru_dark_blue)),
                 GButton(
                     icon: Icons.newspaper,
                     text: 'ประชาสัมพันธ์',
                     textStyle: TextStyle(
-                        fontSize: baseFontSize - 20,
+                        fontSize: baseFontSize - 4,
                         fontFamily: AppTheme.ruFontKanit,
                         color: AppTheme.ru_dark_blue)),
               ],
-              selectedIndex: _selectedIndex,
+              selectedIndex: _selectedMenu,
               onTabChange: (index) => _onItemTapped(index),
             ),
           ),

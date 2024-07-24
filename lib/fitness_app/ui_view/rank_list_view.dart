@@ -109,6 +109,10 @@ class AreaView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -119,7 +123,7 @@ class AreaView extends StatelessWidget {
         if (course!.value['count'] == 1) {
           listItemPadding =
               EdgeInsets.only(left: 40, bottom: 4, top: 4, right: 0);
-          gradColor = AppTheme.dark_grey;
+          gradColor = AppTheme.ru_text_ocean_blue;
         }
         return Padding(
           padding: listItemPadding,
@@ -186,7 +190,7 @@ class AreaView extends StatelessWidget {
                                       child: Icon(
                                         Icons.book_sharp,
                                         color: AppTheme.white,
-                                        size: 16,
+                                        size: baseFontSize - 4,
                                       ),
                                     ),
                                   ),
@@ -197,7 +201,7 @@ class AreaView extends StatelessWidget {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontFamily: AppTheme.ruFontKanit,
-                                        fontSize: 20,
+                                        fontSize: baseFontSize - 4,
                                         color: AppTheme.ru_text_ocean_blue,
                                       ),
                                     ),
@@ -212,7 +216,7 @@ class AreaView extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,
-                                  fontSize: 14,
+                                  fontSize: baseFontSize - 6,
                                   color: gradColor,
                                 ),
                               ),
@@ -262,8 +266,7 @@ class AreaView extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12,
+                                  fontSize: baseFontSize - 6,
                                   color: AppTheme.ru_text_grey,
                                 ),
                               ),

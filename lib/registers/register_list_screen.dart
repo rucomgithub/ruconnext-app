@@ -77,7 +77,7 @@ class _RegisterListScreenState extends State<RegisterListScreen>
             curve:
                 Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController!,
-      ),
+      ), 
     );
 
     listViews.add(
@@ -168,6 +168,10 @@ class _RegisterListScreenState extends State<RegisterListScreen>
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -176,7 +180,7 @@ class _RegisterListScreenState extends State<RegisterListScreen>
         title: Text(
           'ข้อมูลการลงทะเบียน',
           style: TextStyle(
-            fontSize: 22,
+            fontSize: baseFontSize,
             fontFamily: AppTheme.ruFontKanit,
             color: AppTheme.nearlyWhite,
             fontWeight: FontWeight.bold,
@@ -284,7 +288,7 @@ class _RegisterListScreenState extends State<RegisterListScreen>
                     ],
                   ),
                   child: TopBar(
-                    caption: "ข้อมูลการลงทะเบียน",
+                    caption: "ข้อมูลการลงทะเบียน....",
                     iconname: Icon(Icons.help, color: AppTheme.nearlyWhite),
                     callback: () {
                       Get.toNamed("/registerhelp");

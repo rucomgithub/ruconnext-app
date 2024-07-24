@@ -117,7 +117,7 @@ Widget getAppBarUI(BuildContext context) {
           Expanded(
             child: Center(
               child: Text(
-                'การใช้งานปฏิทินกิจกรรม',
+                'หน้าปฏิทินกิจกรรม',
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 16,

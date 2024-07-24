@@ -106,6 +106,10 @@ class _GradeScreenState extends State<GradeScreen>
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -114,7 +118,7 @@ class _GradeScreenState extends State<GradeScreen>
         title: Text(
           'สรุปรายการเกรด',
           style: TextStyle(
-            fontSize: 22,
+            fontSize: baseFontSize - 2,
             fontFamily: AppTheme.ruFontKanit,
             color: AppTheme.nearlyWhite,
             fontWeight: FontWeight.bold,

@@ -1,10 +1,6 @@
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/ui_view/wave_view.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
-import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:th.ac.ru.uSmart/providers/grade_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class SummaryCreditView extends StatefulWidget {
@@ -30,6 +26,10 @@ class _SummaryCreditViewState extends State<SummaryCreditView>
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     var prov = Provider.of<GradeProvider>(context, listen: false);
     return AnimatedBuilder(
       animation: widget.mainScreenAnimationController!,
@@ -81,23 +81,23 @@ class _SummaryCreditViewState extends State<SummaryCreditView>
                                         style: TextStyle(
                                           fontFamily: AppTheme.ruFontKanit,
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 18,
+                                          fontSize: baseFontSize - 4,
                                           letterSpacing: -0.2,
-                                          color: AppTheme.ru_text_ocean_blue,
+                                          color: AppTheme.ru_dark_blue,
                                         ),
                                       ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          left: 4, bottom: 3),
+                                          left: 8, bottom: 8),
                                       child: Text(
                                         '${prov.summaryCreditPass['PASS']!.toString()}',
                                         //'87',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontFamily: AppTheme.ruFontKanit,
-                                          fontSize: 32,
-                                          color: AppTheme.ru_text_ocean_blue,
+                                          fontSize: baseFontSize,
+                                          color: AppTheme.ru_text_light_blue,
                                         ),
                                       ),
                                     ),
@@ -110,9 +110,9 @@ class _SummaryCreditViewState extends State<SummaryCreditView>
                                         style: TextStyle(
                                           fontFamily: AppTheme.ruFontKanit,
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 18,
+                                          fontSize: baseFontSize - 4,
                                           letterSpacing: -0.2,
-                                          color: AppTheme.ru_text_ocean_blue,
+                                          color: AppTheme.ru_dark_blue,
                                         ),
                                       ),
                                     ),

@@ -11,6 +11,10 @@ class RunningView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -31,7 +35,7 @@ class RunningView extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 16, bottom: 16),
                         child: Container(
                           decoration: BoxDecoration(
-                            color:  AppTheme.white,
+                            color: AppTheme.white,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(8.0),
                                 bottomLeft: Radius.circular(8.0),
@@ -39,7 +43,7 @@ class RunningView extends StatelessWidget {
                                 topRight: Radius.circular(8.0)),
                             boxShadow: <BoxShadow>[
                               BoxShadow(
-                                  color:  AppTheme.grey.withOpacity(0.4),
+                                  color: AppTheme.grey.withOpacity(0.4),
                                   offset: Offset(1.1, 1.1),
                                   blurRadius: 10.0),
                             ],
@@ -74,13 +78,11 @@ class RunningView extends StatelessWidget {
                                           "คุณทำได้เยี่ยมมาก!",
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
-                                            fontFamily:
-                                                 AppTheme.ruFontKanit,
+                                            fontFamily: AppTheme.ruFontKanit,
                                             fontWeight: FontWeight.w500,
-                                            fontSize: 20,
+                                            fontSize: baseFontSize,
                                             letterSpacing: 0.0,
-                                            color:
-                                                 AppTheme.ru_dark_blue,
+                                            color: AppTheme.ru_dark_blue,
                                           ),
                                         ),
                                       ),
@@ -97,12 +99,11 @@ class RunningView extends StatelessWidget {
                                       "เดินต่อไป เพื่ออนาคตที่สดใส!",
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
-                                        fontFamily:  AppTheme.ruFontKanit,
+                                        fontFamily: AppTheme.ruFontKanit,
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 16,
+                                        fontSize: baseFontSize - 2,
                                         letterSpacing: 0.0,
-                                        color:  AppTheme.grey
-                                            .withOpacity(0.5),
+                                        color: AppTheme.ru_grey,
                                       ),
                                     ),
                                   ),

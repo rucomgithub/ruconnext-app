@@ -55,6 +55,39 @@ class HomeList {
       navigateScreen: aboutRam(),
     ),
     HomeList(
+      imagePath: 'assets/fitness_app/A14.png',
+      iconsData: Icons.app_registration,
+      color: Colors.brown,
+      navigateScreen: RunewsScreen(),
+    ),
+    HomeList(
+      imagePath: 'assets/fitness_app/A20.png',
+      iconsData: Icons.app_registration,
+      color: Colors.brown,
+      navigateScreen: ScheduleHomeScreen(),
+    ),
+  ];
+
+  static List<HomeList> homeListBachelor = [
+    HomeList(
+      imagePath: 'assets/fitness_app/A18.png',
+      iconsData: Icons.abc,
+      color: Colors.purple,
+      navigateScreen: aboutRam(),
+    ),
+    HomeList(
+      imagePath: 'assets/fitness_app/A14.png',
+      iconsData: Icons.newspaper,
+      color: Colors.brown,
+      navigateScreen: RunewsScreen(),
+    ),
+    HomeList(
+      imagePath: 'assets/fitness_app/A20.png',
+      iconsData: Icons.calendar_month,
+      color: Colors.brown,
+      navigateScreen: ScheduleHomeScreen(),
+    ),
+    HomeList(
       imagePath: 'assets/fitness_app/A1.png',
       iconsData: Icons.account_box,
       color: Colors.pink,
@@ -85,29 +118,88 @@ class HomeList {
       navigateScreen: TodayHomeScreen(),
     ),
     HomeList(
-      imagePath: 'assets/fitness_app/A20.png',
-      iconsData: Icons.app_registration,
-      color: Colors.brown,
-      navigateScreen: ScheduleHomeScreen(),
-    ),
-    HomeList(
-      imagePath: 'assets/fitness_app/A14.png',
-      iconsData: Icons.app_registration,
-      color: Colors.brown,
-      navigateScreen: RunewsScreen(),
-    ),
-    HomeList(
       imagePath: 'assets/fitness_app/AF0.png',
       iconsData: Icons.app_registration,
       color: Colors.brown,
       navigateScreen: AffairsHomeScreen(),
     ),
+  ];
+
+  static List<HomeList> homeListMaster = [
+    HomeList(
+      imagePath: 'assets/fitness_app/A18.png',
+      iconsData: Icons.abc,
+      color: Colors.purple,
+      navigateScreen: aboutRam(),
+    ),
+    HomeList(
+      imagePath: 'assets/fitness_app/A14.png',
+      iconsData: Icons.newspaper,
+      color: Colors.brown,
+      navigateScreen: RunewsScreen(),
+    ),
+    HomeList(
+      imagePath: 'assets/fitness_app/A20.png',
+      iconsData: Icons.calendar_month,
+      color: Colors.brown,
+      navigateScreen: ScheduleHomeScreen(),
+    ),
     // HomeList(
-    //   imagePath: 'assets/fitness_app/ruregion.png',
-    //   iconsData: Icons.vertical_shades_rounded,
-    //   color: Colors.purple,
-    //   // navigateScreen:  RuRegisHomeScreen(),
-    //   navigateScreen: RuregionLoginPage(),
+    //   imagePath: 'assets/fitness_app/r1.png',
+    //   iconsData: Icons.account_box,
+    //   color: Colors.pink,
+    //   navigateScreen: ProfileMasterPage(),
+    // ),
+    // HomeList(
+    //   imagePath: 'assets/fitness_app/r8.png',
+    //   iconsData: Icons.abc,
+    //   color: Colors.yellow,
+    //   navigateScreen: MasterGradeAppHomeScreen(),
+    // ),
+    // HomeList(
+    //   imagePath: 'assets/fitness_app/r2.png',
+    //   iconsData: Icons.app_registration,
+    //   color: Colors.brown,
+    //   navigateScreen: MasterRegisterHomeScreen(),
+    // ),
+  ];
+
+  static List<HomeList> homeListDoctor = [
+    HomeList(
+      imagePath: 'assets/fitness_app/A18.png',
+      iconsData: Icons.abc,
+      color: Colors.purple,
+      navigateScreen: aboutRam(),
+    ),
+    HomeList(
+      imagePath: 'assets/fitness_app/A14.png',
+      iconsData: Icons.newspaper,
+      color: Colors.brown,
+      navigateScreen: RunewsScreen(),
+    ),
+    HomeList(
+      imagePath: 'assets/fitness_app/A20.png',
+      iconsData: Icons.calendar_month,
+      color: Colors.brown,
+      navigateScreen: ScheduleHomeScreen(),
+    ),
+    // HomeList(
+    //   imagePath: 'assets/fitness_app/r1.png',
+    //   iconsData: Icons.account_box,
+    //   color: Colors.pink,
+    //   navigateScreen: ProfileMasterPage(),
+    // ),
+    // HomeList(
+    //   imagePath: 'assets/fitness_app/r8.png',
+    //   iconsData: Icons.abc,
+    //   color: Colors.yellow,
+    //   navigateScreen: MasterGradeAppHomeScreen(),
+    // ),
+    // HomeList(
+    //   imagePath: 'assets/fitness_app/r2.png',
+    //   iconsData: Icons.app_registration,
+    //   color: Colors.brown,
+    //   navigateScreen: MasterRegisterHomeScreen(),
     // ),
   ];
 }

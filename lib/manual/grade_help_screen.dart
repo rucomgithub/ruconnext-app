@@ -122,7 +122,7 @@ Widget getAppBarUI(BuildContext context) {
           Expanded(
             child: Center(
               child: Text(
-                'การใช้งานหน้าบัตรนักศึกษา',
+                'หน้าบัตรนักศึกษา',
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 16,
