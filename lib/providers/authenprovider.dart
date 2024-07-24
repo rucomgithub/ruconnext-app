@@ -43,7 +43,7 @@ class AuthenProvider extends ChangeNotifier {
       _isLoading = false;
       var snackbar = SnackBar(content: Text('$e'));
       print('$e');
-      _role = '-';
+      _role = '';
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
 
@@ -73,7 +73,8 @@ class AuthenProvider extends ChangeNotifier {
   }
 
   Future<void> logout() async {
-    _profile = new Profile();
+    _profile = new Profile(studentCode: "");
+    _role = '';
     await ProfileStorage.removeProfile();
     await MR30Storage.removeMR30();
     await _googleSingIn.signOut();
@@ -84,7 +85,23 @@ class AuthenProvider extends ChangeNotifier {
 
   Future<void> getProfile() async {
     _profile = await ProfileStorage.getProfile();
+    _isLoading = true;
+
+    await Future<dynamic>.delayed(const Duration(seconds: 1));
+    _profile = await ProfileStorage.getProfile();
+    print('Profile');
+    try {
+      Map<String, dynamic> decodedToken =
+          JwtDecoder.decode(_profile.accessToken.toString());
+      // Now you can use your decoded token
+      _role = decodedToken["role"];
+    } catch (e) {
+      print('Error decoding JWT: $e');
+      _role = '';
+    }
+
     _isLoading = false;
+
     notifyListeners();
   }
 }

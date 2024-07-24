@@ -16,6 +16,10 @@ import 'package:th.ac.ru.uSmart/manual/home_help_screen.dart';
 import 'package:th.ac.ru.uSmart/manual/manual_home_screen.dart';
 import 'package:th.ac.ru.uSmart/manual/mr30_help_screen.dart';
 import 'package:th.ac.ru.uSmart/manual/regis_help_screen.dart';
+import 'package:th.ac.ru.uSmart/master/providers/master_grade_provider.dart';
+import 'package:th.ac.ru.uSmart/master/providers/master_provider.dart';
+import 'package:th.ac.ru.uSmart/master/providers/master_register_provider.dart';
+import 'package:th.ac.ru.uSmart/master/services/masterregisterservice.dart';
 import 'package:th.ac.ru.uSmart/pages/ru_map.dart';
 import 'package:th.ac.ru.uSmart/pages/runewsdetail_page.dart';
 import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
@@ -156,7 +160,14 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<InsuranceProvider>(
               create: (_) => InsuranceProvider(service: InsuranceService())),
           ChangeNotifierProvider<SchProvider>(
-              create: (_) => SchProvider(service: SchService()))
+              create: (_) => SchProvider(service: SchService())),
+          ChangeNotifierProvider<MasterProvider>(
+              create: (_) => MasterProvider()),
+          ChangeNotifierProvider<MasterGradeProvider>(
+              create: (_) => MasterGradeProvider()),
+          ChangeNotifierProvider<MasterRegisterProvider>(
+              create: (_) =>
+                  MasterRegisterProvider(service: MasterRegisterService())),
         ],
 //       child: MaterialApp(
 //         title: 'RU ConneXt',

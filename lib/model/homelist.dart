@@ -5,6 +5,9 @@ import 'package:th.ac.ru.uSmart/grade/grade_app_home_screen.dart';
 import 'package:th.ac.ru.uSmart/home/homescreen.dart';
 import 'package:th.ac.ru.uSmart/hotel_booking/hotel_home_screen.dart';
 import 'package:th.ac.ru.uSmart/introduction_animation/introduction_animation_screen.dart';
+import 'package:th.ac.ru.uSmart/master/pages/grade/master_grade_app_home_screen.dart';
+import 'package:th.ac.ru.uSmart/master/pages/profile_master_page.dart';
+import 'package:th.ac.ru.uSmart/master/pages/register/master_register_home_screen.dart';
 import 'package:th.ac.ru.uSmart/mr30/mr30_home_screen.dart';
 import 'package:th.ac.ru.uSmart/other/other_home_screen.dart';
 import 'package:th.ac.ru.uSmart/pages/aboutRam_screen.dart';
@@ -144,24 +147,24 @@ class HomeList {
       color: Colors.brown,
       navigateScreen: ScheduleHomeScreen(),
     ),
-    // HomeList(
-    //   imagePath: 'assets/fitness_app/r1.png',
-    //   iconsData: Icons.account_box,
-    //   color: Colors.pink,
-    //   navigateScreen: ProfileMasterPage(),
-    // ),
-    // HomeList(
-    //   imagePath: 'assets/fitness_app/r8.png',
-    //   iconsData: Icons.abc,
-    //   color: Colors.yellow,
-    //   navigateScreen: MasterGradeAppHomeScreen(),
-    // ),
-    // HomeList(
-    //   imagePath: 'assets/fitness_app/r2.png',
-    //   iconsData: Icons.app_registration,
-    //   color: Colors.brown,
-    //   navigateScreen: MasterRegisterHomeScreen(),
-    // ),
+    HomeList(
+      imagePath: 'assets/fitness_app/A1.png',
+      iconsData: Icons.account_box,
+      color: Colors.pink,
+      navigateScreen: ProfileMasterPage(),
+    ),
+    HomeList(
+      imagePath: 'assets/fitness_app/A9.png',
+      iconsData: Icons.abc,
+      color: Colors.yellow,
+      navigateScreen: MasterGradeAppHomeScreen(),
+    ),
+    HomeList(
+      imagePath: 'assets/fitness_app/A2.png',
+      iconsData: Icons.app_registration,
+      color: Colors.brown,
+      navigateScreen: MasterRegisterHomeScreen(),
+    ),
   ];
 
   static List<HomeList> homeListDoctor = [
@@ -183,23 +186,23 @@ class HomeList {
       color: Colors.brown,
       navigateScreen: ScheduleHomeScreen(),
     ),
-    // HomeList(
-    //   imagePath: 'assets/fitness_app/r1.png',
-    //   iconsData: Icons.account_box,
-    //   color: Colors.pink,
-    //   navigateScreen: ProfileMasterPage(),
-    // ),
-    // HomeList(
-    //   imagePath: 'assets/fitness_app/r8.png',
-    //   iconsData: Icons.abc,
-    //   color: Colors.yellow,
-    //   navigateScreen: MasterGradeAppHomeScreen(),
-    // ),
-    // HomeList(
-    //   imagePath: 'assets/fitness_app/r2.png',
-    //   iconsData: Icons.app_registration,
-    //   color: Colors.brown,
-    //   navigateScreen: MasterRegisterHomeScreen(),
-    // ),
+    HomeList(
+      imagePath: 'assets/fitness_app/A1.png',
+      iconsData: Icons.account_box,
+      color: Colors.pink,
+      navigateScreen: ProfileMasterPage(),
+    ),
+    HomeList(
+      imagePath: 'assets/fitness_app/A9.png',
+      iconsData: Icons.abc,
+      color: Colors.yellow,
+      navigateScreen: MasterGradeAppHomeScreen(),
+    ),
+    HomeList(
+      imagePath: 'assets/fitness_app/A2.png',
+      iconsData: Icons.app_registration,
+      color: Colors.brown,
+      navigateScreen: MasterRegisterHomeScreen(),
+    ),
   ];
 }

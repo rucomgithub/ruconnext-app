@@ -5,7 +5,6 @@ import 'package:auth_buttons/auth_buttons.dart'
     show AuthButtonStyle, GoogleAuthButton;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
 import '../providers/authenprovider.dart';
 import 'package:provider/provider.dart';
@@ -49,13 +48,16 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     double baseFontSize =
         screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
-
     return Container(
-      color: Colors.transparent,
+      color: isLightMode
+          ? AppTheme.nearlyWhite
+          : AppTheme.nearlyBlack.withOpacity(0.3),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Consumer<AuthenProvider>(
@@ -74,7 +76,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   decoration: BoxDecoration(
                     boxShadow: <BoxShadow>[
                       BoxShadow(
-                          color: AppTheme.nearlyBlack.withOpacity(0.2),
+                          color: AppTheme.nearlyWhite.withOpacity(0.2),
                           offset: const Offset(0, -2),
                           blurRadius: 8.0),
                     ],

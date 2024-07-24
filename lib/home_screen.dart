@@ -47,6 +47,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    Provider.of<AuthenProvider>(context, listen: false).getProfile();
+
     Provider.of<HomeProvider>(context, listen: false).getTimeHomePage();
 
     Provider.of<GradeProvider>(context, listen: false).getAllGrade();
@@ -166,7 +168,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               color: isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
             ),
             onPressed: () {
-              Get.toNamed("/regishelp");
+              Get.toNamed("/homehelp");
             },
           ),
           Container(
@@ -218,6 +220,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             );
             return MouseRegion(
               onHover: (event) {
+                Provider.of<AuthenProvider>(context, listen: false)
+                    .getProfile();
                 Provider.of<MR30Provider>(context, listen: false)
                     .getHaveToday();
                 Provider.of<MR30Provider>(context, listen: false)
