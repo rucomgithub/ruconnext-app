@@ -98,6 +98,7 @@ class RuregionOtherListView extends StatelessWidget {
                                                 Expanded(
                                                   child: ListTile(
                                                     title: Text(
+                                                      
                                                         otherData!.titleTxt,
                                                         style: AppTheme.body1),
                                                   ),

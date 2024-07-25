@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregion_check_cart.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregis_fee_provider.dart';
@@ -28,6 +30,9 @@ class _LocationExamViewState extends State<LocationExamView>
     animationController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
     super.initState();
+    // Timer.run(() {
+    //   showCloseApp(context);
+    // });
   }
 
   @override
@@ -43,7 +48,10 @@ class _LocationExamViewState extends State<LocationExamView>
       builder: (BuildContext context, Widget? child) {
         var locationexam =
             context.watch<RuregionCheckCartProvider>().locationexam;
-        var isLoading = context.watch<RuregionCheckCartProvider>().isLoadingLocation;
+        var isLoading =
+            context.watch<RuregionCheckCartProvider>().isLoadingLocation;
+        var checkdup = context.watch<RuregionCheckCartProvider>().isCourseDup;
+        var ruregioncheckcart = context.watch<RuregionCheckCartProvider>();
         return isLoading
             ? const Center(
                 child: CircularProgressIndicator(),
@@ -56,7 +64,9 @@ class _LocationExamViewState extends State<LocationExamView>
                     borderRadius:
                         BorderRadius.circular(12.0), // Rounded corners
                     border: Border.all(
-                     color: dropdownvalue == null ? Colors.red : Colors.blue, // Conditional border color
+                      color: dropdownvalue == null
+                          ? Colors.red
+                          : Colors.blue, // Conditional border color
                       width: dropdownvalue == null ? 2.0 : 1.0, // Border width
                     ),
                     boxShadow: [
@@ -100,16 +110,114 @@ class _LocationExamViewState extends State<LocationExamView>
                     }).toList(),
                     onChanged: (newVal) {
                       setState(() {
-                      dropdownvalue = newVal;
-                      Provider.of<RuregionCheckCartProvider>(context, listen: false).getLocationExam(dropdownvalue);
-                   Provider.of<RuregionCheckCartProvider>(context, listen: false).checkButtonComfirm();
-
+                        dropdownvalue = newVal;
+                        Provider.of<RuregionCheckCartProvider>(context,
+                                listen: false)
+                            .getLocationExam(dropdownvalue);
+                        Provider.of<RuregionCheckCartProvider>(context,
+                                listen: false)
+                            .checkButtonComfirm();
+                        if (!checkdup || !ruregioncheckcart.isSuccessCalpay) {
+                          showCloseApp(context);
+                        }
+                        // if (!ruregioncheckcart.isSuccessCalpay) {
+                        //   showCheckCredit(
+                        //       context, '${ruregioncheckcart.summary.message}');
+                        // }
                       });
                     },
                     value: dropdownvalue,
                   ),
                 ),
               );
+      },
+    );
+  }
+
+  // void showCheckCredit(BuildContext context, String str) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return AlertDialog(
+  //         content: Column(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             Text('$str'),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
+
+  void showCloseApp(
+      BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: true, // Allows closing the dialog by tapping outside
+      builder: (context) {
+        var ruregioncheckcart = context.watch<RuregionCheckCartProvider>();
+        List<TextSpan> textSpans = [];
+
+        if (!ruregioncheckcart.isCourseDup) {
+          textSpans.add(
+            TextSpan(
+              text: '• ${ruregioncheckcart.msgDup}\n\n',
+              style: TextStyle(
+                fontFamily: AppTheme.ruFontKanit,
+                fontWeight: FontWeight.normal,
+                fontSize: 15,
+                letterSpacing: 0.0,
+                color: FitnessAppTheme.nearlyBlack,
+              ),
+            ),
+          );
+        }
+
+        if (!ruregioncheckcart.isSuccessCalpay) {
+          textSpans.add(
+            TextSpan(
+              text: '• ${ruregioncheckcart.summary.message}',
+              style: TextStyle(
+                fontFamily: AppTheme.ruFontKanit,
+                fontWeight: FontWeight.normal,
+                fontSize: 15,
+                letterSpacing: 0.0,
+                color: FitnessAppTheme.nearlyBlack,
+              ),
+            ),
+          );
+        }
+
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text.rich(
+                TextSpan(
+                  children: textSpans,
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                'ตกลง',
+                style: TextStyle(
+                  fontFamily: AppTheme.ruFontKanit,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 15,
+                  letterSpacing: 0.0,
+                  color: Color.fromARGB(255, 54, 82, 60),
+                ), // Sets the text color
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
       },
     );
   }

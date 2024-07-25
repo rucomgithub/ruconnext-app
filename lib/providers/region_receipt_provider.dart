@@ -75,6 +75,8 @@ Future<void> getEnrollRegionProv(std,sem,year) async {
         nearGrad = element.nEARGRADUATE ?? '0'; // Handling null safety
         if (nearGrad == '1') {
           isGrad = true;
+        }else if (nearGrad== '0'){
+          isGrad = false;
         }
       });
       _receiptRegionalResultsrec.forEach((element) {

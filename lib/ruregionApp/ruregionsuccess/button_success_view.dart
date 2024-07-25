@@ -1,4 +1,3 @@
-
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregion_check_cart.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregis_fee_provider.dart';
@@ -7,18 +6,18 @@ import 'package:provider/provider.dart';
 import '../../fitness_app/fitness_app_theme.dart';
 import '../../model/checkregis_model.dart';
 
-class ButtonConfirmView extends StatefulWidget {
-  const ButtonConfirmView(
+class ButtonSuccessView extends StatefulWidget {
+  const ButtonSuccessView(
       {Key? key, this.mainScreenAnimationController, this.mainScreenAnimation})
       : super(key: key);
 
   final AnimationController? mainScreenAnimationController;
   final Animation<double>? mainScreenAnimation;
   @override
-  _ButtonConfirmViewState createState() => _ButtonConfirmViewState();
+  _ButtonSuccessViewState createState() => _ButtonSuccessViewState();
 }
 
-class _ButtonConfirmViewState extends State<ButtonConfirmView>
+class _ButtonSuccessViewState extends State<ButtonSuccessView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
 
@@ -33,7 +32,6 @@ class _ButtonConfirmViewState extends State<ButtonConfirmView>
     animationController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
     super.initState();
-   
   }
 
   @override
@@ -45,8 +43,9 @@ class _ButtonConfirmViewState extends State<ButtonConfirmView>
   @override
   Widget build(BuildContext context) {
     var checkdup = context.watch<RuregionCheckCartProvider>().isCourseDup;
-    var creditmaxmin =
-        context.watch<RuregionCheckCartProvider>().isSuccessCalpay;
+    var creditmaxmin = context.watch<RuregionCheckCartProvider>().isSuccessCalpay;
+    var statusgrad = context.watch<RuregionCheckCartProvider>().statusGrad;
+    var statusButton = context.watch<RuregionCheckCartProvider>().statusButton;
     var checklocation =
         context.watch<RuregionCheckCartProvider>().isCheckLocation;
 
@@ -54,9 +53,6 @@ class _ButtonConfirmViewState extends State<ButtonConfirmView>
       animation: widget.mainScreenAnimationController!,
       builder: (BuildContext context, Widget? child) {
         var feeData = context.watch<RuregisFeeProvider>();
-        var loading =
-            context.watch<RuregionCheckCartProvider>();
-        print(loading.isLoadingConfirm);
         return feeData.isLoading
             ? const Center(
                 child: CircularProgressIndicator(),
@@ -68,19 +64,15 @@ class _ButtonConfirmViewState extends State<ButtonConfirmView>
                     foregroundColor: Colors.white, // foreground
                     backgroundColor: Colors.green,
                   ),
-                  onPressed: checklocation && checkdup && creditmaxmin && !loading.isLoadingConfirm
-                      ? () {
-                          Provider.of<RuregionCheckCartProvider>(context,
-                                  listen: false)
-                              .postEnrollApp();
-                        }
+                  onPressed: checklocation && checkdup && creditmaxmin
+                      ? () { }
                       : null,
-                  child: Text('ยืนยันวิชา'),
+                  // child: Text('ยืนยันวิชา ซ้ำซ้อน$checkdup ติ้กขอจบ$statusgrad location$checklocation '),
+                  child: Text(
+                      'ลงทะเบียนสำเร็จ'),
                 ),
               );
       },
     );
   }
-
-
 }

@@ -43,7 +43,7 @@ class _RuregisMr30ListViewState extends State<RuregisMr30ListView>
     super.initState();
 
     Provider.of<RUREGISMR30Provider>(context, listen: false)
-        .fetchMR30RUREGIS('6299499992', '1', '2567');
+        .fetchMR30RUREGIONAPP();
     print('get data');
   }
 

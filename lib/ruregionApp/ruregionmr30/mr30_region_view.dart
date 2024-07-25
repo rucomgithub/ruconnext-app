@@ -26,7 +26,7 @@ class _RuregionMr30ViewState extends State<RuregionMr30View> {
   @override
   Widget build(BuildContext context) {
     var mr30 = context.watch<MR30Provider>().mr30record;
-    var mr30prov = Provider.of<MR30Provider>(context, listen: false);
+    var mr30prov = Provider.of<RUREGISMR30Provider>(context, listen: false);
     var mr30ruregisrec = context.watch<RUREGISMR30Provider>().mr30ruregionrec;
 
     return AnimatedBuilder(
@@ -114,14 +114,22 @@ class _RuregionMr30ViewState extends State<RuregionMr30View> {
                                 ),
                                 child: ClipOval(
                                   child: ElevatedButton(
-                                    onPressed: () {
-                                      Get.toNamed('/ruregionAppcart');
-                                    },
+                                    onPressed: mr30ruregisrec.length == 0
+                                        ? null
+                                        : () {
+                                            Get.toNamed('/ruregionAppcart');
+                                          },
                                     style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                        Color.fromARGB(255, 214, 234, 251),
-                                      ),
+                                      backgroundColor: MaterialStateProperty
+                                          .resolveWith<Color>(
+                                              (Set<MaterialState> states) {
+                                        if (mr30ruregisrec.length == 0) {
+                                          return Color.fromARGB(255, 205, 203, 203); // Color when the length is 0
+                                        } else {
+                                          return Color.fromARGB(255, 214, 234,
+                                              251); // Default color
+                                        }
+                                      }),
                                       shape: MaterialStateProperty.all<
                                           RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
@@ -193,6 +201,7 @@ class _RuregionMr30ViewState extends State<RuregionMr30View> {
                             ),
                           ),
                           onChanged: (value) {
+                           
                             mr30prov.filterMr30(value);
                           },
                         ),

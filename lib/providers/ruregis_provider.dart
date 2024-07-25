@@ -15,6 +15,7 @@ import 'package:th.ac.ru.uSmart/model/save_enroll_model.dart';
 
 import 'package:th.ac.ru.uSmart/services/ruregis_service.dart';
 import 'package:flutter/material.dart';
+import 'package:th.ac.ru.uSmart/store/counterAdminRegion.dart';
 import 'package:th.ac.ru.uSmart/store/profileApp.dart';
 import 'package:th.ac.ru.uSmart/store/ruregion_login.dart';
 
@@ -54,6 +55,9 @@ class RuregisProvider extends ChangeNotifier {
   bool ctrlReceipt = true;
   // List<Ruregis> get ruregis => _ruregis;
 
+  CounterRegion _counter = CounterRegion();
+  CounterRegion get counter => _counter;
+
   Ruregis _ruregis = Ruregis();
   Ruregis get ruregis => _ruregis;
 
@@ -69,6 +73,9 @@ class RuregisProvider extends ChangeNotifier {
   CounterRegion _counterregion = CounterRegion();
   CounterRegion get counterregion => _counterregion;
 
+    CounterRegion _counterregionApp = CounterRegion();
+  CounterRegion get counterregionApp => _counterregionApp;
+
   MessageRegion _messageregion = MessageRegion();
   MessageRegion get messageregion => _messageregion;
 
@@ -78,8 +85,8 @@ class RuregisProvider extends ChangeNotifier {
   Locationexam _locationexam = Locationexam();
   Locationexam get locationexam => _locationexam;
 
-  Ruregion _ruregion = Ruregion();
-  Ruregion get ruregion => _ruregion;
+  Ruregionprofile _ruregion = Ruregionprofile();
+  Ruregionprofile get ruregion => _ruregion;
 
   List<Results> _locationexamrec = [];
   List<Results> get locationexamrec => _locationexamrec;
@@ -192,6 +199,7 @@ class RuregisProvider extends ChangeNotifier {
       stdcode = stdpref;
     }
     notifyListeners();
+    
     try {
       final response = await _ruregisService.getProfileRuregion(stdcode);
       _ruregis = response;
@@ -258,6 +266,22 @@ class RuregisProvider extends ChangeNotifier {
     //await _service.asyncName();
 
     _isLoading = false;
+    notifyListeners();
+  }
+  Future<void> getCounterRegionApp() async {
+    _isLoading = true;
+   notifyListeners();
+   print('enter couter');
+    try {
+      _isLoading = false;
+      final response = await _ruregisService.getCounterAdminRegionApp();
+      if (response.success == true) {
+       _counterregionApp = response;
+      } 
+    } catch (e) {
+
+      _isLoading = false;
+    }
     notifyListeners();
   }
 
@@ -348,4 +372,5 @@ class RuregisProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
 }

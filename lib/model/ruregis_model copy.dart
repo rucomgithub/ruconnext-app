@@ -1,6 +1,7 @@
-class Ruregionprofile {
+class Ruregis {
   bool? success;
   String? message;
+  String? sTDCODE;
   String? cHKCERTNO;
   String? sTDSTATUSCURRENT;
   String? pENALNO;
@@ -13,16 +14,19 @@ class Ruregionprofile {
   String? fACULTYNO;
   String? eNROLLSEMESTER;
   String? cERTLOCK;
-  String? cURRNO;
+  int? cAMPUSNO;
+  int? cURRNO;
+  String? cURRNAMETHAI;
   String? lIBRARYLOCK;
   bool? gRADUATESTATUS;
   String? mOBILETELEPHONE;
   String? eRRMSG;
   bool? rEGISSTATUS;
 
-  Ruregionprofile(
+  Ruregis(
       {this.success,
       this.message,
+      this.sTDCODE,
       this.cHKCERTNO,
       this.sTDSTATUSCURRENT,
       this.pENALNO,
@@ -35,16 +39,19 @@ class Ruregionprofile {
       this.fACULTYNO,
       this.eNROLLSEMESTER,
       this.cERTLOCK,
+      this.cAMPUSNO,
       this.cURRNO,
+      this.cURRNAMETHAI,
       this.lIBRARYLOCK,
       this.gRADUATESTATUS,
       this.mOBILETELEPHONE,
       this.eRRMSG,
       this.rEGISSTATUS});
 
-  Ruregionprofile.fromJson(Map<String, dynamic> json) {
+  Ruregis.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
+    sTDCODE = json['STD_CODE'];
     cHKCERTNO = json['CHK_CERT_NO'];
     sTDSTATUSCURRENT = json['STD_STATUS_CURRENT'];
     pENALNO = json['PENAL_NO'];
@@ -57,7 +64,9 @@ class Ruregionprofile {
     fACULTYNO = json['FACULTY_NO'];
     eNROLLSEMESTER = json['ENROLL_SEMESTER'];
     cERTLOCK = json['CERT_LOCK'];
+    cAMPUSNO = json['CAMPUS_NO'];
     cURRNO = json['CURR_NO'];
+    cURRNAMETHAI = json['CURR_NAME_THAI'];
     lIBRARYLOCK = json['LIBRARY_LOCK'];
     gRADUATESTATUS = json['GRADUATE_STATUS'];
     mOBILETELEPHONE = json['MOBILE_TELEPHONE'];
@@ -69,6 +78,7 @@ class Ruregionprofile {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['success'] = this.success;
     data['message'] = this.message;
+    data['STD_CODE'] = this.sTDCODE;
     data['CHK_CERT_NO'] = this.cHKCERTNO;
     data['STD_STATUS_CURRENT'] = this.sTDSTATUSCURRENT;
     data['PENAL_NO'] = this.pENALNO;
@@ -81,7 +91,9 @@ class Ruregionprofile {
     data['FACULTY_NO'] = this.fACULTYNO;
     data['ENROLL_SEMESTER'] = this.eNROLLSEMESTER;
     data['CERT_LOCK'] = this.cERTLOCK;
+    data['CAMPUS_NO'] = this.cAMPUSNO;
     data['CURR_NO'] = this.cURRNO;
+    data['CURR_NAME_THAI'] = this.cURRNAMETHAI;
     data['LIBRARY_LOCK'] = this.lIBRARYLOCK;
     data['GRADUATE_STATUS'] = this.gRADUATESTATUS;
     data['MOBILE_TELEPHONE'] = this.mOBILETELEPHONE;

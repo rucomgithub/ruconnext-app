@@ -17,14 +17,12 @@ class RuregionAppLoginPage extends StatefulWidget {
 }
 
 class _RuregionAppLoginPageState extends State<RuregionAppLoginPage> {
-  String inputStudentCode = ''; 
-  String inputPassword = ''; 
+  String inputStudentCode = '';
+  String inputPassword = '';
   final String targetValue = "6299999991";
-  
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Consumer<AuthenProvider>(
         builder: (context, authen, child) {
@@ -61,7 +59,6 @@ class _RuregionAppLoginPageState extends State<RuregionAppLoginPage> {
                             fontFamily: AppTheme.ruFontKanit,
                           ),
                         ),
-                        
                         style: TextStyle(
                           color: Colors
                               .white, // Change the font color to your preference
@@ -71,7 +68,7 @@ class _RuregionAppLoginPageState extends State<RuregionAppLoginPage> {
                         keyboardType: TextInputType.number,
                         maxLength: 10,
                       ),
-                       TextField(
+                      TextField(
                         onChanged: (text) {
                           setState(() {
                             inputPassword = text;
@@ -84,7 +81,6 @@ class _RuregionAppLoginPageState extends State<RuregionAppLoginPage> {
                             fontFamily: AppTheme.ruFontKanit,
                           ),
                         ),
-                        
                         style: TextStyle(
                           color: Colors
                               .white, // Change the font color to your preference
@@ -92,17 +88,18 @@ class _RuregionAppLoginPageState extends State<RuregionAppLoginPage> {
                           // Add more text style properties as needed
                         ),
                         keyboardType: TextInputType.text,
-                      
                       ),
-                      if (inputStudentCode.length == 10 && inputStudentCode.length >0)
+                      if (inputStudentCode.length == 10 &&
+                          inputStudentCode.length > 0)
                         ElevatedButton(
                           onPressed: () {
-                             doLogin(inputStudentCode,inputPassword);
+                            doLogin(inputStudentCode, inputPassword);
                             // Get.toNamed('/ruregionhome'); // ทำอะไรก็ตามเมื่อปุ่มถูกกด
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(
-                                Color.fromARGB(255, 164, 193, 163)), // เปลี่ยนสีปุ่มเป็นสีแดง
+                                Color.fromARGB(255, 164, 193,
+                                    163)), // เปลี่ยนสีปุ่มเป็นสีแดง
                           ),
                           child: Text('เข้าสู่ระบบ'),
                         ),
@@ -116,8 +113,10 @@ class _RuregionAppLoginPageState extends State<RuregionAppLoginPage> {
       ),
     );
   }
-  void doLogin(usr,pwd) {
-       Provider.of<AuthenRuRegionAppProvider>(context, listen: false).getAuthenRuRegionApp(context,usr,pwd);
+
+  void doLogin(usr, pwd) {
+    Provider.of<AuthenRuRegionAppProvider>(context, listen: false)
+        .getAuthenRuRegionApp(context, usr, pwd);
 
   }
 }

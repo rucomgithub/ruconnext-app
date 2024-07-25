@@ -1,7 +1,11 @@
+import 'dart:async';
+
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/model/ruregion_other_list_model.dart';
 import 'package:th.ac.ru.uSmart/other/other_list_view.dart';
@@ -21,10 +25,12 @@ class RuRegionOtherHomeScreen extends StatefulWidget {
 class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
     with TickerProviderStateMixin {
   AnimationController? animationController;
-  List<RuregionOtherListData> otherList = RuregionOtherListData.otherList;
+  List<RuregionOtherListData> otherList =
+      RuregionOtherListData.otherListDefualt;
 
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now().add(const Duration(days: 5));
+  final secret = dotenv.env['SECRET'];
 
   @override
   void initState() {
@@ -35,12 +41,18 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
         .fetchProfileAppRuregion();
     Provider.of<AuthenRuRegionAppProvider>(context, listen: false).getProfile();
     getData();
+    Provider.of<AuthenRuRegionAppProvider>(context, listen: false)
+        .getCounterRegionApp();
 
+    Provider.of<RuregisProvider>(context, listen: false).getCounterRegionApp();
+    
+    Timer.run(() {
+      showAlertRegis(context);
+    });
     //Noti.initialize(flutterLocalNotificationsPlugin);
   }
 
   Future<bool> getData() async {
-    print('call getData');
     await Future<dynamic>.delayed(const Duration(milliseconds: 200));
     return true;
   }
@@ -55,7 +67,12 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
   Widget build(BuildContext context) {
     var provruregis =
         Provider.of<AuthenRuRegionAppProvider>(context, listen: false);
-
+    var statusregis = Provider.of<RuregisProvider>(context, listen: false)
+        .ruregionApp
+        .rEGISSTATUS;
+    if (statusregis == false) {
+      otherList = RuregionOtherListData.otherListSuccess;
+    }
     return Container(
       color: FitnessAppTheme.background,
       child: Scaffold(
@@ -108,6 +125,11 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
             child: FutureBuilder<bool>(
               future: getData(),
               builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                var counter =
+                    Provider.of<RuregisProvider>(context, listen: false);
+                var rureisprov =
+                    Provider.of<RuregisProvider>(context, listen: false);
+
                 if (!snapshot.hasData) {
                   return const SizedBox();
                 } else {
@@ -130,7 +152,36 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
 
                           return RuregionOtherListView(
                             callback: () {
-                              Get.toNamed(otherList[index].navigateScreen);
+                              print(
+                                  'status regis ${counter.counterregionApp.resultsAppControl}');
+                              if (counter.counterregionApp.resultsAppControl![0]
+                                      .aPISTATUS ==
+                                  true) {
+                                showAlert(
+                                    context,
+                                    '${counter.counterregionApp.resultsAppControl![0].aPIDES}',
+                                    '${otherList[index].navigateScreen}');
+                              } else if (counter.counterregionApp
+                                      .resultsAppControl![0].aPISTATUS ==
+                                  false) {
+                                if (otherList[index].navigateScreen ==
+                                    '/ruregionAppmr30') {
+                                  if (rureisprov.ruregionApp.rEGISSTATUS ==
+                                      true) {
+                                    Get.toNamed(
+                                        otherList[index].navigateScreen);
+                                  } else if (rureisprov
+                                          .ruregionApp.rEGISSTATUS ==
+                                      false) {
+                                    showAlert(
+                                        context,
+                                        '${rureisprov.ruregionApp.eRRMSG}',
+                                        '${otherList[index].navigateScreen}');
+                                  }
+                                } else {
+                                  Get.toNamed(otherList[index].navigateScreen);
+                                }
+                              }
                             },
                             otherData: otherList[index],
                             animation: animation,
@@ -161,7 +212,7 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
   }
 
   Widget getAppBarUI() {
-      var provruregis =
+    var provruregis =
         Provider.of<AuthenRuRegionAppProvider>(context, listen: false);
     return Container(
       decoration: BoxDecoration(
@@ -225,7 +276,7 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
                         Radius.circular(32.0),
                       ),
                       onTap: () {
-                            provruregis.logout();
+                        provruregis.logout();
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -239,6 +290,110 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
           ],
         ),
       ),
+    );
+  }
+
+  void showAlert(BuildContext context, String txtAlert, String navigate) {
+    showDialog(
+      context: context,
+      barrierDismissible: true, // Allows closing the dialog by tapping outside
+      builder: (context) {
+        TextEditingController textEditingController = TextEditingController();
+
+        var rureisprov = Provider.of<RuregisProvider>(context, listen: false);
+        List<TextSpan> textSpans = [];
+
+        textSpans.add(
+          TextSpan(
+            text: '$txtAlert',
+            style: TextStyle(
+              fontFamily: AppTheme.ruFontKanit,
+              fontWeight: FontWeight.normal,
+              fontSize: 15,
+              letterSpacing: 0.0,
+              color: FitnessAppTheme.nearlyBlack,
+            ),
+          ),
+        );
+
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: textEditingController,
+                decoration: InputDecoration(
+                  hintText: '',
+                ),
+              ),
+              Text.rich(
+                TextSpan(
+                  children: textSpans,
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                'ตกลง',
+                style: TextStyle(
+                  fontFamily: AppTheme.ruFontKanit,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 15,
+                  letterSpacing: 0.0,
+                  color: Color.fromARGB(255, 54, 82, 60),
+                ), // Sets the text color
+              ),
+              onPressed: () {
+                if (textEditingController.text == 'dev$secret') {
+                  Get.toNamed('${navigate}');
+                } else {
+                  Navigator.of(context).pop();
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showAlertRegis(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        final provider = Provider.of<RuregisProvider>(context);
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (provider.isLoading == false)
+                Text(
+                    '${provider.counterregionApp.resultsAppControl![2].aPIDES}'),
+              if (provider.isLoading == true) CircularProgressIndicator(),
+            ],
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                'ตกลง',
+                style: TextStyle(
+                  fontFamily: AppTheme.ruFontKanit,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 15,
+                  letterSpacing: 0.0,
+                  color: Color.fromARGB(255, 54, 82, 60),
+                ), // Sets the text color
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -42,6 +42,11 @@ class RUREGISMR30Provider extends ChangeNotifier {
   List<ResultsMr30> _mr30ruregionrec = [];
   List<ResultsMr30> get mr30ruregionrec => _mr30ruregionrec;
   ResultsMr30 getmr30ruregionrec = ResultsMr30();
+
+
+  MR30RUREGION _mr30filterApp = MR30RUREGION();
+  MR30RUREGION get mr30filterApp => _mr30filterApp;
+
   bool isCourseDup = true;
   String examDup = '';
   YearSemester _yearsemester = YearSemester(year: "", semester: "");
@@ -261,10 +266,11 @@ class RUREGISMR30Provider extends ChangeNotifier {
   }
 
   void filterMr30(String filter) {
+    print(filter);
     filterStr = filter;
-    _mr30filter.rECORD = _mr30.rECORD
-        ?.where((RECORD m) =>
-            m.courseNo!.toUpperCase().contains(filterStr.toUpperCase()))
+    _mr30filterApp.results = mr30ruregion.results
+        ?.where((ResultsMr30 m) =>
+            m.cOURSENO!.toUpperCase().contains(filterStr.toUpperCase()))
         .toList();
 
     notifyListeners();
@@ -754,9 +760,32 @@ class RUREGISMR30Provider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  Future<void> fetchMR30RUREGIONAPP() async {
+    isLoadingMr30 = true;
+    _error = '';
+
+    try {
+      final response = await _ruregisService.getMR30RUREGIONAPP();
+      _mr30ruregion = response;
+      isLoadingMr30 = false;
+      print('mr30ruregis$_mr30ruregion ');
+    } on Exception catch (e) {
+      print('catch$e ');
+      _error = 'เกิดข้อผิดพลาดดึงข้อมูลนักศึกษา';
+    } catch (e) {
+      print('catch$e ');
+      _error = 'เกิดข้อผิดพลาดดึงข้อมูลนักศึกษา';
+    }
+    filterMr30(filterStr);
+    //await _service.asyncName();
+
+    notifyListeners();
+  }
+
   void addRuregisAppMR30(context, ResultsMr30 record) async {
     
-    notifyListeners();
+
     print(record);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (_mr30ruregionrec.isNotEmpty) {
@@ -812,6 +841,9 @@ class RUREGISMR30Provider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+
+  
   void removeRuregionPref(courseid) async {
   print('provider remove $courseid');
   SharedPreferences prefs = await SharedPreferences.getInstance();

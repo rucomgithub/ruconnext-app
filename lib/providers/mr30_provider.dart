@@ -243,6 +243,7 @@ class MR30Provider extends ChangeNotifier {
   }
 
   void filterMr30(String filter) {
+    print(filter);
     filterStr = filter;
     _mr30filter.rECORD = _mr30.rECORD
         ?.where((RECORD m) =>

@@ -1,5 +1,6 @@
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/main.dart';
+import 'package:th.ac.ru.uSmart/providers/region_enroll_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/region_receipt_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/register_provider.dart';
 import 'package:flutter/material.dart';
@@ -11,21 +12,21 @@ import 'package:th.ac.ru.uSmart/providers/ruregis_provider.dart';
 import '../../fitness_app/fitness_app_theme.dart';
 import '../../utils/registeryeardropdown.dart';
 
-class ReceiptProfileRegionCartView extends StatefulWidget {
+class SuccessProfileRegionCartView extends StatefulWidget {
   final AnimationController? animationController;
   final Animation<double>? animation;
 
-  const ReceiptProfileRegionCartView(
+  const SuccessProfileRegionCartView(
       {Key? key, this.animationController, this.animation})
       : super(key: key);
 
   @override
-  State<ReceiptProfileRegionCartView> createState() =>
-      _ReceiptProfileRegionCartViewState();
+  State<SuccessProfileRegionCartView> createState() =>
+      _SuccessProfileRegionCartViewState();
 }
 
-class _ReceiptProfileRegionCartViewState
-    extends State<ReceiptProfileRegionCartView> {
+class _SuccessProfileRegionCartViewState
+    extends State<SuccessProfileRegionCartView> {
   String? _selectedOption;
   bool isChecked = false;
   var dropdownvalue;
@@ -33,6 +34,8 @@ class _ReceiptProfileRegionCartViewState
   void initState() {
     Provider.of<RuregionCheckCartProvider>(context, listen: false)
         .fetchLocationExam();
+    Provider.of<RegionEnrollProvider>(context, listen: false)
+        .getEnrollRegionProvApp();
 
     super.initState();
   }
@@ -43,6 +46,7 @@ class _ReceiptProfileRegionCartViewState
     var locationexam = context.watch<RuregionReceiptProvider>().examLocate;
     var isGrad = context.watch<RuregionReceiptProvider>().isGrad;
     var loading = context.watch<RuregisProvider>().isLoadingRuregisProfile;
+    var getEnrollRegion = context.watch<RegionEnrollProvider>();
     if (loading) {
       return AnimatedBuilder(
         animation: widget.animationController!,
@@ -102,10 +106,6 @@ class _ReceiptProfileRegionCartViewState
       return AnimatedBuilder(
         animation: widget.animationController!,
         builder: (BuildContext context, Widget? child) {
-          double screenWidth = MediaQuery.of(context).size.width;
-          double screenHeight = MediaQuery.of(context).size.height;
-          double baseFontSize =
-              screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
           return FadeTransition(
             opacity: widget.animation!,
             child: new Transform(
@@ -117,7 +117,7 @@ class _ReceiptProfileRegionCartViewState
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(colors: [
-                      Color.fromARGB(255, 214, 234, 251),
+                      Color.fromARGB(255, 201, 252, 204),
                       HexColor("#65ADFF")
                     ], begin: Alignment.topLeft, end: Alignment.bottomRight),
                     borderRadius: BorderRadius.only(
@@ -148,10 +148,9 @@ class _ReceiptProfileRegionCartViewState
                                 '${ruregisProv.nAMETHAI!}',
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
-                                  overflow: TextOverflow.clip,
                                   fontFamily: AppTheme.ruFontKanit,
                                   fontWeight: FontWeight.normal,
-                                  fontSize: baseFontSize - 4,
+                                  fontSize: 15,
                                   letterSpacing: 0.0,
                                   color: FitnessAppTheme.nearlyBlack,
                                 ),
@@ -166,7 +165,7 @@ class _ReceiptProfileRegionCartViewState
                                 .spaceBetween, // Distribute space evenly
                             children: [
                               Text(
-                                'รหัส ${ruregisProv.sTDCODE!}', // Your right-aligned text
+                                'รหัส ${getEnrollRegion.enrollruregion.receiptRegionalResults![0].sTDCODE!}', // Your right-aligned text
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,

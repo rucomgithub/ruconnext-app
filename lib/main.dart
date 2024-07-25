@@ -39,7 +39,10 @@ import 'package:th.ac.ru.uSmart/rotcs/rotcs_register_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregionApp/ruregion_other_home_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregionApp/ruregioncart/register_region_home_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregionApp/ruregionmr30/mr30_region_home_screen.dart';
+import 'package:th.ac.ru.uSmart/ruregionApp/ruregionqrcode/ruregion_qr.dart';
 import 'package:th.ac.ru.uSmart/ruregionApp/ruregionreceipt/receipt_register_region_home_screen.dart';
+import 'package:th.ac.ru.uSmart/ruregionApp/ruregionsuccess/ruregion_receipt.dart';
+import 'package:th.ac.ru.uSmart/ruregionApp/ruregionsuccess/success_register_region_home_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregis/mr30_home_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregion_login.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregion_mr30.dart';
@@ -238,6 +241,13 @@ class MyApp extends StatelessWidget {
             GetPage(
                 name: '/ruregionAppreceipt',
                 page: () => ReceiptRuRegionHomeScreen()),
+            GetPage(
+                name: '/ruregionAppsuccess',
+                page: () => SuccessRuRegionHomeScreen()),
+            GetPage(name: '/ruregionAppQR', page: () => RuregionAppQRScreen()),
+               GetPage(
+                name: '/ruregionAppsuccess2',
+                page: () => RuregionSuccessScreen()),
           ],
           debugShowCheckedModeBanner: false,
         ));

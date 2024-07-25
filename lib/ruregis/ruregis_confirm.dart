@@ -230,6 +230,8 @@ class _RuRegisConfirmScreenState extends State<RuRegisConfirmScreen>
     Provider.of<RegionEnrollProvider>(context, listen: false).postQR(params);
   }
 
+  
+
   Widget SummaryData() {
     var ruregisfeeProv = context
         .watch<RegionEnrollProvider>()

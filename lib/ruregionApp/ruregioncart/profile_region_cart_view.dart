@@ -20,23 +20,23 @@ class ProfileRegionCartView extends StatefulWidget {
 
   @override
   State<ProfileRegionCartView> createState() => _ProfileRegionCartViewState();
-  
 }
 
 class _ProfileRegionCartViewState extends State<ProfileRegionCartView> {
   String? _selectedOption;
   bool isChecked = false;
-    var dropdownvalue;
-      @override
+  var dropdownvalue;
+  @override
   void initState() {
-    Provider.of<RuregionCheckCartProvider>(context, listen: false).fetchLocationExam();
+    Provider.of<RuregionCheckCartProvider>(context, listen: false)
+        .fetchLocationExam();
 
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     var ruregisProv = context.watch<RuregisProvider>().ruregionApp;
-
 
     var loading = context.watch<RuregisProvider>().isLoadingRuregisProfile;
     if (loading) {
@@ -147,8 +147,17 @@ class _ProfileRegionCartViewState extends State<ProfileRegionCartView> {
                                   color: FitnessAppTheme.nearlyBlack,
                                 ),
                               ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment
+                                .spaceBetween, // Distribute space evenly
+                            children: [
                               Text(
-                                'รหัส ${ruregisProv.sTDCODE!}', // Your right-aligned text
+                                'รหัส : ${ruregisProv.sTDCODE!}', // Your right-aligned text
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,
@@ -161,7 +170,6 @@ class _ProfileRegionCartViewState extends State<ProfileRegionCartView> {
                             ],
                           ),
                         ),
-
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Row(
@@ -230,28 +238,38 @@ class _ProfileRegionCartViewState extends State<ProfileRegionCartView> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Container(
-                                child: Row(
-                                  children: [
-                                    Checkbox(
-                                      checkColor: Colors.white,
-                                      value: isChecked,
-                                      onChanged: (bool? value) {
-                                        setState(() {
-                                          isChecked = value!;
-                                              Provider.of<RuregionCheckCartProvider>(context, listen: false).getStatusGraduate(value);
-                                             Provider.of<RuregionCheckCartProvider>(context, listen: false).checkButtonComfirm();
-
-                                        });
-                                      },
-                                    ),
-                                    Text('ขอจบ'),
-                                  ],
-                                ),
+                                child: ruregisProv.gRADUATESTATUS!
+                                    ? Row(
+                                        children: [
+                                          Checkbox(
+                                            checkColor: Colors.white,
+                                            value: isChecked,
+                                            onChanged: (bool? value) {
+                                              setState(() {
+                                                isChecked = value!;
+                                                Provider.of<RuregionCheckCartProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .getStatusGraduate(value);
+                                                Provider.of<RuregionCheckCartProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .checkButtonComfirm();
+                                              });
+                                            },
+                                          ),
+                                          Text('ขอจบ'),
+                                        ],
+                                      )
+                                    : Row(
+                                        children: [
+                                          Text(''),
+                                        ],
+                                      ), // Or SizedBox.shrink() to take no space
                               ),
                               Expanded(
                                 child: SizedBox(),
                               ),
-                          
                             ],
                           ),
                         )

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:th.ac.ru.uSmart/model/mr30_model.dart';
+
 class MR30RUREGION {
   bool? success;
   String? message;
@@ -30,6 +32,8 @@ class MR30RUREGION {
     }
     return data;
   }
+
+  where(bool Function(RECORD m) param0) {}
 }
 
 class ResultsMr30 {

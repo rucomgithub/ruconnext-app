@@ -1,8 +1,10 @@
 import 'package:th.ac.ru.uSmart/app_theme.dart';
+import 'package:th.ac.ru.uSmart/providers/region_enroll_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregion_check_cart.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregis_fee_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:th.ac.ru.uSmart/providers/ruregis_provider.dart';
 import '../../fitness_app/fitness_app_theme.dart';
 import '../../model/checkregis_model.dart';
 
@@ -42,12 +44,10 @@ class _ButtonQRViewState extends State<ButtonQRView>
 
   @override
   Widget build(BuildContext context) {
-    var checkdup = context.watch<RuregionCheckCartProvider>().isCourseDup;
-    var creditmaxmin = context.watch<RuregionCheckCartProvider>().isSuccessCalpay;
-    var statusgrad = context.watch<RuregionCheckCartProvider>().statusGrad;
-    var statusButton = context.watch<RuregionCheckCartProvider>().statusButton;
-    var checklocation =
-        context.watch<RuregionCheckCartProvider>().isCheckLocation;
+
+    var isload = context.watch<RegionEnrollProvider>().isLoadingConfirm;
+  bool? counter =
+                    Provider.of<RuregisProvider>(context, listen: false).counterregionApp.resultsAppControl![6].aPISTATUS;
 
     return AnimatedBuilder(
       animation: widget.mainScreenAnimationController!,
@@ -64,12 +64,15 @@ class _ButtonQRViewState extends State<ButtonQRView>
                     foregroundColor: Colors.white, // foreground
                     backgroundColor: Colors.green,
                   ),
-                  onPressed: checklocation && checkdup && creditmaxmin
-                      ? () { }
-                      : null,
+                  onPressed:  isload || counter! ? null:
+                       () {
+                          Provider.of<RegionEnrollProvider>(context,
+                                  listen: false)
+                              .postQRApp();
+                        }
+                     ,
                   // child: Text('ยืนยันวิชา ซ้ำซ้อน$checkdup ติ้กขอจบ$statusgrad location$checklocation '),
-                  child: Text(
-                      'ยืนยันรับ QR CODE'),
+                  child: Text('ยืนยันรับ QR'),
                 ),
               );
       },

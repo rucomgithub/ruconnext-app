@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:th.ac.ru.uSmart/model/counter_region_model.dart';
 import 'package:th.ac.ru.uSmart/model/region_login_model.dart';
 import 'package:th.ac.ru.uSmart/services/ruregis_service.dart';
+import 'package:th.ac.ru.uSmart/store/counterAdminRegion.dart';
 import 'package:th.ac.ru.uSmart/store/mr30App.dart';
 import 'package:th.ac.ru.uSmart/store/ruregion_login.dart';
 import '../services/authenservice.dart';
@@ -25,13 +27,15 @@ class AuthenRuRegionAppProvider extends ChangeNotifier {
 
   Future<void> getAuthenRuRegionApp(context, username, password) async {
     _isLoading = true;
-    notifyListeners();
+  
     try {
       _isLoading = false;
       final response = await _ruregisService.postLogin(username, password);
       if (response.tf == true) {
         await RuregionLoginStorage.saveProfile(response);
+        saveStatus();
         Get.offNamedUntil('/', (route) => true);
+        
       } else {
         var snackbar = SnackBar(content: Text('รหัสนศหรือรหัสผ่านไม่ถูกต้อง'));
         ScaffoldMessenger.of(context).showSnackBar(snackbar);
@@ -42,7 +46,44 @@ class AuthenRuRegionAppProvider extends ChangeNotifier {
       var snackbar = SnackBar(content: Text('$e'));
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
+    notifyListeners();
+  }
 
+  Future<void> getCounterRegionApp() async {
+    _isLoading = true;
+
+    try {
+      _isLoading = false;
+      final response = await _ruregisService.getCounterAdminRegionApp();
+      if (response.success == true) {
+         await CounterRegionAppStorage.saveCounterRegionApp(response);
+        //  saveStatus();
+      } else {
+
+      }
+    } catch (e) {
+
+      _isLoading = false;
+    }
+    notifyListeners();
+  }
+
+
+  Future<void> saveStatus() async {
+    _isLoading = true;
+    print('saveStatus');
+    try {
+      _isLoading = false;
+      final response = await _ruregisService.saveStatusApp();
+      if (response.success == true) {
+         print('${response.success}');
+      } else {
+
+      }
+    } catch (e) {
+
+      _isLoading = false;
+    }
     notifyListeners();
   }
 

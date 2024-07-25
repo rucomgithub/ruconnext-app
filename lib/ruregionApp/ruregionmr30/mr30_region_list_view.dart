@@ -5,6 +5,7 @@ import 'package:th.ac.ru.uSmart/model/ruregion_mr30_model.dart';
 import 'package:th.ac.ru.uSmart/providers/grade_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:th.ac.ru.uSmart/providers/ruregion_check_cart.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregion_mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregis_mr30_provider.dart';
 
@@ -38,7 +39,7 @@ class _RuregionMr30ListViewState extends State<RuregionMr30ListView>
     super.initState();
 
     Provider.of<RUREGISMR30Provider>(context, listen: false)
-        .fetchMR30RUREGIS('6299499992', '1', '2567');
+        .fetchMR30RUREGIONAPP();
     print('get data');
   }
 
@@ -70,7 +71,7 @@ class _RuregionMr30ListViewState extends State<RuregionMr30ListView>
   @override
   Widget build(BuildContext context) {
     var err = context.watch<RUREGISMR30Provider>().error;
-    var mr30ruregion = context.watch<RUREGISMR30Provider>().mr30ruregion;
+    var mr30ruregion = context.watch<RUREGISMR30Provider>().mr30filterApp;
     var loading = context.watch<RUREGISMR30Provider>().isLoadingMr30;
     if (loading) {
       return Row(
@@ -200,13 +201,16 @@ class Mr30ItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     var ruregionprov = context.watch<RUREGISMR30Provider>();
     var mr30ruregion = context.watch<RuregionProvider>().mr30ruregion;
+    var regionProv = context.watch<RuregionCheckCartProvider>();
 
     // print('mr30 filter ${mr30fil.results}');
 
     void addToCart(ResultsMr30 course) {
       print('add to cart ${course}');
+      
       // ruregionprov.addRuregionMR30(context,mr30ruregion.results![index]);
       ruregionprov.addRuregisAppMR30(context,course);
+      regionProv.getCalPayRegionApp();
     }
 
     List<String> parts = this.course.toString().split(',');
@@ -250,7 +254,9 @@ class Mr30ItemView extends StatelessWidget {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(8.0)),
                         splashColor: AppTheme.dark_grey.withOpacity(0.2),
-                        onTap: () {},
+                         onTap: () {
+                            addToCart(course!);
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
