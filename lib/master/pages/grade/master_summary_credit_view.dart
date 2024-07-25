@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/ui_view/wave_view.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/main.dart';
@@ -23,13 +26,17 @@ class MasterSummaryCreditView extends StatefulWidget {
 class _MasterSummaryCreditViewState extends State<MasterSummaryCreditView>
     with TickerProviderStateMixin {
   Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 50));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 600));
     return true;
   }
 
   @override
   Widget build(BuildContext context) {
     var prov = Provider.of<MasterGradeProvider>(context, listen: false);
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return AnimatedBuilder(
       animation: widget.mainScreenAnimationController!,
       builder: (BuildContext context, Widget? child) {
@@ -39,21 +46,20 @@ class _MasterSummaryCreditViewState extends State<MasterSummaryCreditView>
             transform: Matrix4.translationValues(
                 0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
             child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 24, right: 24, top: 16, bottom: 18),
+              padding: const EdgeInsets.all(8),
               child: Container(
                 decoration: BoxDecoration(
-                  color: FitnessAppTheme.white,
+                  color: AppTheme.white,
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(8.0),
                       bottomLeft: Radius.circular(8.0),
                       bottomRight: Radius.circular(8.0),
-                      topRight: Radius.circular(68.0)),
+                      topRight: Radius.circular(48.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: FitnessAppTheme.grey.withOpacity(0.2),
-                        offset: const Offset(1.1, 1.1),
-                        blurRadius: 10.0),
+                        color: AppTheme.ru_yellow,
+                        offset: Offset(1.1, 1.1),
+                        blurRadius: 5.0),
                   ],
                 ),
                 child: prov.summaryCreditPass.isEmpty
@@ -66,107 +72,142 @@ class _MasterSummaryCreditViewState extends State<MasterSummaryCreditView>
                             Expanded(
                               child: Column(
                                 children: <Widget>[
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 8, bottom: 8),
-                                            child: Text(
-                                              'หน่วยกิตสะสม',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontFamily:
-                                                    FitnessAppTheme.fontName,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 18,
-                                                letterSpacing: -0.2,
-                                                color: FitnessAppTheme
-                                                    .nearlyDarkBlue,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 4, bottom: 3),
-                                            child: Text(
-                                              '${prov.grade.summaryCredit}',
-                                              //'87',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontFamily:
-                                                    FitnessAppTheme.fontName,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 28,
-                                                color: FitnessAppTheme
-                                                    .nearlyDarkBlue,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 8, bottom: 8),
-                                            child: Text(
-                                              'คะแนนเฉลี่ยสะสม',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontFamily:
-                                                    FitnessAppTheme.fontName,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 18,
-                                                letterSpacing: -0.2,
-                                                color: FitnessAppTheme
-                                                    .nearlyDarkBlue,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 4, bottom: 3),
-                                            child: Text(
-                                              '${prov.grade.gpa}',
-                                              //'87',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontFamily:
-                                                    FitnessAppTheme.fontName,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 28,
-                                                color: FitnessAppTheme
-                                                    .nearlyDarkBlue,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
                                   Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 4, right: 4, top: 8, bottom: 16),
-                                    child: Container(
-                                      height: 2,
-                                      decoration: BoxDecoration(
-                                        color: FitnessAppTheme.background,
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(4.0)),
-                                      ),
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Text(
+                                                'หน่วยกิตสะสม',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      AppTheme.ruFontKanit,
+                                                  fontSize: baseFontSize,
+                                                  letterSpacing: -0.2,
+                                                  color: AppTheme.ru_dark_blue,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Container(
+                                                width: screenWidth * 0.15,
+                                                decoration: BoxDecoration(
+                                                  gradient: LinearGradient(
+                                                    colors: <HexColor>[
+                                                      HexColor("#FF19196B"),
+                                                      HexColor("#FF1919EB"),
+                                                    ],
+                                                    begin: Alignment.topLeft,
+                                                    end: Alignment.bottomRight,
+                                                  ),
+                                                  borderRadius:
+                                                      const BorderRadius.only(
+                                                    bottomRight:
+                                                        Radius.circular(16.0),
+                                                    bottomLeft:
+                                                        Radius.circular(16.0),
+                                                    topLeft:
+                                                        Radius.circular(16.0),
+                                                    topRight:
+                                                        Radius.circular(16.0),
+                                                  ),
+                                                ),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    '${prov.grade.summaryCredit}',
+                                                    //'87',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontFamily:
+                                                          AppTheme.ruFontKanit,
+                                                      letterSpacing: -0.2,
+                                                      fontSize: baseFontSize,
+                                                      color: AppTheme.ru_yellow,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Text(
+                                                'คะแนนเฉลี่ยสะสม',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      AppTheme.ruFontKanit,
+                                                  fontSize: baseFontSize,
+                                                  letterSpacing: -0.2,
+                                                  color: AppTheme.ru_dark_blue,
+                                                ),
+                                              ),
+                                              SizedBox(width: 10),
+                                              Container(
+                                                width: screenWidth * 0.15,
+                                                decoration: BoxDecoration(
+                                                  gradient: LinearGradient(
+                                                    colors: <HexColor>[
+                                                      HexColor("#FF19196B"),
+                                                      HexColor("#FF1919FB"),
+                                                    ],
+                                                    begin: Alignment.topLeft,
+                                                    end: Alignment.bottomRight,
+                                                  ),
+                                                  borderRadius:
+                                                      const BorderRadius.only(
+                                                    bottomRight:
+                                                        Radius.circular(16.0),
+                                                    bottomLeft:
+                                                        Radius.circular(16.0),
+                                                    topLeft:
+                                                        Radius.circular(16.0),
+                                                    topRight:
+                                                        Radius.circular(16.0),
+                                                  ),
+                                                ),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    '${prov.grade.gpa}',
+                                                    //'87',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontFamily:
+                                                          AppTheme.ruFontKanit,
+                                                      fontSize: baseFontSize,
+                                                      color: AppTheme.ru_yellow,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],

@@ -1,3 +1,4 @@
+import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:th.ac.ru.uSmart/providers/grade_provider.dart';
@@ -20,7 +21,12 @@ class MasterGradeYearView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var prov = Provider.of<GradeProvider>(context, listen: false);
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -34,10 +40,10 @@ class MasterGradeYearView extends StatelessWidget {
                   left: 24, right: 24, top: 16, bottom: 18),
               child: Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                    FitnessAppTheme.nearlyBlack,
-                    HexColor("#6F56E8")
-                  ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+                  gradient: LinearGradient(
+                      colors: [AppTheme.ru_dark_blue, HexColor("#1B75BB")],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(8.0),
                       bottomLeft: Radius.circular(8.0),
@@ -45,7 +51,7 @@ class MasterGradeYearView extends StatelessWidget {
                       topRight: Radius.circular(68.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: FitnessAppTheme.grey.withOpacity(0.6),
+                        color: AppTheme.grey.withOpacity(0.6),
                         offset: Offset(1.1, 1.1),
                         blurRadius: 10.0),
                   ],
@@ -62,11 +68,11 @@ class MasterGradeYearView extends StatelessWidget {
                           'แสดงรายการวิชาที่นักศึกษาลงทะเบียน \nแยกตามปี/ภาคการศึกษา : ${yearSemester!} ',
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            fontFamily: FitnessAppTheme.fontName,
+                            fontFamily: AppTheme.ruFontKanit,
                             fontWeight: FontWeight.normal,
-                            fontSize: 18,
+                            fontSize: baseFontSize - 4,
                             letterSpacing: 0.0,
-                            color: FitnessAppTheme.white,
+                            color: AppTheme.white,
                           ),
                         ),
                       ),
@@ -76,7 +82,7 @@ class MasterGradeYearView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(right: 4),
                         child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Padding(
@@ -84,7 +90,7 @@ class MasterGradeYearView extends StatelessWidget {
                               child: Icon(
                                 Icons.list,
                                 color: FitnessAppTheme.white,
-                                size: 18,
+                                size: baseFontSize,
                               ),
                             ),
                             Padding(
@@ -93,9 +99,8 @@ class MasterGradeYearView extends StatelessWidget {
                                 'มีทั้งหมด ${grades!.length} รายการ',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontFamily: FitnessAppTheme.fontName,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
+                                  fontFamily: AppTheme.ruFontKanit,
+                                  fontSize: baseFontSize - 4,
                                   letterSpacing: 0.0,
                                   color: FitnessAppTheme.white,
                                 ),
@@ -121,7 +126,7 @@ class MasterGradeYearView extends StatelessWidget {
                                 child: Icon(
                                   Icons.abc,
                                   color: HexColor("#6F56E8"),
-                                  size: 28,
+                                  size: baseFontSize + 10,
                                 ),
                               ),
                             )

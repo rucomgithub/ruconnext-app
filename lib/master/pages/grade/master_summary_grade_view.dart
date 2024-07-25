@@ -1,3 +1,4 @@
+import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,10 @@ class _MasterSummaryGradeViewState extends State<MasterSummaryGradeView> {
   @override
   Widget build(BuildContext context) {
     var prov = Provider.of<MasterGradeProvider>(context, listen: false);
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
 
     return AnimatedBuilder(
       animation: widget.animationController!,
@@ -31,21 +36,20 @@ class _MasterSummaryGradeViewState extends State<MasterSummaryGradeView> {
             transform: new Matrix4.translationValues(
                 0.0, 30 * (1.0 - widget.animation!.value), 0.0),
             child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 24, right: 24, top: 16, bottom: 18),
+              padding: const EdgeInsets.all(8),
               child: Container(
                 decoration: BoxDecoration(
-                  color: FitnessAppTheme.white,
+                  color: AppTheme.white,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(8.0),
                       bottomLeft: Radius.circular(8.0),
                       bottomRight: Radius.circular(38.0),
-                      topRight: Radius.circular(68.0)),
+                      topRight: Radius.circular(48.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: FitnessAppTheme.grey.withOpacity(0.2),
+                        color: AppTheme.ru_yellow,
                         offset: Offset(1.1, 1.1),
-                        blurRadius: 10.0),
+                        blurRadius: 5.0),
                   ],
                 ),
                 child: prov.groupGrade.isEmpty
@@ -83,8 +87,7 @@ class _MasterSummaryGradeViewState extends State<MasterSummaryGradeView> {
                                                     height: 48,
                                                     width: 2,
                                                     decoration: BoxDecoration(
-                                                      color: HexColor('#87A0E5')
-                                                          .withOpacity(0.5),
+                                                      color: AppTheme.ru_yellow,
                                                       borderRadius:
                                                           BorderRadius.all(
                                                               Radius.circular(
@@ -114,19 +117,13 @@ class _MasterSummaryGradeViewState extends State<MasterSummaryGradeView> {
                                                             textAlign: TextAlign
                                                                 .center,
                                                             style: TextStyle(
-                                                              fontFamily:
-                                                                  FitnessAppTheme
-                                                                      .fontName,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              fontSize: 16,
-                                                              letterSpacing:
-                                                                  -0.1,
-                                                              color: FitnessAppTheme
-                                                                  .grey
-                                                                  .withOpacity(
-                                                                      0.5),
+                                                              fontFamily: AppTheme
+                                                                  .ruFontKanit,
+                                                              fontSize:
+                                                                  baseFontSize -
+                                                                      4,
+                                                              color: AppTheme
+                                                                  .ru_text_light_blue,
                                                             ),
                                                           ),
                                                         ),
@@ -159,14 +156,13 @@ class _MasterSummaryGradeViewState extends State<MasterSummaryGradeView> {
                                                                 style:
                                                                     TextStyle(
                                                                   fontFamily:
-                                                                      FitnessAppTheme
-                                                                          .fontName,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize: 16,
-                                                                  color: FitnessAppTheme
-                                                                      .darkerText,
+                                                                      AppTheme
+                                                                          .ruFontKanit,
+                                                                  fontSize:
+                                                                      baseFontSize -
+                                                                          6,
+                                                                  color: AppTheme
+                                                                      .ru_text_light_blue,
                                                                 ),
                                                               ),
                                                             ),
@@ -185,18 +181,13 @@ class _MasterSummaryGradeViewState extends State<MasterSummaryGradeView> {
                                                                 style:
                                                                     TextStyle(
                                                                   fontFamily:
-                                                                      FitnessAppTheme
-                                                                          .fontName,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize: 12,
-                                                                  letterSpacing:
-                                                                      -0.2,
-                                                                  color: FitnessAppTheme
-                                                                      .grey
-                                                                      .withOpacity(
-                                                                          0.5),
+                                                                      AppTheme
+                                                                          .ruFontKanit,
+                                                                  fontSize:
+                                                                      baseFontSize -
+                                                                          6,
+                                                                  color: AppTheme
+                                                                      .ru_text_light_blue,
                                                                 ),
                                                               ),
                                                             ),
@@ -220,78 +211,68 @@ class _MasterSummaryGradeViewState extends State<MasterSummaryGradeView> {
                                     child: Stack(
                                       clipBehavior: Clip.none,
                                       children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Container(
-                                            width: 100,
-                                            height: 100,
-                                            decoration: BoxDecoration(
-                                              color: FitnessAppTheme.white,
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(100.0),
+                                        Container(
+                                          width: screenWidth * 0.45,
+                                          height: screenWidth * 0.45,
+                                          decoration: BoxDecoration(
+                                            color: AppTheme.white,
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(100.0),
+                                            ),
+                                            border: new Border.all(
+                                                width: 10,
+                                                color: AppTheme.ru_dark_blue),
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Text(
+                                                '${prov.summaryCreditPass['PASS']!.toString()}',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      AppTheme.ruFontKanit,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: baseFontSize + 4,
+                                                  letterSpacing: 0.0,
+                                                  color: AppTheme
+                                                      .ru_text_light_blue,
+                                                ),
                                               ),
-                                              border: new Border.all(
-                                                  width: 4,
-                                                  color: FitnessAppTheme
-                                                      .nearlyDarkBlue
-                                                      .withOpacity(0.2)),
-                                            ),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: <Widget>[
-                                                Text(
-                                                  '${prov.summaryCreditPass['PASS']!.toString()}',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontFamily: FitnessAppTheme
-                                                        .fontName,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 24,
-                                                    letterSpacing: 0.0,
-                                                    color: Color.fromARGB(
-                                                        255, 1, 15, 167),
-                                                  ),
+                                              Text(
+                                                'หน่วยกิตสะสม',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      AppTheme.ruFontKanit,
+                                                  fontSize: baseFontSize - 6,
+                                                  letterSpacing: 0.0,
+                                                  color: AppTheme.nearlyBlack,
                                                 ),
-                                                Text(
-                                                  'หน่วยกิตสะสม',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontFamily: FitnessAppTheme
-                                                        .fontName,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 10,
-                                                    letterSpacing: 0.0,
-                                                    color: FitnessAppTheme.grey
-                                                        .withOpacity(0.5),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: CustomPaint(
-                                            painter: CurvePainter(
-                                                colors: [
-                                                  HexColor("#9A98EF"),
-                                                  HexColor("#9A98E8"),
-                                                  HexColor("#9A98E0")
-                                                ],
-                                                angle: 360 *
-                                                    ((100 *
-                                                            prov.grade
-                                                                .summaryCredit!
-                                                                .toInt() /
-                                                            36) /
-                                                        100)),
-                                            child: SizedBox(
-                                              width: 108,
-                                              height: 108,
-                                            ),
+                                        CustomPaint(
+                                          painter: CurvePainter(
+                                              colors: [
+                                                HexColor("#F6C563"),
+                                                HexColor("#F6C543"),
+                                                HexColor("#F6C523")
+                                              ],
+                                              angle: 360 *
+                                                  ((100 *
+                                                          prov.grade
+                                                              .summaryCredit!
+                                                              .toInt() /
+                                                          48) /
+                                                      100)),
+                                          child: SizedBox(
+                                            width: screenWidth * 0.45,
+                                            height: screenWidth * 0.45,
                                           ),
                                         )
                                       ],
@@ -307,7 +288,7 @@ class _MasterSummaryGradeViewState extends State<MasterSummaryGradeView> {
                             child: Container(
                               height: 2,
                               decoration: BoxDecoration(
-                                color: FitnessAppTheme.background,
+                                color: AppTheme.background,
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(4.0)),
                               ),

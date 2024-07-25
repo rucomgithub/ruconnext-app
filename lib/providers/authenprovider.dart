@@ -23,6 +23,9 @@ class AuthenProvider extends ChangeNotifier {
   String _role = "-";
   String get role => _role;
 
+  String _roletext = "-";
+  String get roletext => _roletext;
+
   Future<void> getAuthenGoogleDev(context, String std_code) async {
     print('getAuthenGoogleDev');
     _isLoading = true;
@@ -95,9 +98,23 @@ class AuthenProvider extends ChangeNotifier {
           JwtDecoder.decode(_profile.accessToken.toString());
       // Now you can use your decoded token
       _role = decodedToken["role"];
+      switch (_role) {
+        case "Bachelor":
+          _roletext = "ปริญญาตรี";
+          break;
+        case "Master":
+          _roletext = "ปริญญาโท";
+          break;
+        case "Doctor":
+          _roletext = "ปริญญาเอก";
+          break;
+        default:
+          _roletext = "";
+      }
     } catch (e) {
       print('Error decoding JWT: $e');
       _role = '';
+      _roletext = "";
     }
 
     _isLoading = false;

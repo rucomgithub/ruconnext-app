@@ -45,8 +45,10 @@ class MasterRegisterProvider extends ChangeNotifier {
       final response = await _service.getRegisterAll();
       _register = response;
       if (_register.stdCode != null) {
-        _listGroupYearSemester =
-            groupListSortCourse(_register.record!, ['semester', 'year']);
+        _listGroupYearSemester = groupListSortCourse(_register.record!, [
+          'year',
+          'semester',
+        ]);
       }
 
       isLoading = false;

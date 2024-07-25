@@ -36,3 +36,37 @@ Color getFacultyColor(String facultyName) {
       return AppTheme.ru_dark_blue;
   }
 }
+
+Color getFacultyMasterColor(String facultyName) {
+  switch (facultyName) {
+    case '01':
+      return Colors.white;
+    case '02':
+      return Colors.blue;
+    case '03':
+      return Colors.orange;
+    case '04':
+      return Colors.pink;
+    case '06':
+      return Colors.red;
+    case '05':
+      return Colors.yellow;
+    case '07':
+      return Colors.purple;
+    case '10':
+      return Color.fromARGB(255, 95, 10, 4);
+    case '08':
+      return Colors.green;
+    case '12':
+      return Color.fromARGB(255, 3, 56, 5);
+    case '11':
+      return Color.fromARGB(255, 202, 211, 149);
+    case '09':
+      return Colors.grey;
+    case 'คณะรัฐประศาสนศาสตร์':
+      return Color.fromARGB(255, 73, 52, 50);
+    // Add more cases for other faculties
+    default:
+      return AppTheme.ru_dark_blue;
+  }
+}

@@ -35,10 +35,10 @@ class GradeYearView extends StatelessWidget {
                   left: 24, right: 24, top: 16, bottom: 18),
               child: Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                    AppTheme.ru_dark_blue,
-                    HexColor("#1B75BB")
-                  ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+                  gradient: LinearGradient(
+                      colors: [AppTheme.ru_dark_blue, HexColor("#1B75BB")],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(8.0),
                       bottomLeft: Radius.circular(8.0),
@@ -60,7 +60,7 @@ class GradeYearView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
-                          'แสดงรายการวิชาที่นักศึกษาลงทะเบียน \nแยกตามปี/ภาคการศึกษา : ${yearSemester!} ',
+                          'แสดงรายการวิชาที่นักศึกษาลงทะเบียน \n แยกตามปี/ภาคการศึกษา : ${yearSemester!} ',
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontFamily: AppTheme.ruFontKanit,
@@ -111,8 +111,8 @@ class GradeYearView extends StatelessWidget {
                                 shape: BoxShape.circle,
                                 boxShadow: <BoxShadow>[
                                   BoxShadow(
-                                      color: AppTheme.nearlyBlack
-                                          .withOpacity(0.4),
+                                      color:
+                                          AppTheme.nearlyBlack.withOpacity(0.4),
                                       offset: Offset(8.0, 8.0),
                                       blurRadius: 8.0),
                                 ],

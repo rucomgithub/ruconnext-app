@@ -1,8 +1,11 @@
+import 'package:provider/provider.dart';
+import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/ui_view/running_view.dart';
 import 'package:flutter/material.dart';
 import 'package:th.ac.ru.uSmart/master/pages/grade/master_gradeyear_list_view.dart';
 import 'package:th.ac.ru.uSmart/master/pages/grade/master_gradeyear_view.dart';
+import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
 
 class MasterGradeYearScreen extends StatefulWidget {
   const MasterGradeYearScreen(
@@ -103,14 +106,50 @@ class _MasterGradeYearScreenState extends State<MasterGradeYearScreen>
 
   @override
   Widget build(BuildContext context) {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
+    var role = context.watch<AuthenProvider>().role;
     return Container(
       color: FitnessAppTheme.background,
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: AppTheme.nearlyWhite, // Change back arrow color to white
+          ),
+          title: Text(
+            'เกรดแยกตามปี/ภาค',
+            style: TextStyle(
+              fontSize: baseFontSize - 2,
+              fontFamily: AppTheme.ruFontKanit,
+              color: AppTheme.nearlyWhite,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          centerTitle: true, // Centers the title
+          backgroundColor:
+              AppTheme.ru_dark_blue, // Background color of the AppBar
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.help,
+                color: AppTheme.nearlyWhite,
+              ),
+              onPressed: () {
+                // Get.toNamed("/gradehelp");
+              },
+            ),
+          ],
+        ),
+        backgroundColor:
+            isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
         body: Stack(
           children: <Widget>[
             getMainListViewUI(),
-            getAppBarUI(),
+            //getAppBarUI(),
             SizedBox(
               height: MediaQuery.of(context).padding.bottom,
             )
@@ -129,12 +168,6 @@ class _MasterGradeYearScreenState extends State<MasterGradeYearScreen>
         } else {
           return ListView.builder(
             controller: scrollController,
-            padding: EdgeInsets.only(
-              top: AppBar().preferredSize.height +
-                  MediaQuery.of(context).padding.top +
-                  24,
-              bottom: 62 + MediaQuery.of(context).padding.bottom,
-            ),
             itemCount: listViews.length,
             scrollDirection: Axis.vertical,
             itemBuilder: (BuildContext context, int index) {
@@ -193,7 +226,7 @@ class _MasterGradeYearScreenState extends State<MasterGradeYearScreen>
                                   'เกรดแยกตามปี/ภาค',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                    fontFamily: FitnessAppTheme.fontName,
+                                    fontFamily: AppTheme.ruFontKanit,
                                     fontWeight: FontWeight.w700,
                                     fontSize: 22 + 6 - 6 * topBarOpacity,
                                     letterSpacing: 1.2,

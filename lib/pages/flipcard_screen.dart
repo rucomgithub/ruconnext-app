@@ -134,7 +134,7 @@ class _FlipCardPageState extends State<FlipCardPage>
                                         crossAxisAlignment:
                                             CrossAxisAlignment.stretch,
                                         children: <Widget>[
-                                          _renderAppBar(context),
+                                          // _renderAppBar(context),
                                           Expanded(
                                             flex: 8,
                                             child: _renderContent(context),
