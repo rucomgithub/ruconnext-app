@@ -150,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               : AppTheme.nearlyBlack, // Change back arrow color to white
         ),
         title: Text(
-          'Ru Connext ${authen.role}',
+          'Ru Connext',
           style: TextStyle(
               fontSize: baseFontSize - 2,
               fontFamily: AppTheme.ruFontKanit,

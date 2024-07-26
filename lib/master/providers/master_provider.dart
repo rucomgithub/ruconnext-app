@@ -19,7 +19,25 @@ class MasterProvider extends ChangeNotifier {
   Uint8List _imageData = Uint8List(0);
   Uint8List get imageData => _imageData;
 
-  MasterStudent _student = MasterStudent();
+  MasterStudent _student = MasterStudent(
+    stdcode: '',
+    namethai: '',
+    nameeng: '',
+    birthdate: '',
+    stdstatusdescthai: '',
+    citizenid: '',
+    regionalnamethai: '',
+    stdtypedescthai: '',
+    facultynamethai: '',
+    majornamethai: '',
+    waivedno: '',
+    waivedpaid: '',
+    waivedtotalcredit: 0,
+    chkcertnamethai: '',
+    penalnamethai: '',
+    mobiletelephone: '',
+    emailaddress: '',
+  );
   MasterStudent get student => _student;
 
   Future<void> getImageProfile() async {

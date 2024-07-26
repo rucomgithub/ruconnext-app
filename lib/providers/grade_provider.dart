@@ -110,19 +110,22 @@ class GradeProvider extends ChangeNotifier {
 
         _groupGrade = sortByKeys(_groupGrade, '');
 
-        
-
         final res = await _serviceStudent.getMr30Catalog();
         _mr30catalog = res;
         _mr30catalogrecord = res.rec!;
         // _catalogsCombine =   _mr30catalogrecord.where((e) =>  _graderecord.any((record)=> record.courseNo == e.cOURSENO)).toList();
         _catalogsCombine = _mr30catalogrecord
-            .where((e) =>
-                _graderecord.any((record) => record.courseNo == e.cOURSENO && record.grade != "F" && record.grade != "F*"))
+            .where((e) => _graderecord.any((record) =>
+                record.courseNo == e.cOURSENO &&
+                record.grade != "F" &&
+                record.grade != "F*"))
             .map((e) {
           // Find the matching grade from _graderecord
           var matchedGrade = _graderecord
-              .firstWhere((record) => record.courseNo == e.cOURSENO && record.grade != "F" && record.grade != "F*")
+              .firstWhere((record) =>
+                  record.courseNo == e.cOURSENO &&
+                  record.grade != "F" &&
+                  record.grade != "F*")
               .grade;
           // Return a new Rec object with the grade set
           return Rec(
@@ -134,7 +137,7 @@ class GradeProvider extends ChangeNotifier {
                   e.grade // If no matching grade is found, keep the original grade
               );
         }).toList();
-        summary(response.record!,_groupByCatalog);
+        summary(response.record!, _groupByCatalog);
       } on Exception catch (e) {
         _error = '$e : เกิดข้อผิดพลาด';
       }
@@ -142,7 +145,7 @@ class GradeProvider extends ChangeNotifier {
     // print(_catalogsCombine);
     _groupByCatalog = groupByCatalogs(_catalogsCombine);
     summaryGradeCatalog(_groupByCatalog);
-    
+
     // print('${_groupByCatalog}');
     isLoading = false;
     notifyListeners();
@@ -185,7 +188,9 @@ class GradeProvider extends ChangeNotifier {
 
     if (data.isNotEmpty) {
       for (var element in data) {
-        if (element.grade != "F" && element.grade != "F*") {
+        if (element.grade != "F" &&
+            element.grade != "F*" &&
+            element.grade != "X") {
           pass += int.parse(element.credit!);
         } else {
           notPass += int.parse(element.credit!);
@@ -443,20 +448,19 @@ class GradeProvider extends ChangeNotifier {
       "ธรรมชาติ",
       "ทั่วไป"
     ];
-    
-  data.forEach((key, value) {
-    var _list = value.values.toList();
-    var keyCat = int.parse(key)-1;
-     gradeCat[keyCat] = _list[0];
-    print('$key,${_list[0]},${gradeCat}');
-   });
 
+    data.forEach((key, value) {
+      var _list = value.values.toList();
+      var keyCat = int.parse(key) - 1;
+      gradeCat[keyCat] = _list[0];
+      print('$key,${_list[0]},${gradeCat}');
+    });
   }
 
-  void summary(List<RECORD> data,Map<String, Map<String, int>> dataCat) {
+  void summary(List<RECORD> data, Map<String, Map<String, int>> dataCat) {
     Map<String, int> gradeCounts = {};
     Map<String, int> creditSumByGrade = {};
-  final gradeCat = List.filled(9, 1);
+    final gradeCat = List.filled(9, 1);
 
     for (RECORD record in data) {
       String grade = record.grade!;
@@ -473,8 +477,6 @@ class GradeProvider extends ChangeNotifier {
     List<String> grades = gradeCounts.keys.toList();
     List<int> counts = gradeCounts.values.toList();
 
-    
-
     List<String> gradesCat = [
       "ศิลปะ",
       "ภาษา",
@@ -486,14 +488,13 @@ class GradeProvider extends ChangeNotifier {
       "ธรรมชาติ",
       "ทั่วไป"
     ];
-     dataCat.forEach((key, value) {
-    var _list = value.values.toList();
-    var keyCat = int.parse(key)-1;
-     gradeCat[keyCat] = _list[0];
-    // print('$key,${_list[0]},${gradeCat}');
-   });
+    dataCat.forEach((key, value) {
+      var _list = value.values.toList();
+      var keyCat = int.parse(key) - 1;
+      gradeCat[keyCat] = _list[0];
+      // print('$key,${_list[0]},${gradeCat}');
+    });
     List<int> countsCat = gradeCat;
-
 
     _counts = counts;
     _grades = grades;
@@ -501,7 +502,7 @@ class GradeProvider extends ChangeNotifier {
 
     _gradesCatalog = gradesCat;
     _countsCatalog = countsCat;
-     _ticksCatalog = ticksArray(countsCat);
+    _ticksCatalog = ticksArray(countsCat);
   }
 
   List<int> ticksArray(List<int> data) {

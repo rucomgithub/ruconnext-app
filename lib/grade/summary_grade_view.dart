@@ -42,7 +42,7 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                   image: DecorationImage(
                     image: AssetImage('assets/images/ID.png'),
                     fit: BoxFit.cover,
-                    opacity: isLightMode ? 0.6 : 0.2,
+                    opacity: isLightMode ? 0.4 : 0.2,
                   ),
                   color: isLightMode ? AppTheme.nearlyWhite : AppTheme.ru_grey,
                   borderRadius: const BorderRadius.only(
@@ -219,74 +219,63 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                               child: Stack(
                                 clipBehavior: Clip.none,
                                 children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      width: 100,
-                                      height: 100,
-                                      decoration: BoxDecoration(
-                                        color: AppTheme.white,
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(100.0),
+                                  Container(
+                                    width: screenWidth * 0.35,
+                                    height: screenWidth * 0.35,
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.white,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(screenWidth * 0.35),
+                                      ),
+                                      border: new Border.all(
+                                          width: 10,
+                                          color: AppTheme.ru_dark_blue),
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          '${prov.summaryCreditPass['PASS']!.toString()}',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontFamily: AppTheme.ruFontKanit,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: baseFontSize + 5,
+                                            color: AppTheme.ru_text_light_blue,
+                                          ),
                                         ),
-                                        border: new Border.all(
-                                            width: 4,
-                                            color: AppTheme.ru_dark_blue
-                                                .withOpacity(0.2)),
-                                      ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Text(
-                                            '${prov.summaryCreditPass['PASS']!.toString()}',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.ruFontKanit,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: baseFontSize,
-                                              letterSpacing: 0.0,
-                                              color: Color.fromARGB(
-                                                  255, 1, 15, 167),
-                                            ),
+                                        Text(
+                                          'หน่วยกิตสะสม',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontFamily: AppTheme.ruFontKanit,
+                                            fontSize: baseFontSize,
+                                            color: AppTheme.ru_text_light_blue,
                                           ),
-                                          Text(
-                                            'หน่วยกิตสะสม',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.ruFontKanit,
-                                              fontSize: baseFontSize - 6,
-                                              letterSpacing: 0.0,
-                                              color: AppTheme.ru_text_ocean_blue
-                                                  .withOpacity(0.5),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: CustomPaint(
-                                      painter: CurvePainter(
-                                          colors: [
-                                            HexColor("#e46f69"),
-                                            HexColor("#ffea00"),
-                                            HexColor("#19b100"),
-                                          ],
-                                          angle: 360 *
-                                              ((100 *
-                                                      prov.summaryCreditPass[
-                                                              'PASS']!
-                                                          .toInt() /
-                                                      145) /
-                                                  100)),
-                                      child: SizedBox(
-                                        width: 108,
-                                        height: 108,
-                                      ),
+                                  CustomPaint(
+                                    painter: CurvePainter(
+                                        colors: [
+                                          HexColor("#F6C563"),
+                                          HexColor("#F6C543"),
+                                          HexColor("#F6C523")
+                                        ],
+                                        angle: 360 *
+                                            ((100 *
+                                                    prov.summaryCreditPass[
+                                                            'PASS']!
+                                                        .toInt() /
+                                                    145) /
+                                                100)),
+                                    child: SizedBox(
+                                      width: screenWidth * 0.35,
+                                      height: screenWidth * 0.35,
                                     ),
                                   )
                                 ],

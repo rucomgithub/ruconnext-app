@@ -50,6 +50,11 @@ class _YearSemesterListViewState extends State<YearSemesterListView>
     bool isLightMode = brightness == Brightness.light;
     var prov = Provider.of<GradeProvider>(context, listen: false);
 
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
+
     return AnimatedBuilder(
       animation: widget.mainScreenAnimationController!,
       builder: (BuildContext context, Widget? child) {
@@ -75,7 +80,7 @@ class _YearSemesterListViewState extends State<YearSemesterListView>
                         blurRadius: 10.0),
                   ],
                 ),
-                height: 216,
+                height: screenHeight * 0.25,
                 width: double.infinity,
                 child: ListView.builder(
                   padding: const EdgeInsets.only(
@@ -147,7 +152,8 @@ class YearSemesterView extends StatelessWidget {
                     ));
               },
               child: SizedBox(
-                width: 130,
+                width: screenWidth * 0.25,
+                height: screenHeight * 0.2,
                 child: Stack(
                   children: <Widget>[
                     Padding(
@@ -206,8 +212,7 @@ class YearSemesterView extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         SizedBox(
-                                          height: 100.0,
-                                          width: 80.0,
+                                          width: screenWidth * 0.18,
                                           child: Text(
                                             gradeListData!.grades!
                                                 .asMap()
@@ -219,7 +224,7 @@ class YearSemesterView extends StatelessWidget {
                                             style: TextStyle(
                                               fontFamily: AppTheme.ruFontKanit,
                                               fontWeight: FontWeight.w500,
-                                              fontSize: baseFontSize - 10,
+                                              fontSize: baseFontSize - 8,
                                               letterSpacing: 0.2,
                                               color: AppTheme.white,
                                             ),

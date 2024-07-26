@@ -44,10 +44,6 @@ class _FlipCardPageState extends State<FlipCardPage>
     return true;
   }
 
-  _renderAppBar(context) {
-    return Text('');
-  }
-
   @override
   void dispose() {
     animationController?.dispose();
@@ -63,99 +59,73 @@ class _FlipCardPageState extends State<FlipCardPage>
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: AppTheme.nearlyWhite, // Change back arrow color to white
-        ),
-        title: Text(
-          'บัตรนักศึกษา',
-          style: TextStyle(
-            fontSize: baseFontSize,
-            fontFamily: AppTheme.ruFontKanit,
-            color: AppTheme.nearlyWhite,
-            fontWeight: FontWeight.bold,
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: AppTheme.nearlyWhite, // Change back arrow color to white
           ),
-        ),
-        centerTitle: true, // Centers the title
-        backgroundColor:
-            AppTheme.ru_dark_blue, // Background color of the AppBar
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.help,
+          title: Text(
+            'บัตรนักศึกษา',
+            style: TextStyle(
+              fontSize: baseFontSize,
+              fontFamily: AppTheme.ruFontKanit,
               color: AppTheme.nearlyWhite,
+              fontWeight: FontWeight.bold,
             ),
-            onPressed: () {
-              Get.toNamed("/cardhelp");
-            },
           ),
-        ],
-      ),
-      backgroundColor: isLightMode
-          ? AppTheme.nearlyWhite
-          : AppTheme.nearlyBlack.withOpacity(0.2),
-      body: FutureBuilder<bool>(
-        future: getData(),
-        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-          if (!snapshot.hasData) {
-            return const SizedBox();
-          } else {
-            var authen = context.watch<AuthenProvider>();
-            return Container(
-              decoration: BoxDecoration(
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                      color: Colors.white.withOpacity(0.2),
-                      offset: const Offset(0, -2),
-                      blurRadius: 8.0),
-                ],
+          centerTitle: true, // Centers the title
+          backgroundColor:
+              AppTheme.ru_dark_blue, // Background color of the AppBar
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.help,
+                color: AppTheme.nearlyWhite,
               ),
-              child: Padding(
-                padding:
-                    EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-                child: FutureBuilder<bool>(
-                  future: getData(),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                    if (!snapshot.hasData) {
-                      return const SizedBox();
-                    } else {
-                      return authen.profile.studentCode != null
-                          ? Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: Stack(
-                                    fit: StackFit.expand,
-                                    children: <Widget>[
-                                      RuWallpaper(),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.stretch,
-                                        children: <Widget>[
-                                          // _renderAppBar(context),
-                                          Expanded(
-                                            flex: 8,
-                                            child: _renderContent(context),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
+              onPressed: () {
+                Get.toNamed("/cardhelp");
+              },
+            ),
+          ],
+        ),
+        backgroundColor: isLightMode
+            ? AppTheme.nearlyWhite
+            : AppTheme.nearlyBlack.withOpacity(0.2),
+        body: FutureBuilder<bool>(
+            future: getData(),
+            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+              if (!snapshot.hasData) {
+                return const SizedBox();
+              } else {
+                var authen = context.watch<AuthenProvider>();
+                return authen.profile.studentCode != null
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Stack(
+                              fit: StackFit.expand,
+                              children: <Widget>[
+                                RuWallpaper(),
+                                Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: <Widget>[
+                                    // _renderAppBar(context),
+                                    Expanded(
+                                      flex: 8,
+                                      child: _renderContent(context),
+                                    ),
+                                  ],
+                                )
                               ],
-                            )
-                          : LoginPage();
-                    }
-                  },
-                ),
-              ),
-            );
-          }
-        },
-      ),
-    );
+                            ),
+                          ),
+                        ],
+                      )
+                    : LoginPage();
+              }
+            }));
   }
 
   _renderContent(BuildContext context) {
@@ -173,8 +143,8 @@ class _FlipCardPageState extends State<FlipCardPage>
     region = region.replaceAll("จังหวัด", "");
     return Card(
       elevation: 0.0,
-      margin:
-          const EdgeInsets.only(left: 30.0, right: 30.0, top: 0.0, bottom: 0.0),
+      margin: const EdgeInsets.only(
+          left: 30.0, right: 30.0, top: 30.0, bottom: 30.0),
       color: const Color(0x00000000),
       child: FlipCard(
         direction: FlipDirection.HORIZONTAL,
@@ -187,12 +157,12 @@ class _FlipCardPageState extends State<FlipCardPage>
             image: DecorationImage(
               image: AssetImage('assets/images/ID.png'),
               fit: BoxFit.cover,
-              opacity: isLightMode ? 1.0 : 0.4,
+              opacity: 1.0,
             ),
-            color: AppTheme.white.withOpacity(0.5),
+            color: AppTheme.white,
             border: Border.all(
-              color: AppTheme.white.withOpacity(0.1),
-              width: 0.8,
+              color: AppTheme.white,
+              width: 10,
             ),
             borderRadius: BorderRadius.circular(10),
           ),
@@ -411,17 +381,17 @@ class _FlipCardPageState extends State<FlipCardPage>
               QrImage(
                 data: studentProv.student.stdcode!,
                 version: QrVersions.auto,
-                size: 320,
+                size: screenWidth * 0.8,
                 gapless: false,
-                embeddedImage: AssetImage('assets/images/logo.png'),
+                embeddedImage: AssetImage('assets/images/Logo_VecRu_Thai.png'),
                 embeddedImageStyle: QrEmbeddedImageStyle(
-                  size: Size(80, 80),
+                  size: Size(screenWidth * 0.2, screenWidth * 0.2),
                 ),
               ),
               Text('Back',
                   style: TextStyle(
                     fontFamily: AppTheme.ruFontKanit,
-                    fontSize: 24,
+                    fontSize: baseFontSize + 10,
                     color: AppTheme.darkText,
                   )),
             ],

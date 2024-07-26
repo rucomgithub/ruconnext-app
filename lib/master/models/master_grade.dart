@@ -1,8 +1,8 @@
 class MasterGrade {
   String? stdCode;
   String? year;
-  int? summaryCredit;
-  double? gpa;
+  num? summaryCredit;
+  num? gpa;
   List<GRADEDATA>? gradedata;
 
   MasterGrade(

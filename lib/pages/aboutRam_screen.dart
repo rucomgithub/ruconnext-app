@@ -137,128 +137,125 @@ class _aboutRamState extends State<aboutRam> {
                 blurRadius: 8.0),
           ],
         ),
-        child: Padding(
-          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Stack(
-                  children: [
-                    RuWallpaper(),
-                    Container(
-                      width: double.infinity,
-                      height: double.infinity,
-                      child: CarouselSlider(
-                          carouselController: _carouselController,
-                          options: CarouselOptions(
-                              height: 550.0,
-                              aspectRatio: 16 / 9,
-                              viewportFraction: 0.90,
-                              enlargeCenterPage: true,
-                              pageSnapping: true,
-                              onPageChanged: (index, reason) {
-                                setState(() {
-                                  _current = index;
-                                });
-                              }),
-                          items: _products.map((data) {
-                            return Builder(
-                              builder: (BuildContext context) {
-                                return GestureDetector(
-                                  child: AnimatedContainer(
-                                    duration: const Duration(milliseconds: 300),
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/images/ID.png'),
-                                          fit: BoxFit.cover,
-                                          opacity: isLightMode ? 1.0 : 0.2,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Stack(
+                children: [
+                  RuWallpaper(),
+                  Container(
+                    width: double.infinity,
+                    height: screenHeight * 0.85,
+                    child: CarouselSlider(
+                        carouselController: _carouselController,
+                        options: CarouselOptions(
+                            height: screenHeight * 0.7,
+                            aspectRatio: 16 / 9,
+                            viewportFraction: 0.90,
+                            enlargeCenterPage: true,
+                            pageSnapping: true,
+                            onPageChanged: (index, reason) {
+                              setState(() {
+                                _current = index;
+                              });
+                            }),
+                        items: _products.map((data) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return GestureDetector(
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 300),
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image:
+                                            AssetImage('assets/images/ID.png'),
+                                        fit: BoxFit.cover,
+                                        opacity: isLightMode ? 0.8 : 0.6,
+                                      ),
+                                      color: AppTheme.white,
+                                      borderRadius: BorderRadius.circular(20),
+                                      border: _selectedIndex == data
+                                          ? Border.all(
+                                              color: Colors.blue.shade500,
+                                              width: 3)
+                                          : null,
+                                      boxShadow: _selectedIndex == data
+                                          ? [
+                                              BoxShadow(
+                                                  color: Colors.blue.shade100,
+                                                  blurRadius: 30,
+                                                  offset: const Offset(0, 10))
+                                            ]
+                                          : [
+                                              BoxShadow(
+                                                  color: AppTheme.ru_yellow,
+                                                  blurRadius: 10,
+                                                  offset:
+                                                      const Offset(1.1, 1.1))
+                                            ]),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          height: screenHeight * 0.35,
+                                          margin:
+                                              const EdgeInsets.only(top: 10),
+                                          clipBehavior: Clip.hardEdge,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          child: Image.network(
+                                            data['image'],
+                                            fit: BoxFit.cover,
+                                            height: screenHeight * 0.2,
+                                            width: screenWidth * 0.4,
+                                          ),
                                         ),
-                                        color:
-                                            AppTheme.ru_grey.withOpacity(0.5),
-                                        borderRadius: BorderRadius.circular(20),
-                                        border: _selectedIndex == data
-                                            ? Border.all(
-                                                color: Colors.blue.shade500,
-                                                width: 3)
-                                            : null,
-                                        boxShadow: _selectedIndex == data
-                                            ? [
-                                                BoxShadow(
-                                                    color: Colors.blue.shade100,
-                                                    blurRadius: 30,
-                                                    offset: const Offset(0, 10))
-                                              ]
-                                            : [
-                                                BoxShadow(
-                                                    color: Colors.grey
-                                                        .withOpacity(0.2),
-                                                    blurRadius: 20,
-                                                    offset: const Offset(0, 5))
-                                              ]),
-                                    child: SingleChildScrollView(
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            height: 320,
-                                            margin:
-                                                const EdgeInsets.only(top: 10),
-                                            clipBehavior: Clip.hardEdge,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                            ),
-                                            child: Image.network(
-                                              data['image'],
-                                              fit: BoxFit.cover,
-                                              height: 150,
-                                              width: 300,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          Text(
-                                            data['title'],
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        Text(
+                                          data['title'],
+                                          style: TextStyle(
+                                              fontSize: baseFontSize - 2,
+                                              fontFamily: AppTheme.ruFontKanit,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(20),
+                                          child: Text(
+                                            data['description'],
                                             style: TextStyle(
                                                 fontSize: baseFontSize - 4,
                                                 fontFamily:
-                                                    AppTheme.ruFontKanit,
-                                                fontWeight: FontWeight.bold),
+                                                    AppTheme.ruFontKanit),
                                           ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.all(20),
-                                            child: Text(
-                                              data['description'],
-                                              style: TextStyle(
-                                                  fontSize: baseFontSize - 6,
-                                                  fontFamily:
-                                                      AppTheme.ruFontKanit),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                );
-                              },
-                            );
-                          }).toList()),
-                    ),
-                  ],
-                ),
+                                ),
+                              );
+                            },
+                          );
+                        }).toList()),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

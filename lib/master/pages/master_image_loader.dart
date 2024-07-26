@@ -24,11 +24,13 @@ class _MasterImageLoaderState extends State<MasterImageLoader> {
         if (provider.isLoading) {
           return NotImage();
         } else {
+          double screenWidth = MediaQuery.of(context).size.width;
+          double screenHeight = MediaQuery.of(context).size.height;
           return SizedBox(
-            width: 180,
-            height: 220,
+            width: screenWidth * 0.4,
+            height: screenHeight * 0.25,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
               child: provider.profile.photoUrl.toString().length > 0
                   ? Image.network(
                       provider.profile
@@ -52,19 +54,15 @@ class NotImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 180,
-      height: 220,
       child: Container(
-        color: Colors.white70,
+        color: AppTheme.ru_grey,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(
-              style: TextStyle(
-                fontFamily: AppTheme.ruFontKanit,
-                fontSize: 16,
-                color: AppTheme.ru_text_grey,
-              ),
-              'ไม่พบรูปภาพ'),
+          child: Icon(
+            Icons.person,
+            size: 100,
+            color: AppTheme.nearlyBlack,
+          ),
         ),
         alignment: Alignment.center,
       ),

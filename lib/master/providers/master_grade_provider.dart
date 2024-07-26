@@ -14,7 +14,13 @@ class MasterGradeProvider extends ChangeNotifier {
   late Map<String, Map<String, int>> _groupCourse = {};
   late Map<String, Map<String, int>> _groupYearSemester = {};
   late Map<String, int> _summaryCreditPass = {};
-  late List<MasterGradeListData> _gradeYearSemester = [MasterGradeListData()];
+  late List<MasterGradeListData> _gradeYearSemester = [
+    MasterGradeListData(
+      imagePath: 'assets/fitness_app/lunch.png',
+      startColor: '#e6c543',
+      endColor: '#e6c543',
+    )
+  ];
   late Map<String, List<String>> _gradeList = {};
   late Map<String, List<String>> _gradeListPass = {};
   late Map<String, List<String>> _listGroupYearSemester = {};
@@ -144,7 +150,9 @@ class MasterGradeProvider extends ChangeNotifier {
 
     if (data.isNotEmpty) {
       for (var element in data) {
-        if (element.grade != "S" && element.grade != "S*") {
+        if (element.grade != "S" &&
+            element.grade != "S*" &&
+            element.grade != "X") {
           pass += element.credit!;
         } else {
           notPass += element.credit!;
@@ -282,7 +290,16 @@ class MasterGradeProvider extends ChangeNotifier {
   }
 
   List<MasterGradeListData> groupMealsList(Map<String, Map<String, int>> data) {
-    List<MasterGradeListData> tabIconsList = <MasterGradeListData>[];
+    List<MasterGradeListData> tabIconsList = <MasterGradeListData>[
+      // MasterGradeListData(
+      //   imagePath: 'assets/fitness_app/breakfast.png',
+      //   yearSemester: "",
+      //   creditsum: 0,
+      //   grades: [],
+      //   startColor: '#19196b',
+      //   endColor: '#19196b',
+      // )
+    ];
     int i = 0;
     String startColor = '#19196b';
     String endColor = '#19196b';
@@ -325,6 +342,7 @@ class MasterGradeProvider extends ChangeNotifier {
             endColor = '#19196b';
             i = 0;
           }
+          break;
       }
 
       tabIconsList.add(MasterGradeListData(

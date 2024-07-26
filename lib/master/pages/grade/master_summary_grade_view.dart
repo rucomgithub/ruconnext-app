@@ -217,7 +217,8 @@ class _MasterSummaryGradeViewState extends State<MasterSummaryGradeView> {
                                           decoration: BoxDecoration(
                                             color: AppTheme.white,
                                             borderRadius: BorderRadius.all(
-                                              Radius.circular(100.0),
+                                              Radius.circular(
+                                                  screenWidth * 0.45),
                                             ),
                                             border: new Border.all(
                                                 width: 10,
@@ -236,7 +237,7 @@ class _MasterSummaryGradeViewState extends State<MasterSummaryGradeView> {
                                                   fontFamily:
                                                       AppTheme.ruFontKanit,
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: baseFontSize + 4,
+                                                  fontSize: baseFontSize,
                                                   letterSpacing: 0.0,
                                                   color: AppTheme
                                                       .ru_text_light_blue,
@@ -248,7 +249,7 @@ class _MasterSummaryGradeViewState extends State<MasterSummaryGradeView> {
                                                 style: TextStyle(
                                                   fontFamily:
                                                       AppTheme.ruFontKanit,
-                                                  fontSize: baseFontSize - 6,
+                                                  fontSize: baseFontSize,
                                                   letterSpacing: 0.0,
                                                   color: AppTheme.nearlyBlack,
                                                 ),

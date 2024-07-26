@@ -77,7 +77,7 @@ class _RegisterListScreenState extends State<RegisterListScreen>
             curve:
                 Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController!,
-      ), 
+      ),
     );
 
     listViews.add(

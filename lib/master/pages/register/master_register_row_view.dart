@@ -336,7 +336,7 @@ class RowRegisterView extends StatelessWidget {
                               top: 24, left: 16, right: 16, bottom: 8),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               Text(
                                 course!.courseNo!,
@@ -344,7 +344,7 @@ class RowRegisterView extends StatelessWidget {
                                 style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: baseFontSize - 6,
+                                  fontSize: baseFontSize - 2,
                                   letterSpacing: 0.2,
                                   color: FitnessAppTheme.white,
                                 ),
@@ -353,15 +353,15 @@ class RowRegisterView extends StatelessWidget {
                                 height: baseFontSize,
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
                                     course!.credit.toString(),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontFamily: AppTheme.ruFontKanit,
-                                      fontSize: baseFontSize - 6,
+                                      fontSize: baseFontSize - 4,
                                       letterSpacing: 0.2,
                                       color: FitnessAppTheme.white,
                                     ),

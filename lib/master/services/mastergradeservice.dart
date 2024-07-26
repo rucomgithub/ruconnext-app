@@ -26,7 +26,7 @@ class MasterGradeService {
         ),
       );
       if (response.statusCode == 200) {
-        //print(response);
+        //print(response.data);
         gradedata = MasterGrade.fromJson(response.data);
       } else {
         throw ('Error Get Data');

@@ -1,21 +1,21 @@
 class Student {
-  String? stdcode;
-  String? namethai;
-  String? nameeng;
-  String? birthdate;
-  String? stdstatusdescthai;
-  String? citizenid;
-  String? regionalnamethai;
-  String? stdtypedescthai;
-  String? facultynamethai;
-  String? majornamethai;
-  String? waivedno;
-  String? waivedpaid;
-  int? waivedtotalcredit;
-  String? chkcertnamethai;
-  String? penalnamethai;
-  String? mobiletelephone;
-  String? emailaddress;
+  String? stdcode = '';
+  String? namethai = '';
+  String? nameeng = '';
+  String? birthdate = '';
+  String? stdstatusdescthai = '';
+  String? citizenid = '';
+  String? regionalnamethai = '';
+  String? stdtypedescthai = '';
+  String? facultynamethai = '';
+  String? majornamethai = '';
+  String? waivedno = '';
+  String? waivedpaid = '';
+  int? waivedtotalcredit = 0;
+  String? chkcertnamethai = '';
+  String? penalnamethai = '';
+  String? mobiletelephone = '';
+  String? emailaddress = '';
 
   Student(
       {this.stdcode,

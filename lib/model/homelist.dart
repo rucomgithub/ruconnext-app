@@ -1,36 +1,18 @@
 import 'package:th.ac.ru.uSmart/affairs/affairs_home_screen.dart';
-import 'package:th.ac.ru.uSmart/design_course/home_design_course.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_home_screen.dart';
 import 'package:th.ac.ru.uSmart/grade/grade_app_home_screen.dart';
-import 'package:th.ac.ru.uSmart/home/homescreen.dart';
-import 'package:th.ac.ru.uSmart/hotel_booking/hotel_home_screen.dart';
-import 'package:th.ac.ru.uSmart/introduction_animation/introduction_animation_screen.dart';
 import 'package:th.ac.ru.uSmart/master/pages/grade/master_grade_app_home_screen.dart';
-import 'package:th.ac.ru.uSmart/master/pages/profile_master_page.dart';
+import 'package:th.ac.ru.uSmart/master/pages/master_profile_screen.dart';
 import 'package:th.ac.ru.uSmart/master/pages/register/master_register_home_screen.dart';
 import 'package:th.ac.ru.uSmart/mr30/mr30_home_screen.dart';
-import 'package:th.ac.ru.uSmart/other/other_home_screen.dart';
 import 'package:th.ac.ru.uSmart/pages/aboutRam_screen.dart';
-import 'package:th.ac.ru.uSmart/pages/flipcard_screen.dart';
-import 'package:th.ac.ru.uSmart/pages/mr30_catalog.dart';
-import 'package:th.ac.ru.uSmart/pages/order_traking_page.dart';
 import 'package:th.ac.ru.uSmart/pages/profile_home_screen.dart';
-import 'package:th.ac.ru.uSmart/pages/ru_map.dart';
 import 'package:th.ac.ru.uSmart/registers/register_home_screen.dart';
-import 'package:th.ac.ru.uSmart/ruregis/ruregion_login.dart';
-import 'package:th.ac.ru.uSmart/ruregis/ruregis_home_screen.dart';
 import 'package:th.ac.ru.uSmart/schedule/schedule_home_screen.dart';
 import 'package:th.ac.ru.uSmart/screens/runewsScreen.dart';
-// import 'package:th.ac.ru.uSmart/registers/register1_screen.dart';
-
-import 'package:th.ac.ru.uSmart/screens/today/today_screen.dart';
-import 'package:th.ac.ru.uSmart/today/study_home_screen.dart';
 import 'package:th.ac.ru.uSmart/today/today_home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../login_page.dart';
 
 var stdcode;
 
@@ -68,6 +50,24 @@ class HomeList {
       iconsData: Icons.app_registration,
       color: Colors.brown,
       navigateScreen: ScheduleHomeScreen(),
+    ),
+    HomeList(
+      imagePath: 'assets/fitness_app/A1.png',
+      iconsData: Icons.account_box,
+      color: Colors.pink,
+      navigateScreen: ProfileHomeScreen(),
+    ),
+    HomeList(
+      imagePath: 'assets/fitness_app/A9.png',
+      iconsData: Icons.abc,
+      color: Colors.yellow,
+      navigateScreen: GradeAppHomeScreen(),
+    ),
+    HomeList(
+      imagePath: 'assets/fitness_app/A2.png',
+      iconsData: Icons.app_registration,
+      color: Colors.brown,
+      navigateScreen: RegisterHomeScreen(),
     ),
   ];
 
@@ -151,7 +151,7 @@ class HomeList {
       imagePath: 'assets/fitness_app/A1.png',
       iconsData: Icons.account_box,
       color: Colors.pink,
-      navigateScreen: ProfileMasterPage(),
+      navigateScreen: MasterProfileScreen(),
     ),
     HomeList(
       imagePath: 'assets/fitness_app/A9.png',
@@ -190,7 +190,7 @@ class HomeList {
       imagePath: 'assets/fitness_app/A1.png',
       iconsData: Icons.account_box,
       color: Colors.pink,
-      navigateScreen: ProfileMasterPage(),
+      navigateScreen: MasterProfileScreen(),
     ),
     HomeList(
       imagePath: 'assets/fitness_app/A9.png',

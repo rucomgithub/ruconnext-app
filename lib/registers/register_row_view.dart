@@ -137,7 +137,7 @@ class _RegisterRowViewState extends State<RegisterRowView>
                                     blurRadius: 10.0),
                               ],
                             ),
-                            height: 250.0 * prov.listGroupCourse.length,
+                            height: screenHeight * 0.35,
                             width: double.infinity,
                             child: ListView.builder(
                               padding: const EdgeInsets.only(
@@ -269,6 +269,11 @@ class ListRegisterListValueView extends StatelessWidget {
   Widget build(BuildContext context) {
     var mr30Prov = context.watch<MR30Provider>();
 
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
+
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -280,7 +285,7 @@ class ListRegisterListValueView extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                height: 160.0,
+                height: screenHeight * 0.18,
                 width: double.infinity,
                 child: ListView.builder(
                   itemCount: listData!.length,
@@ -360,13 +365,14 @@ class RowRegisterView extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(4.0)),
               onTap: callback,
               child: SizedBox(
-                width: 140,
+                width: screenWidth * 0.25,
                 child: Stack(
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(
                           top: 8, left: 8, right: 8, bottom: 8),
                       child: Container(
+                        width: screenWidth * 0.2,
                         decoration: BoxDecoration(
                           boxShadow: <BoxShadow>[
                             BoxShadow(
@@ -413,7 +419,7 @@ class RowRegisterView extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: <Widget>[
                                     Container(
-                                      width: 90,
+                                      width: screenWidth * 0.14,
                                       decoration: BoxDecoration(
                                         color: AppTheme.nearlyWhite,
                                         shape: BoxShape.rectangle,
