@@ -34,9 +34,9 @@ class _FlipCardPageState extends State<FlipCardPage>
         duration: const Duration(milliseconds: 800), vsync: this);
     super.initState();
     Provider.of<AuthenProvider>(context, listen: false).getProfile();
-    //Provider.of<StudentProvider>(context, listen: false).refreshData();
-    // Provider.of<StudentProvider>(context, listen: false).getImageProfile();
-    //Provider.of<StudentProvider>(context, listen: false).getStudent();
+    Provider.of<StudentProvider>(context, listen: false).refreshData();
+    Provider.of<StudentProvider>(context, listen: false).getImageProfile();
+    Provider.of<StudentProvider>(context, listen: false).getStudent();
   }
 
   Future<bool> getData() async {
