@@ -45,10 +45,10 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
         .getCounterRegionApp();
 
     Provider.of<RuregisProvider>(context, listen: false).getCounterRegionApp();
-    
-    Timer.run(() {
-      showAlertRegis(context);
-    });
+
+    // Timer.run(() {
+    //   showAlertRegis(context);
+    // });
     //Noti.initialize(flutterLocalNotificationsPlugin);
   }
 
@@ -67,11 +67,16 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
   Widget build(BuildContext context) {
     var provruregis =
         Provider.of<AuthenRuRegionAppProvider>(context, listen: false);
-    var statusregis = Provider.of<RuregisProvider>(context, listen: false)
-        .ruregionApp
-        .rEGISSTATUS;
+    // var statusregis = Provider.of<RuregisProvider>(context, listen: false)
+    //     .ruregionApp
+    //     .rEGISSTATUS;
+
+    var statusregis = context.watch<RuregisProvider>().ruregionApp.rEGISSTATUS;
+
     if (statusregis == false) {
       otherList = RuregionOtherListData.otherListSuccess;
+    } else {
+      otherList = RuregionOtherListData.otherListDefualt;
     }
     return Container(
       color: FitnessAppTheme.background,

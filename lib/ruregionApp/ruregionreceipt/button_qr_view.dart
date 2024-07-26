@@ -44,37 +44,34 @@ class _ButtonQRViewState extends State<ButtonQRView>
 
   @override
   Widget build(BuildContext context) {
-
     var isload = context.watch<RegionEnrollProvider>().isLoadingConfirm;
-  bool? counter =
-                    Provider.of<RuregisProvider>(context, listen: false).counterregionApp.resultsAppControl![6].aPISTATUS;
+    var msgbuttonQR = context.watch<RegionEnrollProvider>().msgSaveButtonQR;
+    bool? counter = Provider.of<RuregisProvider>(context, listen: false)
+        .counterregionApp
+        .resultsAppControl![6]
+        .aPISTATUS;
 
     return AnimatedBuilder(
       animation: widget.mainScreenAnimationController!,
       builder: (BuildContext context, Widget? child) {
-        var feeData = context.watch<RuregisFeeProvider>();
-        return feeData.isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : Container(
-                margin: EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white, // foreground
-                    backgroundColor: Colors.green,
-                  ),
-                  onPressed:  isload || counter! ? null:
-                       () {
-                          Provider.of<RegionEnrollProvider>(context,
-                                  listen: false)
-                              .postQRApp();
-                        }
-                     ,
-                  // child: Text('ยืนยันวิชา ซ้ำซ้อน$checkdup ติ้กขอจบ$statusgrad location$checklocation '),
-                  child: Text('ยืนยันรับ QR'),
-                ),
-              );
+        // var feeData = context.watch<RuregisFeeProvider>();
+        return Container(
+          margin: EdgeInsets.all(8.0),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white, // foreground
+              backgroundColor: Colors.green,
+            ),
+            onPressed: isload || !counter!
+                ? null
+                : () {
+                    Provider.of<RegionEnrollProvider>(context, listen: false)
+                        .postQRApp();
+                  },
+            // child: Text('ยืนยันวิชา ซ้ำซ้อน$checkdup ติ้กขอจบ$statusgrad location$checklocation '),
+            child: Text('$msgbuttonQR'),
+          ),
+        );
       },
     );
   }

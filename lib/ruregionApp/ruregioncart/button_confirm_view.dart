@@ -49,6 +49,8 @@ class _ButtonConfirmViewState extends State<ButtonConfirmView>
         context.watch<RuregionCheckCartProvider>().isSuccessCalpay;
     var checklocation =
         context.watch<RuregionCheckCartProvider>().isCheckLocation;
+        var msgbutton =
+        context.watch<RuregionCheckCartProvider>().msgSaveButtonRegis;
 
     return AnimatedBuilder(
       animation: widget.mainScreenAnimationController!,
@@ -75,7 +77,7 @@ class _ButtonConfirmViewState extends State<ButtonConfirmView>
                               .postEnrollApp();
                         }
                       : null,
-                  child: Text('ยืนยันวิชา'),
+                  child: Text('$msgbutton'),
                 ),
               );
       },

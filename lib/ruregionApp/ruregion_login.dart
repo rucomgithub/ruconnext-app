@@ -23,6 +23,8 @@ class _RuregionAppLoginPageState extends State<RuregionAppLoginPage> {
 
   @override
   Widget build(BuildContext context) {
+   var msgButtonLogin = context.watch<AuthenRuRegionAppProvider>().msgSaveButtonLogin;
+   var isload = context.watch<AuthenRuRegionAppProvider>().isLoadingLogin;
     return Scaffold(
       body: Consumer<AuthenProvider>(
         builder: (context, authen, child) {
@@ -92,16 +94,16 @@ class _RuregionAppLoginPageState extends State<RuregionAppLoginPage> {
                       if (inputStudentCode.length == 10 &&
                           inputStudentCode.length > 0)
                         ElevatedButton(
-                          onPressed: () {
+                          onPressed: isload ? null: () {
                             doLogin(inputStudentCode, inputPassword);
                             // Get.toNamed('/ruregionhome'); // ทำอะไรก็ตามเมื่อปุ่มถูกกด
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(
-                                Color.fromARGB(255, 164, 193,
-                                    163)), // เปลี่ยนสีปุ่มเป็นสีแดง
+                                      Color.fromARGB(255, 164, 193,
+                                    163)), // เปลี่ยนสีปุ่ม
                           ),
-                          child: Text('เข้าสู่ระบบ'),
+                          child: Text('$msgButtonLogin'),
                         ),
                     ],
                   ),

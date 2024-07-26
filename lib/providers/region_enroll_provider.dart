@@ -27,6 +27,11 @@ class RegionEnrollProvider extends ChangeNotifier {
   int sumfee = 0;
   int sumIntCredit = 0;
   String msgSaveEnroll = '';
+
+
+  String _msgSaveButtonQR = 'ยืนยันการรับ QR CODE';
+  String get msgSaveButtonQR => _msgSaveButtonQR;
+
   String qrurl = 'REGIS';
   String duedate = '';
   int totalamount = 0;
@@ -36,10 +41,8 @@ class RegionEnrollProvider extends ChangeNotifier {
   Getenroll _enrollruregion = Getenroll();
   Getenroll get enrollruregion => _enrollruregion;
 
-
   bool _isLoadingConfirm = false;
   bool get isLoadingConfirm => _isLoadingConfirm;
-
 
   CounterRegion _counter = CounterRegion();
   CounterRegion get counter => _counter;
@@ -65,12 +68,12 @@ class RegionEnrollProvider extends ChangeNotifier {
   List<ReceiptDetailRegionalResults> get receiptDetailRegionalResultsrec =>
       _receiptDetailRegionalResultsrec;
 
-  Future<void> getEnrollRegionProv(std,sem,year) async {
+  Future<void> getEnrollRegionProv(std, sem, year) async {
     isLoading = true;
     _error = '';
     notifyListeners();
     try {
-      final response = await _ruregisService.getEnrollRegion(std,sem,year);
+      final response = await _ruregisService.getEnrollRegion(std, sem, year);
       _enrollruregion = response;
 
       if (_enrollruregion.receiptRu24RegionalResults != null) {
@@ -157,6 +160,7 @@ class RegionEnrollProvider extends ChangeNotifier {
 
   Future<void> postQR(x) async {
     isLoading = true;
+
     print(x);
     try {
       final responseSave = await _ruregisService.postQR(x);
@@ -176,8 +180,9 @@ class RegionEnrollProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-   Future<void> postQRApp() async {
+  Future<void> postQRApp() async {
     _isLoadingConfirm = true;
+    _msgSaveButtonQR = 'กำลังโหลด...';
     notifyListeners();
     try {
       final responseSave = await _ruregisService.postQRApp();
@@ -193,15 +198,16 @@ class RegionEnrollProvider extends ChangeNotifier {
     } catch (e) {}
 
     _isLoadingConfirm = false;
-
+    _msgSaveButtonQR = 'ยืนยันการรับ QR CODE';
     notifyListeners();
   }
 
-  Future<void> getQR(stdcode,sem,year,tel) async {
+  Future<void> getQR(stdcode, sem, year, tel) async {
     isLoading = true;
 
     try {
-      final responseSave = await _ruregisService.getQRCODE(stdcode,sem,year,tel);
+      final responseSave =
+          await _ruregisService.getQRCODE(stdcode, sem, year, tel);
       _genqrruregion = responseSave;
       if (_genqrruregion.results != null) {
         _genqrruregionrec = _genqrruregion.results!;
@@ -211,7 +217,6 @@ class RegionEnrollProvider extends ChangeNotifier {
             duedate = element.dUEDATE!,
             totalamount = element.tOTALAMOUNT!,
           });
-
     } on Exception catch (e) {
     } catch (e) {}
 
@@ -220,7 +225,7 @@ class RegionEnrollProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-    Future<void> getQRApp() async {
+  Future<void> getQRApp() async {
     isLoading = true;
     _profiles = await ProfileAppStorage.getProfileApp();
     _counter = await CounterRegionAppStorage.getCounterRegionApp();
@@ -236,7 +241,6 @@ class RegionEnrollProvider extends ChangeNotifier {
             duedate = element.dUEDATE!,
             totalamount = element.tOTALAMOUNT!,
           });
-
     } on Exception catch (e) {
     } catch (e) {}
 

@@ -40,6 +40,9 @@ class RuregionCheckCartProvider extends ChangeNotifier {
   bool _isLoadingConfirm = false;
   bool get isLoadingConfirm => _isLoadingConfirm;
 
+  String _msgSaveButtonRegis = 'ยืนยันการลงทะเบียน';
+  String get msgSaveButtonRegis => _msgSaveButtonRegis;
+
   String filterStr = '';
 
   String examDup = '';
@@ -206,6 +209,7 @@ class RuregionCheckCartProvider extends ChangeNotifier {
 
   Future<void> postEnrollApp() async {
     _isLoadingConfirm = true;
+    _msgSaveButtonRegis = 'กำลังโหลด...';
     notifyListeners();
     // print('$_statusGrad $examLocation');
     try {
@@ -223,6 +227,7 @@ class RuregionCheckCartProvider extends ChangeNotifier {
     } catch (e) {}
 
     _isLoadingConfirm = false;
+    _msgSaveButtonRegis = 'ยืนยันการลงทะเบียน';
     notifyListeners();
   }
 }

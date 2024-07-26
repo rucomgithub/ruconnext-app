@@ -22,30 +22,37 @@ class AuthenRuRegionAppProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
+  bool _isLoadingLogin = false;
+  bool get isLoadingLogin => _isLoadingLogin;
+
   Loginregion _loginres = Loginregion();
   Loginregion get loginres => _loginres;
 
+  String _msgSaveButtonLogin = 'เข้าสู่ระบบ';
+  String get msgSaveButtonLogin => _msgSaveButtonLogin;
+
   Future<void> getAuthenRuRegionApp(context, username, password) async {
-    _isLoading = true;
-  
+    _isLoadingLogin = true;
+    _msgSaveButtonLogin = 'กำลังโหลด...';
+    notifyListeners();
     try {
-      _isLoading = false;
       final response = await _ruregisService.postLogin(username, password);
       if (response.tf == true) {
         await RuregionLoginStorage.saveProfile(response);
         saveStatus();
         Get.offNamedUntil('/', (route) => true);
-        
       } else {
         var snackbar = SnackBar(content: Text('รหัสนศหรือรหัสผ่านไม่ถูกต้อง'));
         ScaffoldMessenger.of(context).showSnackBar(snackbar);
       }
     } catch (e) {
       // await _googleSingIn.signOut();
-      _isLoading = false;
+
       var snackbar = SnackBar(content: Text('$e'));
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
+    _isLoadingLogin = false;
+    _msgSaveButtonLogin = 'เข้าสู่ระบบ';
     notifyListeners();
   }
 
@@ -56,18 +63,14 @@ class AuthenRuRegionAppProvider extends ChangeNotifier {
       _isLoading = false;
       final response = await _ruregisService.getCounterAdminRegionApp();
       if (response.success == true) {
-         await CounterRegionAppStorage.saveCounterRegionApp(response);
+        await CounterRegionAppStorage.saveCounterRegionApp(response);
         //  saveStatus();
-      } else {
-
-      }
+      } else {}
     } catch (e) {
-
       _isLoading = false;
     }
     notifyListeners();
   }
-
 
   Future<void> saveStatus() async {
     _isLoading = true;
@@ -76,12 +79,9 @@ class AuthenRuRegionAppProvider extends ChangeNotifier {
       _isLoading = false;
       final response = await _ruregisService.saveStatusApp();
       if (response.success == true) {
-         print('${response.success}');
-      } else {
-
-      }
+        print('${response.success}');
+      } else {}
     } catch (e) {
-
       _isLoading = false;
     }
     notifyListeners();

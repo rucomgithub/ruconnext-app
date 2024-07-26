@@ -237,6 +237,32 @@ class _ReceiptProfileRegionCartViewState
                         //     ],
                         //   ),
                         // ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment
+                                .spaceBetween, // Distribute space evenly
+                            children: [
+                             
+                              Container(
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '$locationexam',
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.ruFontKanit,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 15,
+                                        letterSpacing: 0.0,
+                                        color: FitnessAppTheme.nearlyBlack,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                         SizedBox(
                           height: 1,
                         ),
@@ -269,22 +295,7 @@ class _ReceiptProfileRegionCartViewState
                                   ],
                                 ),
                               ),
-                              Container(
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      '$locationexam',
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.ruFontKanit,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 15,
-                                        letterSpacing: 0.0,
-                                        color: FitnessAppTheme.nearlyBlack,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                        
                             ],
                           ),
                         ),
