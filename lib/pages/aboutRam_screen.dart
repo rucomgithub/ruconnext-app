@@ -202,7 +202,7 @@ class _aboutRamState extends State<aboutRam> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
-                                          height: screenHeight * 0.3,
+                                          height: screenHeight * 0.4,
                                           margin:
                                               const EdgeInsets.only(top: 10),
                                           clipBehavior: Clip.hardEdge,
@@ -213,7 +213,7 @@ class _aboutRamState extends State<aboutRam> {
                                           child: Image.network(
                                             data['image'],
                                             fit: BoxFit.cover,
-                                            height: screenHeight * 0.3,
+                                            height: screenHeight * 0.4,
                                             width: screenWidth * 0.5,
                                           ),
                                         ),

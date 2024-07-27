@@ -123,13 +123,6 @@ class _InsuranceListScreenState extends State<InsuranceListScreen>
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TopBar(
-                caption: "กรมธรรม์ประกันภัย",
-                //iconname: Icon(Icons.help, color: AppTheme.nearlyWhite),
-                callback: () {
-                  //Get.toNamed("/gradehelp");
-                },
-              ),
               Expanded(
                 child: Stack(
                   children: <Widget>[

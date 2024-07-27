@@ -153,13 +153,6 @@ class _RotcsListScreenState extends State<RotcsListScreen>
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TopBar(
-                caption: "นักศึกษาวิชาทหาร",
-                iconname: Icon(Icons.help, color: AppTheme.nearlyWhite),
-                callback: () {
-                  //Get.toNamed("/gradehelp");
-                },
-              ),
               Expanded(
                 child: Stack(
                   children: <Widget>[

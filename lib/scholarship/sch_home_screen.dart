@@ -94,58 +94,63 @@ class _SchHomeScreenState extends State<SchHomeScreen>
   Widget build(BuildContext context) {
     var dataSch = context.watch<SchProvider>();
     var authen = context.watch<AuthenProvider>();
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
     // print(
     //     '*******************Value: ${dataSch.scholarshipData.rECORD!.length}');
-    return Theme(
-      data: HotelAppTheme.buildLightTheme(),
-      child: Container(
-        color: FitnessAppTheme.background,
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: authen.profile.accessToken != null
-              ? Padding(
-                  padding:
-                      EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TopBar(
-                        caption: 'ประวัติการรับทุนการศึกษา',
-                        iconname: Icon(Icons.help, color: AppTheme.nearlyWhite),
-                        callback: () {
-                          //Get.toNamed("/schedulehelp");
-                        },
-                      ),
-                      Expanded(
-                        child: Stack(
-                          fit: StackFit.expand,
-                          children: <Widget>[
-                            InkWell(
-                              splashColor: Colors.transparent,
-                              focusColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              onTap: () {
-                                FocusScope.of(context)
-                                    .requestFocus(FocusNode());
-                              },
-                              child: Column(
-                                children: <Widget>[
-                                  //getAppBarUI(),
-                                  getListUI()
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              : LoginPage(),
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: AppTheme.nearlyWhite, // Change back arrow color to white
         ),
+        title: Text(
+          'ประวัติการรับทุนการศึกษา',
+          style: TextStyle(
+            fontSize: 22,
+            fontFamily: AppTheme.ruFontKanit,
+            color: AppTheme.nearlyWhite,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true, // Centers the title
+        backgroundColor:
+            AppTheme.ru_dark_blue, // Background color of the AppBar
       ),
+      backgroundColor:
+          isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
+      body: authen.profile.accessToken != null
+          ? Padding(
+              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: <Widget>[
+                        InkWell(
+                          splashColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          onTap: () {
+                            FocusScope.of(context).requestFocus(FocusNode());
+                          },
+                          child: Column(
+                            children: <Widget>[
+                              //getAppBarUI(),
+                              getListUI()
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : LoginPage(),
     );
   }
 

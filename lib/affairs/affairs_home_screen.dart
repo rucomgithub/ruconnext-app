@@ -71,17 +71,6 @@ class _AffairsHomeScreenState extends State<AffairsHomeScreen>
         centerTitle: true, // Centers the title
         backgroundColor:
             AppTheme.ru_dark_blue, // Background color of the AppBar
-        // actions: <Widget>[
-        //   IconButton(
-        //     icon: Icon(
-        //       Icons.help,
-        //       color: AppTheme.nearlyWhite,
-        //     ),
-        //     onPressed: () {
-        //       Get.toNamed("/gradehelp");
-        //     },
-        //   ),
-        // ],
       ),
       backgroundColor:
           isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,

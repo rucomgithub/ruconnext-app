@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
+import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
 
 class MasterImageLoader extends StatefulWidget {
@@ -55,7 +56,27 @@ class NotImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       child: Container(
-        color: AppTheme.ru_grey,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/ID.png'),
+            fit: BoxFit.cover,
+            opacity: 0.08,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: AppTheme.ru_grey,
+              spreadRadius: 2,
+              blurRadius: 4,
+              offset: Offset(4, 4),
+            ),
+          ],
+          borderRadius: const BorderRadius.only(
+            bottomRight: Radius.circular(8.0),
+            bottomLeft: Radius.circular(8.0),
+            topLeft: Radius.circular(8.0),
+            topRight: Radius.circular(8.0),
+          ),
+        ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Icon(

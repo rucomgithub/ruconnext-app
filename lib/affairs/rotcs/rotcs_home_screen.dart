@@ -50,34 +50,47 @@ class _RotcsHomeScreenState extends State<RotcsHomeScreen>
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
     var authen = context.watch<AuthenProvider>();
-    return Theme(
-      data: HotelAppTheme.buildLightTheme(),
-      child: Container(
-        child: Scaffold(
-          backgroundColor: AppTheme.white,
-          body: FutureBuilder<bool>(
-            future: getData(),
-            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-              if (!snapshot.hasData) {
-                return SizedBox();
-              } else {
-                // return Stack(
-                //   children: <Widget>[
-                //     tabBody,
-                //   ],
-                // );
-
-                return authen.profile.accessToken != null
-                    ? Stack(
-                        children: <Widget>[
-                          tabBody,
-                        ],
-                      )
-                    : LoginPage();
-              }
-            },
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: AppTheme.nearlyWhite, // Change back arrow color to white
+        ),
+        title: Text(
+          'นักศึกษาวิชาทหาร',
+          style: TextStyle(
+            fontSize: 22,
+            fontFamily: AppTheme.ruFontKanit,
+            color: AppTheme.nearlyWhite,
+            fontWeight: FontWeight.bold,
           ),
         ),
+        centerTitle: true, // Centers the title
+        backgroundColor:
+            AppTheme.ru_dark_blue, // Background color of the AppBar
+      ),
+      backgroundColor:
+          isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
+      body: FutureBuilder<bool>(
+        future: getData(),
+        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          if (!snapshot.hasData) {
+            return SizedBox();
+          } else {
+            // return Stack(
+            //   children: <Widget>[
+            //     tabBody,
+            //   ],
+            // );
+
+            return authen.profile.accessToken != null
+                ? Stack(
+                    children: <Widget>[
+                      tabBody,
+                    ],
+                  )
+                : LoginPage();
+          }
+        },
       ),
     );
   }

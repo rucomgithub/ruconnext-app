@@ -124,58 +124,60 @@ class _MasterRegisterRowViewState extends State<MasterRegisterRowView>
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(right: 8),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Icon(
-                                                  Icons.book,
-                                                  color: AppTheme.ru_dark_blue,
-                                                  size: baseFontSize,
-                                                ),
-                                                Text(
-                                                  'ภาคเรียนที่ ${prov.listGroupYearSemester.entries.elementAt(index).key}',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontFamily:
-                                                        AppTheme.ruFontKanit,
-                                                    fontSize: baseFontSize - 4,
-                                                    letterSpacing: 0.2,
-                                                    color: AppTheme.dark_grey,
-                                                  ),
-                                                ),
-                                              ],
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Stack(
+                                          alignment: Alignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.book,
+                                              size: baseFontSize + 18,
+                                              color: AppTheme.ru_dark_blue,
                                             ),
-                                          ),
-                                          Text(
-                                            '${prov.listGroupYearSemester.entries.elementAt(index).value.length} วิชา',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.ruFontKanit,
-                                              fontSize: baseFontSize - 4,
-                                              letterSpacing: 0.2,
-                                              color: AppTheme.dark_grey,
+                                            Positioned(
+                                              top: 14,
+                                              left: 20,
+                                              child: Text(
+                                                '${prov.listGroupYearSemester.entries.elementAt(index).value.length}',
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      AppTheme.ruFontKanit,
+                                                  color: AppTheme.ru_yellow,
+                                                  fontSize: baseFontSize - 6,
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              '${prov.listGroupYearSemester.entries.elementAt(index).key}',
+                                              style: TextStyle(
+                                                fontFamily:
+                                                    AppTheme.ruFontKanit,
+                                                fontSize: baseFontSize,
+                                                letterSpacing: 0.2,
+                                                color: AppTheme.ru_dark_blue,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           top: 8.0, bottom: 8.0),
                                       child: Container(
-                                        width: screenWidth * 0.95,
+                                        width: screenWidth * 0.9,
                                         height: 2,
                                         decoration: BoxDecoration(
                                           color: AppTheme.ru_yellow,
@@ -233,6 +235,13 @@ class ListRegisterListValueView extends StatelessWidget {
             transform: Matrix4.translationValues(
                 200 * (1.0 - animation!.value), 0.0, 0.0),
             child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/ID.png'),
+                  fit: BoxFit.cover,
+                  opacity: 0.2,
+                ),
+              ),
               height: screenHeight * 0.25,
               width: double.infinity,
               child: ListView.builder(
@@ -302,19 +311,26 @@ class RowRegisterView extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(4.0)),
               onTap: () {},
               child: SizedBox(
-                width: screenWidth * 0.35,
+                width: screenWidth * 0.4,
                 child: Stack(
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(
-                          top: 32, left: 8, right: 8, bottom: 8),
+                          top: 8, left: 8, right: 8, bottom: 8),
                       child: Container(
                         decoration: BoxDecoration(
-                          boxShadow: <BoxShadow>[
+                          image: DecorationImage(
+                            image: AssetImage('assets/images/ID.png'),
+                            fit: BoxFit.cover,
+                            opacity: 0.08,
+                          ),
+                          boxShadow: [
                             BoxShadow(
-                                color: HexColor("#FF19196B").withOpacity(0.6),
-                                offset: const Offset(1.1, 4.0),
-                                blurRadius: 8.0),
+                              color: AppTheme.ru_dark_blue.withOpacity(0.4),
+                              spreadRadius: 2,
+                              blurRadius: 4,
+                              offset: Offset(4, 4),
+                            ),
                           ],
                           gradient: LinearGradient(
                             colors: <HexColor>[
@@ -333,37 +349,54 @@ class RowRegisterView extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              top: 24, left: 16, right: 16, bottom: 8),
+                              top: 8, left: 16, right: 16, bottom: 8),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: <Widget>[
                               Text(
-                                course!.courseNo!,
-                                textAlign: TextAlign.center,
+                                course!.year!.toString(),
                                 style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: baseFontSize - 2,
-                                  letterSpacing: 0.2,
-                                  color: FitnessAppTheme.white,
+                                  fontSize: baseFontSize - 4,
+                                  color: AppTheme.white,
                                 ),
                               ),
-                              SizedBox(
-                                height: baseFontSize,
+                              Expanded(
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 16, bottom: 8),
+                                  child: SingleChildScrollView(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          course!.courseNo!.toString(),
+                                          style: TextStyle(
+                                            fontFamily: AppTheme.ruFontKanit,
+                                            fontSize: baseFontSize + 2,
+                                            letterSpacing: 0.2,
+                                            color: AppTheme.ru_yellow,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
                                     course!.credit.toString(),
-                                    textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontFamily: AppTheme.ruFontKanit,
-                                      fontSize: baseFontSize - 4,
-                                      letterSpacing: 0.2,
-                                      color: FitnessAppTheme.white,
+                                      fontSize: baseFontSize,
+                                      color: AppTheme.ru_yellow,
                                     ),
                                   ),
                                   Padding(
@@ -373,8 +406,7 @@ class RowRegisterView extends StatelessWidget {
                                       style: TextStyle(
                                         fontFamily: AppTheme.ruFontKanit,
                                         fontSize: baseFontSize - 6,
-                                        letterSpacing: 0.2,
-                                        color: FitnessAppTheme.white,
+                                        color: AppTheme.white,
                                       ),
                                     ),
                                   ),
@@ -386,24 +418,31 @@ class RowRegisterView extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      top: 30,
-                      left: 15,
+                      top: 8,
+                      left: 10,
                       child: Container(
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: FitnessAppTheme.nearlyWhite.withOpacity(0.2),
+                          color: AppTheme.nearlyWhite,
                           shape: BoxShape.circle,
                         ),
                       ),
                     ),
                     Positioned(
-                      top: 30,
-                      left: 15,
+                      top: 16,
+                      left: 25,
                       child: SizedBox(
-                        width: 40,
-                        height: 40,
-                        child: Image.asset(course!.imagePath!),
+                        width: 30,
+                        height: 30,
+                        child: Text(
+                          course!.semester!.toString(),
+                          style: TextStyle(
+                            fontFamily: AppTheme.ruFontKanit,
+                            fontSize: baseFontSize - 4,
+                            color: AppTheme.ru_dark_blue,
+                          ),
+                        ),
                       ),
                     )
                   ],

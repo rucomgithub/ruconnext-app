@@ -64,17 +64,24 @@ class _MasterGradeRowViewState extends State<MasterGradeRowView>
               padding: const EdgeInsets.all(8),
               child: Container(
                 decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/ID.png'),
+                    fit: BoxFit.cover,
+                    opacity: 0.2,
+                  ),
                   color: isLightMode ? AppTheme.nearlyWhite : AppTheme.ru_grey,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(8.0),
                       bottomLeft: Radius.circular(8.0),
                       bottomRight: Radius.circular(8.0),
                       topRight: Radius.circular(48.0)),
-                  boxShadow: <BoxShadow>[
+                  boxShadow: [
                     BoxShadow(
-                        color: AppTheme.ru_yellow,
-                        offset: Offset(1.1, 1.1),
-                        blurRadius: 5.0),
+                      color: AppTheme.ru_yellow.withOpacity(0.4),
+                      spreadRadius: 2,
+                      blurRadius: 4,
+                      offset: Offset(4, 4),
+                    ),
                   ],
                 ),
                 child: prov.gradeYearSemester.isEmpty
@@ -168,14 +175,21 @@ class ListRowGradeView extends StatelessWidget {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(
-                          top: 32, left: 8, right: 8, bottom: 16),
+                          top: 16, left: 8, right: 8, bottom: 16),
                       child: Container(
                         decoration: BoxDecoration(
-                          boxShadow: <BoxShadow>[
+                          image: DecorationImage(
+                            image: AssetImage('assets/images/ID.png'),
+                            fit: BoxFit.cover,
+                            opacity: 0.08,
+                          ),
+                          boxShadow: [
                             BoxShadow(
-                                color: HexColor("#FF19196B").withOpacity(0.6),
-                                offset: const Offset(1.1, 4.0),
-                                blurRadius: 8.0),
+                              color: AppTheme.ru_dark_blue.withOpacity(0.4),
+                              spreadRadius: 2,
+                              blurRadius: 4,
+                              offset: Offset(4, 4),
+                            ),
                           ],
                           gradient: LinearGradient(
                             colors: <HexColor>[
@@ -194,18 +208,18 @@ class ListRowGradeView extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              top: 54, left: 16, right: 16, bottom: 8),
+                              top: 8, left: 16, right: 16, bottom: 8),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: <Widget>[
                               Text(
                                 gradeListData!.yearSemester,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: baseFontSize - 6,
+                                  fontWeight: FontWeight.w200,
+                                  fontSize: baseFontSize - 4,
                                   letterSpacing: 0.2,
                                   color: FitnessAppTheme.white,
                                 ),
@@ -213,7 +227,7 @@ class ListRowGradeView extends StatelessWidget {
                               Expanded(
                                 child: Padding(
                                   padding:
-                                      const EdgeInsets.only(top: 8, bottom: 8),
+                                      const EdgeInsets.only(top: 16, bottom: 8),
                                   child: SingleChildScrollView(
                                     child: Row(
                                       mainAxisAlignment:
@@ -225,7 +239,7 @@ class ListRowGradeView extends StatelessWidget {
                                           formattedGrades,
                                           style: TextStyle(
                                             fontFamily: AppTheme.ruFontKanit,
-                                            fontSize: baseFontSize - 8,
+                                            fontSize: baseFontSize - 10,
                                             letterSpacing: 0.2,
                                             color: FitnessAppTheme.white,
                                           ),
@@ -237,16 +251,14 @@ class ListRowGradeView extends StatelessWidget {
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
                                     gradeListData!.creditsum.toString(),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontFamily: AppTheme.ruFontKanit,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: baseFontSize - 6,
-                                      letterSpacing: 0.2,
+                                      fontSize: baseFontSize - 4,
                                       color: FitnessAppTheme.white,
                                     ),
                                   ),
@@ -256,9 +268,7 @@ class ListRowGradeView extends StatelessWidget {
                                       'หน่วยกิต',
                                       style: TextStyle(
                                         fontFamily: AppTheme.ruFontKanit,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: baseFontSize - 6,
-                                        letterSpacing: 0.2,
+                                        fontSize: baseFontSize - 10,
                                         color: FitnessAppTheme.white,
                                       ),
                                     ),
@@ -271,24 +281,45 @@ class ListRowGradeView extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      top: 30,
-                      left: 15,
+                      top: 12,
+                      left: 10,
                       child: Container(
-                        width: 40,
-                        height: 40,
+                        width: 45,
+                        height: 45,
                         decoration: BoxDecoration(
-                          color: FitnessAppTheme.nearlyWhite.withOpacity(0.2),
+                          color: AppTheme.nearlyWhite.withOpacity(0.2),
                           shape: BoxShape.circle,
                         ),
                       ),
                     ),
                     Positioned(
-                      top: 30,
-                      left: 15,
+                      top: 14,
+                      left: 14,
                       child: SizedBox(
-                        width: 40,
-                        height: 40,
-                        child: Image.asset(gradeListData!.imagePath),
+                        width: 30,
+                        height: 30,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Icon(
+                              Icons.book_rounded,
+                              size: baseFontSize + 16,
+                              color: AppTheme.ru_dark_blue,
+                            ),
+                            Positioned(
+                              top: 12,
+                              left: 18,
+                              child: Text(
+                                gradeListData!.grades!.length.toString(),
+                                style: TextStyle(
+                                  fontFamily: AppTheme.ruFontKanit,
+                                  color: AppTheme.ru_yellow.withOpacity(0.8),
+                                  fontSize: baseFontSize - 8,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     )
                   ],
