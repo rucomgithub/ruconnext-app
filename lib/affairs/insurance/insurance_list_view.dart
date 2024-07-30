@@ -109,6 +109,10 @@ class InsuranceItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -125,12 +129,12 @@ class InsuranceItemView extends StatelessWidget {
                 // print(ondemand.error);
               },
               child: SizedBox(
-                width: 280,
+                width: screenWidth * 0.45,
                 child: Stack(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.only(
-                          top: 32, left: 8, right: 8, bottom: 16),
+                      padding:
+                          const EdgeInsets.only(top: 8, right: 8, bottom: 24),
                       child: Container(
                         decoration: BoxDecoration(
                           boxShadow: <BoxShadow>[
@@ -156,45 +160,36 @@ class InsuranceItemView extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              top: 54, left: 16, right: 16, bottom: 8),
+                              top: 48, left: 8, right: 8, bottom: 8),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Expanded(
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 8, bottom: 8),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      SizedBox(
-                                        height: 100.0,
-                                        width: 200.0,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              '${detail?.expire?.toString() ?? ''}',
-                                              style: TextStyle(
-                                                fontFamily:
-                                                    AppTheme.ruFontKanit,
-                                                fontWeight: FontWeight.w200,
-                                                fontSize: 12,
-                                                letterSpacing: 0.2,
-                                                color: AppTheme.white,
-                                              ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    SizedBox(
+                                      width: screenWidth * 0.35,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '${detail?.expire?.toString() ?? ''}',
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.ruFontKanit,
+                                              fontSize: baseFontSize - 8,
+                                              color: AppTheme.white,
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
                               Row(
@@ -227,10 +222,8 @@ class InsuranceItemView extends StatelessWidget {
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontFamily: AppTheme.ruFontKanit,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14,
-                                          letterSpacing: 0.2,
-                                          color: AppTheme.nearlyWhite,
+                                          fontSize: baseFontSize - 6,
+                                          color: AppTheme.ru_yellow,
                                         ),
                                       ),
                                     ),
@@ -243,8 +236,8 @@ class InsuranceItemView extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      top: 30,
-                      left: 10,
+                      top: 4,
+                      left: 4,
                       child: Container(
                         width: 40,
                         height: 40,
@@ -255,8 +248,8 @@ class InsuranceItemView extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      top: 35,
-                      left: 15,
+                      top: 8,
+                      left: 8,
                       child: SizedBox(
                         width: 30,
                         height: 30,
@@ -269,19 +262,14 @@ class InsuranceItemView extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      top: 40,
-                      left: 60,
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        width: 200,
-                        child: Text(
-                          '${detail!.nameInsurance}',
-                          style: TextStyle(
-                            fontFamily: AppTheme.ruFontKanit,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14,
-                            color: AppTheme.nearlyWhite,
-                          ),
+                      top: 16,
+                      left: 50,
+                      child: Text(
+                        '${detail!.nameInsurance}',
+                        style: TextStyle(
+                          fontFamily: AppTheme.ruFontKanit,
+                          fontSize: baseFontSize - 6,
+                          color: AppTheme.ru_yellow,
                         ),
                       ),
                     ),

@@ -80,7 +80,7 @@ class _RotcsRegisterListViewState extends State<RotcsRegisterListView>
                                             curve: Curves.fastOutSlowIn)));
                             animationController?.forward();
                             //return Text('data');
-                            return ExtendItemView(
+                            return RotcsRegesterItemView(
                               detail: register.detail![index],
                               animation: animation,
                               animationController: animationController!,
@@ -97,8 +97,8 @@ class _RotcsRegisterListViewState extends State<RotcsRegisterListView>
   }
 }
 
-class ExtendItemView extends StatelessWidget {
-  const ExtendItemView(
+class RotcsRegesterItemView extends StatelessWidget {
+  const RotcsRegesterItemView(
       {Key? key, this.detail, this.animationController, this.animation})
       : super(key: key);
 
@@ -108,6 +108,10 @@ class ExtendItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -124,7 +128,7 @@ class ExtendItemView extends StatelessWidget {
                 // print(ondemand.error);
               },
               child: SizedBox(
-                width: 280,
+                width: screenWidth * 0.45,
                 child: Stack(
                   children: <Widget>[
                     Padding(
@@ -132,11 +136,18 @@ class ExtendItemView extends StatelessWidget {
                           top: 8, left: 8, right: 8, bottom: 8),
                       child: Container(
                         decoration: BoxDecoration(
-                          boxShadow: <BoxShadow>[
+                          image: DecorationImage(
+                            image: AssetImage('assets/images/ID.png'),
+                            fit: BoxFit.cover,
+                            opacity: 0.04,
+                          ),
+                          boxShadow: [
                             BoxShadow(
-                                color: HexColor("#FF19196B").withOpacity(0.6),
-                                offset: const Offset(1.1, 4.0),
-                                blurRadius: 8.0),
+                              color: AppTheme.ru_dark_blue.withOpacity(0.4),
+                              spreadRadius: 2,
+                              blurRadius: 4,
+                              offset: Offset(4, 4),
+                            ),
                           ],
                           gradient: LinearGradient(
                             colors: <HexColor>[
@@ -155,37 +166,38 @@ class ExtendItemView extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              top: 16, left: 32, right: 16, bottom: 8),
+                              top: 50, left: 16, right: 8, bottom: 8),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 8, bottom: 8),
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'สถานศึกษาวิชาทหาร ${detail!.locationArmy}',
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.ruFontKanit,
-                                          fontWeight: FontWeight.w200,
-                                          fontSize: 12,
-                                          letterSpacing: 0.2,
-                                          color: AppTheme.white,
-                                        ),
-                                      ),
-                                    ],
+                              Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'ประจำปี ${detail!.yearReport}',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.ruFontKanit,
+                                      fontSize: baseFontSize - 8,
+                                      color: AppTheme.nearlyWhite,
+                                    ),
                                   ),
-                                ),
+                                  Text(
+                                    'สถานศึกษาวิชาทหาร ${detail!.locationArmy}',
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.ruFontKanit,
+                                      fontSize: baseFontSize - 8,
+                                      color: AppTheme.white,
+                                    ),
+                                  ),
+                                ],
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   Container(
                                     decoration: BoxDecoration(
@@ -199,23 +211,17 @@ class ExtendItemView extends StatelessWidget {
                                             blurRadius: 4.0),
                                       ],
                                     ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(2.0),
-                                      child: Icon(Icons.flag),
-                                    ),
+                                    child: Icon(Icons.save),
                                   ),
-                                  Container(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(6.0),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
                                       child: Text(
                                         '${detail!.typeReport} ชั้นปีที่ ${detail!.layerReport}',
-                                        textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontFamily: AppTheme.ruFontKanit,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14,
-                                          letterSpacing: 0.2,
-                                          color: AppTheme.nearlyWhite,
+                                          fontSize: baseFontSize - 6,
+                                          color: AppTheme.ru_yellow,
                                         ),
                                       ),
                                     ),
@@ -255,18 +261,15 @@ class ExtendItemView extends StatelessWidget {
                     ),
                     Positioned(
                       top: 20,
-                      left: 60,
+                      left: 55,
                       child: Container(
-                        alignment: Alignment.centerLeft,
-                        width: 200,
                         child: Text(
-                          'รายงานตัว นศท. ประจำปี ${detail!.yearReport}',
+                          'รายงานตัว นศท.',
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontFamily: AppTheme.ruFontKanit,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14,
-                            color: AppTheme.nearlyWhite,
+                            fontSize: baseFontSize - 4,
+                            color: AppTheme.ru_yellow,
                           ),
                         ),
                       ),
