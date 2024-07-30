@@ -62,7 +62,6 @@ class MasterGradeProvider extends ChangeNotifier {
   void getAllGrade() async {
     Profile profile = await ProfileStorage.getProfile();
     isLoading = true;
-    notifyListeners();
 
     if (profile.studentCode != null) {
       try {

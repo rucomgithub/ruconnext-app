@@ -105,7 +105,7 @@ class _MasterRegisterListScreenState extends State<MasterRegisterListScreen>
           color: AppTheme.nearlyWhite, // Change back arrow color to white
         ),
         title: Text(
-          'การลงทะเบียน ${roletext}',
+          'การลงทะเบียน',
           style: TextStyle(
             fontSize: baseFontSize - 2,
             fontFamily: AppTheme.ruFontKanit,

@@ -48,13 +48,13 @@ class _MasterProfileViewState extends State<MasterProfileView>
   Widget build(BuildContext context) {
     var authen = context.read<AuthenProvider>();
     var studentProv = context.watch<MasterProvider>();
-
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     double baseFontSize =
         screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
+
     return studentProv.student.stdcode!.isEmpty
         ? Container(
             padding:
@@ -67,7 +67,7 @@ class _MasterProfileViewState extends State<MasterProfileView>
                   bottomRight: Radius.circular(8.0),
                   topRight: Radius.circular(48.0)),
             ),
-            child: SizedBox())
+            child: Text('${studentProv.error}'))
         : AnimatedBuilder(
             animation: widget.mainScreenAnimationController!,
             builder: (BuildContext context, Widget? child) {

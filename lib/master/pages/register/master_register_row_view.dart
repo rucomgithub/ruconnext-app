@@ -107,17 +107,27 @@ class _MasterRegisterRowViewState extends State<MasterRegisterRowView>
                                 padding: const EdgeInsets.only(
                                     top: 8, bottom: 8, right: 16, left: 8),
                                 decoration: BoxDecoration(
-                                  color: AppTheme.nearlyWhite,
+                                  image: DecorationImage(
+                                    image: AssetImage('assets/images/ID.png'),
+                                    fit: BoxFit.cover,
+                                    opacity: 0.2,
+                                  ),
+                                  color: isLightMode
+                                      ? AppTheme.nearlyWhite
+                                      : AppTheme.ru_grey,
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(8.0),
                                       bottomLeft: Radius.circular(8.0),
                                       bottomRight: Radius.circular(8.0),
                                       topRight: Radius.circular(48.0)),
-                                  boxShadow: <BoxShadow>[
+                                  boxShadow: [
                                     BoxShadow(
-                                        color: AppTheme.ru_yellow,
-                                        offset: Offset(1.1, 1.1),
-                                        blurRadius: 5.0),
+                                      color:
+                                          AppTheme.ru_yellow.withOpacity(0.4),
+                                      spreadRadius: 2,
+                                      blurRadius: 4,
+                                      offset: Offset(4, 4),
+                                    ),
                                   ],
                                 ),
                                 height: screenHeight * 0.35,
@@ -354,18 +364,10 @@ class RowRegisterView extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: <Widget>[
-                              Text(
-                                course!.year!.toString(),
-                                style: TextStyle(
-                                  fontFamily: AppTheme.ruFontKanit,
-                                  fontSize: baseFontSize - 4,
-                                  color: AppTheme.white,
-                                ),
-                              ),
                               Expanded(
                                 child: Padding(
                                   padding:
-                                      const EdgeInsets.only(top: 16, bottom: 8),
+                                      const EdgeInsets.only(top: 48, bottom: 8),
                                   child: SingleChildScrollView(
                                     child: Row(
                                       mainAxisAlignment:
@@ -424,27 +426,40 @@ class RowRegisterView extends StatelessWidget {
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: AppTheme.nearlyWhite,
+                          color: AppTheme.nearlyWhite.withOpacity(0.2),
                           shape: BoxShape.circle,
                         ),
                       ),
                     ),
                     Positioned(
-                      top: 16,
-                      left: 25,
+                      top: 8,
+                      left: 10,
                       child: SizedBox(
-                        width: 30,
-                        height: 30,
-                        child: Text(
-                          course!.semester!.toString(),
-                          style: TextStyle(
-                            fontFamily: AppTheme.ruFontKanit,
-                            fontSize: baseFontSize - 4,
-                            color: AppTheme.ru_dark_blue,
-                          ),
+                        width: 35,
+                        height: 35,
+                        child: Icon(
+                          Icons.book,
+                          size: baseFontSize + 4,
+                          color: AppTheme.ru_dark_blue,
                         ),
                       ),
-                    )
+                    ),
+                    // Positioned(
+                    //   top: 24,
+                    //   left: 32,
+                    //   child: SizedBox(
+                    //     width: 30,
+                    //     height: 30,
+                    //     child: Text(
+                    //       '${index! + 1}',
+                    //       style: TextStyle(
+                    //         fontFamily: AppTheme.ruFontKanit,
+                    //         fontSize: baseFontSize - 10,
+                    //         color: AppTheme.ru_yellow,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // )
                   ],
                 ),
               ),

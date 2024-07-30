@@ -141,7 +141,7 @@ class _MasterGradeScreenState extends State<MasterGradeScreen>
           color: AppTheme.nearlyWhite, // Change back arrow color to white
         ),
         title: Text(
-          'ผลการศึกษา ${roletext}',
+          'ผลการศึกษา',
           style: TextStyle(
             fontSize: baseFontSize - 2,
             fontFamily: AppTheme.ruFontKanit,

@@ -5,12 +5,6 @@ import 'package:th.ac.ru.uSmart/master/services/masterstudentservice.dart';
 
 class MasterProvider extends ChangeNotifier {
   final _service = MasterStudentService();
-
-  late BuildContext _context;
-  set context(BuildContext context) {
-    _context = context;
-  }
-
   bool isLoading = false;
 
   String _error = '';
@@ -45,21 +39,26 @@ class MasterProvider extends ChangeNotifier {
     _error = '';
 
     try {
-      _service.context = _context;
       final response = await _service.getImageProfile();
       //print(response);
       _imageData = response;
-      isLoading = false;
+
+      if (_imageData == Uint8List(0)) {
+        _error = "not found";
+      }
     } catch (e) {
-      isLoading = false;
       _error = e.toString();
+      print(e);
     }
+
+    isLoading = false;
+
     notifyListeners();
   }
 
   Future<void> refreshData() async {
-    await getImageProfile();
     await getStudent();
+    getImageProfile();
   }
 
   Future<void> getStudent() async {

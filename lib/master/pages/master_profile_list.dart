@@ -56,10 +56,9 @@ class _MasterProfileListState extends State<MasterProfileList>
     });
     super.initState();
 
-    Provider.of<MasterRegisterProvider>(context, listen: false)
-        .getAllRegister();
+    // Provider.of<MasterRegisterProvider>(context, listen: false)
+    //     .getAllRegister();
     Provider.of<AuthenProvider>(context, listen: false).getProfile();
-    Provider.of<MasterProvider>(context, listen: false).getImageProfile();
     Provider.of<MasterProvider>(context, listen: false).getStudent();
   }
 
@@ -98,7 +97,7 @@ class _MasterProfileListState extends State<MasterProfileList>
           color: AppTheme.nearlyWhite, // Change back arrow color to white
         ),
         title: Text(
-          'บัตรนักศึกษา ${roletext}',
+          'บัตรนักศึกษา',
           style: TextStyle(
             fontSize: baseFontSize - 2,
             fontFamily: AppTheme.ruFontKanit,

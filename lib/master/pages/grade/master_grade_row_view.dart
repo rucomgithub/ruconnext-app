@@ -148,187 +148,195 @@ class ListRowGradeView extends StatelessWidget {
     double baseFontSize =
         screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
 
-    return AnimatedBuilder(
-      animation: animationController!,
-      builder: (BuildContext context, Widget? child) {
-        return FadeTransition(
-          opacity: animation!,
-          child: Transform(
-            transform: Matrix4.translationValues(
-                100 * (1.0 - animation!.value), 0.0, 0.0),
-            child: InkWell(
-              highlightColor: Colors.transparent,
-              borderRadius: BorderRadius.all(Radius.circular(4.0)),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MasterGradeYearScreen(
-                          animationController: animationController!,
-                          yearSemester: gradeListData!.yearSemester,
-                          grades: gradeListData!.grades),
-                    ));
-              },
-              child: SizedBox(
-                width: screenWidth * 0.4,
-                child: Stack(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 16, left: 8, right: 8, bottom: 16),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('assets/images/ID.png'),
-                            fit: BoxFit.cover,
-                            opacity: 0.08,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppTheme.ru_dark_blue.withOpacity(0.4),
-                              spreadRadius: 2,
-                              blurRadius: 4,
-                              offset: Offset(4, 4),
-                            ),
-                          ],
-                          gradient: LinearGradient(
-                            colors: <HexColor>[
-                              HexColor("#FF19196B"),
-                              HexColor("#FF1919EB"),
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: const BorderRadius.only(
-                            bottomRight: Radius.circular(8.0),
-                            bottomLeft: Radius.circular(8.0),
-                            topLeft: Radius.circular(48.0),
-                            topRight: Radius.circular(8.0),
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 8, left: 16, right: 16, bottom: 8),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: <Widget>[
-                              Text(
-                                gradeListData!.yearSemester,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.ruFontKanit,
-                                  fontWeight: FontWeight.w200,
-                                  fontSize: baseFontSize - 4,
-                                  letterSpacing: 0.2,
-                                  color: FitnessAppTheme.white,
+    return formattedGrades.isEmpty
+        ? SizedBox()
+        : AnimatedBuilder(
+            animation: animationController!,
+            builder: (BuildContext context, Widget? child) {
+              return FadeTransition(
+                opacity: animation!,
+                child: Transform(
+                  transform: Matrix4.translationValues(
+                      100 * (1.0 - animation!.value), 0.0, 0.0),
+                  child: InkWell(
+                    highlightColor: Colors.transparent,
+                    borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MasterGradeYearScreen(
+                                animationController: animationController!,
+                                yearSemester: gradeListData!.yearSemester,
+                                grades: gradeListData!.grades),
+                          ));
+                    },
+                    child: SizedBox(
+                      width: screenWidth * 0.4,
+                      child: Stack(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 16, left: 8, right: 8, bottom: 16),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage('assets/images/ID.png'),
+                                  fit: BoxFit.cover,
+                                  opacity: 0.08,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color:
+                                        AppTheme.ru_dark_blue.withOpacity(0.4),
+                                    spreadRadius: 2,
+                                    blurRadius: 4,
+                                    offset: Offset(4, 4),
+                                  ),
+                                ],
+                                gradient: LinearGradient(
+                                  colors: <HexColor>[
+                                    HexColor("#FF19196B"),
+                                    HexColor("#FF1919EB"),
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                borderRadius: const BorderRadius.only(
+                                  bottomRight: Radius.circular(8.0),
+                                  bottomLeft: Radius.circular(8.0),
+                                  topLeft: Radius.circular(48.0),
+                                  topRight: Radius.circular(8.0),
                                 ),
                               ),
-                              Expanded(
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 16, bottom: 8),
-                                  child: SingleChildScrollView(
-                                    child: Row(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 8, left: 16, right: 16, bottom: 8),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: <Widget>[
+                                    Text(
+                                      gradeListData!.yearSemester,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.ruFontKanit,
+                                        fontWeight: FontWeight.w200,
+                                        fontSize: baseFontSize - 4,
+                                        letterSpacing: 0.2,
+                                        color: AppTheme.ru_yellow,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 16, bottom: 8),
+                                        child: SingleChildScrollView(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Text(
+                                                formattedGrades,
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      AppTheme.ruFontKanit,
+                                                  fontSize: baseFontSize - 10,
+                                                  letterSpacing: 0.2,
+                                                  color: FitnessAppTheme.white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                          CrossAxisAlignment.center,
                                       children: <Widget>[
                                         Text(
-                                          formattedGrades,
+                                          gradeListData!.creditsum.toString(),
+                                          textAlign: TextAlign.center,
                                           style: TextStyle(
                                             fontFamily: AppTheme.ruFontKanit,
-                                            fontSize: baseFontSize - 10,
-                                            letterSpacing: 0.2,
-                                            color: FitnessAppTheme.white,
+                                            fontSize: baseFontSize - 4,
+                                            color: AppTheme.ru_yellow,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 4),
+                                          child: Text(
+                                            'หน่วยกิต',
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.ruFontKanit,
+                                              fontSize: baseFontSize - 10,
+                                              color: FitnessAppTheme.white,
+                                            ),
                                           ),
                                         ),
                                       ],
-                                    ),
-                                  ),
+                                    )
+                                  ],
                                 ),
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    gradeListData!.creditsum.toString(),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.ruFontKanit,
-                                      fontSize: baseFontSize - 4,
-                                      color: FitnessAppTheme.white,
-                                    ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 12,
+                            left: 10,
+                            child: Container(
+                              width: 45,
+                              height: 45,
+                              decoration: BoxDecoration(
+                                color: AppTheme.nearlyWhite.withOpacity(0.2),
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 14,
+                            left: 14,
+                            child: SizedBox(
+                              width: 30,
+                              height: 30,
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.book_rounded,
+                                    size: baseFontSize + 16,
+                                    color: AppTheme.ru_dark_blue,
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 4),
+                                  Positioned(
+                                    top: 12,
+                                    left: 18,
                                     child: Text(
-                                      'หน่วยกิต',
+                                      gradeListData!.grades!.length.toString(),
                                       style: TextStyle(
                                         fontFamily: AppTheme.ruFontKanit,
-                                        fontSize: baseFontSize - 10,
-                                        color: FitnessAppTheme.white,
+                                        color:
+                                            AppTheme.ru_yellow.withOpacity(0.8),
+                                        fontSize: baseFontSize - 8,
                                       ),
                                     ),
                                   ),
                                 ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 12,
-                      left: 10,
-                      child: Container(
-                        width: 45,
-                        height: 45,
-                        decoration: BoxDecoration(
-                          color: AppTheme.nearlyWhite.withOpacity(0.2),
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 14,
-                      left: 14,
-                      child: SizedBox(
-                        width: 30,
-                        height: 30,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Icon(
-                              Icons.book_rounded,
-                              size: baseFontSize + 16,
-                              color: AppTheme.ru_dark_blue,
-                            ),
-                            Positioned(
-                              top: 12,
-                              left: 18,
-                              child: Text(
-                                gradeListData!.grades!.length.toString(),
-                                style: TextStyle(
-                                  fontFamily: AppTheme.ruFontKanit,
-                                  color: AppTheme.ru_yellow.withOpacity(0.8),
-                                  fontSize: baseFontSize - 8,
-                                ),
                               ),
                             ),
-                          ],
-                        ),
+                          )
+                        ],
                       ),
-                    )
-                  ],
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
+              );
+            },
+          );
   }
 }

@@ -2,6 +2,7 @@ import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:th.ac.ru.uSmart/master/pages/master_image_loader.dart';
 import 'package:th.ac.ru.uSmart/model/profile.dart';
 import 'package:th.ac.ru.uSmart/pages/ImageLoader.dart';
 import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
@@ -110,8 +111,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   child: Container(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         AnimatedBuilder(
                           animation: widget.iconAnimationController!,
@@ -294,7 +295,6 @@ class _HomeDrawerState extends State<HomeDrawer> {
                           ? AppTheme.ru_grey
                           : AppTheme.ru_dark_blue,
                     ),
-                    textAlign: TextAlign.left,
                   ),
                 ],
               ),
@@ -354,38 +354,21 @@ class LogoLoginSuccess extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var brightness = MediaQuery.of(context).platformBrightness;
-    bool isLightMode = brightness == Brightness.light;
+    var authen = context.watch<AuthenProvider>();
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Padding(
-          padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
-          child: Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Color.fromARGB(255, 227, 211, 107),
-            ),
-            height: 175,
-            width: 175,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(50.0)),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    width: 170,
-                    height: 170,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color.fromARGB(255, 2, 40, 104),
-                    ),
-                  ),
-                  ClipOval(
-                    child: ImageLoader(),
-                  ),
-                ],
+        ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+          child: Stack(
+            children: [
+              ClipOval(
+                child: authen.role == "Bachelor"
+                    ? ImageLoader()
+                    : MasterImageLoader(),
               ),
-            ),
+            ],
           ),
         ),
         Padding(
@@ -394,7 +377,7 @@ class LogoLoginSuccess extends StatelessWidget {
             authen.profile.displayName!,
             style: TextStyle(
               fontWeight: FontWeight.w600,
-              color: AppTheme.notWhite,
+              color: AppTheme.ru_dark_blue,
               fontSize: 18,
             ),
           ),

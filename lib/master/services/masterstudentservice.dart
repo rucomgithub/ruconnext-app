@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:th.ac.ru.uSmart/master/models/master_student.dart';
 
 import 'package:th.ac.ru.uSmart/services/diointercepter.dart';
@@ -14,11 +12,6 @@ import '../../store/profile.dart';
 class MasterStudentService {
   final dioapi = DioIntercepter();
   final appUrl = dotenv.env['APP_URL'];
-  late BuildContext _context;
-
-  set context(BuildContext context) {
-    _context = context;
-  }
 
   Future<Uint8List> getImageProfile() async {
     Uint8List imageData = Uint8List(0);
@@ -33,13 +26,14 @@ class MasterStudentService {
         //print("Get image profile");
         imageData = response.data;
       } else {
-        print("Error Get image profile");
-        throw ('Error Get image profile.');
+        print("Error  statusCode not 200 image profile");
+        throw ('Error statusCode not 200 image profile.');
       }
     } catch (err) {
-      print("Error Get image profile. $err");
+      print("Error catch image profile. $err");
       throw (err);
     }
+
     return imageData;
   }
 
