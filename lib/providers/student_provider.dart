@@ -40,7 +40,7 @@ class StudentProvider extends ChangeNotifier {
       // var snackbar = SnackBar(content: Text('Error: Load Image Profile. ${e.toString()}'));
       // ScaffoldMessenger.of(_context).showSnackBar(snackbar);
       _error = e.toString();
-      notifyListeners();
+      // notifyListeners();
     }
     isLoading = false;
     notifyListeners();
@@ -56,7 +56,7 @@ class StudentProvider extends ChangeNotifier {
     isLoading = true;
     _error = '';
 
-    notifyListeners();
+    // notifyListeners();
     try {
       final response = await _service.getStudent();
       _student = response;

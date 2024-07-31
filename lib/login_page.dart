@@ -169,7 +169,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   },
                                   decoration: InputDecoration(
                                     labelText:
-                                        'Enter Student Code 10-digit Number ${targetValue.toString()}',
+                                        // 'Enter Student Code 10-digit Number ${targetValue.toString()}',
+                                        'Enter Student Code 10-digit Number ',
                                     labelStyle: TextStyle(
                                       color: AppTheme.ru_text_ocean_blue,
                                       fontSize: baseFontSize - 6,
@@ -190,7 +191,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             if (inputText.length == 10)
                               if (targetValue.contains(inputText))
                                 GoogleAuthButton(
-                                  text: "เข้าสู่ระบบทดสอบ",
+                                  text: "เข้าสู่ระบบ",
                                   style: AuthButtonStyle(
                                     textStyle: TextStyle(
                                         color: AppTheme.ru_dark_blue,
