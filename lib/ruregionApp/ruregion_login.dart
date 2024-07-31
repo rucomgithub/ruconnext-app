@@ -19,7 +19,6 @@ class RuregionAppLoginPage extends StatefulWidget {
 class _RuregionAppLoginPageState extends State<RuregionAppLoginPage> {
   String inputStudentCode = '';
   String inputPassword = '';
-  final String targetValue = "6299999991";
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +75,7 @@ class _RuregionAppLoginPageState extends State<RuregionAppLoginPage> {
                             inputPassword = text;
                           });
                         },
+                        obscureText: true,
                         decoration: InputDecoration(
                           labelText: 'รหัสผ่านเดียวกับ e-service',
                           labelStyle: TextStyle(
