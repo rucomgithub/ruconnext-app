@@ -251,7 +251,9 @@ class GradeProvider extends ChangeNotifier {
         temp = groups[key]!['credit_sum']!;
         count = groups[key]!['count']!;
 
-        temp += int.parse(element.credit!);
+        if (element.grade != "F" && element.grade != "F*") {
+          temp += int.parse(element.credit!);
+        }
         count += 1;
 
         groups[key]!['credit_sum'] = temp;

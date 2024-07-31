@@ -38,7 +38,7 @@ class CourseRankView extends StatelessWidget {
                       topLeft: Radius.circular(8.0),
                       bottomLeft: Radius.circular(8.0),
                       bottomRight: Radius.circular(8.0),
-                      topRight: Radius.circular(40.0)),
+                      topRight: Radius.circular(24.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
                         color: AppTheme.ru_grey.withOpacity(0.2),

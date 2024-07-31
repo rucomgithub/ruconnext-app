@@ -19,7 +19,7 @@ class GradeListData {
     GradeListData(
       imagePath: 'assets/fitness_app/breakfast.png',
       yearSemester: 'Breakfast',
-      creditsum: 525,
+      creditsum: 0,
       grades: <String>['Bread,', 'Peanut butter,', 'Apple'],
       startColor: '#FA7D82',
       endColor: '#FFB295',
@@ -27,7 +27,7 @@ class GradeListData {
     GradeListData(
       imagePath: 'assets/fitness_app/lunch.png',
       yearSemester: 'Lunch',
-      creditsum: 602,
+      creditsum: 0,
       grades: <String>['Salmon,', 'Mixed veggies,', 'Avocado'],
       startColor: '#738AE6',
       endColor: '#5C5EDD',

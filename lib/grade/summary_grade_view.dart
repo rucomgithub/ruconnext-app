@@ -49,7 +49,7 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                       topLeft: Radius.circular(8.0),
                       bottomLeft: Radius.circular(8.0),
                       bottomRight: Radius.circular(8.0),
-                      topRight: Radius.circular(40.0)),
+                      topRight: Radius.circular(24.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
                         color: AppTheme.ru_grey.withOpacity(0.2),
@@ -243,7 +243,7 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                                           style: TextStyle(
                                             fontFamily: AppTheme.ruFontKanit,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: baseFontSize + 5,
+                                            fontSize: baseFontSize,
                                             color: AppTheme.ru_text_light_blue,
                                           ),
                                         ),
@@ -252,8 +252,8 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             fontFamily: AppTheme.ruFontKanit,
-                                            fontSize: baseFontSize,
-                                            color: AppTheme.ru_text_light_blue,
+                                            fontSize: baseFontSize - 6,
+                                            color: AppTheme.ru_text_grey,
                                           ),
                                         ),
                                       ],

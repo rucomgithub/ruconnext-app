@@ -64,7 +64,8 @@ class _YearSemesterListViewState extends State<YearSemesterListView>
             transform: Matrix4.translationValues(
                 0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
             child: Padding(
-              padding: const EdgeInsets.all(8),
+              padding:
+                  const EdgeInsets.only(top: 8, bottom: 8, right: 8, left: 16),
               child: Container(
                 decoration: BoxDecoration(
                   color: isLightMode ? AppTheme.nearlyWhite : AppTheme.ru_grey,
@@ -72,7 +73,7 @@ class _YearSemesterListViewState extends State<YearSemesterListView>
                       topLeft: Radius.circular(8.0),
                       bottomLeft: Radius.circular(8.0),
                       bottomRight: Radius.circular(8.0),
-                      topRight: Radius.circular(40.0)),
+                      topRight: Radius.circular(24.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
                         color: AppTheme.ru_grey.withOpacity(0.2),
@@ -80,11 +81,9 @@ class _YearSemesterListViewState extends State<YearSemesterListView>
                         blurRadius: 10.0),
                   ],
                 ),
-                height: screenHeight * 0.25,
+                height: screenHeight * 0.24,
                 width: double.infinity,
                 child: ListView.builder(
-                  padding: const EdgeInsets.only(
-                      top: 8, bottom: 8, right: 8, left: 8),
                   itemCount: prov.gradeYearSemester.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (BuildContext context, int index) {
@@ -99,10 +98,14 @@ class _YearSemesterListViewState extends State<YearSemesterListView>
                                     curve: Curves.fastOutSlowIn)));
                     animationController?.forward();
 
-                    return YearSemesterView(
-                      gradeListData: prov.gradeYearSemester[index],
-                      animation: animation,
-                      animationController: animationController!,
+                    return Padding(
+                      padding: const EdgeInsets.only(
+                          left: 8.0, top: 16.0, bottom: 8.0),
+                      child: YearSemesterView(
+                        gradeListData: prov.gradeYearSemester[index],
+                        animation: animation,
+                        animationController: animationController!,
+                      ),
                     );
                   },
                 ),
@@ -130,200 +133,219 @@ class YearSemesterView extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
     double baseFontSize =
         screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
-    return AnimatedBuilder(
-      animation: animationController!,
-      builder: (BuildContext context, Widget? child) {
-        return FadeTransition(
-          opacity: animation!,
-          child: Transform(
-            transform: Matrix4.translationValues(
-                100 * (1.0 - animation!.value), 0.0, 0.0),
-            child: InkWell(
-              highlightColor: Colors.transparent,
-              borderRadius: BorderRadius.all(Radius.circular(4.0)),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => GradeYearScreen(
-                          animationController: animationController!,
-                          yearSemester: gradeListData!.yearSemester,
-                          grades: gradeListData!.grades),
-                    ));
-              },
-              child: SizedBox(
-                width: screenWidth * 0.25,
-                height: screenHeight * 0.2,
-                child: Stack(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 32, left: 8, right: 8, bottom: 16),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                                color: HexColor("#FF19196B").withOpacity(0.6),
-                                offset: const Offset(1.1, 4.0),
-                                blurRadius: 8.0),
-                          ],
-                          gradient: LinearGradient(
-                            colors: <HexColor>[
-                              HexColor("#FF19196B"),
-                              HexColor("#FF1919EB"),
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: const BorderRadius.only(
-                            bottomRight: Radius.circular(8.0),
-                            bottomLeft: Radius.circular(8.0),
-                            topLeft: Radius.circular(48.0),
-                            topRight: Radius.circular(8.0),
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 54, left: 16, right: 16, bottom: 8),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                gradeListData!.yearSemester,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.ruFontKanit,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: baseFontSize - 6,
-                                  letterSpacing: 0.2,
-                                  color: AppTheme.white,
-                                ),
+    return gradeListData!.grades!.isEmpty
+        ? SizedBox()
+        : AnimatedBuilder(
+            animation: animationController!,
+            builder: (BuildContext context, Widget? child) {
+              return FadeTransition(
+                opacity: animation!,
+                child: Transform(
+                  transform: Matrix4.translationValues(
+                      100 * (1.0 - animation!.value), 0.0, 0.0),
+                  child: InkWell(
+                    highlightColor: Colors.transparent,
+                    borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => GradeYearScreen(
+                                animationController: animationController!,
+                                yearSemester: gradeListData!.yearSemester,
+                                grades: gradeListData!.grades),
+                          ));
+                    },
+                    child: SizedBox(
+                      width: screenWidth * 0.35,
+                      child: Stack(
+                        children: <Widget>[
+                          Container(
+                            decoration: BoxDecoration(
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                    color:
+                                        HexColor("#FF19196B").withOpacity(0.6),
+                                    offset: const Offset(1.1, 4.0),
+                                    blurRadius: 8.0),
+                              ],
+                              gradient: LinearGradient(
+                                colors: <HexColor>[
+                                  HexColor("#FF19196B"),
+                                  HexColor("#FF1919EB"),
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
                               ),
-                              Expanded(
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 8, bottom: 8),
-                                  child: SingleChildScrollView(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        SizedBox(
-                                          width: screenWidth * 0.18,
-                                          child: Text(
-                                            gradeListData!.grades!
-                                                .asMap()
-                                                .map((index, value) => MapEntry(
-                                                    index,
-                                                    '${index + 1}.$value'))
-                                                .values
-                                                .join('\n'),
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.ruFontKanit,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: baseFontSize - 8,
-                                              letterSpacing: 0.2,
-                                              color: AppTheme.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                              borderRadius: const BorderRadius.only(
+                                bottomRight: Radius.circular(8.0),
+                                bottomLeft: Radius.circular(8.0),
+                                topLeft: Radius.circular(48.0),
+                                topRight: Radius.circular(8.0),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 8, left: 8, right: 8, bottom: 8),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: <Widget>[
+                                  Text(
+                                    gradeListData!.yearSemester,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.ruFontKanit,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: baseFontSize - 4,
+                                      letterSpacing: 0.2,
+                                      color: AppTheme.ru_yellow,
                                     ),
                                   ),
-                                ),
-                              ),
-                              gradeListData?.creditsum != 0
-                                  ? Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: <Widget>[
-                                        Text(
-                                          gradeListData!.creditsum.toString(),
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontFamily: AppTheme.ruFontKanit,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: baseFontSize - 6,
-                                            letterSpacing: 0.2,
-                                            color: AppTheme.white,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 4, bottom: 0),
-                                          child: Text(
-                                            'หน่วยกิต',
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.ruFontKanit,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: baseFontSize - 6,
-                                              letterSpacing: 0.2,
-                                              color: AppTheme.white,
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 16, bottom: 8),
+                                      child: SingleChildScrollView(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            SizedBox(
+                                              width: screenWidth * 0.24,
+                                              child: Text(
+                                                gradeListData!.grades!
+                                                    .asMap()
+                                                    .map((index, value) =>
+                                                        MapEntry(index,
+                                                            '${index + 1}.$value'))
+                                                    .values
+                                                    .join('\n'),
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      AppTheme.ruFontKanit,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: baseFontSize - 8,
+                                                  letterSpacing: 0.2,
+                                                  color: AppTheme.white,
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  : Container(
-                                      decoration: BoxDecoration(
-                                        color: AppTheme.nearlyWhite,
-                                        shape: BoxShape.circle,
-                                        boxShadow: <BoxShadow>[
-                                          BoxShadow(
-                                              color: AppTheme.nearlyBlack
-                                                  .withOpacity(0.4),
-                                              offset: Offset(8.0, 8.0),
-                                              blurRadius: 8.0),
-                                        ],
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(6.0),
-                                        child: Icon(
-                                          Icons.add,
-                                          color: HexColor("#FFFEFEFE"),
-                                          size: 24,
+                                          ],
                                         ),
                                       ),
                                     ),
-                            ],
+                                  ),
+                                  gradeListData?.creditsum != 0
+                                      ? Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: <Widget>[
+                                            Text(
+                                              gradeListData!.creditsum
+                                                  .toString(),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontFamily:
+                                                    AppTheme.ruFontKanit,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: baseFontSize - 4,
+                                                letterSpacing: 0.2,
+                                                color: AppTheme.ru_yellow,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 4, bottom: 0),
+                                              child: Text(
+                                                'หน่วยกิต',
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      AppTheme.ruFontKanit,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: baseFontSize - 6,
+                                                  letterSpacing: 0.2,
+                                                  color: AppTheme.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      : Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: <Widget>[
+                                            Text(
+                                              '0',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontFamily:
+                                                    AppTheme.ruFontKanit,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: baseFontSize - 4,
+                                                letterSpacing: 0.2,
+                                                color: AppTheme.ru_yellow,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 4, bottom: 0),
+                                              child: Text(
+                                                'หน่วยกิต',
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      AppTheme.ruFontKanit,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: baseFontSize - 6,
+                                                  letterSpacing: 0.2,
+                                                  color: AppTheme.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
+                          Positioned(
+                            top: 0,
+                            left: 4,
+                            child: Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: AppTheme.nearlyWhite.withOpacity(0.2),
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 0,
+                            left: 4,
+                            child: SizedBox(
+                              width: 35,
+                              height: 35,
+                              child: Icon(
+                                Icons.book,
+                                size: baseFontSize + 4,
+                                color: AppTheme.ru_dark_blue,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Positioned(
-                      top: 0,
-                      left: 0,
-                      child: Container(
-                        width: 84,
-                        height: 84,
-                        decoration: BoxDecoration(
-                          color: AppTheme.nearlyWhite.withOpacity(0.2),
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 5,
-                      left: 15,
-                      child: SizedBox(
-                        width: 60,
-                        height: 80,
-                        child: Image.asset(gradeListData!.imagePath),
-                        //child: Text(gradeListData!.),
-                      ),
-                    )
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
+              );
+            },
+          );
   }
 }

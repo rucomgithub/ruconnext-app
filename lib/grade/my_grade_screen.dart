@@ -134,13 +134,6 @@ class _MyGradeScreenState extends State<MyGradeScreen>
         mainScreenAnimationController: widget.animationController!,
       ),
     );
-    // listViews.add(
-    //   Text('ความถนัดด้านมนุษย์สัมพันธ์ (Interpersonal Intelligence) ความสามารถในการเข้าใจผู้อื่น ทั้งด้านความรู้สึกนึกคิด อารมณ์ เจตนาที่ซ่อนเร้น มีความไวในการสังเกตสีหน้า ท่าทาง อารมณ์ของคนอื่น และตอบสนองสิ่งเหล่านั้นได้เหมาะสม สร้างมิตรภาพได้ง่าย เจรจาต่อรองเก่งและชักจูงผู้อื่นได้ดีชอบมีเพื่อน ชอบพบปะผู้คนร่วมสังสรรค์กับผู้อื่นชอบเป็นผู้นำหรือมีส่วนร่วมในกลุ่ชอบแสดงออกให้ผู้อื่นทำตาม ช่วยเหลือผู้อื่น ทำงานหรือประสานงานกับผู้อื่นได้ดีชอบพูดชักจูงให้ผู้อื่นทำมากกว่าจะลงมือทำด้วยตนเองเข้าใจผู้อื่นได้ดี สามารถอ่านกิริยาท่าทางของผู้อื่นได้มักจะมีเพื่อนสนิทหลายคนชอบสังคม อยู่ร่วมกับผู้อื่นมากกว่าจะอยู่คนเดียวที่บ้านในวันหยุดอาชีพที่เหมาะสม : นักบริหาร ผู้จัดการ นักธุรกิจ นักการตลาด นักประชาสัมพันธ์ ครู'),
-    // );
-    //     for (var item in prov.catalogsCombine) {
-    //     listViews.add(Text('วิชา:${item.cOURSENO} ///// กลุ่ม: ${item.typeNo}///// grade: ${item.grade}'));
-
-    // }
 
     listViews.add(
       TitleView(
@@ -153,15 +146,6 @@ class _MyGradeScreenState extends State<MyGradeScreen>
         animationController: widget.animationController!,
       ),
     );
-
-    // listViews.add(
-    //   SizedBox(
-    //     height: 250,
-    //     width: 250,
-    //     child: RadarChartWidget(
-    //         grades: prov.grades, counts: prov.counts, ticks: prov.ticks),
-    //   ),
-    // );
 
     listViews.add(
       SummaryGradeView(

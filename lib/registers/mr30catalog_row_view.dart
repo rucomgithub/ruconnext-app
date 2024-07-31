@@ -114,8 +114,6 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
                           padding: const EdgeInsets.only(
                               top: 8, bottom: 8, right: 16, left: 16),
                           child: Container(
-                            padding: const EdgeInsets.only(
-                                top: 8, bottom: 8, right: 8, left: 8),
                             decoration: BoxDecoration(
                               // image: DecorationImage(
                               //   image: AssetImage('assets/images/ID.png'),
@@ -137,11 +135,11 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
                                     blurRadius: 10.0),
                               ],
                             ),
-                            height: screenHeight * 0.35,
+                            height: screenHeight *
+                                0.25 *
+                                prov.listMr30CatalogPercentage.length,
                             width: double.infinity,
                             child: ListView.builder(
-                              padding: const EdgeInsets.only(
-                                  top: 0, bottom: 8, right: 8, left: 8),
                               itemCount: prov.listMr30CatalogPercentage.length,
                               scrollDirection: Axis.vertical,
                               itemBuilder: (BuildContext context, int index) {
@@ -162,11 +160,6 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                      padding: const EdgeInsets.only(
-                                          top: 8,
-                                          bottom: 8,
-                                          right: 16,
-                                          left: 8),
                                       decoration: BoxDecoration(
                                         color: isLightMode
                                             ? AppTheme.nearlyWhite
@@ -187,14 +180,18 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
                                       height: screenHeight * 0.05,
                                       child: Column(
                                         children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    right: 8),
-                                                child: Row(
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              left: 8.0,
+                                              top: 4.0,
+                                              right: 24.0,
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
                                                           .spaceAround,
@@ -227,22 +224,22 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
                                                     ),
                                                   ],
                                                 ),
-                                              ),
-                                              Text(
-                                                '${prov.listMr30CatalogPercentage.entries.elementAt(index).value.listcoursetype.length} วิชา',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontFamily:
-                                                      FitnessAppTheme.fontName,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: baseFontSize - 8,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  color:
-                                                      FitnessAppTheme.dark_grey,
+                                                Text(
+                                                  '${prov.listMr30CatalogPercentage.entries.elementAt(index).value.listcoursetype.length} วิชา',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontFamily: FitnessAppTheme
+                                                        .fontName,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: baseFontSize - 8,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    color: FitnessAppTheme
+                                                        .dark_grey,
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
                                           Row(
                                             mainAxisAlignment:
@@ -250,7 +247,9 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
                                             children: [
                                               Padding(
                                                 padding: const EdgeInsets.only(
-                                                    right: 8),
+                                                  left: 8.0,
+                                                  right: 8.0,
+                                                ),
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
@@ -267,7 +266,7 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
                                                             FitnessAppTheme
                                                                 .fontName,
                                                         fontSize:
-                                                            baseFontSize - 8,
+                                                            baseFontSize - 10,
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                         color: FitnessAppTheme
@@ -331,28 +330,29 @@ class Mr30CatalogListValueView extends StatelessWidget {
           child: Transform(
             transform: Matrix4.translationValues(
                 200 * (1.0 - animation!.value), 0.0, 0.0),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                height: screenHeight * 0.18,
-                width: double.infinity,
-                child: ListView.builder(
-                  itemCount: listData!.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (BuildContext context, int index) {
-                    final int count =
-                        listData!.length > 10 ? 10 : listData!.length;
-                    final Animation<double> animation =
-                        Tween<double>(begin: 0.0, end: 1.0).animate(
-                            CurvedAnimation(
-                                parent: animationController!,
-                                curve: Interval((1 / count) * index, 1.0,
-                                    curve: Curves.fastOutSlowIn)));
-                    animationController?.forward();
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CatalogRowView(
+            child: Container(
+              height: screenHeight * 0.24,
+              width: double.infinity,
+              child: ListView.builder(
+                itemCount: listData!.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (BuildContext context, int index) {
+                  final int count =
+                      listData!.length > 10 ? 10 : listData!.length;
+                  final Animation<double> animation =
+                      Tween<double>(begin: 0.0, end: 1.0).animate(
+                          CurvedAnimation(
+                              parent: animationController!,
+                              curve: Interval((1 / count) * index, 1.0,
+                                  curve: Curves.fastOutSlowIn)));
+                  animationController?.forward();
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 8.0, left: 8.0, bottom: 8.0),
+                        child: CatalogRowView(
                           index: index,
                           callback: () {
                             Get.toNamed('/ondemand', arguments: {
@@ -366,11 +366,11 @@ class Mr30CatalogListValueView extends StatelessWidget {
                           course: listData!.elementAt(index),
                           animation: animation,
                           animationController: animationController!,
-                        )
-                      ],
-                    );
-                  },
-                ),
+                        ),
+                      )
+                    ],
+                  );
+                },
               ),
             ),
           ),
@@ -418,138 +418,131 @@ class CatalogRowView extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(4.0)),
               onTap: callback,
               child: SizedBox(
-                width: screenWidth * 0.25,
+                width: screenWidth * 0.35,
                 child: Stack(
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 8, left: 8, right: 8, bottom: 8),
-                      child: Container(
-                        width: screenWidth * 0.2,
-                        decoration: BoxDecoration(
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                                color: HexColor("#FF19196B").withOpacity(0.6),
-                                offset: const Offset(1.1, 4.0),
-                                blurRadius: 8.0),
+                    Container(
+                      width: screenWidth * 0.34,
+                      decoration: BoxDecoration(
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                              color: HexColor("#FF19196B").withOpacity(0.6),
+                              offset: const Offset(1.1, 4.0),
+                              blurRadius: 8.0),
+                        ],
+                        gradient: LinearGradient(
+                          colors: <HexColor>[
+                            HexColor("#FF19196B"),
+                            HexColor("#FF1919EB"),
                           ],
-                          gradient: LinearGradient(
-                            colors: <HexColor>[
-                              HexColor("#FF19196B"),
-                              HexColor("#FF1919EB"),
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: const BorderRadius.only(
-                            bottomRight: Radius.circular(8.0),
-                            bottomLeft: Radius.circular(8.0),
-                            topLeft: Radius.circular(48.0),
-                            topRight: Radius.circular(8.0),
-                          ),
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 36, left: 8, right: 8, bottom: 8),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                '${course!.cname.toString()}',
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 3,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.ruFontKanit,
-                                  fontSize: baseFontSize - 10,
-                                  color: AppTheme.nearlyWhite,
-                                ),
+                        borderRadius: const BorderRadius.only(
+                          bottomRight: Radius.circular(8.0),
+                          bottomLeft: Radius.circular(8.0),
+                          topLeft: Radius.circular(48.0),
+                          topRight: Radius.circular(8.0),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 36, left: 8, right: 8, bottom: 8),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              '${course!.cname.toString()}',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 3,
+                              style: TextStyle(
+                                fontFamily: AppTheme.ruFontKanit,
+                                fontSize: baseFontSize - 8,
+                                color: AppTheme.nearlyWhite,
                               ),
-                              FittedBox(
-                                fit: BoxFit.contain,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: <Widget>[
-                                    Container(
-                                      width: screenWidth * 0.14,
-                                      decoration: BoxDecoration(
-                                        color: AppTheme.nearlyWhite,
-                                        shape: BoxShape.rectangle,
-                                        borderRadius: const BorderRadius.only(
-                                          bottomRight: Radius.circular(16.0),
-                                          bottomLeft: Radius.circular(16.0),
-                                          topLeft: Radius.circular(16.0),
-                                          topRight: Radius.circular(16.0),
-                                        ),
-                                        boxShadow: <BoxShadow>[
-                                          BoxShadow(
-                                              color: AppTheme.nearlyBlack
-                                                  .withOpacity(0.4),
-                                              offset: Offset(2.0, 2.0),
-                                              blurRadius: 4.0),
-                                        ],
-                                      ),
-                                      child: Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                Icons.book,
-                                                size: baseFontSize - 8,
-                                              ),
-                                              Text(
-                                                '${course!.courseno.toString()}',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontFamily:
-                                                      AppTheme.ruFontKanit,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: baseFontSize - 8,
-                                                  color: AppTheme.ru_dark_blue,
-                                                ),
-                                              )
-                                            ],
-                                          )),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: <Widget>[
+                                Container(
+                                  width: screenWidth * 0.24,
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.nearlyWhite,
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: const BorderRadius.only(
+                                      bottomRight: Radius.circular(16.0),
+                                      bottomLeft: Radius.circular(16.0),
+                                      topLeft: Radius.circular(16.0),
+                                      topRight: Radius.circular(16.0),
                                     ),
-                                  ],
+                                    boxShadow: <BoxShadow>[
+                                      BoxShadow(
+                                          color: AppTheme.nearlyBlack
+                                              .withOpacity(0.4),
+                                          offset: Offset(2.0, 2.0),
+                                          blurRadius: 4.0),
+                                    ],
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.book,
+                                          size: baseFontSize - 6,
+                                        ),
+                                        Text(
+                                          '${course!.courseno.toString()}',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontFamily: AppTheme.ruFontKanit,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: baseFontSize - 6,
+                                            color: AppTheme.ru_dark_blue,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                              )
-                            ],
-                          ),
+                              ],
+                            )
+                          ],
                         ),
                       ),
                     ),
                     Positioned(
                       top: 0,
-                      left: 0,
+                      left: 8,
                       child: Container(
-                        width: 55,
-                        height: 55,
+                        width: 35,
+                        height: 35,
                         decoration: BoxDecoration(
-                          color: AppTheme.white.withOpacity(0.5),
+                          color: AppTheme.white.withOpacity(0.2),
                           shape: BoxShape.circle,
                         ),
                       ),
                     ),
                     Positioned(
                       top: 0,
-                      left: 0,
+                      left: 8,
                       child: SizedBox(
-                        width: 50,
-                        height: 50,
+                        width: 32,
+                        height: 32,
                         child: course!.check!
                             ? Icon(
                                 Icons.check_box,
                                 color: AppTheme.ru_yellow,
-                                size: 30,
+                                size: 24,
                               )
                             : Icon(
                                 Icons.check_box_outline_blank,
                                 color: AppTheme.ru_yellow,
-                                size: 30,
+                                size: 24,
                               ),
                       ),
                     )
