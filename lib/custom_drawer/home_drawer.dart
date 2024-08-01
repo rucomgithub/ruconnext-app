@@ -2,6 +2,7 @@ import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:th.ac.ru.uSmart/master/pages/master_image_loader.dart';
 import 'package:th.ac.ru.uSmart/model/profile.dart';
 import 'package:th.ac.ru.uSmart/pages/ImageLoader.dart';
@@ -94,7 +95,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
     var authen = context.watch<AuthenProvider>();
     bool isLightMode = brightness == Brightness.light;
     return Scaffold(
-      backgroundColor: AppTheme.notWhite,
+      backgroundColor: AppTheme.nearlyWhite,
       body: FutureBuilder<bool>(
         future: getData(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
@@ -107,9 +108,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
               children: <Widget>[
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.only(top: 40.0),
+                  padding: const EdgeInsets.only(top: 32.0),
                   child: Container(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -141,83 +142,89 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 4,
-                ),
                 Divider(
-                  height: 1,
-                  color: Color.fromARGB(255, 227, 211, 107),
+                  height: 2,
+                  color: AppTheme.ru_yellow,
                 ),
                 Expanded(
-                  child: ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    padding: const EdgeInsets.all(0.0),
-                    itemCount: drawerList?.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return inkwell(drawerList![index]);
-                    },
+                  child: Container(
+                    color: AppTheme.white,
+                    child: ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      padding: const EdgeInsets.all(0.0),
+                      itemCount: drawerList?.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return inkwell(drawerList![index]);
+                      },
+                    ),
                   ),
                 ),
                 Divider(
                   height: 1,
-                  color: Color.fromARGB(255, 227, 211, 107),
+                  color: AppTheme.nearlyWhite,
                 ),
                 authen.profile.accessToken != null
-                    ? Column(
-                        children: <Widget>[
-                          ListTile(
-                            title: Text(
-                              'Sign Out',
-                              style: TextStyle(
-                                fontFamily: AppTheme.ruFontKanit,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                                color: isLightMode
-                                    ? AppTheme.ru_dark_blue
-                                    : AppTheme.nearlyBlack,
+                    ? Container(
+                        color: AppTheme.ru_yellow.withOpacity(0.9),
+                        child: Column(
+                          children: <Widget>[
+                            ListTile(
+                              title: Text(
+                                'Sign Out',
+                                style: TextStyle(
+                                  fontFamily: AppTheme.ruFontKanit,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                  color: isLightMode
+                                      ? AppTheme.ru_dark_blue
+                                      : AppTheme.nearlyBlack,
+                                ),
+                                textAlign: TextAlign.left,
                               ),
-                              textAlign: TextAlign.left,
+                              trailing: Icon(
+                                Icons.power_settings_new,
+                                color: Colors.red,
+                              ),
+                              onTap: () {
+                                onTapped();
+                              },
                             ),
-                            trailing: Icon(
-                              Icons.power_settings_new,
-                              color: Colors.red,
-                            ),
-                            onTap: () {
-                              onTapped();
-                            },
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).padding.bottom,
-                          )
-                        ],
+                            SizedBox(
+                              height: MediaQuery.of(context).padding.bottom,
+                            )
+                          ],
+                        ),
                       )
-                    : Column(
-                        children: <Widget>[
-                          ListTile(
-                            title: Text(
-                              'Sign In',
-                              style: TextStyle(
-                                fontFamily: AppTheme.ruFontKanit,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                                color: isLightMode
-                                    ? AppTheme.ru_dark_blue
-                                    : AppTheme.nearlyBlack,
+                    : Container(
+                        color: AppTheme.ru_yellow.withOpacity(0.9),
+                        child: Column(
+                          children: <Widget>[
+                            ListTile(
+                              title: Text(
+                                'Sign In',
+                                style: TextStyle(
+                                  fontFamily: AppTheme.ruFontKanit,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                  color: isLightMode
+                                      ? AppTheme.ru_dark_blue
+                                      : AppTheme.nearlyBlack,
+                                ),
+                                textAlign: TextAlign.left,
                               ),
-                              textAlign: TextAlign.left,
+                              trailing: Icon(
+                                Icons.login,
+                                color: AppTheme.ru_dark_blue,
+                              ),
+                              onTap: () {
+                                Get.toNamed('/login');
+                              },
                             ),
-                            trailing: Icon(
-                              Icons.login,
-                              color: AppTheme.ru_dark_blue,
-                            ),
-                            onTap: () {
-                              Get.toNamed('/login');
-                            },
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).padding.bottom,
-                          )
-                        ],
+                            SizedBox(
+                              height: MediaQuery.of(context).padding.bottom,
+                            )
+                          ],
+                        ),
                       ),
               ],
             );
@@ -361,24 +368,29 @@ class LogoLoginSuccess extends StatelessWidget {
       children: [
         ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-          child: Stack(
-            children: [
-              ClipOval(
-                child: authen.role == "Bachelor"
-                    ? ImageLoader()
-                    : MasterImageLoader(),
-              ),
-            ],
+          child: Container(
+            child: Stack(
+              children: [
+                ClipOval(
+                  child: authen.role == "Bachelor"
+                      ? ImageLoader()
+                      : MasterImageLoader(),
+                ),
+              ],
+            ),
           ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 8, left: 4),
-          child: Text(
-            authen.profile.displayName!,
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              color: AppTheme.ru_dark_blue,
-              fontSize: 18,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              authen.profile.displayName!,
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: AppTheme.ru_dark_blue,
+                fontSize: 18,
+              ),
             ),
           ),
         ),

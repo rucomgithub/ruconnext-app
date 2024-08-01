@@ -3,6 +3,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/grade/grade_app_home_screen.dart';
 import 'package:th.ac.ru.uSmart/home/homescreen.dart';
+import 'package:th.ac.ru.uSmart/model/access_rule.dart';
 import 'package:th.ac.ru.uSmart/navigation_home_screen.dart';
 import 'package:th.ac.ru.uSmart/pages/aboutRam_screen.dart';
 import 'package:th.ac.ru.uSmart/pages/home_image_slider.dart';
@@ -41,7 +42,7 @@ class MyHomePage extends StatefulWidget {
 String? token;
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
-  List<HomeList> homeList = HomeList.homeList;
+  List<HomeList> homeList = [];
   AnimationController? animationController;
   bool multiple = true;
 
@@ -116,20 +117,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     var authen = context.watch<AuthenProvider>();
-    switch (authen.role) {
-      case "Doctor":
-        homeList = HomeList.homeListDoctor;
-        break;
-      case "Master":
-        homeList = HomeList.homeListMaster;
-        break;
-      case "Bachelor":
-        homeList = HomeList.homeListBachelor;
-        break;
-      default:
-        homeList = HomeList.homeList;
-        break;
-    }
+    final accessControl = AccessControl(AccessControl.Role(authen.role));
+    homeList = accessControl.getButtonItems();
 
     var mr30 = context.watch<MR30Provider>();
     var scheduleProv = context.watch<ScheduleProvider>();
@@ -226,6 +215,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     .getHaveToday();
                 Provider.of<MR30Provider>(context, listen: false)
                     .getHaveCourseNotTimeEnd();
+                homeList = accessControl.getButtonItems();
+                Provider.of<ScheduleProvider>(context, listen: false)
+                    .fetchSchedules();
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -291,7 +283,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                   itemCount:
                                       mr30.havetodayNow.length > 0 ? 1 : 0,
                                   itemBuilder: (context, index) {
-                                    return authen.role != "Bachelor"
+                                    return authen.role == "Master" ||
+                                            authen.role == "Doctor"
                                         ? SizedBox()
                                         : Card(
                                             child: Padding(
@@ -338,7 +331,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                       scheduleProv.schedules.length > 0 ? 1 : 0,
                                   itemBuilder: (context, index) {
                                     return scheduleProv.isLoading ||
-                                            authen.role != "Bachelor"
+                                            authen.role == "Master" ||
+                                            authen.role == "Doctor"
                                         ? SizedBox()
                                         : Card(
                                             child: Padding(
@@ -408,20 +402,20 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                       if (!snapshot.hasData) {
                                         return const SizedBox();
                                       } else {
-                                        return
-                                            //   token == null ?
-                                            // LoginPage():
-
-                                            GridView(
+                                        return GridView(
                                           padding: const EdgeInsets.only(
                                               top: 0, left: 12, right: 12),
                                           physics:
                                               const BouncingScrollPhysics(),
                                           scrollDirection: Axis.vertical,
                                           children: List<Widget>.generate(
-                                            homeList.length,
+                                            accessControl
+                                                .getButtonItems()
+                                                .length,
                                             (int index) {
-                                              final int count = homeList.length;
+                                              final int count = accessControl
+                                                  .getButtonItems()
+                                                  .length;
                                               final Animation<double>
                                                   animation = Tween<double>(
                                                           begin: 0.0, end: 1.0)
@@ -544,66 +538,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget appBar() {
-    var brightness = MediaQuery.of(context).platformBrightness;
-    bool isLightMode = brightness == Brightness.light;
-    return SizedBox(
-      height: AppBar().preferredSize.height,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: 8, left: 8),
-            child: Container(
-              width: AppBar().preferredSize.height - 8,
-              height: AppBar().preferredSize.height - 8,
-            ),
-          ),
-          Expanded(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Text(
-                  'RU ConneXt',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontFamily: AppTheme.ruFontKanit,
-                    color: AppTheme.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 8, right: 8),
-            child: Container(
-              width: AppBar().preferredSize.height - 8,
-              height: AppBar().preferredSize.height - 8,
-              color: AppTheme.ru_dark_blue,
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  borderRadius:
-                      BorderRadius.circular(AppBar().preferredSize.height),
-                  child: Icon(
-                    multiple ? Icons.dashboard : Icons.view_agenda,
-                    color: AppTheme.white,
-                  ),
-                  onTap: () {
-                    setState(() {
-                      multiple = !multiple;
-                    });
-                  },
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
