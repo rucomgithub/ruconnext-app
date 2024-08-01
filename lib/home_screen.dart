@@ -216,8 +216,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 Provider.of<MR30Provider>(context, listen: false)
                     .getHaveCourseNotTimeEnd();
                 homeList = accessControl.getButtonItems();
-                Provider.of<ScheduleProvider>(context, listen: false)
-                    .fetchSchedules();
               },
               child: Container(
                 decoration: BoxDecoration(
