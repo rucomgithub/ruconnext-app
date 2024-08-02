@@ -27,6 +27,6 @@ class ProfileStorage {
 
   static Future<void> removeProfile() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove(key);
+    await prefs.setString(key, '');
   }
 }

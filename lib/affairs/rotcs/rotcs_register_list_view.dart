@@ -25,7 +25,7 @@ class _RotcsRegisterListViewState extends State<RotcsRegisterListView>
 
   @override
   void initState() {
-    Provider.of<RotcsProvider>(context, listen: false).getAllExtend();
+    Provider.of<RotcsProvider>(context, listen: false).getAllRegister();
     animationController = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
     super.initState();
@@ -189,8 +189,16 @@ class RotcsRegesterItemView extends StatelessWidget {
                                     'สถานศึกษาวิชาทหาร ${detail!.locationArmy}',
                                     style: TextStyle(
                                       fontFamily: AppTheme.ruFontKanit,
-                                      fontSize: baseFontSize - 8,
+                                      fontSize: baseFontSize - 10,
                                       color: AppTheme.white,
+                                    ),
+                                  ),
+                                  Text(
+                                    '${detail!.typeReport}',
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.ruFontKanit,
+                                      fontSize: baseFontSize - 8,
+                                      color: AppTheme.ru_yellow,
                                     ),
                                   ),
                                 ],
@@ -217,7 +225,7 @@ class RotcsRegesterItemView extends StatelessWidget {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
                                       child: Text(
-                                        '${detail!.typeReport} ชั้นปีที่ ${detail!.layerReport}',
+                                        'ชั้นปีที่ ${detail!.layerReport}',
                                         style: TextStyle(
                                           fontFamily: AppTheme.ruFontKanit,
                                           fontSize: baseFontSize - 6,

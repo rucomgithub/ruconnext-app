@@ -29,7 +29,7 @@ class _RotcsExtendListViewState extends State<RotcsExtendListView>
   void initState() {
     Provider.of<RotcsProvider>(context, listen: false).getAllExtend();
     animationController = AnimationController(
-        duration: const Duration(milliseconds: 1000), vsync: this);
+        duration: const Duration(milliseconds: 2000), vsync: this);
     super.initState();
   }
 
@@ -49,8 +49,9 @@ class _RotcsExtendListViewState extends State<RotcsExtendListView>
     var loading = context.watch<RotcsProvider>().isLoading;
     var extend = context.watch<RotcsProvider>().rotcsextend;
     var error = context.watch<RotcsProvider>().rotcserror;
-    return loading
-        ? Container(child: SizedBox())
+
+    return extend.studentCode!.isEmpty
+        ? SizedBox()
         : Column(
             children: [
               AnimatedBuilder(

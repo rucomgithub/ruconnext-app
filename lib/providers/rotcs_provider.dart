@@ -57,47 +57,49 @@ class RotcsProvider extends ChangeNotifier {
   }
 
   Future<void> getAllExtend() async {
+    RotcsExtend rotcextend = await RotcsExtendStorage.getExtend();
     isLoading = true;
 
-    try {
-      final response = await _service.getExtendAll();
-      //print('save stoage.......');
-      await RotcsExtendStorage.saveExtend(response);
+    if (rotcextend.studentCode != null && rotcsextend.studentCode != "") {
+      _rotcsextend = await RotcsExtendStorage.getExtend();
+      notifyListeners();
+    } else {
+      try {
+        final response = await _service.getExtendAll();
+        //print('save stoage.......');
+        await RotcsExtendStorage.saveExtend(response);
 
-      RotcsExtend extend = await RotcsExtendStorage.getExtend();
-      // Extract the "detail" list from the JSON data
-      List<RotcsExtendDetail> details = extend.detail!;
+        RotcsExtend extend = await RotcsExtendStorage.getExtend();
+        // Extract the "detail" list from the JSON data
+        List<RotcsExtendDetail> details = extend.detail!;
 
-      // Sort the details list by registerYear and registerSemester
-      details.sort((a, b) {
-        int yearComparison = a.registerYear!.compareTo(b.registerYear!);
-        if (yearComparison != 0) {
-          return yearComparison;
+        // Sort the details list by registerYear and registerSemester
+        details.sort((a, b) {
+          int yearComparison = a.registerYear!.compareTo(b.registerYear!);
+          if (yearComparison != 0) {
+            return yearComparison;
+          }
+          return a.registerSemester!.compareTo(b.registerSemester!);
+        });
+
+        extend.detail = details;
+
+        for (int i = 0; i < extend.detail!.length; i++) {
+          details[i].description = (i == 0) ? "ผ่อนผัน" : "รักษาสิทธิ์";
         }
-        return a.registerSemester!.compareTo(b.registerSemester!);
-      });
 
-      extend.detail = details;
+        await RotcsExtendStorage.saveExtend(extend);
 
-      for (int i = 0; i < extend.detail!.length; i++) {
-        details[i].description = (i == 0) ? "ผ่อนผัน" : "รักษาสิทธิ์";
+        isLoading = false;
+      } on Exception catch (e) {
+        _rotcserror = 'เกิดข้อผิดพลาด ${e.toString()}';
+        //print('error $_rotcserror');
+      } catch (e) {
+        _rotcserror = 'เกิดข้อผิดพลาด ${e.toString()}';
+        //print('error $_rotcserror');
       }
-
-      await RotcsExtendStorage.saveExtend(extend);
-
-      isLoading = false;
-    } on Exception catch (e) {
-      _rotcserror = 'เกิดข้อผิดพลาด ${e.toString()}';
-      //print('error $_rotcserror');
-    } catch (e) {
-      _rotcserror = 'เกิดข้อผิดพลาด ${e.toString()}';
-      //print('error $_rotcserror');
     }
 
-    _loadExtendData();
-  }
-
-  Future<void> _loadExtendData() async {
     _rotcsextend = await RotcsExtendStorage.getExtend();
     notifyListeners();
   }

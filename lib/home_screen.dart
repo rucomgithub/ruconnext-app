@@ -49,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     Provider.of<AuthenProvider>(context, listen: false).getProfile();
+    Provider.of<StudentProvider>(context, listen: false).refreshData();
 
     Provider.of<HomeProvider>(context, listen: false).getTimeHomePage();
 

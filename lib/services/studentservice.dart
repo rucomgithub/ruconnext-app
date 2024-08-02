@@ -31,15 +31,13 @@ class StudentService {
         options: Options(responseType: ResponseType.bytes),
       );
       if (response.statusCode == 200) {
-        //print("Get image profile");
         imageData = response.data;
       } else {
-        //print("Error Get image profile");
+        imageData = Uint8List(0);
         throw ('Error Get image profile.');
       }
     } catch (err) {
-      //print("Error Get image profile. $err");
-
+      imageData = Uint8List(0);
       throw (err);
     }
     return imageData;

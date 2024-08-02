@@ -1,13 +1,10 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/pages/ImageLoader.dart';
 import 'package:th.ac.ru.uSmart/providers/student_provider.dart';
 import 'package:th.ac.ru.uSmart/utils/faculty_color.dart';
-import 'package:th.ac.ru.uSmart/widget/Rubar.dart';
 import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
-import 'package:th.ac.ru.uSmart/widget/top_bar.dart';
 import '../login_page.dart';
 import 'package:flutter/material.dart';
 import '../model/homelist.dart';
@@ -35,8 +32,6 @@ class _FlipCardPageState extends State<FlipCardPage>
     super.initState();
     Provider.of<AuthenProvider>(context, listen: false).getProfile();
     Provider.of<StudentProvider>(context, listen: false).refreshData();
-    Provider.of<StudentProvider>(context, listen: false).getImageProfile();
-    Provider.of<StudentProvider>(context, listen: false).getStudent();
   }
 
   Future<bool> getData() async {
@@ -154,17 +149,28 @@ class _FlipCardPageState extends State<FlipCardPage>
         },
         front: Container(
           decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/ID.png'),
-              fit: BoxFit.cover,
-              opacity: 1.0,
-            ),
-            color: AppTheme.white,
+            // image: DecorationImage(
+            //   image: AssetImage('assets/images/ID.png'),
+            //   fit: BoxFit.cover,
+            //   opacity: 1.0,
+            // ),
+            color: AppTheme.nearlyWhite,
             border: Border.all(
-              color: AppTheme.white,
-              width: 10,
+              color: AppTheme.ru_dark_blue,
+              width: 2,
             ),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: const BorderRadius.only(
+              bottomRight: Radius.circular(16.0),
+              bottomLeft: Radius.circular(16.0),
+              topLeft: Radius.circular(16.0),
+              topRight: Radius.circular(16.0),
+            ),
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                  color: AppTheme.ru_dark_blue.withOpacity(0.4),
+                  offset: Offset(4.0, 4.0),
+                  blurRadius: 4.0),
+            ],
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -259,7 +265,7 @@ class _FlipCardPageState extends State<FlipCardPage>
                               region,
                               style: TextStyle(
                                 fontFamily: AppTheme.ruFontKanit,
-                                fontSize: baseFontSize - 6,
+                                fontSize: baseFontSize - 12,
                                 color: AppTheme.ru_yellow,
                               ),
                             ),

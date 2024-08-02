@@ -14,19 +14,16 @@ class RotcsExtendStorage {
 
   static Future<RotcsExtend> getExtend() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final extendString = prefs.getString(key);
-    //print('cache storage: $extendString');
-    if (extendString == null) {
-      return RotcsExtend();
+    final registerString = prefs.getString(key);
+    if (registerString != null && registerString != "") {
+      final registerJson = jsonDecode(registerString);
+      return RotcsExtend.fromJson(registerJson);
     }
-
-    final extendJson = jsonDecode(extendString);
-    return RotcsExtend.fromJson(extendJson);
+    return RotcsExtend(studentCode: "", total: 0, detail: []);
   }
 
   static Future<void> removeExtend() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    //print('clear cache....');
-    await prefs.setString(key, '{}');
+    await prefs.setString(key, '');
   }
 }

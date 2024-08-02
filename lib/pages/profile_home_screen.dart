@@ -1,16 +1,8 @@
-import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/home_screen.dart';
 import 'package:th.ac.ru.uSmart/login_page.dart';
-import 'package:th.ac.ru.uSmart/navigation_home_screen.dart';
-import 'package:th.ac.ru.uSmart/pages/aboutRam_screen.dart';
 import 'package:th.ac.ru.uSmart/pages/flipcard_screen.dart';
 import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
-import 'package:th.ac.ru.uSmart/schedule/schedule_home_screen.dart';
-import 'package:th.ac.ru.uSmart/screens/runewsScreen.dart';
-import 'package:th.ac.ru.uSmart/today/today_home_screen.dart';
 import '../fitness_app/fitness_app_theme.dart';
 
 String? tokenGrade;

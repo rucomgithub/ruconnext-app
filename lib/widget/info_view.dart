@@ -23,7 +23,7 @@ class InfoView extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(
-                      left: 8, right: 8, top: 8, bottom: 8),
+                      left: 8, right: 8, top: 16, bottom: 8),
                   child: Stack(
                     clipBehavior: Clip.none,
                     children: <Widget>[

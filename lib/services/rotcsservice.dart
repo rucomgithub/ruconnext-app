@@ -16,7 +16,6 @@ class RotcsService {
     RotcsRegister registerdata = RotcsRegister.fromJson({});
     try {
       Profile profile = await ProfileStorage.getProfile();
-      //print('studentCode: ${profile.studentCode}');
       //profile.studentCode = '6505003472';
       var params = {"StudentCode": profile.studentCode};
       await dioapi.createIntercepter();
@@ -30,7 +29,6 @@ class RotcsService {
         data: jsonEncode(params),
       );
       if (response.statusCode == 200) {
-        //print('Response Get Data : ${response.data}');
         registerdata = RotcsRegister.fromJson(response.data);
       } else {
         throw ('Error Get Data Rotcs Register');

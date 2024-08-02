@@ -1,6 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:th.ac.ru.uSmart/store/rotcsextend.dart';
+import 'package:th.ac.ru.uSmart/store/rotcsregister.dart';
+import 'package:th.ac.ru.uSmart/store/sch.dart';
 import '../services/authenservice.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -80,6 +83,9 @@ class AuthenProvider extends ChangeNotifier {
     _role = '';
     await ProfileStorage.removeProfile();
     await MR30Storage.removeMR30();
+    await RotcsExtendStorage.removeExtend();
+    await RotcsRegisterStorage.removeRegister();
+    await SchStorage.removeSch();
     await _googleSingIn.signOut();
 
     Get.offNamedUntil('/', (route) => true);

@@ -191,7 +191,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             if (inputText.length == 10)
                               if (targetValue.contains(inputText))
                                 GoogleAuthButton(
-                                  text: "เข้าสู่ระบบ",
+                                  text: "เข้าสู่ระบบ...",
                                   style: AuthButtonStyle(
                                     textStyle: TextStyle(
                                         color: AppTheme.ru_dark_blue,

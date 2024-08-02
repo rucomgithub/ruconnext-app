@@ -1,6 +1,3 @@
-import 'package:get/get.dart';
-import 'package:th.ac.ru.uSmart/affairs/insurance/insurance_info_view.dart';
-import 'package:th.ac.ru.uSmart/affairs/insurance/insurance_logo_view.dart';
 import 'package:th.ac.ru.uSmart/affairs/rotcs/rotcs_extend_list_view.dart';
 import 'package:th.ac.ru.uSmart/affairs/rotcs/rotcs_register_list_view.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
@@ -11,7 +8,6 @@ import 'package:th.ac.ru.uSmart/widget/Rubar.dart';
 import 'package:th.ac.ru.uSmart/widget/head_logo_view.dart';
 import 'package:th.ac.ru.uSmart/widget/info_view.dart';
 import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
-import 'package:th.ac.ru.uSmart/widget/top_bar.dart';
 
 class RotcsListScreen extends StatefulWidget {
   const RotcsListScreen({Key? key, this.animationController}) : super(key: key);
@@ -82,7 +78,7 @@ class _RotcsListScreenState extends State<RotcsListScreen>
         titleTxt: 'การฝึกเรียนวิชาหทาร',
         subTxt: 'รายละเอียดรายการการฝึกเรียนวิชาหทาร.',
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController!,
+            parent: topBarAnimation!,
             curve:
                 Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController!,
