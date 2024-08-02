@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/hotel_booking/hotel_app_theme.dart';
 import 'package:th.ac.ru.uSmart/pages/ru_map.dart';
@@ -67,12 +69,21 @@ class StudyListView extends StatelessWidget {
                         Column(
                           children: <Widget>[
                             AspectRatio(
-                              aspectRatio: 4,
-                              child: Image.asset(
-                                'assets/hotel/${record!.courseRoom.toString().trim().substring(0, 3)}.png',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                                aspectRatio: 4,
+                                child: FutureBuilder<Image>(
+                                  future: imageFileExists(
+                                      'assets/hotel/${record!.courseRoom.toString().trim().substring(0, 3)}.png'),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return SizedBox();
+                                    } else if (snapshot.hasError) {
+                                      return Text('Image not found');
+                                    } else {
+                                      return snapshot.data!;
+                                    }
+                                  },
+                                )),
                             Container(
                               color: HotelAppTheme.buildLightTheme()
                                   .backgroundColor,
@@ -259,5 +270,20 @@ class StudyListView extends StatelessWidget {
           fontSize: 14,
           color: Color.fromARGB(255, 189, 22, 22).withOpacity(0.8)),
     );
+  }
+
+  Future<Image> imageFileExists(String path) async {
+    try {
+      await rootBundle.load(path);
+      return Image.asset(
+        path,
+        fit: BoxFit.cover,
+      );
+    } catch (e) {
+      return Image.asset(
+        'assets/fitness_app/banner2.png',
+        fit: BoxFit.cover,
+      );
+    }
   }
 }

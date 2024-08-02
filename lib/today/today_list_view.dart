@@ -1,8 +1,7 @@
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/hotel_booking/hotel_app_theme.dart';
-import 'package:th.ac.ru.uSmart/pages/ru_map.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -80,12 +79,21 @@ class TodayListView extends StatelessWidget {
                         Column(
                           children: <Widget>[
                             AspectRatio(
-                              aspectRatio: 4,
-                              child: Image.asset(
-                                'assets/hotel/${record!.courseRoom.toString().trim().substring(0, 3)}.png',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                                aspectRatio: 4,
+                                child: FutureBuilder<Image>(
+                                  future: imageFileExists(
+                                      'assets/hotel/${record!.courseRoom.toString().trim().substring(0, 3)}.png'),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return SizedBox();
+                                    } else if (snapshot.hasError) {
+                                      return Text('Image not found');
+                                    } else {
+                                      return snapshot.data!;
+                                    }
+                                  },
+                                )),
                             Container(
                               color: HotelAppTheme.buildLightTheme()
                                   .backgroundColor,
@@ -302,5 +310,20 @@ class TodayListView extends StatelessWidget {
           fontFamily: AppTheme.ruFontKanit,
           color: Color.fromARGB(255, 189, 22, 22).withOpacity(0.8)),
     );
+  }
+
+  Future<Image> imageFileExists(String path) async {
+    try {
+      await rootBundle.load(path);
+      return Image.asset(
+        path,
+        fit: BoxFit.cover,
+      );
+    } catch (e) {
+      return Image.asset(
+        'assets/fitness_app/banner1.png',
+        fit: BoxFit.cover,
+      );
+    }
   }
 }
