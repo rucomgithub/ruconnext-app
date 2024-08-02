@@ -173,7 +173,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                         'Enter Student Code 10-digit Number ',
                                     labelStyle: TextStyle(
                                       color: AppTheme.ru_text_ocean_blue,
-                                      fontSize: baseFontSize - 6,
+                                      fontSize: baseFontSize - 8,
                                       fontFamily: AppTheme.ruFontKanit,
                                     ),
                                   ),
@@ -191,7 +191,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             if (inputText.length == 10)
                               if (targetValue.contains(inputText))
                                 GoogleAuthButton(
-                                  text: "เข้าสู่ระบบ...",
+                                  text: "เข้าสู่ระบบ @rumail.ru.ac.th",
                                   style: AuthButtonStyle(
                                     textStyle: TextStyle(
                                         color: AppTheme.ru_dark_blue,
@@ -199,11 +199,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                         fontFamily: AppTheme.ruFontKanit,
                                         fontWeight: FontWeight.bold),
                                     buttonColor: AppTheme.nearlyWhite,
-                                    iconSize: 45.0,
+                                    iconSize: 35.0,
                                     borderRadius:
                                         20, // เพิ่มค่าให้มากเพื่อให้เป็นวงกลม
-                                    width:
-                                        240, // ขนาดความกว้างและความสูงให้เท่ากันเพื่อให้เป็นวงกลม
+                                    width: screenWidth *
+                                        0.75, // ขนาดความกว้างและความสูงให้เท่ากันเพื่อให้เป็นวงกลม
                                     height: 60,
                                     padding: EdgeInsets.all(0),
                                   ),
@@ -214,7 +214,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 )
                               else
                                 GoogleAuthButton(
-                                  text: "เข้าสู่ระบบ",
+                                  text: "เข้าสู่ระบบ @rumail.ru.ac.th",
                                   style: AuthButtonStyle(
                                     textStyle: TextStyle(
                                         color: AppTheme.ru_dark_blue,
@@ -222,11 +222,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                         fontFamily: AppTheme.ruFontKanit,
                                         fontWeight: FontWeight.bold),
                                     buttonColor: AppTheme.nearlyWhite,
-                                    iconSize: 45.0,
+                                    iconSize: 35.0,
                                     borderRadius:
                                         20, // เพิ่มค่าให้มากเพื่อให้เป็นวงกลม
-                                    width:
-                                        240, // ขนาดความกว้างและความสูงให้เท่ากันเพื่อให้เป็นวงกลม
+                                    width: screenWidth *
+                                        0.75, // ขนาดความกว้างและความสูงให้เท่ากันเพื่อให้เป็นวงกลม
                                     height: 60,
                                     padding: EdgeInsets.all(0),
                                   ),
