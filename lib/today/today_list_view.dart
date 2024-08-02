@@ -86,7 +86,14 @@ class TodayListView extends StatelessWidget {
                                   builder: (context, snapshot) {
                                     if (snapshot.connectionState ==
                                         ConnectionState.waiting) {
-                                      return SizedBox();
+                                      return Opacity(
+                                        opacity: 0.4,
+                                        child: FittedBox(
+                                          fit: BoxFit.cover,
+                                          child: Image.asset(
+                                              'assets/fitness_app/banner1.png'),
+                                        ),
+                                      );
                                     } else if (snapshot.hasError) {
                                       return Text('Image not found');
                                     } else {
