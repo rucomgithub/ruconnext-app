@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
+import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:th.ac.ru.uSmart/model/affairs_list_data.dart';
 import 'package:th.ac.ru.uSmart/ruconnext_app_theme.dart';
 
@@ -36,13 +37,11 @@ class AffairsListView extends StatelessWidget {
                 onTap: callback,
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                     boxShadow: <BoxShadow>[
                       BoxShadow(
-                        color: Color.fromARGB(255, 67, 67, 67).withOpacity(0.6),
-                        offset: const Offset(4, 4),
-                        blurRadius: 16,
-                      ),
+                          color: HexColor("#FF19196B").withOpacity(0.6),
+                          offset: const Offset(1.1, 4.0),
+                          blurRadius: 8.0),
                     ],
                   ),
                   child: ClipRRect(

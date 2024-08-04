@@ -135,7 +135,14 @@ class _AffairsHomeScreenState extends State<AffairsHomeScreen>
 
                           return AffairsListView(
                             callback: () {
-                              Get.toNamed(affairsList[index].navigateScreen);
+                              if (affairsList[index].url == "") {
+                                Get.toNamed(affairsList[index].navigateScreen);
+                              } else {
+                                Get.toNamed('/webpage', arguments: {
+                                  'title': affairsList[index].titleTxt,
+                                  'url': affairsList[index].url,
+                                });
+                              }
                             },
                             affairsData: affairsList[index],
                             animation: animation,

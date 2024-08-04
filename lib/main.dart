@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:th.ac.ru.uSmart/affairs/affairs_home_screen.dart';
+import 'package:th.ac.ru.uSmart/affairs/affairs_web.dart';
 import 'package:th.ac.ru.uSmart/affairs/insurance/insurance_home_screen.dart';
 import 'package:th.ac.ru.uSmart/affairs/rotcs/rotcs_home_screen.dart';
 //
@@ -55,6 +56,7 @@ import 'package:th.ac.ru.uSmart/services/insuranceservice.dart';
 import 'package:th.ac.ru.uSmart/services/rotcsservice.dart';
 import 'package:th.ac.ru.uSmart/services/schservice.dart';
 import 'package:th.ac.ru.uSmart/services/registerservice.dart';
+import 'package:th.ac.ru.uSmart/widget/web_page.dart';
 import 'fitness_app/fitness_app_home_screen.dart';
 import 'login_page.dart';
 import 'manual/grade_help_screen.dart';
@@ -231,6 +233,7 @@ class MyApp extends StatelessWidget {
             GetPage(name: '/ruregionhome', page: () => RuRegisHomeScreen()),
             GetPage(name: '/affairs', page: () => AffairsHomeScreen()),
             GetPage(name: '/scholarship', page: () => SchHomeScreen()),
+            GetPage(name: '/webpage', page: () => WebPage()),
           ],
           debugShowCheckedModeBanner: false,
         ));
