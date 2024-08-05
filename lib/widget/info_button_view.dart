@@ -1,23 +1,22 @@
-import 'package:flutter/material.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
+import 'package:flutter/material.dart';
 import 'package:th.ac.ru.uSmart/main.dart';
-import 'package:th.ac.ru.uSmart/model/affairs_list_data.dart';
-import 'package:th.ac.ru.uSmart/ruconnext_app_theme.dart';
 
-class AffairsListView extends StatelessWidget {
-  const AffairsListView(
-      {Key? key,
-      this.affairsData,
-      this.animationController,
-      this.animation,
-      this.callback})
-      : super(key: key);
-
-  final VoidCallback? callback;
-  final AffairsListData? affairsData;
+class InfoButtonView extends StatelessWidget {
   final AnimationController? animationController;
   final Animation<double>? animation;
+  final String? caption;
+  final String? imagePath;
+  final VoidCallback? callback;
 
+  const InfoButtonView(
+      {Key? key,
+      this.animationController,
+      this.animation,
+      this.caption,
+      this.imagePath,
+      this.callback})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
@@ -25,12 +24,12 @@ class AffairsListView extends StatelessWidget {
       builder: (BuildContext context, Widget? child) {
         return FadeTransition(
           opacity: animation!,
-          child: Transform(
-            transform: Matrix4.translationValues(
-                0.0, 50 * (1.0 - animation!.value), 0.0),
+          child: new Transform(
+            transform: new Matrix4.translationValues(
+                0.0, 30 * (1.0 - animation!.value), 0.0),
             child: Padding(
               padding:
-                  const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 8),
+                  const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
               child: InkWell(
                 splashColor: Colors.transparent,
                 onTap: callback,
@@ -50,8 +49,7 @@ class AffairsListView extends StatelessWidget {
                         Column(
                           children: <Widget>[
                             Container(
-                              color: RuConnextAppTheme.buildLightTheme()
-                                  .backgroundColor,
+                              color: AppTheme.background,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,13 +89,20 @@ class AffairsListView extends StatelessWidget {
                                                       image: DecorationImage(
                                                           fit: BoxFit.cover,
                                                           image: AssetImage(
-                                                              '${affairsData!.imagePath}'))),
+                                                              '$imagePath'))),
                                                 ),
                                                 Expanded(
                                                   child: ListTile(
                                                     title: Text(
-                                                      affairsData!.titleTxt,
-                                                      style: AppTheme.title,
+                                                      '${caption}',
+                                                      style: TextStyle(
+                                                        fontFamily: AppTheme
+                                                            .ruFontKanit,
+                                                        fontSize: 14,
+                                                        letterSpacing: 0.2,
+                                                        color: AppTheme
+                                                            .ru_dark_blue,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),

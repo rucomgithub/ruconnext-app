@@ -6,6 +6,7 @@ import 'package:th.ac.ru.uSmart/affairs/affairs_list_view.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/model/affairs_list_data.dart';
+import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
 import 'package:th.ac.ru.uSmart/providers/insurance_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/rotcs_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/sch_provider.dart';
@@ -28,6 +29,7 @@ class _AffairsHomeScreenState extends State<AffairsHomeScreen>
 
   @override
   void initState() {
+    Provider.of<AuthenProvider>(context, listen: false).getProfile();
     Provider.of<InsuranceProvider>(context, listen: false).getInsuracneAll();
     Provider.of<RotcsProvider>(context, listen: false).getAllRegister();
     Provider.of<RotcsProvider>(context, listen: false).getAllExtend();
@@ -54,6 +56,7 @@ class _AffairsHomeScreenState extends State<AffairsHomeScreen>
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -114,6 +117,7 @@ class _AffairsHomeScreenState extends State<AffairsHomeScreen>
             child: FutureBuilder<bool>(
               future: getData(),
               builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                var authen = context.watch<AuthenProvider>();
                 if (!snapshot.hasData) {
                   return const SizedBox();
                 } else {
@@ -140,7 +144,8 @@ class _AffairsHomeScreenState extends State<AffairsHomeScreen>
                               } else {
                                 Get.toNamed('/webpage', arguments: {
                                   'title': affairsList[index].titleTxt,
-                                  'url': affairsList[index].url,
+                                  'url': affairsList[index].url +
+                                      authen.profile.accessToken.toString(),
                                 });
                               }
                             },

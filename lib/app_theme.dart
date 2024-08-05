@@ -24,7 +24,7 @@ class AppTheme {
   static const Color dark_grey = Color(0xFF313A44);
 
   //สีแอพ
-  static const Color ru_dark_blue = Color(0xFF19196b);
+  static const Color ru_dark_blue = Color(0xFF19196B);
   static const Color ru_yellow = Color(0xFFf6c543);
   static const Color ru_grey = Color(0xFF999999);
   static const Color ru_text_light_blue = Color(0xFF0B14E0);

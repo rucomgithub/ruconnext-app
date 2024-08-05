@@ -1,18 +1,24 @@
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/affairs/rotcs/rotcs_extend_list_view.dart';
 import 'package:th.ac.ru.uSmart/affairs/rotcs/rotcs_register_list_view.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/mr30/titlenone_view.dart';
+import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
 import 'package:th.ac.ru.uSmart/widget/Rubar.dart';
 import 'package:th.ac.ru.uSmart/widget/head_logo_view.dart';
+import 'package:th.ac.ru.uSmart/widget/info_button_view.dart';
 import 'package:th.ac.ru.uSmart/widget/info_view.dart';
 import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
 
 class RotcsListScreen extends StatefulWidget {
-  const RotcsListScreen({Key? key, this.animationController}) : super(key: key);
+  const RotcsListScreen({Key? key, this.animationController, this.token})
+      : super(key: key);
 
   final AnimationController? animationController;
+  final String? token;
   @override
   _RotcsListScreenState createState() => _RotcsListScreenState();
 }
@@ -27,10 +33,12 @@ class _RotcsListScreenState extends State<RotcsListScreen>
 
   @override
   void initState() {
+    Provider.of<AuthenProvider>(context, listen: false).getProfile();
     topBarAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: widget.animationController!,
             curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
+
     addAllListData();
 
     scrollController.addListener(() {
@@ -72,6 +80,24 @@ class _RotcsListScreenState extends State<RotcsListScreen>
                       curve: Curves.fastOutSlowIn))),
           animationController: widget.animationController!),
     );
+
+    // listViews.add(
+    //   InfoButtonView(
+    //       callback: () {
+    //         Get.toNamed('/webpage', arguments: {
+    //           'title': 'ระบบสารสนเทศด้านกิจการทหาร',
+    //           'url': 'https://fis.ru.ac.th/rotcs/index.php?r=site/protected',
+    //         });
+    //       },
+    //       imagePath: 'assets/fitness_app/AF1.png',
+    //       caption: 'เชื่อมต่อระบบสารสนเทศด้านกิจการทหาร',
+    //       animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+    //           CurvedAnimation(
+    //               parent: topBarAnimation!,
+    //               curve: Interval((1 / count) * 2, 1.0,
+    //                   curve: Curves.fastOutSlowIn))),
+    //       animationController: widget.animationController!),
+    // );
 
     listViews.add(
       TitleNoneView(
@@ -140,7 +166,7 @@ class _RotcsListScreenState extends State<RotcsListScreen>
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: FitnessAppTheme.background,
+      color: Colors.transparent,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Padding(
@@ -154,10 +180,10 @@ class _RotcsListScreenState extends State<RotcsListScreen>
                   children: <Widget>[
                     RuWallpaper(),
                     getMainListViewUI(),
-                    //getAppBarUI(),
+                    getAppBarUI(),
                     SizedBox(
                       height: MediaQuery.of(context).padding.bottom,
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -196,66 +222,56 @@ class _RotcsListScreenState extends State<RotcsListScreen>
   }
 
   Widget getAppBarUI() {
-    return Column(
-      children: <Widget>[
-        AnimatedBuilder(
-          animation: widget.animationController!,
-          builder: (BuildContext context, Widget? child) {
-            return FadeTransition(
-              opacity: topBarAnimation!,
-              child: Transform(
-                transform: Matrix4.translationValues(
-                    0.0, 30 * (1.0 - topBarAnimation!.value), 0.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppTheme.white.withOpacity(topBarOpacity),
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(32.0),
-                    ),
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                          color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
-                          offset: const Offset(1.1, 1.1),
-                          blurRadius: 10.0),
-                    ],
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: MediaQuery.of(context).padding.top,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: 16,
-                            right: 16,
-                            top: 16 - 8.0 * topBarOpacity,
-                            bottom: 12 - 8.0 * topBarOpacity),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            IconButton(
-                              icon: Icon(Icons.arrow_back),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Rubar(textTitle: 'นักศึกษาวิชาทหาร'),
-                              ),
-                            ),
-                          ],
+    return AnimatedBuilder(
+      animation: widget.animationController!,
+      builder: (BuildContext context, Widget? child) {
+        return FadeTransition(
+          opacity: topBarAnimation!,
+          child: Transform(
+            transform: Matrix4.translationValues(
+                0.0, 30 * (1.0 - topBarAnimation!.value), 0.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        splashColor: Colors.transparent,
+                        onTap: () {
+                          Get.toNamed('/webpage', arguments: {
+                            'title': 'ระบบสารสนเทศด้านกิจการทหาร',
+                            'url':
+                                'https://fis.ru.ac.th/rotcs/index.php?r=site/protected',
+                          });
+                        },
+                        child: Card(
+                          elevation: 0,
+                          color: Colors.transparent,
+                          child: Container(
+                            width: 72,
+                            height: 72,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image:
+                                      AssetImage('assets/fitness_app/AF1.png'),
+                                  fit: BoxFit.cover,
+                                ),
+                                borderRadius: BorderRadius.circular(20)),
+                          ),
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            );
-          },
-        )
-      ],
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

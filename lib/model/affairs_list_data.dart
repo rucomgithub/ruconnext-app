@@ -14,13 +14,13 @@ class AffairsListData {
   String url;
 
   static List<AffairsListData> affairsList = <AffairsListData>[
-    AffairsListData(
-      imagePath: 'assets/fitness_app/AF0.png',
-      titleTxt: 'เว็บนักศึกษาวิชาทหาร',
-      subTxt: 'เว็บนักศึกษาวิชาทหาร',
-      navigateScreen: '',
-      url: 'http://service.ru.ac.th/rotcs',
-    ),
+    // AffairsListData(
+    //   imagePath: 'assets/fitness_app/AF1.png',
+    //   titleTxt: 'ระบบสารสนเทศด้านกิจการทหาร',
+    //   subTxt: 'ระบบสารสนเทศด้านกิจการทหาร',
+    //   navigateScreen: '',
+    //   url: 'https://fis.ru.ac.th/rotcs/index.php?r=site/protected&id_token=',
+    // ),
     AffairsListData(
       imagePath: 'assets/fitness_app/AF1.png',
       titleTxt: 'นักศึกษาวิชาทหาร',
