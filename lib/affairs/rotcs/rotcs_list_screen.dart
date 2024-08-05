@@ -5,6 +5,7 @@ import 'package:th.ac.ru.uSmart/affairs/rotcs/rotcs_register_list_view.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
+import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:th.ac.ru.uSmart/mr30/titlenone_view.dart';
 import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
 import 'package:th.ac.ru.uSmart/widget/Rubar.dart';
@@ -238,7 +239,6 @@ class _RotcsListScreenState extends State<RotcsListScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      color: Colors.transparent,
                       child: InkWell(
                         splashColor: Colors.transparent,
                         onTap: () {
@@ -252,15 +252,34 @@ class _RotcsListScreenState extends State<RotcsListScreen>
                           elevation: 0,
                           color: Colors.transparent,
                           child: Container(
-                            width: 72,
-                            height: 72,
+                            width: 64,
+                            height: 64,
                             decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color:
+                                        AppTheme.ru_dark_blue.withOpacity(0.4),
+                                    spreadRadius: 2,
+                                    blurRadius: 4,
+                                    offset: Offset(1.1, 4.4),
+                                  ),
+                                ],
                                 image: DecorationImage(
                                   image:
                                       AssetImage('assets/fitness_app/AF1.png'),
                                   fit: BoxFit.cover,
                                 ),
-                                borderRadius: BorderRadius.circular(20)),
+                                borderRadius: BorderRadius.circular(16)),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topRight,
+                                      colors: [
+                                        AppTheme.nearlyWhite.withOpacity(0.8),
+                                        Colors.transparent
+                                      ])),
+                            ),
                           ),
                         ),
                       ),
