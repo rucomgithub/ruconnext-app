@@ -98,6 +98,12 @@ class _WebPageState extends State<WebPage> {
                   onWebViewCreated: (WebViewController webViewController) {
                     _controller.complete(webViewController);
                   },
+                  navigationDelegate: (NavigationRequest request) {
+                    if (request.url.startsWith('https://')) {
+                      return NavigationDecision.navigate;
+                    }
+                    return NavigationDecision.prevent;
+                  },
                   onPageFinished: (finish) {
                     setState(() {
                       isLoading = false;
