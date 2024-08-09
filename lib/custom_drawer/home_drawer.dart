@@ -2,11 +2,10 @@ import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:th.ac.ru.uSmart/master/pages/master_image_loader.dart';
-import 'package:th.ac.ru.uSmart/model/profile.dart';
 import 'package:th.ac.ru.uSmart/pages/ImageLoader.dart';
 import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
+import 'package:th.ac.ru.uSmart/store/authen.dart';
 
 class HomeDrawer extends StatefulWidget {
   const HomeDrawer(
@@ -26,21 +25,18 @@ class HomeDrawer extends StatefulWidget {
 
 class _HomeDrawerState extends State<HomeDrawer> {
   List<DrawerList>? drawerList;
-  String? profile;
-  Profile p = Profile();
+  String? accessToken;
   @override
   void initState() {
     setDrawerListArray();
-
     super.initState();
   }
 
   Future<bool> getData() async {
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // profile = prefs.getString('profile');
-
-    // p = Profile.fromJson(json.decode(profile!));
-    // print(p.photoUrl);
+    final token = await AuthenStorage.getAccessToken();
+    setState(() {
+      accessToken = token;
+    });
     await Future<dynamic>.delayed(const Duration(milliseconds: 0));
     return true;
   }
@@ -124,18 +120,21 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                   (widget.iconAnimationController!.value) *
                                       0.2),
                               child: RotationTransition(
-                                turns: AlwaysStoppedAnimation<double>(
-                                    Tween<double>(begin: 0.0, end: 48.0)
-                                            .animate(CurvedAnimation(
-                                                parent: widget
-                                                    .iconAnimationController!,
-                                                curve: Curves.fastOutSlowIn))
-                                            .value /
-                                        360),
-                                child: authen.profile.accessToken != null
-                                    ? LogoLoginSuccess(authen: authen)
-                                    : LogoNotLogin(),
-                              ),
+                                  turns: AlwaysStoppedAnimation<double>(
+                                      Tween<double>(begin: 0.0, end: 48.0)
+                                              .animate(CurvedAnimation(
+                                                  parent: widget
+                                                      .iconAnimationController!,
+                                                  curve: Curves.fastOutSlowIn))
+                                              .value /
+                                          360),
+                                  child: authen.profile.accessToken != null
+                                      ? LogoLoginSuccess(
+                                          displayName:
+                                              authen.profile.displayName!,
+                                          role: authen.role,
+                                        )
+                                      : LogoNotLogin()),
                             );
                           },
                         ),
@@ -353,16 +352,15 @@ class _HomeDrawerState extends State<HomeDrawer> {
 }
 
 class LogoLoginSuccess extends StatelessWidget {
-  const LogoLoginSuccess({
-    super.key,
-    required this.authen,
-  });
+  const LogoLoginSuccess(
+      {super.key, required this.role, required this.displayName});
 
-  final AuthenProvider authen;
+  final String role;
+  final String displayName;
 
   @override
   Widget build(BuildContext context) {
-    var authen = context.watch<AuthenProvider>();
+    //var authen = context.watch<AuthenProvider>();
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -373,9 +371,8 @@ class LogoLoginSuccess extends StatelessWidget {
             child: Stack(
               children: [
                 ClipOval(
-                  child: authen.role == "Bachelor"
-                      ? ImageLoader()
-                      : MasterImageLoader(),
+                  child:
+                      role == "Bachelor" ? ImageLoader() : MasterImageLoader(),
                 ),
               ],
             ),
@@ -386,7 +383,7 @@ class LogoLoginSuccess extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              authen.profile.displayName!,
+              displayName,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 color: AppTheme.ru_dark_blue,

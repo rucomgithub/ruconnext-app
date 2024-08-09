@@ -15,8 +15,6 @@ import 'package:th.ac.ru.uSmart/widget/ru_bottom_bar.dart';
 import '../fitness_app/bottom_navigation_view/bottom_bar_view.dart';
 import '../fitness_app/fitness_app_theme.dart';
 
-String? tokenGrade;
-
 class RuHomeScreen extends StatefulWidget {
   @override
   _RuHomeScreenState createState() => _RuHomeScreenState();
@@ -77,9 +75,6 @@ class _RuHomeScreenState extends State<RuHomeScreen>
   }
 
   Future<bool> getData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    tokenGrade = prefs.getString('profile');
-    print(tokenGrade);
     await Future<dynamic>.delayed(const Duration(milliseconds: 600));
     return true;
   }

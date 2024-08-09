@@ -171,22 +171,6 @@ class MyApp extends StatelessWidget {
               create: (_) =>
                   MasterRegisterProvider(service: MasterRegisterService())),
         ],
-//       child: MaterialApp(
-//         title: 'RU ConneXt',
-//         debugShowCheckedModeBanner: false,
-//         theme: ThemeData(
-//           primarySwatch: Colors.blue,
-//           textTheme: AppTheme.textTheme,
-//           platform: TargetPlatform.iOS,
-//         ),
-//  //       home: NavigationHomeScreen(),
-//          routes: {
-//           '/': (context) => NavigationHomeScreen(),
-//           '/home': (context) =>  HelpScreen(),
-//           //'/login': (context) => Login(),
-//           //'/home': (context) => MyHomePage(title: 'Login Demo'),
-//         },
-//       ),
         child: GetMaterialApp(
           title: 'RU CONNEXT',
           theme: ThemeData(

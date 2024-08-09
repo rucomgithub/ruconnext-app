@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:th.ac.ru.uSmart/store/authen.dart';
 import 'package:th.ac.ru.uSmart/store/profile.dart';
 import '../exceptions/dioexception.dart';
 import '../model/profile.dart';
@@ -53,7 +54,8 @@ class AuthenService {
           'refreshToken': token.refreshToken,
           'isAuth': token.isAuth
         });
-        // print(profile.email);
+
+        //print(profile.email);
         return profile;
       } else {
         throw ('Error Authentication Ramkhamhaeng University.');

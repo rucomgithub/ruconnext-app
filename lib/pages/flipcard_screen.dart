@@ -91,34 +91,30 @@ class _FlipCardPageState extends State<FlipCardPage>
               if (!snapshot.hasData) {
                 return const SizedBox();
               } else {
-                var authen = context.watch<AuthenProvider>();
-                return authen.profile.studentCode != null
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Stack(
-                              fit: StackFit.expand,
-                              children: <Widget>[
-                                RuWallpaper(),
-                                Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: <Widget>[
-                                    // _renderAppBar(context),
-                                    Expanded(
-                                      flex: 8,
-                                      child: _renderContent(context),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: <Widget>[
+                          RuWallpaper(),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              // _renderAppBar(context),
+                              Expanded(
+                                flex: 8,
+                                child: _renderContent(context),
+                              ),
+                            ],
+                          )
                         ],
-                      )
-                    : LoginPage();
+                      ),
+                    ),
+                  ],
+                );
               }
             }));
   }

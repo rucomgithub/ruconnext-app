@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
+import 'package:th.ac.ru.uSmart/store/authen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebPage extends StatefulWidget {
@@ -16,12 +17,15 @@ class WebPage extends StatefulWidget {
 class _WebPageState extends State<WebPage> {
   Map<String, dynamic> web = {};
 
+  String? accessToken = "";
+
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
   bool isLoading = true;
 
   Future<bool> getData() async {
     print('call getData');
+    accessToken = await AuthenStorage.getAccessToken();
     await Future<dynamic>.delayed(const Duration(milliseconds: 400));
     return true;
   }
@@ -41,7 +45,6 @@ class _WebPageState extends State<WebPage> {
 
   @override
   Widget build(BuildContext context) {
-    var authen = context.watch<AuthenProvider>();
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
     double screenWidth = MediaQuery.of(context).size.width;
@@ -92,8 +95,7 @@ class _WebPageState extends State<WebPage> {
                   ],
                 ),
                 child: WebView(
-                  initialUrl:
-                      '${web['url']}&id_token=${authen.profile.accessToken}',
+                  initialUrl: '${web['url']}&id_token=${accessToken}',
                   javascriptMode: JavascriptMode.unrestricted,
                   onWebViewCreated: (WebViewController webViewController) {
                     _controller.complete(webViewController);

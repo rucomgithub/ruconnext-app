@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:th.ac.ru.uSmart/hotel_booking/hotel_app_theme.dart';
 import 'package:th.ac.ru.uSmart/login_page.dart';
 import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
+import 'package:th.ac.ru.uSmart/store/authen.dart';
 
 String? tokenMr30;
 
@@ -18,6 +19,7 @@ class InsuranceHomeScreen extends StatefulWidget {
 class _InsuranceHomeScreenState extends State<InsuranceHomeScreen>
     with TickerProviderStateMixin {
   AnimationController? animationController;
+  String? accessToken;
 
   List<TabIconData> tabIconsList = TabIconData.tabIconsList;
 
@@ -49,7 +51,6 @@ class _InsuranceHomeScreenState extends State<InsuranceHomeScreen>
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
-    var authen = context.watch<AuthenProvider>();
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -86,13 +87,7 @@ class _InsuranceHomeScreenState extends State<InsuranceHomeScreen>
               ],
             );
           } else {
-            // return Stack(
-            //   children: <Widget>[
-            //     tabBody,
-            //   ],
-            // );
-
-            return authen.profile.accessToken != null
+            return accessToken != null
                 ? Stack(
                     children: <Widget>[
                       tabBody,
@@ -106,6 +101,7 @@ class _InsuranceHomeScreenState extends State<InsuranceHomeScreen>
   }
 
   Future<bool> getData() async {
+    accessToken = await AuthenStorage.getAccessToken();
     await Future<dynamic>.delayed(const Duration(milliseconds: 300));
     return true;
   }

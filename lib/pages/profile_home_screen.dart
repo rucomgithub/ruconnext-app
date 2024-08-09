@@ -36,11 +36,6 @@ class _ProfileHomeScreenState extends State<ProfileHomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    var authen = context.watch<AuthenProvider>();
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double baseFontSize = screenWidth * 0.05 > 18 ? 18 : screenWidth * 0.05;
-
     return Container(
       color: FitnessAppTheme.background,
       child: Scaffold(
@@ -51,15 +46,12 @@ class _ProfileHomeScreenState extends State<ProfileHomeScreen>
             if (!snapshot.hasData) {
               return const SizedBox();
             } else {
-              //print('register : ${authen.profile.accessToken}');
-              return authen.profile.accessToken != null
-                  ? Stack(
-                      fit: StackFit.expand,
-                      children: <Widget>[
-                        tabBody,
-                      ],
-                    )
-                  : LoginPage();
+              return Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  tabBody,
+                ],
+              );
             }
           },
         ),

@@ -111,121 +111,113 @@ class _OndemandHomeScreenState extends State<OndemandHomeScreen>
     final String? semester = args['semester'];
     final String? year = args['year'];
     var dataOndemand = context.watch<OndemandProvider>();
-    var authen = context.watch<AuthenProvider>();
     // authen.profile.accessToken =
     //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NfdG9rZW5fa2V5IjoiNjI5OTk5OTk5MTo6YWNjZXNzOjo3YWIyYzVhNC0wNDViLTRiMjgtYTFhMy1iNmM2MTJlODhmNTIiLCJleHBpcmVzX3Rva2VuIjoxNjg4NzA2MDE5LCJpc3N1ZXIiOiJSdS1TbWFydCIsInJlZnJlc2hfdG9rZW5fa2V5IjoiNjI5OTk5OTk5MTo6cmVmcmVzaDo6MmFlNmEwMzMtOTVkYy00ZTQ3LTkxYzEtMmM0YjY0MmZkYjQ3Iiwicm9sZSI6IiIsInN1YmplY3QiOiJSdS1TbWFydDYyOTk5OTk5OTEifQ.IrdWhLxJUZMG1YwzOrr3KLToeZ8z4rrRiZzFbyqLL2A';
     return Theme(
       data: HotelAppTheme.buildLightTheme(),
       child: Container(
         child: Scaffold(
-          body: authen.profile.accessToken != null
-              ? Stack(
+          body: Stack(
+            children: <Widget>[
+              InkWell(
+                splashColor: Colors.transparent,
+                focusColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                onTap: () {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                },
+                child: Column(
                   children: <Widget>[
-                    InkWell(
-                      splashColor: Colors.transparent,
-                      focusColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      onTap: () {
-                        FocusScope.of(context).requestFocus(FocusNode());
-                      },
-                      child: Column(
-                        children: <Widget>[
-                          getAppBarUI(course.toString(), semester.toString(),
-                              year.toString()),
-                          Expanded(
-                            child: NestedScrollView(
-                              controller: _scrollController,
-                              headerSliverBuilder: (BuildContext context,
-                                  bool innerBoxIsScrolled) {
-                                return <Widget>[
-                                  SliverPersistentHeader(
-                                    pinned: true,
-                                    floating: true,
-                                    delegate: ContestTabHeader(
-                                      getFilterBarUI(context),
-                                    ),
-                                  ),
-                                ];
-                              },
-                              body: SmartRefresher(
-                                enablePullDown: true,
-                                enablePullUp: false,
-                                header: const WaterDropHeader(),
-                                footer: CustomFooter(
-                                  builder:
-                                      (BuildContext context, LoadStatus? mode) {
-                                    Widget body;
-                                    if (mode == LoadStatus.idle) {
-                                      body = const Text("กำลังโหลดข้อมูล...");
-                                    } else if (mode == LoadStatus.loading) {
-                                      body = const CircularProgressIndicator();
-                                    } else if (mode == LoadStatus.failed) {
-                                      body = const Text(
-                                          "ไม่สามารถโหลดข้อมูลได้ กรุณาลองอีกครั้ง");
-                                    } else if (mode == LoadStatus.canLoading) {
-                                      body = const Text("release to load more");
-                                    } else {
-                                      body = const Text("ไม่พบข้อมูลแล้ว...");
-                                    }
-                                    return SizedBox(
-                                      height: 55.0,
-                                      child: Center(child: body),
-                                    );
-                                  },
-                                ),
-                                controller: _refreshController,
-                                onRefresh: _onRefresh,
-                                onLoading: _onLoading,
-                                child: ListView.builder(
-                                  itemCount: dataOndemand.countOndemand,
-                                  padding: const EdgeInsets.only(top: 8),
-                                  scrollDirection: Axis.vertical,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    final int count =
-                                        dataOndemand.countOndemand > 10
-                                            ? 10
-                                            : dataOndemand.countOndemand;
-                                    final Animation<double> animation =
-                                        Tween<double>(begin: 0.0, end: 1.0)
-                                            .animate(CurvedAnimation(
-                                                parent: animationController!,
-                                                curve: Interval(
-                                                    (1 / count) * index, 1.0,
-                                                    curve:
-                                                        Curves.fastOutSlowIn)));
-                                    animationController?.forward();
-                                    return OndemandListView(
-                                      record: dataOndemand
-                                          .ondemand.rECORD!.detail![index],
-                                      callback: () {
-                                        Get.toNamed('/runewsdetail',
-                                            arguments: {
-                                              'url':                                             
-                                              'https://appsapis.ru.ac.th/Streaming/vedioPlayer/?id=${dataOndemand.ondemand.rECORD!.detail![index].audioId}',
-                                              'title':
-                                                  '${dataOndemand.ondemand.rECORD!.detail![index].subjectId}ครั้งที่${dataOndemand.ondemand.rECORD!.detail![index].audioSec}(${dataOndemand.ondemand.rECORD!.detail![index].sem}/${dataOndemand.ondemand.rECORD!.detail![index].year})',
-                                            });
-                                      },
-                                      //hotelData: hotelList[index],
-                                      index: index,
-                                      animation: animation,
-                                      animationController: animationController!,
-                                    );
-
-                                    // return Container(child: Text('data'));
-                                  },
-                                ),
+                    getAppBarUI(course.toString(), semester.toString(),
+                        year.toString()),
+                    Expanded(
+                      child: NestedScrollView(
+                        controller: _scrollController,
+                        headerSliverBuilder:
+                            (BuildContext context, bool innerBoxIsScrolled) {
+                          return <Widget>[
+                            SliverPersistentHeader(
+                              pinned: true,
+                              floating: true,
+                              delegate: ContestTabHeader(
+                                getFilterBarUI(context),
                               ),
                             ),
+                          ];
+                        },
+                        body: SmartRefresher(
+                          enablePullDown: true,
+                          enablePullUp: false,
+                          header: const WaterDropHeader(),
+                          footer: CustomFooter(
+                            builder: (BuildContext context, LoadStatus? mode) {
+                              Widget body;
+                              if (mode == LoadStatus.idle) {
+                                body = const Text("กำลังโหลดข้อมูล...");
+                              } else if (mode == LoadStatus.loading) {
+                                body = const CircularProgressIndicator();
+                              } else if (mode == LoadStatus.failed) {
+                                body = const Text(
+                                    "ไม่สามารถโหลดข้อมูลได้ กรุณาลองอีกครั้ง");
+                              } else if (mode == LoadStatus.canLoading) {
+                                body = const Text("release to load more");
+                              } else {
+                                body = const Text("ไม่พบข้อมูลแล้ว...");
+                              }
+                              return SizedBox(
+                                height: 55.0,
+                                child: Center(child: body),
+                              );
+                            },
                           ),
-                        ],
+                          controller: _refreshController,
+                          onRefresh: _onRefresh,
+                          onLoading: _onLoading,
+                          child: ListView.builder(
+                            itemCount: dataOndemand.countOndemand,
+                            padding: const EdgeInsets.only(top: 8),
+                            scrollDirection: Axis.vertical,
+                            itemBuilder: (BuildContext context, int index) {
+                              final int count = dataOndemand.countOndemand > 10
+                                  ? 10
+                                  : dataOndemand.countOndemand;
+                              final Animation<double> animation =
+                                  Tween<double>(begin: 0.0, end: 1.0).animate(
+                                      CurvedAnimation(
+                                          parent: animationController!,
+                                          curve: Interval(
+                                              (1 / count) * index, 1.0,
+                                              curve: Curves.fastOutSlowIn)));
+                              animationController?.forward();
+                              return OndemandListView(
+                                record: dataOndemand
+                                    .ondemand.rECORD!.detail![index],
+                                callback: () {
+                                  Get.toNamed('/runewsdetail', arguments: {
+                                    'url':
+                                        'https://appsapis.ru.ac.th/Streaming/vedioPlayer/?id=${dataOndemand.ondemand.rECORD!.detail![index].audioId}',
+                                    'title':
+                                        '${dataOndemand.ondemand.rECORD!.detail![index].subjectId}ครั้งที่${dataOndemand.ondemand.rECORD!.detail![index].audioSec}(${dataOndemand.ondemand.rECORD!.detail![index].sem}/${dataOndemand.ondemand.rECORD!.detail![index].year})',
+                                  });
+                                },
+                                //hotelData: hotelList[index],
+                                index: index,
+                                animation: animation,
+                                animationController: animationController!,
+                              );
+
+                              // return Container(child: Text('data'));
+                            },
+                          ),
+                        ),
                       ),
                     ),
                   ],
-                )
-              : LoginPage(),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -564,8 +556,8 @@ class _OndemandHomeScreenState extends State<OndemandHomeScreen>
                             ),
                           )
                         : Text(
-                          'ไม่พบวีดีโอคำบรรยายในวิชานี้',
-                           style: TextStyle(
+                            'ไม่พบวีดีโอคำบรรยายในวิชานี้',
+                            style: TextStyle(
                               fontFamily: AppTheme.ruFontKanit,
                               //fontWeight: FontWeight.w100,
                               fontSize: 16,

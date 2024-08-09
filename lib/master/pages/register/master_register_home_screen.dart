@@ -51,7 +51,6 @@ class _MasterRegisterHomeScreenState extends State<MasterRegisterHomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    var authen = context.watch<AuthenProvider>();
     return Container(
       color: FitnessAppTheme.background,
       child: Scaffold(
@@ -62,14 +61,11 @@ class _MasterRegisterHomeScreenState extends State<MasterRegisterHomeScreen>
             if (!snapshot.hasData) {
               return const SizedBox();
             } else {
-              //print('register : ${authen.profile.accessToken}');
-              return authen.profile.accessToken != null
-                  ? Stack(
-                      children: <Widget>[
-                        tabBody,
-                      ],
-                    )
-                  : LoginPage();
+              return Stack(
+                children: <Widget>[
+                  tabBody,
+                ],
+              );
             }
           },
         ),

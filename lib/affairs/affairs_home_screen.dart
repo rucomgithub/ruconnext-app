@@ -29,6 +29,7 @@ class _AffairsHomeScreenState extends State<AffairsHomeScreen>
 
   @override
   void initState() {
+    print('profile affairs');
     Provider.of<AuthenProvider>(context, listen: false).getProfile();
     Provider.of<InsuranceProvider>(context, listen: false).getInsuracneAll();
     Provider.of<RotcsProvider>(context, listen: false).getAllRegister();

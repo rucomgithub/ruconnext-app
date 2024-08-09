@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:th.ac.ru.uSmart/store/authen.dart';
 import 'package:th.ac.ru.uSmart/store/rotcsextend.dart';
 import 'package:th.ac.ru.uSmart/store/rotcsregister.dart';
 import 'package:th.ac.ru.uSmart/store/sch.dart';
@@ -29,6 +30,11 @@ class AuthenProvider extends ChangeNotifier {
   String _roletext = "-";
   String get roletext => _roletext;
 
+  Future<void> setProfile(Profile profile) async {
+    _profile = profile;
+    notifyListeners();
+  }
+
   Future<void> getAuthenGoogleDev(context, String std_code) async {
     print('getAuthenGoogleDev');
     _isLoading = true;
@@ -37,6 +43,8 @@ class AuthenProvider extends ChangeNotifier {
       _isLoading = false;
       _profile = await _service.getAuthenGoogleDev(std_code);
       await ProfileStorage.saveProfile(_profile);
+      await AuthenStorage.setAccessToken('${_profile.accessToken}');
+      await AuthenStorage.setRefreshToken('${_profile.refreshToken}');
 
       Map<String, dynamic> decodedToken =
           JwtDecoder.decode(_profile.accessToken.toString());
@@ -61,18 +69,25 @@ class AuthenProvider extends ChangeNotifier {
     _isLoading = true;
 
     try {
-      _isLoading = true;
-      //print("-------------login success-------------------");
+      _isLoading = false;
       _profile = await _service.getAuthenGoogle();
-      //print('-------------profile success------------------- ${_profile}');
-      await prefs.setString('profile', jsonEncode(_profile));
+      await ProfileStorage.saveProfile(_profile);
+      await AuthenStorage.setAccessToken('${_profile.accessToken}');
+      await AuthenStorage.setRefreshToken('${_profile.refreshToken}');
+
+      Map<String, dynamic> decodedToken =
+          JwtDecoder.decode(_profile.accessToken.toString());
+      // Now you can use your decoded token
+      _role = decodedToken["role"];
+
       Get.offNamedUntil('/', (route) => true);
     } catch (e) {
+      await _googleSingIn.signOut();
       _isLoading = false;
-      var snackbar = SnackBar(content: Text('Error: $e'));
-      //print('${e.toString()}');
+      var snackbar = SnackBar(content: Text('$e'));
+      print('$e');
+      _role = '';
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
-      await _googleSingIn.disconnect();
     }
 
     notifyListeners();
@@ -88,7 +103,7 @@ class AuthenProvider extends ChangeNotifier {
     await SchStorage.removeSch();
     await _googleSingIn.signOut();
 
-    Get.offNamedUntil('/', (route) => true);
+    //Get.offNamed('/login');
     notifyListeners();
   }
 
@@ -96,12 +111,21 @@ class AuthenProvider extends ChangeNotifier {
     _profile = await ProfileStorage.getProfile();
     _isLoading = true;
 
-    await Future<dynamic>.delayed(const Duration(seconds: 1));
-    _profile = await ProfileStorage.getProfile();
-    print('Profile');
+    final accessToken = await AuthenStorage.getAccessToken();
+    final refreshToken = await AuthenStorage.getRefreshToken();
+    if (accessToken == null && refreshToken == null) {
+      print('logout');
+      await this.logout();
+    } else {
+      _profile.accessToken = accessToken;
+      _profile.refreshToken = refreshToken;
+      //print('accessToken $accessToken');
+      //print('refreshToken :$refreshToken');
+    }
+
     try {
       Map<String, dynamic> decodedToken =
-          JwtDecoder.decode(_profile.accessToken.toString());
+          JwtDecoder.decode(accessToken.toString());
       // Now you can use your decoded token
       _role = decodedToken["role"];
       switch (_role) {

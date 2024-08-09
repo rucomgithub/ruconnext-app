@@ -1,35 +1,40 @@
 import 'dart:convert';
-
+import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:th.ac.ru.uSmart/model/profile.dart';
 import 'package:th.ac.ru.uSmart/model/rutoken.dart';
+import 'package:th.ac.ru.uSmart/store/authen.dart';
 import 'package:th.ac.ru.uSmart/store/profile.dart';
 
 class DioIntercepter {
-  final Dio api = Dio();
-  String? accessToken;
+  final dio.Dio api = dio.Dio();
   final appUrl = dotenv.env['APP_URL'];
+
   createIntercepter() async {
-    Profile profile = await ProfileStorage.getProfile();
-    accessToken = profile.accessToken;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    api.options..connectTimeout = 10000;
+    api.options..receiveTimeout = 10000;
+
     api.interceptors
-        .add(InterceptorsWrapper(onRequest: (options, handler) async {
+        .add(dio.InterceptorsWrapper(onRequest: (options, handler) async {
+      final accessToken = await AuthenStorage.getAccessToken();
       if (!options.path.contains('http')) {
-        options.path = 'http://ruconnext.ru.ac.th' + options.path;
+        options.path = 'https://ruconnext.ru.ac.th' + options.path;
+      }
+      if (accessToken != null) {
+        options.headers['Authorization'] = 'Bearer ${accessToken}';
       }
 
-      options.headers['Authorization'] = 'Bearer $accessToken';
       return handler.next(options);
-    }, onError: (DioError error, handler) async {
-      if ((error.response?.statusCode == 401)) {
-        Profile profile = await ProfileStorage.getProfile();
-        if (profile.refreshToken != null) {
+    }, onError: (dio.DioError error, handler) async {
+      if ((error.response?.statusCode == 401 &&
+          error.response?.data['message'] ==
+              "Authorization falil because of timeout...")) {
+        if (await prefs.containsKey('refreshToken')) {
           if (await refreshToken()) {
-            Profile profile = await ProfileStorage.getProfile();
-            error.requestOptions.headers['Authorization'] =
-                'Bearer ${profile.accessToken}';
-            //print("uri ${error.requestOptions.uri}");
             return handler.resolve(await _retry(error.requestOptions));
           }
         }
@@ -39,8 +44,9 @@ class DioIntercepter {
     }));
   }
 
-  Future<Response<dynamic>> _retry(RequestOptions requestOptions) async {
-    final options = Options(
+  Future<dio.Response<dynamic>> _retry(
+      dio.RequestOptions requestOptions) async {
+    final options = dio.Options(
       method: requestOptions.method,
       headers: requestOptions.headers,
     );
@@ -51,32 +57,27 @@ class DioIntercepter {
   }
 
   Future<bool> refreshToken() async {
-    Profile profile = await ProfileStorage.getProfile();
-    var params = {
-      "Refresh_token": "${profile.refreshToken}",
-      "Std_code": "${profile.studentCode}"
-    };
+    final refreshToken = await AuthenStorage.getRefreshToken();
+    var params = {"Refresh_token": "${refreshToken}", "Std_code": "6299999991"};
     try {
-      var response = await Dio().post('$appUrl/student/refresh-authentication',
+      var response = await api.post('$appUrl/student/refresh-authentication',
           data: jsonEncode(params));
 
       if (response.statusCode == 200) {
         Rutoken ruToken = Rutoken.fromJson(response.data);
-        profile.accessToken = ruToken.accessToken;
-        profile.refreshToken = ruToken.refreshToken;
-        profile.isAuth = ruToken.isAuth;
-
-        accessToken = ruToken.accessToken;
-        await ProfileStorage.saveProfile(profile);
+        await AuthenStorage.setAccessToken('${ruToken.accessToken}');
+        await AuthenStorage.setRefreshToken('${ruToken.refreshToken}');
         return true;
       }
-      // refresh token is wrong
-      //print("refresh token is wrong");
-      ProfileStorage.removeProfile();
+      return false;
+    } on DioError catch (err) {
+      print('DioError $err');
+      AuthenStorage.clearTokens();
       return false;
     } catch (e) {
-      //print("refresh token is wrong >>>" + e.toString());
-      ProfileStorage.removeProfile();
+      //await ProfileStorage.removeProfile();
+      print("refresh token is wrong >>>" + e.toString());
+      print('object fail.........................................');
       throw Exception('Request error: 422 Unprocessable Entity');
     }
   }

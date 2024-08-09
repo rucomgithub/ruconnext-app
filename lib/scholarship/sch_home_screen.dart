@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/providers/sch_provider.dart';
 import 'package:th.ac.ru.uSmart/ruconnext_app_theme.dart';
 import 'package:th.ac.ru.uSmart/scholarship/sch_list_view.dart';
+import 'package:th.ac.ru.uSmart/store/authen.dart';
 import 'package:th.ac.ru.uSmart/widget/top_bar.dart';
 import '../app_theme.dart';
 import '../hotel_booking/hotel_app_theme.dart';
@@ -27,6 +28,7 @@ class _SchHomeScreenState extends State<SchHomeScreen>
     with TickerProviderStateMixin {
   AnimationController? animationController;
   final ScrollController _scrollController = ScrollController();
+  String? accessToken;
 
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now().add(const Duration(days: 5));
@@ -62,6 +64,7 @@ class _SchHomeScreenState extends State<SchHomeScreen>
   }
 
   Future<void> getData() async {
+    accessToken = await AuthenStorage.getAccessToken();
     await Provider.of<SchProvider>(context, listen: false).getScholarShip();
     setState(() {
       scholarship =
@@ -118,7 +121,7 @@ class _SchHomeScreenState extends State<SchHomeScreen>
       ),
       backgroundColor:
           isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
-      body: authen.profile.accessToken != null
+      body: accessToken != null
           ? Padding(
               padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
               child: Column(

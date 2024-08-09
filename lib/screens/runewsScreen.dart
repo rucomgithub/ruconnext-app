@@ -98,7 +98,6 @@ class _RunewsScreenState extends State<RunewsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var authen = context.watch<AuthenProvider>();
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     double baseFontSize = screenWidth * 0.05 > 18 ? 18 : screenWidth * 0.05;

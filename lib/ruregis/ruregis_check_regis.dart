@@ -11,12 +11,12 @@ import '../fitness_app/bottom_navigation_view/bottom_bar_view.dart';
 import '../fitness_app/fitness_app_theme.dart';
 import '../providers/mr30_provider.dart';
 
-
 String? tokenMr30;
 
 class RuregisCheckRegisScreen extends StatefulWidget {
   @override
-  _RuregisCheckRegisScreenState createState() => _RuregisCheckRegisScreenState();
+  _RuregisCheckRegisScreenState createState() =>
+      _RuregisCheckRegisScreenState();
 }
 
 class _RuregisCheckRegisScreenState extends State<RuregisCheckRegisScreen>
@@ -51,7 +51,6 @@ class _RuregisCheckRegisScreenState extends State<RuregisCheckRegisScreen>
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
-    var authen = context.watch<AuthenProvider>();
     return Theme(
       data: HotelAppTheme.buildLightTheme(),
       child: Container(
@@ -80,14 +79,6 @@ class _RuregisCheckRegisScreenState extends State<RuregisCheckRegisScreen>
                   ],
                 );
               }
-
-              // return authen.isLoggedIn
-              //     ? Stack(
-              //         children: <Widget>[
-              //           tabBody,
-              //         ],
-              //       )
-              //     : LoginPage();
             },
           ),
         ),

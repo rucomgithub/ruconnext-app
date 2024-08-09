@@ -44,7 +44,6 @@ class _GradeAppHomeScreenState extends State<GradeAppHomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    var authen = context.watch<AuthenProvider>();
     return Container(
       color: FitnessAppTheme.background,
       child: Scaffold(
@@ -56,14 +55,12 @@ class _GradeAppHomeScreenState extends State<GradeAppHomeScreen>
               return const SizedBox();
             } else {
               //print('register : ${authen.profile.accessToken}');
-              return authen.profile.accessToken != null
-                  ? Stack(
-                      fit: StackFit.expand,
-                      children: <Widget>[
-                        tabBody,
-                      ],
-                    )
-                  : LoginPage();
+              return Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  tabBody,
+                ],
+              );
             }
           },
         ),

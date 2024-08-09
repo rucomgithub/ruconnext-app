@@ -17,7 +17,7 @@ class ProfileStorage {
     Profile profile = Profile();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final profileString = prefs.getString(key);
-    if (profileString != null) {
+    if (profileString != null && profileString != "") {
       final profileJson = jsonDecode(profileString);
       return Profile.fromJson(profileJson);
     }
@@ -27,6 +27,6 @@ class ProfileStorage {
 
   static Future<void> removeProfile() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(key, '');
+    await prefs.setString(key, "");
   }
 }

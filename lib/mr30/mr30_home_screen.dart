@@ -119,14 +119,6 @@ class _Mr30HomeScreenState extends State<Mr30HomeScreen>
               ],
             );
           }
-
-          // return authen.isLoggedIn
-          //     ? Stack(
-          //         children: <Widget>[
-          //           tabBody,
-          //         ],
-          //       )
-          //     : LoginPage();
         },
       ),
     );

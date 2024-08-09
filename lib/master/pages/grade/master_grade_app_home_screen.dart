@@ -50,7 +50,6 @@ class _MasterGradeAppHomeScreenState extends State<MasterGradeAppHomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    var authen = context.watch<AuthenProvider>();
     return Container(
       color: FitnessAppTheme.background,
       child: Scaffold(
@@ -61,15 +60,12 @@ class _MasterGradeAppHomeScreenState extends State<MasterGradeAppHomeScreen>
             if (!snapshot.hasData) {
               return const SizedBox();
             } else {
-              //print('grade : ${authen.profile.accessToken}');
-              return (authen.profile.accessToken != null)
-                  ? Stack(
-                      children: <Widget>[
-                        tabBody,
-                        //  bottomBar(),
-                      ],
-                    )
-                  : LoginPage();
+              return Stack(
+                children: <Widget>[
+                  tabBody,
+                  //  bottomBar(),
+                ],
+              );
             }
           },
         ),

@@ -35,6 +35,7 @@ class _RegisterHomeScreenState extends State<RegisterHomeScreen>
     tabBody = RegisterListScreen(animationController: animationController);
 
     super.initState();
+    print('getProfile register');
     Provider.of<AuthenProvider>(context, listen: false).getProfile();
     Provider.of<RegisterProvider>(context, listen: false).getAllRegister();
     Provider.of<RegisterProvider>(context, listen: false).getRegisterAll();
@@ -50,7 +51,6 @@ class _RegisterHomeScreenState extends State<RegisterHomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    var authen = context.watch<AuthenProvider>();
     return Container(
       color: AppTheme.nearlyWhite,
       child: Scaffold(
@@ -62,14 +62,12 @@ class _RegisterHomeScreenState extends State<RegisterHomeScreen>
               return const SizedBox();
             } else {
               //print('register : ${authen.profile.accessToken}');
-              return authen.profile.accessToken != null
-                  ? Stack(
-                      fit: StackFit.expand,
-                      children: <Widget>[
-                        tabBody,
-                      ],
-                    )
-                  : LoginPage();
+              return Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  tabBody,
+                ],
+              );
             }
           },
         ),

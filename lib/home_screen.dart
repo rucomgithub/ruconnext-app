@@ -39,8 +39,6 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-String? token;
-
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   List<HomeList> homeList = [];
   AnimationController? animationController;
@@ -82,7 +80,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   Future<bool> getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    token = prefs.getString('profile');
     //await Future<dynamic>.delayed(const Duration(milliseconds: 0));
     return true;
   }
