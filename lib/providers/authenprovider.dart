@@ -110,6 +110,7 @@ class AuthenProvider extends ChangeNotifier {
   }
 
   Future<void> getProfile() async {
+    print('getProfile');
     _profile = await ProfileStorage.getProfile();
     _isLoading = true;
 

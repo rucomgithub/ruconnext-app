@@ -26,6 +26,7 @@ class _ProfileHomeScreenState extends State<ProfileHomeScreen>
         duration: const Duration(milliseconds: 600), vsync: this);
     tabBody = FlipCardPage();
     super.initState();
+    Provider.of<AuthenProvider>(context, listen: false).getProfile();
   }
 
   @override
