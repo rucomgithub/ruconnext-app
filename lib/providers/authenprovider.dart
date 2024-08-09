@@ -101,6 +101,8 @@ class AuthenProvider extends ChangeNotifier {
     await RotcsExtendStorage.removeExtend();
     await RotcsRegisterStorage.removeRegister();
     await SchStorage.removeSch();
+
+    await AuthenStorage.clearTokens();
     await _googleSingIn.signOut();
 
     //Get.offNamed('/login');
@@ -119,8 +121,8 @@ class AuthenProvider extends ChangeNotifier {
     } else {
       _profile.accessToken = accessToken;
       _profile.refreshToken = refreshToken;
-      //print('accessToken $accessToken');
-      //print('refreshToken :$refreshToken');
+      print('accessToken $accessToken');
+      print('refreshToken :$refreshToken');
     }
 
     try {

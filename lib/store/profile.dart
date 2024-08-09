@@ -14,7 +14,16 @@ class ProfileStorage {
   }
 
   static Future<Profile> getProfile() async {
-    Profile profile = Profile();
+    Profile profile = Profile(
+      displayName: "",
+      email: "",
+      studentCode: "",
+      photoUrl: "",
+      googleToken: "",
+      accessToken: "",
+      refreshToken: "",
+      isAuth: false,
+    );
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final profileString = prefs.getString(key);
     if (profileString != null && profileString != "") {
