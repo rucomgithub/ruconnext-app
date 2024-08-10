@@ -308,9 +308,7 @@ class _MasterProfileViewState extends State<MasterProfileView>
                                                 height: screenHeight * 0.1,
                                                 width: screenWidth * 0.6,
                                                 child: Padding(
-                                                    padding:
-                                                        EdgeInsets.fromLTRB(
-                                                            0, 10, 0, 10),
+                                                    padding: EdgeInsets.all(8),
                                                     child: Column(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment

@@ -122,8 +122,8 @@ class AuthenProvider extends ChangeNotifier {
     } else {
       _profile.accessToken = accessToken;
       _profile.refreshToken = refreshToken;
-      print('accessToken $accessToken');
-      print('refreshToken :$refreshToken');
+      //print('accessToken $accessToken');
+      //print('refreshToken :$refreshToken');
     }
 
     try {
