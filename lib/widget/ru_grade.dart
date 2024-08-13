@@ -28,6 +28,7 @@ class RuGradeView extends StatelessWidget {
     double baseFontSize =
         screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return Card(
+      color: Colors.transparent,
       elevation: 0.0,
       //color: Colors.transparent,
       child: FlipCard(
@@ -37,15 +38,16 @@ class RuGradeView extends StatelessWidget {
           print(status);
         },
         front: Container(
+          //color: Colors.red,
           width: screenWidth * 0.5,
           height: screenWidth * 0.3,
           padding: EdgeInsets.all(16.0),
           decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/ID.png'),
-              fit: BoxFit.cover,
-              opacity: 0.08,
-            ),
+            // image: DecorationImage(
+            //   image: AssetImage('assets/images/ID.png'),
+            //   fit: BoxFit.cover,
+            //   opacity: 0.08,
+            // ),
             gradient: LinearGradient(
               colors: <HexColor>[
                 HexColor("#FF19196B"),
