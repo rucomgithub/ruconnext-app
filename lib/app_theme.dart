@@ -3,33 +3,33 @@ import 'package:flutter/material.dart';
 class AppTheme {
   AppTheme._();
 
-  static const MaterialColor myColor = MaterialColor(0xFFEDF0F2, {
-    50: Color(0xFFFCE4EC),
-    100: Color(0xFFF8BBD0),
-    200: Color(0xFFF48FB1),
-    300: Color(0xFFF06292),
-    400: Color(0xFFEC407A),
-    500: Color(0xFFE91E63),
-    600: Color(0xFFD81B60),
-    700: Color(0xFFC2185B),
-    800: Color(0xFFAD1457),
-    900: Color(0xFF880E4F),
+  static const MaterialColor myColor = MaterialColor(0xFFffffff, {
+    50: Color(0xFF7171a4),
+    100: Color(0xFF525290),
+    200: Color(0xFF34347d),
+    300: Color(0xFF2d2d78),
+    400: Color(0xFF272774),
+    500: Color(0xFF202070),
+    600: Color(0xFF1a1a6c),
+    700: Color(0xFF161660),
+    800: Color(0xFF131353),
+    900: Color(0xFF101042),
   });
 
   static const Color notWhite = Color(0xFFEDF0F2);
   static const Color nearlyWhite = Color(0xFFFEFEFE);
   static const Color white = Color.fromARGB(255, 255, 255, 255);
   static const Color nearlyBlack = Color(0xFF213333);
-  static const Color grey = Color(0xFF3A5160);
-  static const Color dark_grey = Color(0xFF313A44);
+  static const Color grey = Color(0xFF7171a4);
+  static const Color dark_grey = Color(0xFF34347d);
 
   //สีแอพ
   static const Color ru_dark_blue = Color(0xFF19196B);
   static const Color ru_yellow = Color(0xFFf6c543);
-  static const Color ru_grey = Color(0xFF999999);
+  static const Color ru_grey = Color(0xFF7171a4);
   static const Color ru_text_light_blue = Color(0xFF0B14E0);
   static const Color ru_text_grey = Color(0xFF656565);
-  static const Color ru_text_ocean_blue = Color(0xFF1B75BB);
+  static const Color ru_text_ocean_blue = Color(0xFF34347d);
   static const Color background = Color(0xFFFEFEFE);
 
   static const Color darkText = Color(0xFF253840);
