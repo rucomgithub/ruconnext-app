@@ -61,7 +61,7 @@ class AppTheme {
     fontSize: 36,
     letterSpacing: 0.4,
     height: 0.9,
-    color: darkerText,
+    color: nearlyWhite,
   );
 
   static const TextStyle headline = TextStyle(
@@ -70,7 +70,7 @@ class AppTheme {
     fontWeight: FontWeight.bold,
     fontSize: 24,
     letterSpacing: 0.27,
-    color: darkerText,
+    color: nearlyWhite,
   );
 
   static const TextStyle title = TextStyle(
@@ -79,7 +79,7 @@ class AppTheme {
     fontWeight: FontWeight.bold,
     fontSize: 16,
     letterSpacing: 0.18,
-    color: darkerText,
+    color: nearlyWhite,
   );
 
   static const TextStyle subtitle = TextStyle(
@@ -88,7 +88,14 @@ class AppTheme {
     fontWeight: FontWeight.w400,
     fontSize: 14,
     letterSpacing: -0.04,
-    color: darkText,
+    color: nearlyWhite,
+  );
+
+  static const TextStyle content = TextStyle(
+    fontFamily: ruFontKanit,
+    overflow: TextOverflow.ellipsis,
+    fontSize: 14,
+    color: nearlyWhite,
   );
 
   static const TextStyle body2 = TextStyle(
@@ -116,5 +123,43 @@ class AppTheme {
     fontSize: 12,
     letterSpacing: 0.2,
     color: lightText, // was lightText
+  );
+
+  static const TextStyle cardHeader = TextStyle(
+    // h6 -> title
+    fontFamily: ruFontKanit,
+    fontWeight: FontWeight.w600,
+    overflow: TextOverflow.ellipsis,
+    fontSize: 14,
+    letterSpacing: 0.24,
+    color: nearlyWhite,
+  );
+
+  static const TextStyle cardFooter = TextStyle(
+    // h6 -> title
+    fontFamily: ruFontKanit,
+    fontWeight: FontWeight.w400,
+    overflow: TextOverflow.ellipsis,
+    fontSize: 14,
+    letterSpacing: 0.24,
+    color: ru_yellow,
+  );
+
+  static const TextStyle cardTitle = TextStyle(
+    // h6 -> title
+    fontFamily: ruFontKanit,
+    fontWeight: FontWeight.w400,
+
+    fontSize: 14,
+    letterSpacing: 0.24,
+    color: ru_yellow,
+  );
+
+  static const TextStyle cardContent = TextStyle(
+    fontFamily: ruFontKanit,
+    overflow: TextOverflow.ellipsis,
+    letterSpacing: 0.24,
+    fontSize: 12,
+    color: nearlyWhite,
   );
 }

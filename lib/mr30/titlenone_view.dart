@@ -20,10 +20,6 @@ class TitleNoneView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double baseFontSize =
-        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -35,21 +31,24 @@ class TitleNoneView extends StatelessWidget {
             child: Container(
               child: Padding(
                 padding: const EdgeInsets.only(left: 24, right: 24),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        titleTxt,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontFamily: AppTheme.ruFontKanit,
-                          fontWeight: FontWeight.w500,
-                          fontSize: baseFontSize - 4,
-                          letterSpacing: 0.5,
-                          color: AppTheme.ru_text_ocean_blue,
+                child: Column(
+                  children: [
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            titleTxt,
+                            textAlign: TextAlign.left,
+                            style: AppTheme.body1,
+                          ),
                         ),
-                      ),
+                      ],
                     ),
+                    Divider(
+                      height: 4,
+                      thickness: 2,
+                      color: AppTheme.ru_yellow,
+                    )
                   ],
                 ),
               ),

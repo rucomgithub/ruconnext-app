@@ -172,6 +172,7 @@ class RegisterProvider extends ChangeNotifier {
     sortedMapDesc.entries.forEach((element) {
       temp[element.key] = Percentage(
           counter: element.value,
+          credit: 0,
           percent: 0,
           listregister: [],
           listcoursetype: _listMr30Catalog[element.key]!);
@@ -188,13 +189,18 @@ class RegisterProvider extends ChangeNotifier {
 
     _listMr30Catalog.forEach((key, value) {
       groupCount[key] = Percentage(
-          counter: 0, percent: 0.0, listregister: [], listcoursetype: []);
+          credit: 0,
+          counter: 0,
+          percent: 0.0,
+          listregister: [],
+          listcoursetype: []);
     });
 
     _registerall.record!.forEach((REGISTERECORD register) {
       _listMr30Catalog.forEach((key, listCourseType) {
         listCourseType.forEach((coursetype) {
           if (coursetype.courseno == register.courseNo) {
+            groupCount[key]!.credit = groupCount[key]!.credit;
             groupCount[key]!.counter = groupCount[key]!.counter + 1;
             groupCount[key]!.listregister.add(register.courseNo.toString());
           }
@@ -210,6 +216,7 @@ class RegisterProvider extends ChangeNotifier {
     sortedMapDesc.entries.forEach((element) {
       temp[element.key] = Percentage(
           counter: element.value.counter,
+          credit: element.value.credit,
           percent: 0.0,
           listregister: element.value.listregister,
           listcoursetype: _listMr30Catalog[element.key]!);
@@ -284,6 +291,7 @@ class RegisterProvider extends ChangeNotifier {
 
       result[key] = Percentage(
           counter: v.counter,
+          credit: v.credit,
           percent: percent,
           listregister: v.listregister,
           listcoursetype: listSort);

@@ -20,10 +20,6 @@ class TitleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double baseFontSize =
-        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -41,13 +37,7 @@ class TitleView extends StatelessWidget {
                       child: Text(
                         titleTxt,
                         textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontFamily: AppTheme.ruFontKanit,
-                          fontWeight: FontWeight.w500,
-                          fontSize: baseFontSize - 4,
-                          letterSpacing: 0.5,
-                          color: AppTheme.ru_text_ocean_blue,
-                        ),
+                        style: AppTheme.body1,
                       ),
                     ),
                     InkWell(
@@ -83,13 +73,7 @@ class TitleView extends StatelessWidget {
                             Text(
                               subTxt,
                               textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontFamily: AppTheme.ruFontKanit,
-                                fontWeight: FontWeight.w500,
-                                fontSize: baseFontSize - 4,
-                                letterSpacing: 0.5,
-                                color: AppTheme.ru_dark_blue,
-                              ),
+                              style: AppTheme.body2,
                             ),
                             SizedBox(
                               height: 38,

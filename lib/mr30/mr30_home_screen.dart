@@ -71,12 +71,7 @@ class _Mr30HomeScreenState extends State<Mr30HomeScreen>
         ),
         title: Text(
           'มร.30',
-          style: TextStyle(
-            fontSize: 22,
-            fontFamily: AppTheme.ruFontKanit,
-            color: AppTheme.nearlyWhite,
-            fontWeight: FontWeight.bold,
-          ),
+          style: AppTheme.headline,
         ),
         centerTitle: true, // Centers the title
         backgroundColor:
