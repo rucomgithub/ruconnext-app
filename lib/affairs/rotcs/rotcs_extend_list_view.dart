@@ -87,7 +87,11 @@ class _RotcsExtendListViewState extends State<RotcsExtendListView>
                                 padding: const EdgeInsets.only(
                                     top: 8.0, left: 16.0, bottom: 8.0),
                                 child: CardBookTitle(
-                                  iconheader: Icons.account_box,
+                                  iconheader:
+                                      extend.detail![index].description ==
+                                              "ผ่อนผัน"
+                                          ? Icons.add_business
+                                          : Icons.check_box,
                                   iconfooter: Icons.credit_score,
                                   header:
                                       '${extend.detail![index].description}',

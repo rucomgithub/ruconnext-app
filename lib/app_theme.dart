@@ -57,7 +57,7 @@ class AppTheme {
   static const TextStyle display1 = TextStyle(
     // h4 -> display1
     fontFamily: ruFontKanit,
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w900,
     fontSize: 36,
     letterSpacing: 0.4,
     height: 0.9,

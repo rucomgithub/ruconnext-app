@@ -70,7 +70,7 @@ class CardBookTitle extends StatelessWidget {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.only(
-                            top: 50, left: 8, right: 8, bottom: 8),
+                            top: 50, left: 16, right: 16, bottom: 8),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,7 +137,7 @@ class CardBookTitle extends StatelessWidget {
                                   child: Padding(
                                     padding: const EdgeInsets.only(left: 8.0),
                                     child: SizedBox(
-                                      width: 110,
+                                      width: 100,
                                       child: Text(
                                         maxLines: 1,
                                         '${footer ?? ''}',
