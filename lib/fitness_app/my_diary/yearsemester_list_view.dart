@@ -1,10 +1,7 @@
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../main.dart';
 import '../../providers/grade_provider.dart';
 import '../models/grade_list_data.dart';
 import '../ui_view/gradeyear_screen.dart';
@@ -55,66 +52,70 @@ class _YearSemesterListViewState extends State<YearSemesterListView>
     double baseFontSize =
         screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
 
-    return AnimatedBuilder(
-      animation: widget.mainScreenAnimationController!,
-      builder: (BuildContext context, Widget? child) {
-        return FadeTransition(
-          opacity: widget.mainScreenAnimation!,
-          child: Transform(
-            transform: Matrix4.translationValues(
-                0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
-            child: Padding(
-              padding:
-                  const EdgeInsets.only(top: 8, bottom: 8, right: 8, left: 16),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: isLightMode ? AppTheme.nearlyWhite : AppTheme.ru_grey,
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(8.0),
-                      bottomLeft: Radius.circular(8.0),
-                      bottomRight: Radius.circular(8.0),
-                      topRight: Radius.circular(24.0)),
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                        color: AppTheme.ru_grey.withOpacity(0.2),
-                        offset: const Offset(1.1, 1.1),
-                        blurRadius: 10.0),
-                  ],
-                ),
-                height: screenHeight * 0.24,
-                width: double.infinity,
-                child: ListView.builder(
-                  itemCount: prov.gradeYearSemester.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (BuildContext context, int index) {
-                    final int count = prov.gradeYearSemester.length > 10
-                        ? 10
-                        : prov.gradeYearSemester.length;
-                    final Animation<double> animation =
-                        Tween<double>(begin: 0.0, end: 1.0).animate(
-                            CurvedAnimation(
-                                parent: animationController!,
-                                curve: Interval((1 / count) * index, 1.0,
-                                    curve: Curves.fastOutSlowIn)));
-                    animationController?.forward();
-
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                          left: 8.0, top: 16.0, bottom: 8.0),
-                      child: YearSemesterView(
-                        gradeListData: prov.gradeYearSemester[index],
-                        animation: animation,
-                        animationController: animationController!,
+    return prov.gradeYearSemester[0].grades == null
+        ? SizedBox()
+        : AnimatedBuilder(
+            animation: widget.mainScreenAnimationController!,
+            builder: (BuildContext context, Widget? child) {
+              return FadeTransition(
+                opacity: widget.mainScreenAnimation!,
+                child: Transform(
+                  transform: Matrix4.translationValues(
+                      0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 8, bottom: 8, right: 8, left: 16),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: isLightMode
+                            ? AppTheme.nearlyWhite
+                            : AppTheme.ru_grey,
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(8.0),
+                            bottomLeft: Radius.circular(8.0),
+                            bottomRight: Radius.circular(8.0),
+                            topRight: Radius.circular(24.0)),
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                              color: AppTheme.ru_grey.withOpacity(0.2),
+                              offset: const Offset(1.1, 1.1),
+                              blurRadius: 10.0),
+                        ],
                       ),
-                    );
-                  },
+                      height: screenHeight * 0.24,
+                      width: double.infinity,
+                      child: ListView.builder(
+                        itemCount: prov.gradeYearSemester.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int index) {
+                          final int count = prov.gradeYearSemester.length > 10
+                              ? 10
+                              : prov.gradeYearSemester.length;
+                          final Animation<double> animation =
+                              Tween<double>(begin: 0.0, end: 1.0).animate(
+                                  CurvedAnimation(
+                                      parent: animationController!,
+                                      curve: Interval((1 / count) * index, 1.0,
+                                          curve: Curves.fastOutSlowIn)));
+                          animationController?.forward();
+
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                                left: 8.0, top: 16.0, bottom: 8.0),
+                            child: YearSemesterView(
+                              gradeListData: prov.gradeYearSemester[index],
+                              animation: animation,
+                              animationController: animationController!,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
+              );
+            },
+          );
   }
 }
 
@@ -133,7 +134,8 @@ class YearSemesterView extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
     double baseFontSize =
         screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
-    return gradeListData!.grades!.isEmpty
+
+    return gradeListData!.grades == null
         ? SizedBox()
         : AnimatedBuilder(
             animation: animationController!,

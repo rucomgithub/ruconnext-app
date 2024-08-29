@@ -20,7 +20,7 @@ class GradeProvider extends ChangeNotifier {
   late Map<String, Map<String, int>> _groupYearSemester = {};
   late Map<String, Map<String, int>> _groupByCatalog = {};
   late Map<String, int> _summaryCreditPass = {};
-  late List<GradeListData> _gradeYearSemester = [GradeListData()];
+  late List<GradeListData> _gradeYearSemester = [];
   late Map<String, List<String>> _gradeList = {};
   late Map<String, List<String>> _listGroupYearSemester = {};
   late Map<String, Map<String, int>> _groupGrade = {};

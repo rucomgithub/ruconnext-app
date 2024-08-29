@@ -12,12 +12,14 @@ class RadarChartWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final data = [counts];
-    return RadarChart.light(
-      ticks: ticks, // Customize the radar chart ticks as needed
-      features: grades,
-      data: data,
-      reverseAxis: false,
-      useSides: true,
-    );
+    return this.counts.isEmpty
+        ? SizedBox()
+        : RadarChart.light(
+            ticks: ticks, // Customize the radar chart ticks as needed
+            features: grades,
+            data: data,
+            reverseAxis: false,
+            useSides: true,
+          );
   }
 }

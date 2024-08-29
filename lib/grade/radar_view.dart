@@ -35,47 +35,51 @@ class _RaDarViewState extends State<RaDarView> with TickerProviderStateMixin {
     double baseFontSize =
         screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     var prov = Provider.of<GradeProvider>(context, listen: false);
-    return AnimatedBuilder(
-      animation: widget.mainScreenAnimationController!,
-      builder: (BuildContext context, Widget? child) {
-        return FadeTransition(
-          opacity: widget.mainScreenAnimation!,
-          child: Transform(
-            transform: Matrix4.translationValues(
-                0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: isLightMode ? AppTheme.nearlyWhite : AppTheme.ru_grey,
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(8.0),
-                      bottomLeft: Radius.circular(8.0),
-                      bottomRight: Radius.circular(8.0),
-                      topRight: Radius.circular(24.0)),
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                        color: AppTheme.ru_grey,
-                        offset: const Offset(1.1, 1.1),
-                        blurRadius: 10.0),
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: SizedBox(
-                    height: 250,
-                    width: 250,
-                    child: RadarChartWidget(
-                        grades: prov.gradesCatalog,
-                        counts: prov.countsCatalog,
-                        ticks: prov.ticksCatalog),
+    return prov.gradesCatalog.isEmpty
+        ? SizedBox()
+        : AnimatedBuilder(
+            animation: widget.mainScreenAnimationController!,
+            builder: (BuildContext context, Widget? child) {
+              return FadeTransition(
+                opacity: widget.mainScreenAnimation!,
+                child: Transform(
+                  transform: Matrix4.translationValues(
+                      0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: isLightMode
+                            ? AppTheme.nearlyWhite
+                            : AppTheme.ru_grey,
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(8.0),
+                            bottomLeft: Radius.circular(8.0),
+                            bottomRight: Radius.circular(8.0),
+                            topRight: Radius.circular(24.0)),
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                              color: AppTheme.ru_grey,
+                              offset: const Offset(1.1, 1.1),
+                              blurRadius: 10.0),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: SizedBox(
+                          height: 250,
+                          width: 250,
+                          child: RadarChartWidget(
+                              grades: prov.gradesCatalog,
+                              counts: prov.countsCatalog,
+                              ticks: prov.ticksCatalog),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
+              );
+            },
+          );
   }
 }
