@@ -52,7 +52,8 @@ class _YearSemesterListViewState extends State<YearSemesterListView>
     double baseFontSize =
         screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
 
-    return prov.gradeYearSemester[0].grades == null
+    return (prov.gradeYearSemester.isEmpty ||
+            prov.gradeYearSemester[0].grades == null)
         ? SizedBox()
         : AnimatedBuilder(
             animation: widget.mainScreenAnimationController!,
