@@ -42,12 +42,12 @@ class AffairsListData {
       navigateScreen: '/scholarship',
       url: '',
     ),
-    AffairsListData(
-      imagePath: 'assets/fitness_app/AF4.png',
-      titleTxt: 'ร่วมกิจกรรมต่างๆ ของนักศึกษา',
-      subTxt: 'ร่วมกิจกรรมต่างๆ ของนักศึกษา',
-      navigateScreen: '/affairs',
-      url: '',
-    ),
+    // AffairsListData(
+    //   imagePath: 'assets/fitness_app/AF4.png',
+    //   titleTxt: 'ร่วมกิจกรรมต่างๆ ของนักศึกษา',
+    //   subTxt: 'ร่วมกิจกรรมต่างๆ ของนักศึกษา',
+    //   navigateScreen: '/affairs',
+    //   url: '',
+    // ),
   ];
 }

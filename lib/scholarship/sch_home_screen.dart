@@ -160,73 +160,85 @@ class _SchHomeScreenState extends State<SchHomeScreen>
   Widget getListUI() {
     var sch = context.watch<SchProvider>();
 
-    return Expanded(
-      child: NestedScrollView(
-        controller: _scrollController,
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverPersistentHeader(
-              pinned: true,
-              floating: true,
-              delegate: ContestTabHeader(
-                getFilterBarUI(sch),
+    return sch.scholarshipData.rECORD == null
+        ? Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("ไม่พบข้อมูลประวัติการรับทุนการศึกษา"),
+              ],
+            ),
+          )
+        : Expanded(
+            child: NestedScrollView(
+              controller: _scrollController,
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return <Widget>[
+                  SliverPersistentHeader(
+                    pinned: true,
+                    floating: true,
+                    delegate: ContestTabHeader(
+                      getFilterBarUI(sch),
+                    ),
+                  ),
+                ];
+              },
+              body: SmartRefresher(
+                enablePullDown: true,
+                enablePullUp: false,
+                header: const WaterDropHeader(),
+                footer: CustomFooter(
+                  builder: (BuildContext context, LoadStatus? mode) {
+                    Widget body;
+                    if (mode == LoadStatus.idle) {
+                      body = const Text("กำลังโหลดข้อมูล...");
+                    } else if (mode == LoadStatus.loading) {
+                      body = const CircularProgressIndicator();
+                    } else if (mode == LoadStatus.failed) {
+                      body =
+                          const Text("ไม่สามารถโหลดข้อมูลได้ กรุณาลองอีกครั้ง");
+                    } else if (mode == LoadStatus.canLoading) {
+                      body = const Text("release to load more");
+                    } else {
+                      body = const Text("ไม่พบข้อมูลแล้ว...");
+                    }
+                    return SizedBox(
+                      height: 55.0,
+                      child: Center(child: body),
+                    );
+                  },
+                ),
+                controller: _refreshController,
+                onRefresh: _onRefresh,
+                onLoading: _onLoading,
+                child: ListView.builder(
+                  itemCount: sch.scholarshipData.rECORD!.length,
+                  padding: const EdgeInsets.only(top: 8),
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (BuildContext context, int index) {
+                    final int count = sch.scholarshipData.rECORD!.length > 10
+                        ? 10
+                        : sch.scholarshipData.rECORD!.length;
+                    final Animation<double> animation =
+                        Tween<double>(begin: 0.0, end: 1.0).animate(
+                            CurvedAnimation(
+                                parent: animationController!,
+                                curve: Interval((1 / count) * index, 1.0,
+                                    curve: Curves.fastOutSlowIn)));
+                    animationController?.forward();
+                    //return Text('data');
+                    // print(index);
+                    return SchListView(
+                      record: sch.scholarshipData.rECORD![index],
+                      animation: animation,
+                      animationController: animationController!,
+                    );
+                  },
+                ),
               ),
             ),
-          ];
-        },
-        body: SmartRefresher(
-          enablePullDown: true,
-          enablePullUp: false,
-          header: const WaterDropHeader(),
-          footer: CustomFooter(
-            builder: (BuildContext context, LoadStatus? mode) {
-              Widget body;
-              if (mode == LoadStatus.idle) {
-                body = const Text("กำลังโหลดข้อมูล...");
-              } else if (mode == LoadStatus.loading) {
-                body = const CircularProgressIndicator();
-              } else if (mode == LoadStatus.failed) {
-                body = const Text("ไม่สามารถโหลดข้อมูลได้ กรุณาลองอีกครั้ง");
-              } else if (mode == LoadStatus.canLoading) {
-                body = const Text("release to load more");
-              } else {
-                body = const Text("ไม่พบข้อมูลแล้ว...");
-              }
-              return SizedBox(
-                height: 55.0,
-                child: Center(child: body),
-              );
-            },
-          ),
-          controller: _refreshController,
-          onRefresh: _onRefresh,
-          onLoading: _onLoading,
-          child: ListView.builder(
-            itemCount: sch.scholarshipData.rECORD!.length,
-            padding: const EdgeInsets.only(top: 8),
-            scrollDirection: Axis.vertical,
-            itemBuilder: (BuildContext context, int index) {
-              final int count = sch.scholarshipData.rECORD!.length > 10
-                  ? 10
-                  : sch.scholarshipData.rECORD!.length;
-              final Animation<double> animation =
-                  Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-                      parent: animationController!,
-                      curve: Interval((1 / count) * index, 1.0,
-                          curve: Curves.fastOutSlowIn)));
-              animationController?.forward();
-              //return Text('data');
-              // print(index);
-              return SchListView(
-                record: sch.scholarshipData.rECORD![index],
-                animation: animation,
-                animationController: animationController!,
-              );
-            },
-          ),
-        ),
-      ),
-    );
+          );
   }
 
   Widget getFilterBarUI(SchProvider sch) {

@@ -16,7 +16,7 @@ class SchService {
     try {
       Profile profile = await ProfileStorage.getProfile();
       //print('studentCode: ${profile.studentCode}');
-      profile.studentCode = '5504500116';
+      //profile.studentCode = '5504500116';
       var params = {"std_code": profile.studentCode};
       await dioapi.createIntercepter();
       var response = await dioapi.api.post(

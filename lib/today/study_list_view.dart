@@ -173,7 +173,7 @@ class StudyListView extends StatelessWidget {
                                               child: Text(
                                                 '${record!.courseInstructor}',
                                                 style: TextStyle(
-                                                    fontSize: baseFontSize - 4,
+                                                    fontSize: baseFontSize - 8,
                                                     color:
                                                         AppTheme.nearlyBlack),
                                               ),

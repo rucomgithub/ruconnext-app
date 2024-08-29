@@ -121,7 +121,7 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
           color: AppTheme.nearlyWhite, // Change back arrow color to white
         ),
         title: Text(
-          'วันนี้เรียนอะไร ? (${mr30.yearsemester.year}/${mr30.yearsemester.semester})',
+          'วันนี้เรียนอะไร ? ',
           style: TextStyle(
             fontSize: baseFontSize - 2,
             fontFamily: AppTheme.ruFontKanit,
@@ -631,61 +631,75 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
           child: Padding(
             padding:
                 const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(32.0),
-                            ),
-                            onTap: () {
-                              Get.to(() => StudyHomeScreen());
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(0.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.list,
-                                    size: baseFontSize - 6,
-                                    color: AppTheme.ru_text_ocean_blue,
+            child: Column(
+              children: [
+                Text(
+                  'ปีการศึกษา ${mr30Prov.yearsemester.year}/${mr30Prov.yearsemester.semester}',
+                  style: TextStyle(
+                    fontSize: baseFontSize - 4,
+                    fontFamily: AppTheme.ruFontKanit,
+                    color: AppTheme.ru_text_ocean_blue,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(32.0),
+                                ),
+                                onTap: () {
+                                  Get.to(() => StudyHomeScreen());
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(0.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.list,
+                                        size: baseFontSize - 6,
+                                        color: AppTheme.ru_text_ocean_blue,
+                                      ),
+                                      Text(
+                                        'วิชาเรียนทั้งหมด',
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.ruFontKanit,
+                                          fontWeight: FontWeight.w100,
+                                          color: AppTheme.ru_text_ocean_blue,
+                                          fontSize: baseFontSize - 6,
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                  Text(
-                                    'วิชาเรียนทั้งหมด',
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.ruFontKanit,
-                                      fontWeight: FontWeight.w100,
-                                      color: AppTheme.ru_text_ocean_blue,
-                                      fontSize: baseFontSize - 6,
-                                    ),
-                                  )
-                                ],
+                                ),
                               ),
                             ),
-                          ),
+                            Text(
+                              'เรียนวันนี้ ${mr30Prov.havetoday.length} รายการ',
+                              style: TextStyle(
+                                fontFamily: AppTheme.ruFontKanit,
+                                fontWeight: FontWeight.w100,
+                                color: AppTheme.ru_text_ocean_blue,
+                                fontSize: baseFontSize - 6,
+                              ),
+                            ),
+                          ],
                         ),
-                        Text(
-                          'เรียนวันนี้ ${mr30Prov.havetoday.length} รายการ',
-                          style: TextStyle(
-                            fontFamily: AppTheme.ruFontKanit,
-                            fontWeight: FontWeight.w100,
-                            color: AppTheme.ru_text_ocean_blue,
-                            fontSize: baseFontSize - 6,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ],
             ),
@@ -763,10 +777,10 @@ class ContestTabHeader extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  double get maxExtent => 52.0;
+  double get maxExtent => 72.0;
 
   @override
-  double get minExtent => 52.0;
+  double get minExtent => 72.0;
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {

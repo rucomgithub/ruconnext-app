@@ -70,8 +70,6 @@ class HomeList {
       roles: [
         UserRole.Guest,
         UserRole.Bachelor,
-        UserRole.Master,
-        UserRole.Doctor
       ],
     ),
     HomeList(

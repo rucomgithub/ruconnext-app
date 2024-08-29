@@ -199,7 +199,7 @@ class TodayListView extends StatelessWidget {
                                                 style: TextStyle(
                                                     overflow:
                                                         TextOverflow.ellipsis,
-                                                    fontSize: baseFontSize - 6,
+                                                    fontSize: baseFontSize - 8,
                                                     fontFamily:
                                                         AppTheme.ruFontKanit,
                                                     color:
