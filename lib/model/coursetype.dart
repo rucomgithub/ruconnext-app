@@ -69,19 +69,21 @@ class CourseType {
 }
 
 class Percentage {
+  int credit;
   int counter;
   final double percent;
   final List<String> listregister;
   final List<CourseType> listcoursetype;
 
   Percentage(
-      {required this.counter,
+      {required this.credit,
+      required this.counter,
       required this.percent,
       required this.listregister,
       required this.listcoursetype});
 
   @override
   String toString() {
-    return 'Percentage(value: $counter, percent: $percent)';
+    return 'Percentage(value: $counter, percent: $percent, credit: $credit)';
   }
 }

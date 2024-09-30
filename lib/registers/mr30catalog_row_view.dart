@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
-import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/model/coursetype.dart';
 import 'package:th.ac.ru.uSmart/providers/mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/register_provider.dart';
+import 'package:th.ac.ru.uSmart/widget/card/card_book.dart';
 
 class Mr30CatalogRowView extends StatefulWidget {
   const Mr30CatalogRowView(
@@ -60,10 +60,6 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
     var prov = Provider.of<RegisterProvider>(context, listen: false);
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double baseFontSize =
-        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return RefreshIndicator(
       onRefresh: () => refreshData(context),
       child: Consumer<RegisterProvider>(builder: (context1, provider, _) {
@@ -135,9 +131,8 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
                                     blurRadius: 10.0),
                               ],
                             ),
-                            height: screenHeight *
-                                0.25 *
-                                prov.listMr30CatalogPercentage.length,
+                            height:
+                                prov.listMr30CatalogPercentage.length * 290 + 8,
                             width: double.infinity,
                             child: ListView.builder(
                               itemCount: prov.listMr30CatalogPercentage.length,
@@ -171,19 +166,20 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
                                             topRight: Radius.circular(68.0)),
                                         boxShadow: <BoxShadow>[
                                           BoxShadow(
-                                              color: FitnessAppTheme.grey
-                                                  .withOpacity(0.2),
-                                              offset: Offset(1.1, 1.1),
-                                              blurRadius: 10.0),
+                                              color: isLightMode
+                                                  ? AppTheme.ru_grey
+                                                  : AppTheme.nearlyWhite,
+                                              offset: Offset(0, 4),
+                                              blurRadius: 8.0),
                                         ],
                                       ),
-                                      height: screenHeight * 0.05,
+                                      height: 50,
                                       child: Column(
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.only(
                                               left: 8.0,
-                                              top: 4.0,
+                                              top: 8.0,
                                               right: 24.0,
                                             ),
                                             child: Row(
@@ -201,42 +197,21 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
                                                     Icon(
                                                       Icons.book,
                                                       color:
-                                                          FitnessAppTheme.grey,
-                                                      size: 12,
+                                                          AppTheme.ru_dark_blue,
+                                                      size: 16,
                                                     ),
                                                     Text(
                                                       '${prov.listMr30CatalogPercentage.entries.elementAt(index).key}',
                                                       textAlign:
                                                           TextAlign.center,
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                            FitnessAppTheme
-                                                                .fontName,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize:
-                                                            baseFontSize - 8,
-                                                        color: FitnessAppTheme
-                                                            .dark_grey,
-                                                      ),
+                                                      style: AppTheme.body2,
                                                     ),
                                                   ],
                                                 ),
                                                 Text(
                                                   '${prov.listMr30CatalogPercentage.entries.elementAt(index).value.listcoursetype.length} วิชา',
                                                   textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontFamily: FitnessAppTheme
-                                                        .fontName,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: baseFontSize - 8,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    color: FitnessAppTheme
-                                                        .dark_grey,
-                                                  ),
+                                                  style: AppTheme.body2,
                                                 ),
                                               ],
                                             ),
@@ -261,17 +236,7 @@ class _Mr30CatalogRowViewState extends State<Mr30CatalogRowView>
                                                       'เคยลงทะเบียนใกล้เคียงความถนัดนี้ ตรงกัน ${prov.listMr30CatalogPercentage.entries.elementAt(index).value.percent.toStringAsFixed(2)}%',
                                                       textAlign:
                                                           TextAlign.center,
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                            FitnessAppTheme
-                                                                .fontName,
-                                                        fontSize:
-                                                            baseFontSize - 10,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        color: FitnessAppTheme
-                                                            .dark_grey,
-                                                      ),
+                                                      style: AppTheme.caption,
                                                     ),
                                                   ],
                                                 ),
@@ -317,11 +282,6 @@ class Mr30CatalogListValueView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var mr30Prov = context.watch<MR30Provider>();
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double baseFontSize =
-        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
-
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -331,7 +291,7 @@ class Mr30CatalogListValueView extends StatelessWidget {
             transform: Matrix4.translationValues(
                 200 * (1.0 - animation!.value), 0.0, 0.0),
             child: Container(
-              height: screenHeight * 0.24,
+              height: 240,
               width: double.infinity,
               child: ListView.builder(
                 itemCount: listData!.length,
@@ -350,204 +310,31 @@ class Mr30CatalogListValueView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(
-                            top: 8.0, left: 8.0, bottom: 8.0),
-                        child: CatalogRowView(
-                          index: index,
-                          callback: () {
-                            Get.toNamed('/ondemand', arguments: {
-                              'course': '${listData![index].courseno}',
-                              'semester':
-                                  '${mr30Prov.yearsemester.semester.toString()}',
-                              'year':
-                                  '${mr30Prov.yearsemester.year.toString().substring(2, 4)}'
-                            });
-                          },
-                          course: listData!.elementAt(index),
-                          animation: animation,
-                          animationController: animationController!,
-                        ),
-                      )
+                          padding: const EdgeInsets.only(
+                              top: 8.0, left: 8.0, bottom: 8.0, right: 8),
+                          child: CardBook(
+                            index: index,
+                            icondata: listData![index].check!
+                                ? Icons.check_box
+                                : Icons.check_box_outline_blank,
+                            title: listData![index].courseno,
+                            content: '${listData![index].cname}',
+                            callback: () {
+                              Get.toNamed('/ondemand', arguments: {
+                                'course':
+                                    '${listData![index].courseno} (${listData![index]})',
+                                'semester':
+                                    '${mr30Prov.yearsemester.semester.toString()}',
+                                'year':
+                                    '${mr30Prov.yearsemester.year.toString().substring(2, 4)}'
+                              });
+                            },
+                            animation: animation,
+                            animationController: animationController!,
+                          ))
                     ],
                   );
                 },
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-class CatalogRowView extends StatelessWidget {
-  const CatalogRowView(
-      {Key? key,
-      this.index,
-      this.course,
-      this.callback,
-      this.animationController,
-      this.animation})
-      : super(key: key);
-
-  final int? index;
-  final VoidCallback? callback;
-  final CourseType? course;
-  final AnimationController? animationController;
-  final Animation<double>? animation;
-
-  @override
-  Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double baseFontSize =
-        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
-    return AnimatedBuilder(
-      animation: animationController!,
-      builder: (BuildContext context, Widget? child) {
-        String startColor = '#FA7D82';
-        String endColor = '#FFB295';
-        String imagePath = 'assets/fitness_app/breakfast.png';
-        return FadeTransition(
-          opacity: animation!,
-          child: Transform(
-            transform: Matrix4.translationValues(
-                100 * (1.0 - animation!.value), 0.0, 0.0),
-            child: InkWell(
-              highlightColor: Colors.transparent,
-              borderRadius: BorderRadius.all(Radius.circular(4.0)),
-              onTap: callback,
-              child: SizedBox(
-                width: screenWidth * 0.35,
-                child: Stack(
-                  children: <Widget>[
-                    Container(
-                      width: screenWidth * 0.34,
-                      decoration: BoxDecoration(
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                              color: HexColor("#FF19196B").withOpacity(0.6),
-                              offset: const Offset(1.1, 4.0),
-                              blurRadius: 8.0),
-                        ],
-                        gradient: LinearGradient(
-                          colors: <HexColor>[
-                            HexColor("#FF19196B"),
-                            HexColor("#FF1919EB"),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: const BorderRadius.only(
-                          bottomRight: Radius.circular(8.0),
-                          bottomLeft: Radius.circular(8.0),
-                          topLeft: Radius.circular(48.0),
-                          topRight: Radius.circular(8.0),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 36, left: 8, right: 8, bottom: 8),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              '${course!.cname.toString()}',
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 3,
-                              style: TextStyle(
-                                fontFamily: AppTheme.ruFontKanit,
-                                fontSize: baseFontSize - 8,
-                                color: AppTheme.nearlyWhite,
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: <Widget>[
-                                Container(
-                                  width: screenWidth * 0.24,
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.nearlyWhite,
-                                    shape: BoxShape.rectangle,
-                                    borderRadius: const BorderRadius.only(
-                                      bottomRight: Radius.circular(16.0),
-                                      bottomLeft: Radius.circular(16.0),
-                                      topLeft: Radius.circular(16.0),
-                                      topRight: Radius.circular(16.0),
-                                    ),
-                                    boxShadow: <BoxShadow>[
-                                      BoxShadow(
-                                          color: AppTheme.nearlyBlack
-                                              .withOpacity(0.4),
-                                          offset: Offset(2.0, 2.0),
-                                          blurRadius: 4.0),
-                                    ],
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.book,
-                                          size: baseFontSize - 6,
-                                        ),
-                                        Text(
-                                          '${course!.courseno.toString()}',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontFamily: AppTheme.ruFontKanit,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: baseFontSize - 6,
-                                            color: AppTheme.ru_dark_blue,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 0,
-                      left: 8,
-                      child: Container(
-                        width: 35,
-                        height: 35,
-                        decoration: BoxDecoration(
-                          color: AppTheme.white.withOpacity(0.2),
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 0,
-                      left: 8,
-                      child: SizedBox(
-                        width: 32,
-                        height: 32,
-                        child: course!.check!
-                            ? Icon(
-                                Icons.check_box,
-                                color: AppTheme.ru_yellow,
-                                size: 24,
-                              )
-                            : Icon(
-                                Icons.check_box_outline_blank,
-                                color: AppTheme.ru_yellow,
-                                size: 24,
-                              ),
-                      ),
-                    )
-                  ],
-                ),
               ),
             ),
           ),

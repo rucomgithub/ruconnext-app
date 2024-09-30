@@ -12,7 +12,8 @@ class StudentProvider extends ChangeNotifier {
     _context = context;
   }
 
-  bool isLoading = false;
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
 
   String _error = '';
   String get error => _error;
@@ -25,25 +26,24 @@ class StudentProvider extends ChangeNotifier {
 
   Future<void> getImageProfile() async {
     //print("call getImageProfile");
-    isLoading = true;
+    _isLoading = true;
     try {
       _service.context = _context;
       final response = await _service.getImageProfile();
       //print(response);
       _imageData = response;
-      isLoading = false;
       // var snackbar = SnackBar(content: Text('Load image success.'));
       // ScaffoldMessenger.of(_context).showSnackBar(snackbar);
     } catch (e) {
       //print("Error $e");
-      isLoading = false;
+
       // var snackbar = SnackBar(content: Text('Error: Load Image Profile. ${e.toString()}'));
       // ScaffoldMessenger.of(_context).showSnackBar(snackbar);
       _error = e.toString();
       // notifyListeners();
     }
-    isLoading = false;
-    notifyListeners();
+    _isLoading = false;
+    //notifyListeners();
   }
 
   Future<void> refreshData() async {
@@ -53,7 +53,7 @@ class StudentProvider extends ChangeNotifier {
   }
 
   Future<void> getStudent() async {
-    isLoading = true;
+    _isLoading = true;
     _error = '';
 
     // notifyListeners();
@@ -61,13 +61,13 @@ class StudentProvider extends ChangeNotifier {
       final response = await _service.getStudent();
       _student = response;
     } on Exception catch (e) {
-      isLoading = false;
+      _isLoading = false;
       _error = 'เกิดข้อผิดพลาดดึงข้อมูลนักศึกษา';
     }
 
     //await _service.asyncName();
 
-    isLoading = false;
+    _isLoading = false;
     notifyListeners();
   }
 }

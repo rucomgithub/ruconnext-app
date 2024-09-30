@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
-import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/model/register_model.dart';
 import 'package:th.ac.ru.uSmart/providers/mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/register_provider.dart';
+import 'package:th.ac.ru.uSmart/widget/card/card_book.dart';
 
 class RegisterRowView extends StatefulWidget {
   const RegisterRowView(
@@ -60,10 +60,6 @@ class _RegisterRowViewState extends State<RegisterRowView>
     var prov = Provider.of<RegisterProvider>(context, listen: false);
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double baseFontSize =
-        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return RefreshIndicator(
       onRefresh: () => refreshData(context),
       child: Consumer<RegisterProvider>(builder: (context1, provider, _) {
@@ -133,9 +129,7 @@ class _RegisterRowViewState extends State<RegisterRowView>
                                     blurRadius: 10.0),
                               ],
                             ),
-                            height: screenHeight *
-                                0.29 *
-                                prov.listGroupCourse.length,
+                            height: (prov.listGroupCourse.length * 290) + 8,
                             width: double.infinity,
                             child: ListView.builder(
                               itemCount: prov.listGroupCourse.length,
@@ -154,13 +148,14 @@ class _RegisterRowViewState extends State<RegisterRowView>
                                                 curve: Curves.fastOutSlowIn)));
                                 animationController?.forward();
                                 return Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
                                         color: isLightMode
                                             ? AppTheme.nearlyWhite
+                                                .withAlpha(255)
                                             : AppTheme.ru_grey,
                                         borderRadius: BorderRadius.only(
                                             topLeft: Radius.circular(8.0),
@@ -169,22 +164,27 @@ class _RegisterRowViewState extends State<RegisterRowView>
                                             topRight: Radius.circular(68.0)),
                                         boxShadow: <BoxShadow>[
                                           BoxShadow(
-                                              color: FitnessAppTheme.grey
-                                                  .withOpacity(0.2),
-                                              offset: Offset(1.1, 1.1),
-                                              blurRadius: 10.0),
+                                              color: isLightMode
+                                                  ? AppTheme.ru_grey
+                                                  : AppTheme.nearlyWhite,
+                                              offset: Offset(0, 4),
+                                              blurRadius: 8.0),
                                         ],
                                       ),
-                                      height: screenHeight * 0.05,
+                                      height: 50,
                                       child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.only(
                                               left: 8.0,
-                                              top: 4.0,
+                                              top: 8.0,
                                               right: 24.0,
                                             ),
                                             child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
                                               mainAxisAlignment:
                                                   MainAxisAlignment
                                                       .spaceBetween,
@@ -198,43 +198,18 @@ class _RegisterRowViewState extends State<RegisterRowView>
                                                   children: [
                                                     Icon(
                                                       Icons.book,
-                                                      color:
-                                                          FitnessAppTheme.grey,
-                                                      size: 12,
+                                                      color: AppTheme.dark_grey,
+                                                      size: 16,
                                                     ),
                                                     Text(
                                                       'ภาคเรียนที่ ${prov.listGroupCourse.entries.elementAt(index).key}',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                            FitnessAppTheme
-                                                                .fontName,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize:
-                                                            baseFontSize - 8,
-                                                        color: FitnessAppTheme
-                                                            .dark_grey,
-                                                      ),
+                                                      style: AppTheme.body2,
                                                     ),
                                                   ],
                                                 ),
                                                 Text(
                                                   '${prov.listGroupCourse.entries.elementAt(index).value.length} วิชา',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontFamily: FitnessAppTheme
-                                                        .fontName,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: baseFontSize - 8,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    color: FitnessAppTheme
-                                                        .dark_grey,
-                                                  ),
+                                                  style: AppTheme.body2,
                                                 ),
                                               ],
                                             ),
@@ -276,12 +251,6 @@ class ListRegisterListValueView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var mr30Prov = context.watch<MR30Provider>();
-
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double baseFontSize =
-        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
-
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -291,7 +260,7 @@ class ListRegisterListValueView extends StatelessWidget {
             transform: Matrix4.translationValues(
                 200 * (1.0 - animation!.value), 0.0, 0.0),
             child: Container(
-              height: screenHeight * 0.24,
+              height: 240,
               width: double.infinity,
               child: ListView.builder(
                 itemCount: listData!.length,
@@ -311,9 +280,12 @@ class ListRegisterListValueView extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(
-                            top: 8.0, left: 8.0, bottom: 8.0),
-                        child: RowRegisterView(
+                            top: 8.0, left: 8.0, bottom: 8.0, right: 8),
+                        child: CardBook(
                           index: index,
+                          //icondata: Icons.book,
+                          title: listData![index].courseNo,
+                          content: '${listData![index].credit} หน่วยกิต ',
                           callback: () {
                             Get.toNamed('/ondemand', arguments: {
                               'course': '${listData![index].courseNo}',
@@ -323,7 +295,6 @@ class ListRegisterListValueView extends StatelessWidget {
                                   '${mr30Prov.yearsemester.year.toString().substring(2, 4)}'
                             });
                           },
-                          course: listData!.elementAt(index),
                           animation: animation,
                           animationController: animationController!,
                         ),
@@ -331,184 +302,6 @@ class ListRegisterListValueView extends StatelessWidget {
                     ],
                   );
                 },
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-class RowRegisterView extends StatelessWidget {
-  const RowRegisterView(
-      {Key? key,
-      this.index,
-      this.course,
-      this.callback,
-      this.animationController,
-      this.animation})
-      : super(key: key);
-  final VoidCallback? callback;
-  final int? index;
-  final REGISTERECORDVIEW? course;
-  final AnimationController? animationController;
-  final Animation<double>? animation;
-
-  @override
-  Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double baseFontSize =
-        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
-    return AnimatedBuilder(
-      animation: animationController!,
-      builder: (BuildContext context, Widget? child) {
-        return FadeTransition(
-          opacity: animation!,
-          child: Transform(
-            transform: Matrix4.translationValues(
-                100 * (1.0 - animation!.value), 0.0, 0.0),
-            child: InkWell(
-              highlightColor: Colors.transparent,
-              borderRadius: BorderRadius.all(Radius.circular(4.0)),
-              onTap: callback,
-              child: SizedBox(
-                width: screenWidth * 0.35,
-                child: Stack(
-                  children: <Widget>[
-                    Container(
-                      width: screenWidth * 0.34,
-                      decoration: BoxDecoration(
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                              color: HexColor("#FF19196B").withOpacity(0.6),
-                              offset: const Offset(1.1, 4.0),
-                              blurRadius: 8.0),
-                        ],
-                        gradient: LinearGradient(
-                          colors: <HexColor>[
-                            HexColor("#FF19196B"),
-                            HexColor("#FF1919EB"),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: const BorderRadius.only(
-                          bottomRight: Radius.circular(8.0),
-                          bottomLeft: Radius.circular(8.0),
-                          topLeft: Radius.circular(48.0),
-                          topRight: Radius.circular(8.0),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 36, left: 8, right: 8, bottom: 8),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '${course!.credit.toString()}',
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.ruFontKanit,
-                                    fontSize: baseFontSize - 4,
-                                    color: AppTheme.ru_yellow,
-                                  ),
-                                ),
-                                Text(
-                                  ' หน่วยกิต',
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.ruFontKanit,
-                                    fontSize: baseFontSize - 6,
-                                    color: AppTheme.nearlyWhite,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: <Widget>[
-                                Container(
-                                  width: screenWidth * 0.24,
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.nearlyWhite,
-                                    shape: BoxShape.rectangle,
-                                    borderRadius: const BorderRadius.only(
-                                      bottomRight: Radius.circular(16.0),
-                                      bottomLeft: Radius.circular(16.0),
-                                      topLeft: Radius.circular(16.0),
-                                      topRight: Radius.circular(16.0),
-                                    ),
-                                    boxShadow: <BoxShadow>[
-                                      BoxShadow(
-                                          color: AppTheme.nearlyBlack
-                                              .withOpacity(0.4),
-                                          offset: Offset(2.0, 2.0),
-                                          blurRadius: 4.0),
-                                    ],
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.book,
-                                          size: baseFontSize - 6,
-                                        ),
-                                        Text(
-                                          '${course!.courseNo.toString()}',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontFamily: AppTheme.ruFontKanit,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: baseFontSize - 6,
-                                            color: AppTheme.ru_dark_blue,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 0,
-                      left: 4,
-                      child: Container(
-                        width: 35,
-                        height: 35,
-                        decoration: BoxDecoration(
-                          color: AppTheme.nearlyWhite.withOpacity(0.2),
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 0,
-                      left: 4,
-                      child: SizedBox(
-                        width: 32,
-                        height: 32,
-                        child: Icon(
-                          Icons.book,
-                          size: baseFontSize + 4,
-                          color: AppTheme.ru_dark_blue,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
               ),
             ),
           ),

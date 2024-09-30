@@ -2,7 +2,7 @@ import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:th.ac.ru.uSmart/master/pages/master_image_loader.dart';
+import 'package:th.ac.ru.uSmart/master/pages/master_Image_graduate.dart';
 import 'package:th.ac.ru.uSmart/pages/ImageLoader.dart';
 import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
 import 'package:th.ac.ru.uSmart/store/authen.dart';
@@ -371,8 +371,9 @@ class LogoLoginSuccess extends StatelessWidget {
             child: Stack(
               children: [
                 ClipOval(
-                  child:
-                      role == "Bachelor" ? ImageLoader() : MasterImageLoader(),
+                  child: role == "Bachelor"
+                      ? ImageLoader()
+                      : MasterImageGraduate(),
                 ),
               ],
             ),

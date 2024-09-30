@@ -168,10 +168,6 @@ class _RegisterListScreenState extends State<RegisterListScreen>
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double baseFontSize =
-        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -179,12 +175,7 @@ class _RegisterListScreenState extends State<RegisterListScreen>
         ),
         title: Text(
           'ข้อมูลการลงทะเบียน',
-          style: TextStyle(
-            fontSize: baseFontSize,
-            fontFamily: AppTheme.ruFontKanit,
-            color: AppTheme.nearlyWhite,
-            fontWeight: FontWeight.bold,
-          ),
+          style: AppTheme.headline,
         ),
         centerTitle: true, // Centers the title
         backgroundColor:
@@ -221,7 +212,6 @@ class _RegisterListScreenState extends State<RegisterListScreen>
                 children: <Widget>[
                   RuWallpaper(),
                   getMainListViewUI(),
-                  //getAppBarUI(),
                   SizedBox(
                     height: MediaQuery.of(context).padding.bottom,
                   )
@@ -242,64 +232,26 @@ class _RegisterListScreenState extends State<RegisterListScreen>
         if (!snapshot.hasData) {
           return const SizedBox();
         } else {
-          return ListView.builder(
-            controller: scrollController,
-            // padding: EdgeInsets.only(
-            //   top: AppBar().preferredSize.height +
-            //       MediaQuery.of(context).padding.top +
-            //       24,
-            //   bottom: 62 + MediaQuery.of(context).padding.bottom,
-            // ),
-            itemCount: listViews.length,
-            scrollDirection: Axis.vertical,
-            itemBuilder: (BuildContext context, int index) {
-              widget.animationController?.forward();
-              return listViews[index];
-            },
+          return Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: ListView.builder(
+              controller: scrollController,
+              // padding: EdgeInsets.only(
+              //   top: AppBar().preferredSize.height +
+              //       MediaQuery.of(context).padding.top +
+              //       24,
+              //   bottom: 62 + MediaQuery.of(context).padding.bottom,
+              // ),
+              itemCount: listViews.length,
+              scrollDirection: Axis.vertical,
+              itemBuilder: (BuildContext context, int index) {
+                widget.animationController?.forward();
+                return listViews[index];
+              },
+            ),
           );
         }
       },
-    );
-  }
-
-  Widget getAppBarUI() {
-    return Column(
-      children: <Widget>[
-        AnimatedBuilder(
-          animation: widget.animationController!,
-          builder: (BuildContext context, Widget? child) {
-            return FadeTransition(
-              opacity: topBarAnimation!,
-              child: Transform(
-                transform: Matrix4.translationValues(
-                    0.0, 30 * (1.0 - topBarAnimation!.value), 0.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: FitnessAppTheme.white.withOpacity(topBarOpacity),
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(32.0),
-                    ),
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                          color: FitnessAppTheme.grey
-                              .withOpacity(0.4 * topBarOpacity),
-                          offset: const Offset(1.1, 1.1),
-                          blurRadius: 10.0),
-                    ],
-                  ),
-                  child: TopBar(
-                    caption: "ข้อมูลการลงทะเบียน....",
-                    iconname: Icon(Icons.help, color: AppTheme.nearlyWhite),
-                    callback: () {
-                      Get.toNamed("/registerhelp");
-                    },
-                  ),
-                ),
-              ),
-            );
-          },
-        )
-      ],
     );
   }
 }

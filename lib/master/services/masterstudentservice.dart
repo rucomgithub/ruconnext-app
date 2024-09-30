@@ -17,9 +17,9 @@ class MasterStudentService {
     Uint8List imageData = Uint8List(0);
     await dioapi.createIntercepter();
     try {
-      print('$appUrl/student/photoprofile');
+      print('$appUrl/student/photograduate');
       final response = await dioapi.api.get(
-        '$appUrl/student/photoprofile',
+        '$appUrl/student/photograduate',
         options: Options(responseType: ResponseType.bytes),
       );
       if (response.statusCode == 200) {

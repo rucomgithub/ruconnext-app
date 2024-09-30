@@ -4,7 +4,7 @@ import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/master/models/master_grade_list_data.dart';
-import 'package:th.ac.ru.uSmart/master/pages/master_image_loader.dart';
+import 'package:th.ac.ru.uSmart/master/pages/master_Image_graduate.dart';
 import 'package:th.ac.ru.uSmart/master/providers/master_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
 import 'package:th.ac.ru.uSmart/utils/faculty_color.dart';
@@ -50,11 +50,6 @@ class _MasterProfileViewState extends State<MasterProfileView>
     var studentProv = context.watch<MasterProvider>();
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double baseFontSize =
-        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
-
     return studentProv.student.stdcode!.isEmpty
         ? Container(
             padding:
@@ -77,7 +72,7 @@ class _MasterProfileViewState extends State<MasterProfileView>
                   transform: Matrix4.translationValues(
                       0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
                   child: Container(
-                    height: screenHeight * 0.85,
+                    height: MediaQuery.of(context).size.height,
                     width: double.infinity,
                     child: Card(
                       elevation: 0.0,
@@ -106,15 +101,15 @@ class _MasterProfileViewState extends State<MasterProfileView>
                             ],
                           ),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Container(
-                                      width: screenWidth * 0.15,
-                                      height: screenHeight * 0.1,
+                                      width: 80,
+                                      height: 120,
                                       child: Padding(
                                         padding: EdgeInsets.all(7.0),
                                         child: ClipRRect(
@@ -125,8 +120,6 @@ class _MasterProfileViewState extends State<MasterProfileView>
                                         ),
                                       )),
                                   Container(
-                                    width: screenWidth * 0.65,
-                                    height: screenHeight * 0.08,
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
@@ -134,36 +127,22 @@ class _MasterProfileViewState extends State<MasterProfileView>
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text('มหาวิทยาลัยรามคำแหง',
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.ruFontKanit,
-                                              fontSize: baseFontSize - 6,
-                                              color: AppTheme.ru_dark_blue,
-                                            )),
+                                            style: AppTheme.body1),
                                         Text('Ramkhamhaeng University',
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.ruFontKanit,
-                                              fontSize: baseFontSize - 6,
-                                              color: AppTheme.ru_yellow,
-                                            )),
+                                            style: AppTheme.body1),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
                                             Icon(
                                               Icons.credit_card_sharp,
-                                              size: baseFontSize - 8,
+                                              size: 20,
                                               color: Colors.blue[900],
                                             ),
                                             SizedBox(width: 2),
                                             Text(
                                                 'บัตรนักศึกษาอิเล็กทรอนิกส์ ${authen.roletext}',
-                                                style: TextStyle(
-                                                  fontFamily:
-                                                      AppTheme.ruFontKanit,
-                                                  fontSize: baseFontSize - 8,
-                                                  color: AppTheme
-                                                      .ru_text_ocean_blue,
-                                                )),
+                                                style: AppTheme.body2),
                                           ],
                                         )
                                       ],
@@ -177,12 +156,12 @@ class _MasterProfileViewState extends State<MasterProfileView>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    width: screenWidth * 0.15,
+                                    width: 64,
                                     child: Column(
                                       children: [
                                         Container(
-                                          height: screenHeight * 0.1,
-                                          width: screenWidth * 0.05,
+                                          height: 84,
+                                          width: 24,
                                           decoration: BoxDecoration(
                                             color: getFacultyMasterColor(
                                                 studentProv
@@ -201,19 +180,14 @@ class _MasterProfileViewState extends State<MasterProfileView>
                                           child: Text(
                                             studentProv
                                                 .student.regionalnamethai!,
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.ruFontKanit,
-                                              fontSize: baseFontSize - 10,
-                                              color:
-                                                  AppTheme.ru_text_ocean_blue,
-                                            ),
+                                            style: AppTheme.cardTitle,
                                           ),
                                         )
                                       ],
                                     ),
                                   ),
                                   Container(
-                                    width: screenWidth * 0.6,
+                                    width: 250,
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -222,7 +196,10 @@ class _MasterProfileViewState extends State<MasterProfileView>
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: MasterImageLoader(),
+                                          child: SizedBox(
+                                              width: 160,
+                                              height: 160,
+                                              child: MasterImageGraduate()),
                                         ),
                                         Column(
                                           children: [
@@ -246,8 +223,8 @@ class _MasterProfileViewState extends State<MasterProfileView>
                                                 ],
                                               ),
                                               child: Container(
-                                                height: screenHeight * 0.1,
-                                                width: screenWidth * 0.6,
+                                                width: 250,
+                                                height: 90,
                                                 child: Padding(
                                                     padding:
                                                         EdgeInsets.fromLTRB(
@@ -259,27 +236,13 @@ class _MasterProfileViewState extends State<MasterProfileView>
                                                       children: [
                                                         Text(
                                                             '${studentProv.student.namethai!}',
-                                                            style: TextStyle(
-                                                              fontFamily: AppTheme
-                                                                  .ruFontKanit,
-                                                              fontSize:
-                                                                  baseFontSize -
-                                                                      8,
-                                                              color: AppTheme
-                                                                  .ru_yellow,
-                                                            )),
+                                                            style: AppTheme
+                                                                .cardNameYellow),
                                                         Text(
                                                             studentProv.student
                                                                 .nameeng!,
-                                                            style: TextStyle(
-                                                              fontFamily: AppTheme
-                                                                  .ruFontKanit,
-                                                              fontSize:
-                                                                  baseFontSize -
-                                                                      8,
-                                                              color: AppTheme
-                                                                  .ru_yellow,
-                                                            ))
+                                                            style: AppTheme
+                                                                .cardNameYellow)
                                                       ],
                                                     )),
                                               ), // Set the color for the red stripes
@@ -305,8 +268,8 @@ class _MasterProfileViewState extends State<MasterProfileView>
                                                 ],
                                               ),
                                               child: Container(
-                                                height: screenHeight * 0.1,
-                                                width: screenWidth * 0.6,
+                                                width: 250,
+                                                height: 90,
                                                 child: Padding(
                                                     padding: EdgeInsets.all(8),
                                                     child: Column(
@@ -320,15 +283,8 @@ class _MasterProfileViewState extends State<MasterProfileView>
                                                         Text(
                                                             studentProv.student
                                                                 .majornamethai!,
-                                                            style: TextStyle(
-                                                              fontFamily: AppTheme
-                                                                  .ruFontKanit,
-                                                              fontSize:
-                                                                  baseFontSize -
-                                                                      8,
-                                                              color: AppTheme
-                                                                  .ru_dark_blue,
-                                                            )),
+                                                            style: AppTheme
+                                                                .cardNameBlue),
                                                         // Text(studentProv.student.facultynamethai!,
                                                         //     style: TextStyle(
                                                         //       fontFamily: AppTheme.ruFontKanit,
@@ -346,11 +302,10 @@ class _MasterProfileViewState extends State<MasterProfileView>
                                     ),
                                   ),
                                   Container(
-                                    width: screenWidth * 0.15,
                                     child: QrImage(
                                       data: authen.profile.studentCode!,
                                       version: QrVersions.auto,
-                                      size: screenWidth * 0.15,
+                                      size: 64,
                                       gapless: false,
                                     ),
                                   )
@@ -362,12 +317,12 @@ class _MasterProfileViewState extends State<MasterProfileView>
                                 child: Column(
                                   children: [
                                     Container(
-                                      height: screenHeight * 0.1,
-                                      width: screenWidth * 0.6,
+                                      height: 120,
+                                      width: 320,
                                       child: Padding(
                                         padding: EdgeInsets.all(5.0),
                                         child: Image.network(
-                                            'http://beta-e-service.ru.ac.th:8001/misservice/generate/barcode.php?barcode=${authen.profile.email!.substring(0, 10)}&width=${screenWidth * 0.6}&height=${screenHeight * 0.1}'),
+                                            'http://beta-e-service.ru.ac.th:8001/misservice/generate/barcode.php?barcode=${authen.profile.email!.substring(0, 10)}&width=${320}&height=${120}'),
                                       ),
                                     ),
                                   ],
@@ -388,7 +343,7 @@ class _MasterProfileViewState extends State<MasterProfileView>
                               QrImage(
                                 data: authen.profile.studentCode!,
                                 version: QrVersions.auto,
-                                size: screenWidth * 0.75,
+                                size: 240,
                                 gapless: false,
                                 embeddedImage: AssetImage(
                                     'assets/images/Logo_VecRu_Thai.png'),

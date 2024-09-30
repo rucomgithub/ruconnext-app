@@ -97,7 +97,7 @@ class AffairsListView extends StatelessWidget {
                                                   child: ListTile(
                                                     title: Text(
                                                       affairsData!.titleTxt,
-                                                      style: AppTheme.title,
+                                                      style: AppTheme.body1,
                                                     ),
                                                   ),
                                                 ),

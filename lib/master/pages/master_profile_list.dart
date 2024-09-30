@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/master/pages/master_profile_view.dart';
 import 'package:th.ac.ru.uSmart/master/providers/master_provider.dart';
-import 'package:th.ac.ru.uSmart/master/providers/master_register_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
 import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
 

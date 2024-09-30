@@ -49,7 +49,8 @@ class _aboutRamState extends State<aboutRam> {
     },
     {
       'title': 'ปณิธาน',
-      'image': 'https://www.naewna.com/uploads/news/source/389623.jpg',
+      'image':
+          'https://archives.lib.ru.ac.th/files/original/d1b1ea9799f778fef9f0683514f7fe188cfd1a69.jpg',
       'description':
           'พัฒนามหาวิทยาลัยรามคำแหงให้เป็นแหล่งวิทยาการแบบตลาดวิชาควบคู่แบบจำกัดจำนวน มุ่งผลิตบัณฑิตที่มีความรู้คู่คุณธรรม และจิตสำนึกในความรับผิดชอบต่อสังคม '
     },

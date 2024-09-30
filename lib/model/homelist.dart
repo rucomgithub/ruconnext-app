@@ -11,6 +11,7 @@ import 'package:th.ac.ru.uSmart/pages/profile_home_screen.dart';
 import 'package:th.ac.ru.uSmart/registers/register_home_screen.dart';
 import 'package:th.ac.ru.uSmart/schedule/schedule_home_screen.dart';
 import 'package:th.ac.ru.uSmart/screens/runewsScreen.dart';
+import 'package:th.ac.ru.uSmart/screens/splash_screen.dart';
 import 'package:th.ac.ru.uSmart/today/today_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -134,6 +135,13 @@ class HomeList {
       color: Colors.brown,
       navigateScreen: MasterRegisterHomeScreen(),
       roles: [UserRole.Master, UserRole.Doctor],
+    ),
+    HomeList(
+      imagePath: 'assets/fitness_app/A2.png',
+      iconsData: Icons.app_registration,
+      color: Colors.brown,
+      navigateScreen: SplashScreen(),
+      roles: [UserRole.Guest],
     ),
   ];
 }
