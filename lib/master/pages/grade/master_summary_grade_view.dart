@@ -1,5 +1,4 @@
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,11 +21,6 @@ class _MasterSummaryGradeViewState extends State<MasterSummaryGradeView> {
   @override
   Widget build(BuildContext context) {
     var prov = Provider.of<MasterGradeProvider>(context, listen: false);
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double baseFontSize =
-        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
-
     return AnimatedBuilder(
       animation: widget.animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -80,8 +74,24 @@ class _MasterSummaryGradeViewState extends State<MasterSummaryGradeView> {
                                       var value = prov.groupGrade.values
                                           .elementAt(childIndex);
                                       return Container(
-                                        color: Colors.white,
-                                        width: screenWidth * 0.1,
+                                        decoration: BoxDecoration(
+                                          color: AppTheme.white,
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(8.0),
+                                              bottomLeft: Radius.circular(8.0),
+                                              bottomRight:
+                                                  Radius.circular(38.0),
+                                              topRight: Radius.circular(48.0)),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: AppTheme.ru_yellow
+                                                  .withOpacity(0.4),
+                                              spreadRadius: 2,
+                                              blurRadius: 4,
+                                              offset: Offset(4, 4),
+                                            ),
+                                          ],
+                                        ),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
@@ -92,7 +102,7 @@ class _MasterSummaryGradeViewState extends State<MasterSummaryGradeView> {
                                               child: Row(
                                                 children: [
                                                   Container(
-                                                    height: baseFontSize + 60,
+                                                    height: 50,
                                                     width: 2,
                                                     decoration: BoxDecoration(
                                                       color: childIndex % 2 == 0
@@ -120,16 +130,9 @@ class _MasterSummaryGradeViewState extends State<MasterSummaryGradeView> {
                                                                   .ru_dark_blue,
                                                           radius: 16,
                                                           child: Text(
-                                                            '${key}',
-                                                            style: TextStyle(
-                                                              fontFamily: AppTheme
-                                                                  .ruFontKanit,
-                                                              fontSize:
-                                                                  baseFontSize -
-                                                                      8,
-                                                              color: AppTheme
-                                                                  .white,
-                                                            ),
+                                                            '${key} ....',
+                                                            style: AppTheme
+                                                                .subtitle,
                                                           ),
                                                         ),
                                                         Padding(
@@ -143,17 +146,8 @@ class _MasterSummaryGradeViewState extends State<MasterSummaryGradeView> {
                                                             radius: 16,
                                                             child: Text(
                                                               '${value['count'].toString()}',
-                                                              style: TextStyle(
-                                                                fontFamily: AppTheme
-                                                                    .ruFontKanit,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize:
-                                                                    baseFontSize,
-                                                                color: AppTheme
-                                                                    .white,
-                                                              ),
+                                                              style: AppTheme
+                                                                  .title,
                                                             ),
                                                           ),
                                                         ),
@@ -172,13 +166,7 @@ class _MasterSummaryGradeViewState extends State<MasterSummaryGradeView> {
                                                 Text(
                                                   '${(int.parse(value['credit_sum'].toString()) * widget.animation!.value).toInt()}',
                                                   textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontFamily:
-                                                        AppTheme.ruFontKanit,
-                                                    fontSize: baseFontSize - 8,
-                                                    color:
-                                                        AppTheme.ru_text_grey,
-                                                  ),
+                                                  style: AppTheme.cardTitle,
                                                 ),
                                                 SizedBox(
                                                   width: 4,
@@ -186,13 +174,7 @@ class _MasterSummaryGradeViewState extends State<MasterSummaryGradeView> {
                                                 Text(
                                                   'หน่วยกิต',
                                                   textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontFamily:
-                                                        AppTheme.ruFontKanit,
-                                                    fontSize: baseFontSize - 8,
-                                                    color:
-                                                        AppTheme.ru_text_grey,
-                                                  ),
+                                                  style: AppTheme.caption,
                                                 ),
                                               ],
                                             )
@@ -206,20 +188,20 @@ class _MasterSummaryGradeViewState extends State<MasterSummaryGradeView> {
                             ),
                             Padding(
                               padding:
-                                  const EdgeInsets.only(top: 16.0, right: 8.0),
+                                  const EdgeInsets.only(top: 16.0, left: 48.0),
                               child: Stack(
                                 clipBehavior: Clip.none,
                                 children: <Widget>[
                                   Container(
-                                    width: screenWidth * 0.45,
-                                    height: screenWidth * 0.45,
+                                    width: 140,
+                                    height: 140,
                                     decoration: BoxDecoration(
                                       color: AppTheme.white,
                                       borderRadius: BorderRadius.all(
-                                        Radius.circular(screenWidth * 0.45),
+                                        Radius.circular(15 * 150),
                                       ),
                                       border: new Border.all(
-                                          width: 10,
+                                          width: 12,
                                           color: AppTheme.ru_dark_blue),
                                     ),
                                     child: Column(
@@ -242,15 +224,7 @@ class _MasterSummaryGradeViewState extends State<MasterSummaryGradeView> {
                                                 child: Text(
                                                   '${prov.summaryCreditPass['PASS']!.toString()}',
                                                   textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontFamily:
-                                                        AppTheme.ruFontKanit,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: baseFontSize + 24,
-                                                    letterSpacing: 0.0,
-                                                    color: AppTheme
-                                                        .ru_text_light_blue,
-                                                  ),
+                                                  style: AppTheme.body1,
                                                 ),
                                               ),
                                             );
@@ -259,12 +233,7 @@ class _MasterSummaryGradeViewState extends State<MasterSummaryGradeView> {
                                         Text(
                                           'หน่วยกิตสะสม',
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontFamily: AppTheme.ruFontKanit,
-                                            fontSize: baseFontSize - 8,
-                                            letterSpacing: 0.0,
-                                            color: AppTheme.nearlyBlack,
-                                          ),
+                                          style: AppTheme.body2,
                                         ),
                                       ],
                                     ),
@@ -283,8 +252,8 @@ class _MasterSummaryGradeViewState extends State<MasterSummaryGradeView> {
                                                     48) /
                                                 100)),
                                     child: SizedBox(
-                                      width: screenWidth * 0.45,
-                                      height: screenWidth * 0.45,
+                                      width: 140,
+                                      height: 140,
                                     ),
                                   )
                                 ],
@@ -370,7 +339,7 @@ class CurvePainter extends CustomPainter {
       ..shader = gradient.createShader(rect)
       ..strokeCap = StrokeCap.round // StrokeCap.round is not recommended.
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 14;
+      ..strokeWidth = 16;
     final center = new Offset(size.width / 2, size.height / 2);
     final radius = math.min(size.width / 2, size.height / 2) - (14 / 2);
 

@@ -39,14 +39,14 @@ class TitleNoneView extends StatelessWidget {
                           child: Text(
                             titleTxt,
                             textAlign: TextAlign.left,
-                            style: AppTheme.body1,
+                            style: AppTheme.header,
                           ),
                         ),
                       ],
                     ),
                     Divider(
                       height: 4,
-                      thickness: 2,
+                      thickness: 4,
                       color: AppTheme.ru_yellow,
                     )
                   ],

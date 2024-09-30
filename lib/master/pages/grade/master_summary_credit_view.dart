@@ -1,11 +1,4 @@
-import 'dart:ffi';
-
-import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/ui_view/wave_view.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
-import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:th.ac.ru.uSmart/master/providers/master_grade_provider.dart';
-import 'package:th.ac.ru.uSmart/providers/grade_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/widget/ru_grade.dart';
@@ -33,10 +26,6 @@ class _MasterSummaryCreditViewState extends State<MasterSummaryCreditView>
   @override
   Widget build(BuildContext context) {
     var prov = Provider.of<MasterGradeProvider>(context, listen: false);
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double baseFontSize =
-        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
     return AnimatedBuilder(
       animation: widget.mainScreenAnimationController!,
       builder: (BuildContext context, Widget? child) {

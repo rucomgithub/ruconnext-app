@@ -76,6 +76,7 @@ class AppTheme {
   static const TextStyle title = TextStyle(
     // h6 -> title
     fontFamily: ruFontKanit,
+    overflow: TextOverflow.ellipsis,
     fontWeight: FontWeight.bold,
     fontSize: 16,
     letterSpacing: 0.18,
@@ -116,6 +117,33 @@ class AppTheme {
     color: darkText,
   );
 
+  static const TextStyle cardNameBlue = TextStyle(
+    // body2 -> body1
+    fontFamily: ruFontKanit,
+    fontWeight: FontWeight.w400,
+    fontSize: 16,
+    letterSpacing: -0.05,
+    color: ru_dark_blue,
+  );
+
+  static const TextStyle cardNameYellow = TextStyle(
+    // body2 -> body1
+    fontFamily: ruFontKanit,
+    fontWeight: FontWeight.w400,
+    fontSize: 16,
+    letterSpacing: -0.05,
+    color: ru_yellow,
+  );
+
+  static const TextStyle header = TextStyle(
+    // body2 -> body1
+    fontFamily: ruFontKanit,
+    fontWeight: FontWeight.w400,
+    fontSize: 18,
+    letterSpacing: -0.05,
+    color: darkText,
+  );
+
   static const TextStyle caption = TextStyle(
     // Caption -> caption
     fontFamily: ruFontKanit,
@@ -148,10 +176,10 @@ class AppTheme {
   static const TextStyle cardTitle = TextStyle(
     // h6 -> title
     fontFamily: ruFontKanit,
-    fontWeight: FontWeight.w400,
-
-    fontSize: 14,
-    letterSpacing: 0.24,
+    overflow: TextOverflow.ellipsis,
+    fontWeight: FontWeight.bold,
+    fontSize: 16,
+    letterSpacing: 0.18,
     color: ru_yellow,
   );
 
