@@ -138,6 +138,7 @@ class RuregionCheckCartProvider extends ChangeNotifier {
     _error = '';
     _msgDup = '';
     _mr30Apprec = await MR30AppStorage.getMR30App();
+    
     var tmprec = [];
 
     if (_mr30Apprec != null) {

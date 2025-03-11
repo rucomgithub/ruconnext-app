@@ -82,21 +82,30 @@ class RuregisFeeProvider extends ChangeNotifier {
 
   Future<void> getCalPay(mr30,stdcode,semester,year) async {
     isLoading = true;
-
+  print(mr30);
     //final Map<String, dynamic> jsonData = json.decode(mr30ruregion);
     double sumCredit = 0;
     int countElements = 0;
+    String courseNo='';
     mr30.forEach((element) => {
           sumCredit += element.cREDIT,
           countElements++,
         });
     sumIntCredit = sumCredit.round();
+  List<Map<String, dynamic>> resultArray = [];
 
+  // วนลูปผ่าน mr30 และดึง courseNo และ cREDIT มาเก็บใน resultArray
+  mr30.forEach((element) {
+    resultArray.add({
+      'COURSE_NO': element['courseNo'],
+      'CREDIT': element['cREDIT'],
+    });
+  });
     try {
       final response = await _ruregisService.getProfileRuregion(stdcode);
       // print('${response} ${sumIntCredit} ${countElements}');
       final responseCheck = await _ruregisService.postCalPayRegion(
-          response, sumIntCredit, countElements,semester,year);
+          response, sumIntCredit, countElements,semester,year,resultArray);
       _summary = responseCheck;
       // print('summary ${_summary.success}');
     } on Exception catch (e) {

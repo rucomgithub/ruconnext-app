@@ -125,8 +125,14 @@ class RuregisService {
     for (var item in mr30App) {
       totalCredits += item.cREDIT!; // assuming item.credit is an int
     }
+    List<Map<String, dynamic>> resultArray = mr30App.map((element) {
+  return {
+    'COURSENO': element.cOURSENO,
+    'CREDIT': element.cREDIT,
+  };
+}).toList();
     print(totalCredits);
-    print(profileApp);
+    print(resultArray);
     try {
       var params = {
         "STD_CODE": profileApp.sTDCODE,
@@ -139,7 +145,8 @@ class RuregisService {
         "TOTAL_CREDIT": totalCredits.toString(),
         "NUM_COURSE": mr30App.length.toString(),
         "GRADUATE_STATUS": profileApp.gRADUATESTATUS,
-        "STD_STATUS_CURRENT": profileApp.sTDSTATUSCURRENT
+        "STD_STATUS_CURRENT": profileApp.sTDSTATUSCURRENT,
+        "ARR_COURSE" :resultArray
       };
       //print('============================$params');
       await dioapi.createIntercepter();
@@ -648,7 +655,7 @@ Future<SaveStatus> saveStatusApp() async {
   }
 
   Future<Summary_reg> postCalPayRegion(
-      profile, sumcredit, numcourse, semester, year) async {
+      profile, sumcredit, numcourse, semester, year,resultArray) async {
     Summary_reg registerdata = Summary_reg.fromJson({});
 
     try {
@@ -663,9 +670,11 @@ Future<SaveStatus> saveStatusApp() async {
         "TOTAL_CREDIT": sumcredit.toString(),
         "NUM_COURSE": numcourse.toString(),
         "GRADUATE_STATUS": profile.gRADUATESTATUS,
-        "STD_STATUS_CURRENT": profile.sTDSTATUSCURRENT
+        "STD_STATUS_CURRENT": profile.sTDSTATUSCURRENT,
+        "ARR_COURSE" :resultArray
+    
       };
-      //print('============================$params');
+      print('============================$params');
       await dioapi.createIntercepter();
       var response = await dioapi.api.post(
         '$ruregionurl/region_calculate_payment',
