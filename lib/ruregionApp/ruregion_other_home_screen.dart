@@ -34,22 +34,23 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
 
   @override
   void initState() {
+    super.initState();
+
     animationController = AnimationController(
         duration: const Duration(milliseconds: 400), vsync: this);
-    super.initState();
+
     Provider.of<RuregisProvider>(context, listen: false)
         .fetchProfileAppRuregion();
     Provider.of<AuthenRuRegionAppProvider>(context, listen: false).getProfile();
     getData();
     Provider.of<AuthenRuRegionAppProvider>(context, listen: false)
         .getCounterRegionApp();
-
     Provider.of<RuregisProvider>(context, listen: false).getCounterRegionApp();
 
-    // Timer.run(() {
-    //   showAlertRegis(context);
-    // });
-    //Noti.initialize(flutterLocalNotificationsPlugin);
+    // ✅ หลังจาก Build เสร็จแล้วค่อยเช็คค่าจาก API แล้วเด้ง Popup
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkAPIStatusAndShowPopup();
+    });
   }
 
   Future<bool> getData() async {
@@ -67,10 +68,6 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
   Widget build(BuildContext context) {
     var provruregis =
         Provider.of<AuthenRuRegionAppProvider>(context, listen: false);
-    // var statusregis = Provider.of<RuregisProvider>(context, listen: false)
-    //     .ruregionApp
-    //     .rEGISSTATUS;
-
     var statusregis = context.watch<RuregisProvider>().ruregionApp.rEGISSTATUS;
 
     if (statusregis == false) {
@@ -78,6 +75,7 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
     } else {
       otherList = RuregionOtherListData.otherListDefualt;
     }
+
     return Container(
       color: FitnessAppTheme.background,
       child: Scaffold(
@@ -88,7 +86,6 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
             if (!snapshot.hasData) {
               return const SizedBox();
             } else {
-              // print('login res ${provruregis.loginres.rec![0].username}');
               return provruregis.loginres.tf != null
                   ? Stack(
                       children: <Widget>[
@@ -99,7 +96,7 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
                               animation: animationController,
                               animationController: animationController,
                             ),
-                            getListUI(),
+                            Expanded(child: getListUI()),
                           ],
                         )
                       ],
@@ -125,8 +122,7 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
       ),
       child: Column(
         children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height - 80,
+          Expanded(
             child: FutureBuilder<bool>(
               future: getData(),
               builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
@@ -157,8 +153,6 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
 
                           return RuregionOtherListView(
                             callback: () {
-                              print(
-                                  'status regis ${counter.counterregionApp.resultsAppControl}');
                               if (counter.counterregionApp.resultsAppControl![0]
                                       .aPISTATUS ==
                                   true) {
@@ -175,9 +169,7 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
                                       true) {
                                     Get.toNamed(
                                         otherList[index].navigateScreen);
-                                  } else if (rureisprov
-                                          .ruregionApp.rEGISSTATUS ==
-                                      false) {
+                                  } else {
                                     showAlert(
                                         context,
                                         '${rureisprov.ruregionApp.eRRMSG}',
@@ -247,7 +239,7 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
                   onTap: () {
                     Navigator.of(context).popUntil(
                       (route) => route.isFirst,
-                    ); // Navigate to the root
+                    );
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -301,42 +293,35 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
   void showAlert(BuildContext context, String txtAlert, String navigate) {
     showDialog(
       context: context,
-      barrierDismissible: true, // Allows closing the dialog by tapping outside
+      barrierDismissible: true,
       builder: (context) {
         TextEditingController textEditingController = TextEditingController();
 
         var rureisprov = Provider.of<RuregisProvider>(context, listen: false);
-        List<TextSpan> textSpans = [];
-
-        textSpans.add(
+        List<TextSpan> textSpans = [
           TextSpan(
             text: '$txtAlert',
             style: TextStyle(
               fontFamily: AppTheme.ruFontKanit,
               fontWeight: FontWeight.normal,
               fontSize: 15,
-              letterSpacing: 0.0,
               color: FitnessAppTheme.nearlyBlack,
             ),
           ),
-        );
+        ];
 
         return AlertDialog(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: textEditingController,
-                decoration: InputDecoration(
-                  hintText: '',
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: textEditingController,
+                  decoration: InputDecoration(hintText: ''),
                 ),
-              ),
-              Text.rich(
-                TextSpan(
-                  children: textSpans,
-                ),
-              ),
-            ],
+                Text.rich(TextSpan(children: textSpans)),
+              ],
+            ),
           ),
           actions: [
             TextButton(
@@ -344,11 +329,9 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
                 'ตกลง',
                 style: TextStyle(
                   fontFamily: AppTheme.ruFontKanit,
-                  fontWeight: FontWeight.normal,
                   fontSize: 15,
-                  letterSpacing: 0.0,
                   color: Color.fromARGB(255, 54, 82, 60),
-                ), // Sets the text color
+                ),
               ),
               onPressed: () {
                 if (textEditingController.text == 'dev$secret') {
@@ -371,14 +354,16 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
       builder: (context) {
         final provider = Provider.of<RuregisProvider>(context);
         return AlertDialog(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (provider.isLoading == false)
-                Text(
-                    '${provider.counterregionApp.resultsAppControl![2].aPIDES}'),
-              if (provider.isLoading == true) CircularProgressIndicator(),
-            ],
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (!provider.isLoading)
+                  Text(
+                      '${provider.counterregionApp.resultsAppControl![2].aPIDES}'),
+                if (provider.isLoading) CircularProgressIndicator(),
+              ],
+            ),
           ),
           actions: [
             TextButton(
@@ -386,16 +371,74 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
                 'ตกลง',
                 style: TextStyle(
                   fontFamily: AppTheme.ruFontKanit,
-                  fontWeight: FontWeight.normal,
                   fontSize: 15,
-                  letterSpacing: 0.0,
                   color: Color.fromARGB(255, 54, 82, 60),
-                ), // Sets the text color
+                ),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
+          ],
+        );
+      },
+    );
+  }
+
+  // ✅ ฟังก์ชันตรวจสอบ API แล้วเด้ง Popup
+  void _checkAPIStatusAndShowPopup() {
+    final counterProv = Provider.of<RuregisProvider>(context, listen: false);
+
+    // ✅ ดึงค่าจาก API
+    final apiStatus =
+        counterProv.counterregionApp.resultsAppControl![2].aPISTATUS;
+
+   final apiName =
+        counterProv.counterregionApp.resultsAppControl![2].aPINAME ?? '';
+    final apiMessage =
+        counterProv.counterregionApp.resultsAppControl![2].aPIDES ?? '';
+
+    // ✅ ถ้ามีข้อความจาก API ให้เด้ง Popup
+    if (apiMessage.isNotEmpty) {
+      _showWelcomePopup(apiStatus, apiMessage, apiName);
+    }
+  }
+
+  // ✅ ฟังก์ชัน Popup จาก API
+  void _showWelcomePopup(bool? apiStatus, String apiMessage, String apiName) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            apiName ,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              fontFamily: AppTheme.ruFontKanit,
+            ),
+          ),
+          content: Text(
+            apiMessage,
+            style: TextStyle(
+              fontSize: 16,
+              fontFamily: AppTheme.ruFontKanit,
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                'ตกลง',
+                style: TextStyle(
+                  fontFamily: AppTheme.ruFontKanit,
+                  color: Colors.blue,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
           ],
         );
       },

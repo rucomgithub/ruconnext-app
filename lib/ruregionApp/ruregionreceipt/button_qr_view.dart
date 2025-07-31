@@ -54,22 +54,76 @@ class _ButtonQRViewState extends State<ButtonQRView>
     return AnimatedBuilder(
       animation: widget.mainScreenAnimationController!,
       builder: (BuildContext context, Widget? child) {
-        // var feeData = context.watch<RuregisFeeProvider>();
         return Container(
           margin: EdgeInsets.all(8.0),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.white, // foreground
-              backgroundColor: Colors.green,
+              foregroundColor: Colors.white,
+              backgroundColor: Color(0xFF1E88E5),
             ),
             onPressed: isload || !counter!
                 ? null
                 : () {
-                    Provider.of<RegionEnrollProvider>(context, listen: false)
-                        .postQRApp();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('ยืนยันการรับ QRCODE'),
+                          content: RichText(
+                            text: TextSpan(
+                              style: Theme.of(context).textTheme.bodyMedium,
+                              children: [
+                                TextSpan(
+                                  text: 'หากทำการยืนยันรับ QRCODE แล้วจะ',
+                                ),
+                                TextSpan(
+                                  text: 'ไม่สามารถเปลี่ยนแปลงวิชาและขอจบได้ ',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: 'โปรดตรวจสอบวิชาให้เรียบร้อยก่อนยืนยัน',
+                                ),
+                              ],
+                            ),
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('ยกเลิก'),
+                              style: TextButton.styleFrom(
+                                foregroundColor: Colors.red,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            TextButton(
+                              child: Text('ยืนยัน'),
+                              style: TextButton.styleFrom(
+                                foregroundColor: Colors.green,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                Provider.of<RegionEnrollProvider>(context,
+                                        listen: false)
+                                    .postQRApp();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
-            // child: Text('ยืนยันวิชา ซ้ำซ้อน$checkdup ติ้กขอจบ$statusgrad location$checklocation '),
-            child: Text('$msgbuttonQR'),
+            child: Row(
+              mainAxisSize: MainAxisSize.min, // ขนาดตามเนื้อหา
+              children: [
+                Text('$msgbuttonQR'),
+                const SizedBox(width: 8),
+                Icon(Icons.qr_code_2_rounded), // หรือใช้ Icons.qr_code
+              ],
+            ),
           ),
         );
       },

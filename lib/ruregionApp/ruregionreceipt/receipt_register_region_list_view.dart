@@ -15,7 +15,6 @@ import 'package:provider/provider.dart';
 import '../../fitness_app/fitness_app_theme.dart';
 import '../../model/register_model.dart';
 
-
 class ReceiptRuregionCartListView extends StatefulWidget {
   const ReceiptRuregionCartListView(
       {Key? key, this.mainScreenAnimationController, this.mainScreenAnimation})
@@ -24,19 +23,20 @@ class ReceiptRuregionCartListView extends StatefulWidget {
   final AnimationController? mainScreenAnimationController;
   final Animation<double>? mainScreenAnimation;
   @override
-  _ReceiptRuregionCartListViewState createState() => _ReceiptRuregionCartListViewState();
+  _ReceiptRuregionCartListViewState createState() =>
+      _ReceiptRuregionCartListViewState();
 }
 
-class _ReceiptRuregionCartListViewState extends State<ReceiptRuregionCartListView>
-    with TickerProviderStateMixin {
+class _ReceiptRuregionCartListViewState
+    extends State<ReceiptRuregionCartListView> with TickerProviderStateMixin {
   AnimationController? animationController;
 
   bool isChecked = false;
   @override
   void initState() {
-     Provider.of<RuregionReceiptProvider>(context, listen: false)
+    Provider.of<RuregionReceiptProvider>(context, listen: false)
         .getEnrollRegionProv('6299499991', '1', '2567');
-  
+
     animationController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
     super.initState();
@@ -64,7 +64,7 @@ class _ReceiptRuregionCartListViewState extends State<ReceiptRuregionCartListVie
   Container mr30cart(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width *
-          0.8, // Set a fixed width for the container
+          0.68, // Set a fixed width for the container
       // height: MediaQuery.of(context).size.height * 0.5,
       margin: EdgeInsets.all(8.0),
       decoration: BoxDecoration(
@@ -122,9 +122,12 @@ class _ReceiptRuregionCartListViewState extends State<ReceiptRuregionCartListVie
                                         );
                                         animationController?.forward();
                                         String name = ruregionreceipt
-                                            .receiptRu24RegionalResultsrec[index].cOURSENO!;
-                                        List<ReceiptRu24RegionalResults> values =
-                                            ruregionreceipt.receiptRu24RegionalResultsrec;
+                                            .receiptRu24RegionalResultsrec[
+                                                index]
+                                            .cOURSENO!;
+                                        List<ReceiptRu24RegionalResults>
+                                            values = ruregionreceipt
+                                                .receiptRu24RegionalResultsrec;
                                         return AreaView(
                                           index: index,
                                           name: name,
@@ -160,7 +163,7 @@ class _ReceiptRuregionCartListViewState extends State<ReceiptRuregionCartListVie
   Container fee(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width *
-          0.8, // Set a fixed width for the container
+          0.68, // Set a fixed width for the container
       margin: EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -210,14 +213,18 @@ class _ReceiptRuregionCartListViewState extends State<ReceiptRuregionCartListVie
                                     ),
                                   );
                                   animationController?.forward();
-                                  String name =
-                                      feeData.enrollruregion.receiptDetailRegionalResults![index].fEENAME!;
+                                  String name = feeData
+                                      .enrollruregion
+                                      .receiptDetailRegionalResults![index]
+                                      .fEENAME!;
                                   List<ReceiptDetailRegionalResults> values =
-                                      feeData.enrollruregion.receiptDetailRegionalResults!;
+                                      feeData.enrollruregion
+                                          .receiptDetailRegionalResults!;
                                   return AreaViewFee(
                                     index: index,
                                     name: name,
-                                    values: feeData.enrollruregion.receiptDetailRegionalResults!,
+                                    values: feeData.enrollruregion
+                                        .receiptDetailRegionalResults!,
                                     animation: animation,
                                     animationController: animationController!,
                                   );
@@ -256,7 +263,7 @@ class AreaViewFee extends StatelessWidget {
   final int? index;
   final String? name;
   final List<ReceiptDetailRegionalResults>? values;
-  
+
   final AnimationController? animationController;
   final Animation<double>? animation;
 
@@ -264,7 +271,8 @@ class AreaViewFee extends StatelessWidget {
   Widget build(BuildContext context) {
     var ruregisfeeProv = context.watch<RuregionReceiptProvider>();
     // var feeData = context.watch<RuregionReceiptProvider>().receiptDetailRegionalResultsrec;
-  var receiptheader = context.watch<RuregionReceiptProvider>().receiptRegionalResultsrec;
+    var receiptheader =
+        context.watch<RuregionReceiptProvider>().receiptRegionalResultsrec;
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -312,7 +320,7 @@ class AreaViewFee extends StatelessWidget {
                                 fontFamily: AppTheme.ruFontKanit,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 18,
-                                color: FitnessAppTheme.nearlyBlack,
+                                color: Color.fromARGB(255, 146, 145, 145),
                               ),
                             ),
                             Text(
@@ -322,7 +330,7 @@ class AreaViewFee extends StatelessWidget {
                                 fontFamily: AppTheme.ruFontKanit,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 18,
-                                color: FitnessAppTheme.nearlyBlack,
+                                color: Color.fromARGB(255, 146, 145, 145),
                               ),
                             ),
                           ],
@@ -358,7 +366,8 @@ class AreaViewFee extends StatelessWidget {
                             );
                           },
                         ),
-                      ),Container(
+                      ),
+                      Container(
                         padding: const EdgeInsets.only(
                             left: 10, bottom: 1, top: 10, right: 10),
                         child: Row(
@@ -461,14 +470,28 @@ class AreaView extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              'ทั้งหมด ${values!.length} วิชา ',
+                            RichText(
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontFamily: AppTheme.ruFontKanit,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18,
-                                color: FitnessAppTheme.nearlyBlack,
+                              text: TextSpan(
+                                style: TextStyle(
+                                  fontFamily: AppTheme.ruFontKanit,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: 'ทั้งหมด ',
+                                    style: TextStyle(color: Color.fromARGB(255, 146, 145, 145)),
+                                  ),
+                                  TextSpan(
+                                    text: '${values!.length}',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  TextSpan(
+                                    text: ' วิชา',
+                                    style: TextStyle(color:Color.fromARGB(255, 146, 145, 145)),
+                                  ),
+                                ],
                               ),
                             ),
                             Text(
@@ -478,7 +501,7 @@ class AreaView extends StatelessWidget {
                                 fontFamily: AppTheme.ruFontKanit,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 18,
-                                color: FitnessAppTheme.nearlyBlack,
+                                color: Color.fromARGB(255, 146, 145, 145),
                               ),
                             ),
                           ],
@@ -512,7 +535,6 @@ class AreaView extends StatelessWidget {
                                 trailing: RichText(
                                   text: TextSpan(
                                     children: [
-                                    
                                       TextSpan(
                                         text:
                                             ' ${values![index].eXAMDATE} (${values![index].eXAMPERIOD})',
