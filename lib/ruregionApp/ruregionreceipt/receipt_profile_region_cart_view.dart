@@ -159,6 +159,7 @@ class _ReceiptProfileRegionCartViewState
                             ],
                           ),
                         ),
+                    
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Row(
@@ -166,7 +167,20 @@ class _ReceiptProfileRegionCartViewState
                                 .spaceBetween, // Distribute space evenly
                             children: [
                               Text(
-                                'รหัส ${ruregisProv.sTDCODE!}', // Your right-aligned text
+                                  'รหัส ${ruregisProv.sTDCODE!}',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontFamily: AppTheme.ruFontKanit,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 15,
+                                  letterSpacing: 0.0,
+                                  color: FitnessAppTheme.nearlyBlack,
+                                ),
+                              ),
+                              Text(
+                                   isGrad
+                                          ? 'ขอจบการศึกษา'
+                                          : 'ไม่ขอจบการศึกษา', // Your right-aligned text
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,
@@ -186,18 +200,7 @@ class _ReceiptProfileRegionCartViewState
                                 .spaceBetween, // Distribute space evenly
                             children: [
                               Text(
-                                '${ruregisProv.fACULTYNAMETHAI!}',
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.ruFontKanit,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 15,
-                                  letterSpacing: 0.0,
-                                  color: FitnessAppTheme.nearlyBlack,
-                                ),
-                              ),
-                              Text(
-                                ' สาขา${ruregisProv.mAJORNAMETHAI!}', // Your right-aligned text
+                                '$locationexam', // Your right-aligned text
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,
@@ -237,68 +240,61 @@ class _ReceiptProfileRegionCartViewState
                         //     ],
                         //   ),
                         // ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment
-                                .spaceBetween, // Distribute space evenly
-                            children: [
-                             
-                              Container(
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      '$locationexam',
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.ruFontKanit,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 15,
-                                        letterSpacing: 0.0,
-                                        color: FitnessAppTheme.nearlyBlack,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 1,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment
-                                .spaceBetween, // Distribute space evenly
-                            children: [
-                              Container(
-                                child: Row(
-                                  children: [
-                                    Checkbox(
-                                      checkColor: Colors.white,
-                                      value: isGrad,
-                                      onChanged: (bool? value) {
-                                        null;
-                                      },
-                                    ),
-                                    Text(
-                                      'ขอจบ',
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.ruFontKanit,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 15,
-                                        letterSpacing: 0.0,
-                                        color: FitnessAppTheme.nearlyBlack,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                        
-                            ],
-                          ),
-                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(top: 8.0),
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment
+                        //         .spaceBetween, // Distribute space evenly
+                        //     children: [
+                        //       Container(
+                        //         child: Row(
+                        //           children: [
+                        //             Text(
+                        //               '$locationexam',
+                        //               style: TextStyle(
+                        //                 fontFamily: AppTheme.ruFontKanit,
+                        //                 fontWeight: FontWeight.normal,
+                        //                 fontSize: 13,
+                        //                 letterSpacing: 0.0,
+                        //                 color: FitnessAppTheme.nearlyBlack,
+                        //               ),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        // SizedBox(
+                        //   height: 1,
+                        // ),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(top: 8.0),
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //     children: [
+                        //       Container(
+                        //         child: Row(
+                        //           children: [
+                           
+                        //             Text(
+                        //               isGrad
+                        //                   ? 'ขอจบการศึกษา'
+                        //                   : 'ไม่ขอจบการศึกษา', // ✅ เปลี่ยนข้อความตามค่า isGrad
+                        //               style: TextStyle(
+                        //                 fontFamily: AppTheme.ruFontKanit,
+                        //                 fontWeight: FontWeight.normal,
+                        //                 fontSize: 13,
+                        //                 letterSpacing: 0.0,
+                        //                 color: FitnessAppTheme.nearlyBlack,
+                        //               ),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // )
                       ],
                     ),
                   ),

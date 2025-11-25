@@ -94,9 +94,9 @@ class _RuregionMr30ViewState extends State<RuregionMr30View> {
                           Align(
                             alignment: Alignment.bottomRight,
                             child: badges.Badge(
-                              badgeContent: Text('${mr30ruregisrec.length}'),
+                              badgeContent: Text('${mr30ruregisrec.length}',    style: const TextStyle(color: Colors.white), ),                      
                               position:
-                                  badges.BadgePosition.topEnd(top: -5, end: 0),
+                                  badges.BadgePosition.topEnd(top: -5, end: 0),            
                               child: Container(
                                 decoration: BoxDecoration(
                                   boxShadow: [
@@ -161,8 +161,8 @@ class _RuregionMr30ViewState extends State<RuregionMr30View> {
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                               colors: [
-                                Color.fromARGB(255, 214, 234, 251),
-                                HexColor("#65ADFF")
+                                Color.fromARGB(255, 207, 207, 207),
+                                HexColor("#D6E4FF")
                               ],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight),

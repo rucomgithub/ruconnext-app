@@ -28,8 +28,8 @@ class _ButtonConfirmViewState extends State<ButtonConfirmView>
         .getCalPayRegionApp();
     Provider.of<RuregionCheckCartProvider>(context, listen: false)
         .getStatusGraduate(false);
-    Provider.of<RuregionCheckCartProvider>(context, listen: false)
-        .getLocationExam('');
+    // Provider.of<RuregionCheckCartProvider>(context, listen: false)
+    //     .getLocationExam('');
     animationController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
     super.initState();

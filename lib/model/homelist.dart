@@ -102,7 +102,7 @@ class HomeList {
     HomeList(
       imagePath: 'assets/fitness_app/AF0.png',
       iconsData: Icons.app_registration,
-      color: Colors.brown,
+      color: Colors.brown, 
       navigateScreen: OtherHomeScreen(),
     ),
    
@@ -113,12 +113,12 @@ class HomeList {
       // navigateScreen:  RuRegisHomeScreen(),
       navigateScreen: RuRegionOtherHomeScreen(),
     ),
-    HomeList(
-      imagePath: 'assets/fitness_app/REGIS.png',
-      iconsData: Icons.vertical_shades_rounded,
-      color: Colors.purple,
-      // navigateScreen:  RuRegisHomeScreen(),
-      navigateScreen: RuRegisOtherHomeScreen(),
-    ),
+    // HomeList(
+    //   imagePath: 'assets/fitness_app/REGIS.png',
+    //   iconsData: Icons.vertical_shades_rounded,
+    //   color: Colors.purple,
+    //   // navigateScreen:  RuRegisHomeScreen(),
+    //   navigateScreen: RuRegisOtherHomeScreen(),
+    // ),
   ];
 }

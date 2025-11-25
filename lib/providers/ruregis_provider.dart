@@ -12,6 +12,7 @@ import 'package:th.ac.ru.uSmart/model/region_login_model.dart';
 import 'package:th.ac.ru.uSmart/model/ruregion_profile_model.dart';
 import 'package:th.ac.ru.uSmart/model/ruregis_model.dart';
 import 'package:th.ac.ru.uSmart/model/save_enroll_model.dart';
+import 'package:th.ac.ru.uSmart/model/save_status.dart';
 
 import 'package:th.ac.ru.uSmart/services/ruregis_service.dart';
 import 'package:flutter/material.dart';
@@ -73,8 +74,11 @@ class RuregisProvider extends ChangeNotifier {
   CounterRegion _counterregion = CounterRegion();
   CounterRegion get counterregion => _counterregion;
 
-    CounterRegion _counterregionApp = CounterRegion();
+  CounterRegion _counterregionApp = CounterRegion();
   CounterRegion get counterregionApp => _counterregionApp;
+
+  SaveStatus _buttonQRregionApp = SaveStatus();
+  SaveStatus get buttonQRregionApp => _buttonQRregionApp;
 
   MessageRegion _messageregion = MessageRegion();
   MessageRegion get messageregion => _messageregion;
@@ -284,7 +288,27 @@ class RuregisProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+  Future<void> getQRButton() async {
+    _isLoading = true;
+   notifyListeners();
+   print('enter couter');
+    try {
+      _isLoading = false;
+      final responseStatus = await _ruregisService.saveStatusApp();
+        if (responseStatus.success == true) {
+       _buttonQRregionApp = responseStatus;
+      } 
+      print('QR =======> $responseStatus');
+      // final responseCounter = await _ruregisService.getCounterAdminRegionApp();
+      // if (responseCounter.success == true) {
+      //  _buttonQRregionApp = responseCounter;
+      // } 
+    } catch (e) {
 
+      _isLoading = false;
+    }
+    notifyListeners();
+  }
   Future<void> fetchCounterRegion() async {
     _isLoading = true;
     _error = '';

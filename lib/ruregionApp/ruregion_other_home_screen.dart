@@ -10,6 +10,7 @@ import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/model/ruregion_other_list_model.dart';
 import 'package:th.ac.ru.uSmart/other/other_list_view.dart';
 import 'package:th.ac.ru.uSmart/providers/authen_regis.dart';
+import 'package:th.ac.ru.uSmart/providers/ruregis_mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregis_provider.dart';
 import 'package:th.ac.ru.uSmart/ruconnext_app_theme.dart';
 import 'package:th.ac.ru.uSmart/ruregionApp/profile_region_view.dart';
@@ -46,7 +47,7 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
     Provider.of<AuthenRuRegionAppProvider>(context, listen: false)
         .getCounterRegionApp();
     Provider.of<RuregisProvider>(context, listen: false).getCounterRegionApp();
-
+    Provider.of<RuregisProvider>(context, listen: false).getQRButton();
     // ✅ หลังจาก Build เสร็จแล้วค่อยเช็คค่าจาก API แล้วเด้ง Popup
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkAPIStatusAndShowPopup();
@@ -68,13 +69,24 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
   Widget build(BuildContext context) {
     var provruregis =
         Provider.of<AuthenRuRegionAppProvider>(context, listen: false);
-    var statusregis = context.watch<RuregisProvider>().ruregionApp.rEGISSTATUS;
-
-    if (statusregis == false) {
+    bool? checkReceipt = Provider.of<RuregisProvider>(context, listen: false)
+        .buttonQRregionApp
+        .rECEIPTSTATUS;
+    bool? checkRegis = Provider.of<RuregisProvider>(context, listen: false)
+        .buttonQRregionApp
+        .rEGISSTATUS;
+    if (checkReceipt == true) {
       otherList = RuregionOtherListData.otherListSuccess;
     } else {
       otherList = RuregionOtherListData.otherListDefualt;
     }
+    // var statusregis = context.watch<RuregisProvider>().ruregionApp.rEGISSTATUS;
+    // print('home ====> $statusregis');
+    // if (statusregis == false) {
+    //   otherList = RuregionOtherListData.otherListSuccess;
+    // } else {
+    //   otherList = RuregionOtherListData.otherListDefualt;
+    // }
 
     return Container(
       color: FitnessAppTheme.background,
@@ -130,6 +142,8 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
                     Provider.of<RuregisProvider>(context, listen: false);
                 var rureisprov =
                     Provider.of<RuregisProvider>(context, listen: false);
+                var statusregis =
+                    context.watch<RuregisProvider>().ruregionApp.rEGISSTATUS;
 
                 if (!snapshot.hasData) {
                   return const SizedBox();
@@ -153,33 +167,179 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
 
                           return RuregionOtherListView(
                             callback: () {
-                              if (counter.counterregionApp.resultsAppControl![0]
-                                      .aPISTATUS ==
-                                  true) {
-                                showAlert(
-                                    context,
-                                    '${counter.counterregionApp.resultsAppControl![0].aPIDES}',
-                                    '${otherList[index].navigateScreen}');
-                              } else if (counter.counterregionApp
-                                      .resultsAppControl![0].aPISTATUS ==
+                              if (counter.counterregionApp.resultsCounter![0]
+                                      .sYSTEMSTATUS ==
                                   false) {
-                                if (otherList[index].navigateScreen ==
-                                    '/ruregionAppmr30') {
-                                  if (rureisprov.ruregionApp.rEGISSTATUS ==
-                                      true) {
-                                    Get.toNamed(
-                                        otherList[index].navigateScreen);
-                                  } else {
+                                showAlert(context, 'แจ้งเตือน ออกจากระบบ',
+                                    '${otherList[index].navigateScreen}');
+                              } else {
+                                if (counter.counterregionApp.resultsCounter![0]
+                                        .sYSTEMSTATUSCLOSE ==
+                                    true) {
+                                  showAlert(
+                                      context,
+                                      'เปิดการลงทะเบียนเรียนวันที่ ${counter.counterregionApp.resultsCounter![0].sTARTDATE} - ${counter.counterregionApp.resultsCounter![0].eNDDATE}',
+                                      '${otherList[index].navigateScreen}');
+                                } else {
+                                  if (statusregis == false) {
                                     showAlert(
                                         context,
                                         '${rureisprov.ruregionApp.eRRMSG}',
                                         '${otherList[index].navigateScreen}');
+                                  } else {
+                                    if (otherList[index].navigateScreen ==
+                                        '/ruregionAppmr30') {
+                                      // ดึง API_ID = 3 ออกมา
+                                      final api3 = counter
+                                          .counterregionApp.resultsAppControl!
+                                          .firstWhere((e) => e.aPIID == "3");
+
+                                      // API_STATUS == true → ห้ามเข้า + แจ้งเตือน
+                                      if (api3.aPISTATUS == true) {
+                                        showAlert(
+                                          context,
+                                          api3.aPIDES ??
+                                              'ไม่สามารถดำเนินการได้', // ข้อความแจ้งเตือน
+                                          otherList[index].navigateScreen,
+                                        );
+                                        return;
+                                      } else {
+                                        if (rureisprov.buttonQRregionApp
+                                                .rEGISSTATUS ==
+                                            true) {
+                                          showAlert(
+                                            context,
+                                            'นักศึกษาได้ลงทะเบียนเรียนและรับ QRCODE แล้วไม่สามารถเปลี่ยนแปลงวิชาเรียนได้', // ข้อความแจ้งเตือน
+                                            otherList[index].navigateScreen,
+                                          );
+                                        } else {
+                                          // API_STATUS == false → เข้าได้
+                                          Get.toNamed(
+                                              otherList[index].navigateScreen);
+                                        }
+                                      }
+                                    } else if (otherList[index]
+                                            .navigateScreen ==
+                                        '/ruregionAppQR') {
+                                      final api1 = counter
+                                          .counterregionApp.resultsAppControl!
+                                          .firstWhere((e) => e.aPIID == "1");
+                                      if (api1.aPISTATUS == true) {
+                                        showAlert(
+                                          context,
+                                          api1.aPIDES ??
+                                              'ไม่สามารถดำเนินการได้', // ข้อความแจ้งเตือน
+                                          otherList[index].navigateScreen,
+                                        );
+                                        return;
+                                      } else {
+                                        if (rureisprov.buttonQRregionApp
+                                                .rEGISSTATUS ==
+                                            false) {
+                                          showAlert(
+                                            context,
+                                            'กรุณาลงทะเบียนเรียนและยืนยันการรับ QRCODE ก่อน', // ข้อความแจ้งเตือน
+                                            otherList[index].navigateScreen,
+                                          );
+                                        } else {
+                                          Get.toNamed(
+                                              otherList[index].navigateScreen);
+                                        }
+                                      }
+                                    }else if (otherList[index]
+                                            .navigateScreen ==
+                                        '/ruregionAppreceipt') {
+                                      final api3 = counter
+                                          .counterregionApp.resultsAppControl!
+                                          .firstWhere((e) => e.aPIID == "3");
+                                      if (api3.aPISTATUS == true) {
+                                        showAlert(
+                                          context,
+                                          api3.aPIDES ??
+                                              'ไม่สามารถดำเนินการได้', // ข้อความแจ้งเตือน
+                                          otherList[index].navigateScreen,
+                                        );
+                                        return;
+                                      } else {
+                                        if (rureisprov.buttonQRregionApp
+                                                .rEGISSTATUS ==
+                                            false) {
+                                          showAlert(
+                                            context,
+                                            'กรุณาเลือกวิชาลงทะเบียนก่อน', // ข้อความแจ้งเตือน
+                                            otherList[index].navigateScreen,
+                                          );
+                                        } else {
+                                          Get.toNamed(
+                                              otherList[index].navigateScreen);
+                                        }
+                                      }
+                                    } else {
+                                      Get.toNamed(
+                                          otherList[index].navigateScreen);
+                                    }
                                   }
-                                } else {
-                                  Get.toNamed(otherList[index].navigateScreen);
                                 }
                               }
                             },
+                            // callback: () {
+
+                            //   if (counter.counterregionApp.resultsAppControl![0]
+                            //           .aPISTATUS ==
+                            //       true) {
+                            //     showAlert(
+                            //         context,
+                            //         '${counter.counterregionApp.resultsAppControl![0].aPIDES}',
+                            //         '${otherList[index].navigateScreen}');
+                            //   } else if (counter.counterregionApp
+                            //           .resultsAppControl![0].aPISTATUS ==
+                            //       false) {
+                            //     if (otherList[index].navigateScreen ==
+                            //         '/ruregionAppmr30') {
+                            //       if (rureisprov.ruregionApp.rEGISSTATUS ==
+                            //           false) {
+                            //         Get.toNamed(
+                            //             otherList[index].navigateScreen);
+                            //       } else {
+                            //         showAlert(
+                            //             context,
+                            //             'ลงทะเบียนเรียนได้นักศึกษารับ QRCODE แล้วไม่สามารถเปลี่ยนแปลงวิชาเรียนได้',
+                            //             '${otherList[index].navigateScreen}');
+                            //       }
+                            //     }
+                            //      else if (otherList[index].navigateScreen ==
+                            //         '/ruregionAppQR') {
+                            //       if (rureisprov.ruregionApp.rEGISSTATUS ==
+                            //           false) {
+                            //                     showAlert(
+                            //             context,
+                            //             'กรุณาลงทะเบียนเรียนและยืนยันการรับ QRCODE ก่อน',
+                            //             '${otherList[index].navigateScreen}');
+
+                            //       } else {
+                            //             Get.toNamed(
+                            //             otherList[index].navigateScreen);
+                            //       }
+                            //     }
+                            //     // else if (otherList[index].navigateScreen ==
+                            //     //     '/ruregionAppreceipt' || otherList[index].navigateScreen ==
+                            //     //     '/ruregionAppsuccess2') {
+                            //     //   if (rureisprov.ruregionApp.rEGISSTATUS ==
+                            //     //       false) {
+                            //     //     Get.toNamed(
+                            //     //         otherList[index].navigateScreen);
+                            //     //   } else {
+                            //     //     showAlert(
+                            //     //         context,
+                            //     //         '${rureisprov.ruregionApp.eRRMSG}',
+                            //     //         '${otherList[index].navigateScreen}');
+                            //     //   }
+                            //     // }
+                            //     else {
+                            //       Get.toNamed(otherList[index].navigateScreen);
+                            //     }
+                            //   }
+                            // },
                             otherData: otherList[index],
                             animation: animation,
                             animationController: animationController!,
@@ -211,6 +371,7 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
   Widget getAppBarUI() {
     var provruregis =
         Provider.of<AuthenRuRegionAppProvider>(context, listen: false);
+    var provmr30 = Provider.of<RUREGISMR30Provider>(context, listen: false);
     return Container(
       decoration: BoxDecoration(
         color: RuConnextAppTheme.buildLightTheme().backgroundColor,
@@ -273,7 +434,7 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
                         Radius.circular(32.0),
                       ),
                       onTap: () {
-                        provruregis.logout();
+                        provmr30.removeRuregionPref1();
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -393,7 +554,7 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
     final apiStatus =
         counterProv.counterregionApp.resultsAppControl![2].aPISTATUS;
 
-   final apiName =
+    final apiName =
         counterProv.counterregionApp.resultsAppControl![2].aPINAME ?? '';
     final apiMessage =
         counterProv.counterregionApp.resultsAppControl![2].aPIDES ?? '';
@@ -412,7 +573,7 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
       builder: (context) {
         return AlertDialog(
           title: Text(
-            apiName ,
+            apiName,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,

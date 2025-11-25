@@ -95,192 +95,141 @@ class _ProfileRegionCartViewState extends State<ProfileRegionCartView> {
         },
       );
     } else {
-      return AnimatedBuilder(
-        animation: widget.animationController!,
-        builder: (BuildContext context, Widget? child) {
-          return FadeTransition(
-            opacity: widget.animation!,
-            child: new Transform(
-              transform: new Matrix4.translationValues(
-                  0.0, 30 * (1.0 - widget.animation!.value), 0.0),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 24, right: 24, top: 16, bottom: 18),
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [
-                      Color.fromARGB(255, 214, 234, 251),
-                      HexColor("#65ADFF")
-                    ], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(8.0),
-                        bottomLeft: Radius.circular(8.0),
-                        bottomRight: Radius.circular(8.0),
-                        topRight: Radius.circular(8.0)),
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                          color: FitnessAppTheme.grey.withOpacity(0.6),
-                          offset: Offset(1.1, 1.1),
-                          blurRadius: 10.0),
-                    ],
-                  ),
+      return Column(
+        children: [
+          // ====== ส่วน Card เดิม (AnimatedBuilder) ======
+          AnimatedBuilder(
+            animation: widget.animationController!,
+            builder: (BuildContext context, Widget? child) {
+              return FadeTransition(
+                opacity: widget.animation!,
+                child: Transform(
+                  transform: Matrix4.translationValues(
+                      0.0, 30 * (1.0 - widget.animation!.value), 0.0),
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment
-                                .spaceBetween, // Distribute space evenly
-                            children: [
-                              Text(
-                                '${ruregisProv.nAMETHAI!}',
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.ruFontKanit,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 15,
-                                  letterSpacing: 0.0,
-                                  color: FitnessAppTheme.nearlyBlack,
-                                ),
-                              ),
-                            ],
-                          ),
+                    padding: const EdgeInsets.only(
+                        left: 24, right: 24, top: 16, bottom: 8),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            HexColor("#D6E4FF"),
+                            HexColor("#65ADFF"),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment
-                                .spaceBetween, // Distribute space evenly
-                            children: [
-                              Text(
-                                'รหัส : ${ruregisProv.sTDCODE!}', // Your right-aligned text
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.ruFontKanit,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 15,
-                                  letterSpacing: 0.0,
-                                  color: FitnessAppTheme.nearlyBlack,
-                                ),
-                              ),
-                            ],
+                        borderRadius: BorderRadius.circular(10.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: FitnessAppTheme.grey.withOpacity(0.6),
+                            offset: const Offset(1.1, 1.1),
+                            blurRadius: 10.0,
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment
-                                .spaceBetween, // Distribute space evenly
-                            children: [
-                              Text(
-                                '${ruregisProv.fACULTYNAMETHAI!}',
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.ruFontKanit,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 15,
-                                  letterSpacing: 0.0,
-                                  color: FitnessAppTheme.nearlyBlack,
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              '${ruregisProv.nAMETHAI!}',
+                              style: TextStyle(
+                                fontFamily: AppTheme.ruFontKanit,
+                                fontSize: 15,
+                                color: FitnessAppTheme.nearlyBlack,
+                              ),
+                            ),
+                            SizedBox(height: 6),
+                            Text(
+                              'รหัส ${ruregisProv.sTDCODE!}',
+                              style: TextStyle(
+                                fontFamily: AppTheme.ruFontKanit,
+                                fontSize: 15,
+                                color: FitnessAppTheme.nearlyBlack,
+                              ),
+                            ),
+                            SizedBox(height: 6),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '${ruregisProv.fACULTYNAMETHAI!}',
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.ruFontKanit,
+                                    fontSize: 15,
+                                    color: FitnessAppTheme.nearlyBlack,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                ' สาขา${ruregisProv.mAJORNAMETHAI!}', // Your right-aligned text
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.ruFontKanit,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 15,
-                                  letterSpacing: 0.0,
-                                  color: FitnessAppTheme.nearlyBlack,
+                                Text(
+                                  'สาขา ${ruregisProv.mAJORNAMETHAI!}',
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.ruFontKanit,
+                                    fontSize: 15,
+                                    color: FitnessAppTheme.nearlyBlack,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
+                              ],
+                            ),
+                          ],
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.only(right: 4),
-                        //   child: Row(
-                        //     crossAxisAlignment: CrossAxisAlignment.end,
-                        //     mainAxisAlignment: MainAxisAlignment.center,
-                        //     children: <Widget>[
-                        //       Padding(
-                        //         padding: const EdgeInsets.only(left: 4.0),
-                        //         child: Text(
-                        //           //'คณะรัฐศาสตร์   สาขารัฐศาสตร์',
-                        //           '${ruregisProv.fACULTYNAMETHAI!} สาขา${ruregisProv.mAJORNAMETHAI!} ',
-                        //           textAlign: TextAlign.center,
-                        //           style: TextStyle(
-                        //             fontFamily: AppTheme.ruFontKanit,
-                        //             fontWeight: FontWeight.w500,
-                        //             fontSize: 14,
-                        //             letterSpacing: 0.0,
-                        //             color: FitnessAppTheme.nearlyBlack,
-                        //           ),
-                        //         ),
-                        //       ),
-                        //       Expanded(
-                        //         child: SizedBox(),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 4),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                child: ruregisProv.gRADUATESTATUS!
-                                    ? Row(
-                                        children: [
-                                          Checkbox(
-                                            checkColor: Colors.white,
-                                            value: isChecked,
-                                            onChanged: (bool? value) {
-                                              setState(() {
-                                                isChecked = value!;
-                                                Provider.of<RuregionCheckCartProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .getStatusGraduate(value);
-                                                Provider.of<RuregionCheckCartProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .checkButtonComfirm();
-                                              });
-                                            },
-                                          ),
-                                          Text('ขอจบ'),
-                                        ],
-                                      )
-                                    : Row(
-                                        children: [
-                                          Text(''),
-                                        ],
-                                      ), // Or SizedBox.shrink() to take no space
-                              ),
-                              Expanded(
-                                child: SizedBox(),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          );
-        },
+              );
+            },
+          ),
+
+          // ====== Checkbox แยกออกมาข้างนอก ======
+          // if (ruregisProv.gRADUATESTATUS!)
+          //   Padding(
+          //     padding: const EdgeInsets.only(top: 0.0, left: 24, right: 24),
+          //     child: Container(
+          //       decoration: BoxDecoration(
+          //         color: Colors.white, // ✅ พื้นหลังสีขาว
+          //         borderRadius: BorderRadius.circular(8.0), // ขอบมนเล็กน้อย
+          //         boxShadow: [
+          //           BoxShadow(
+          //             color: Colors.black.withOpacity(0.1), // เงาเบา ๆ
+          //             offset: const Offset(1, 1),
+          //             blurRadius: 3,
+          //           ),
+          //         ],
+          //       ),
+          //       child: Padding(
+          //         padding:
+          //             const EdgeInsets.symmetric(horizontal: 8.0), // เว้นขอบใน
+          //         child: Row(
+          //           children: [
+          //             Checkbox(
+          //               checkColor: Colors.white,
+          //               value: isChecked,
+          //               onChanged: (bool? value) {
+          //                 setState(() {
+          //                   isChecked = value!;
+          //                   final cartProv =
+          //                       Provider.of<RuregionCheckCartProvider>(context,
+          //                           listen: false);
+          //                   cartProv.getStatusGraduate(value);
+          //                   cartProv.checkButtonComfirm();
+          //                 });
+          //               },
+          //             ),
+          //             const Text(
+          //               'ขอจบ',
+          //               style: TextStyle(
+          //                 fontSize: 15,
+          //                 color: Colors.black87, // ให้ contrast กับพื้นหลังขาว
+          //               ),
+          //             ),
+          //           ],
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+        ],
       );
     }
   }

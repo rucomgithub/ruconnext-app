@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:th.ac.ru.uSmart/model/region_login_model.dart';
 import 'package:th.ac.ru.uSmart/model/ruregion_mr30_model.dart';
 import 'package:th.ac.ru.uSmart/services/ruregis_service.dart';
 import 'package:th.ac.ru.uSmart/store/mr30App.dart';
 import 'package:th.ac.ru.uSmart/store/profile.dart';
 import 'package:th.ac.ru.uSmart/model/yearsemester.dart';
+import 'package:th.ac.ru.uSmart/store/ruregion_login.dart';
 import 'package:th.ac.ru.uSmart/store/yearsemester.dart';
 import 'package:th.ac.ru.uSmart/utils/custom_functions.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +48,11 @@ class RUREGISMR30Provider extends ChangeNotifier {
 
   MR30RUREGION _mr30filterApp = MR30RUREGION();
   MR30RUREGION get mr30filterApp => _mr30filterApp;
+
+
+  Loginregion _loginres = Loginregion();
+  Loginregion get loginres => _loginres;
+
 
   bool isCourseDup = true;
   String examDup = '';
@@ -837,11 +844,35 @@ class RUREGISMR30Provider extends ChangeNotifier {
     // print(getmr30ruregionrec);
     
     await MR30AppStorage.saveMR30App(_mr30ruregionrec);
+    print('mr30 : $_mr30ruregionrec');
     await prefs.setString('mr30ruregis', jsonEncode(_mr30ruregionrec));
 
     notifyListeners();
   }
 
+ void removeRuregionPref1() async {
+      _loginres = new Loginregion();
+    await RuregionLoginStorage.removeProfile();
+    await MR30AppStorage.removeMR30App();
+
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  print('ก่อนลบ: $_mr30ruregionrec'); // ✅ ดูค่าก่อนลบ
+
+  // ลบทุก item ใน list
+  _mr30ruregionrec.clear();
+
+  // Save ค่าใหม่ (ตอนนี้จะเป็นลิสต์ว่าง)
+  await MR30AppStorage.saveMR30App(_mr30ruregionrec);
+  await prefs.setString('mr30ruregis', jsonEncode(_mr30ruregionrec));
+
+  // ✅ เช็กค่าหลังลบ
+  String? after = prefs.getString('mr30ruregis');
+
+    Get.offNamedUntil('/', (route) => true);
+  notifyListeners();
+}
 
   
   void removeRuregionPref(courseid) async {

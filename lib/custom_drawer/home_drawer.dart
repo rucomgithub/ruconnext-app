@@ -76,7 +76,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
       //   icon: Icon(Icons.info),
       // ),
       DrawerList(
-        labelName: '2.0.2',
+        labelName: '2.0.4',
         icon: Icon(Icons.update),
       ),
       // DrawerList(

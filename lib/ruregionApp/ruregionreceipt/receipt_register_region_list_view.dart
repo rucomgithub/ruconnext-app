@@ -11,6 +11,7 @@ import 'package:th.ac.ru.uSmart/providers/ruregis_provider.dart';
 import 'package:th.ac.ru.uSmart/registers/register_nodata_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart'; // อย่าลืม import
 
 import '../../fitness_app/fitness_app_theme.dart';
 import '../../model/register_model.dart';
@@ -35,7 +36,7 @@ class _ReceiptRuregionCartListViewState
   @override
   void initState() {
     Provider.of<RuregionReceiptProvider>(context, listen: false)
-        .getEnrollRegionProv('6299499991', '1', '2567');
+        .getEnrollRegionProv('6299499991', '2', '2568');
 
     animationController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
@@ -337,34 +338,35 @@ class AreaViewFee extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        height: values!.length * 30,
-                        child: ListView.builder(
-                          padding: const EdgeInsets.only(
-                              left: 8, top: 0, right: 1, bottom: 0),
-                          itemCount: values!.length,
-                          itemBuilder: (BuildContext context, int index) {
+                        padding: const EdgeInsets.only(
+                            left: 8, top: 0, right: 5, bottom: 10),
+                        // ❌ ไม่ต้องกำหนด height ให้พอดีกับข้อมูลอัตโนมัติ
+                        child: Column(
+                          children: List.generate(values!.length, (index) {
                             return Container(
                               height: 25,
                               child: ListTile(
+                                dense: true,
+                                contentPadding: EdgeInsets.zero,
                                 title: Text(
-                                  '${values![index].fEENAME}  ',
+                                  '${values![index].fEENAME}',
                                   style: TextStyle(
                                     fontFamily: AppTheme.ruFontKanit,
-                                    fontSize: 14,
+                                    fontSize: 16,
                                     color: FitnessAppTheme.nearlyBlack,
                                   ),
                                 ),
                                 trailing: Text(
-                                  ' ${values![index].fEEAMOUNT} .-',
+                                  _formatAmount(values![index].fEEAMOUNT),
                                   style: TextStyle(
                                     fontFamily: AppTheme.ruFontKanit,
-                                    fontSize: 14,
+                                    fontSize: 16,
                                     color: FitnessAppTheme.nearlyBlack,
                                   ),
                                 ),
                               ),
                             );
-                          },
+                          }),
                         ),
                       ),
                       Container(
@@ -405,6 +407,16 @@ class AreaViewFee extends StatelessWidget {
         );
       },
     );
+  }
+    /// ✅ ฟังก์ชันจัดรูปแบบตัวเลข เช่น 1000 → 1,000
+  String _formatAmount(dynamic amount) {
+    try {
+      final numValue = num.parse(amount.toString());
+      final formatter = NumberFormat('#,###');
+      return formatter.format(numValue);
+    } catch (e) {
+      return amount.toString(); // ถ้าไม่ใช่ตัวเลข คืนค่าเดิม
+    }
   }
 }
 
@@ -481,7 +493,9 @@ class AreaView extends StatelessWidget {
                                 children: [
                                   TextSpan(
                                     text: 'ทั้งหมด ',
-                                    style: TextStyle(color: Color.fromARGB(255, 146, 145, 145)),
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 146, 145, 145)),
                                   ),
                                   TextSpan(
                                     text: '${values!.length}',
@@ -489,7 +503,9 @@ class AreaView extends StatelessWidget {
                                   ),
                                   TextSpan(
                                     text: ' วิชา',
-                                    style: TextStyle(color:Color.fromARGB(255, 146, 145, 145)),
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 146, 145, 145)),
                                   ),
                                 ],
                               ),
@@ -508,15 +524,16 @@ class AreaView extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        height: values!.length * 30,
-                        child: ListView.builder(
-                          padding: const EdgeInsets.only(
-                              left: 8, top: 0, right: 1, bottom: 0),
-                          itemCount: values!.length,
-                          itemBuilder: (BuildContext context, int index) {
+                        padding: const EdgeInsets.only(
+                            left: 8, top: 0, right: 5, bottom: 10),
+                        // เอา height ออก เพื่อให้สูงพอดีเนื้อหา
+                        child: Column(
+                          children: List.generate(values!.length, (index) {
                             return Container(
                               height: 25,
                               child: ListTile(
+                                dense: true,
+                                contentPadding: EdgeInsets.zero,
                                 title: RichText(
                                   text: TextSpan(
                                     children: [
@@ -525,7 +542,7 @@ class AreaView extends StatelessWidget {
                                             '${index + 1}. ${values![index].cOURSENO} (${values![index].cREDIT})',
                                         style: TextStyle(
                                           fontFamily: AppTheme.ruFontKanit,
-                                          fontSize: 14,
+                                          fontSize: 16,
                                           color: FitnessAppTheme.nearlyBlack,
                                         ),
                                       ),
@@ -540,7 +557,7 @@ class AreaView extends StatelessWidget {
                                             ' ${values![index].eXAMDATE} (${values![index].eXAMPERIOD})',
                                         style: TextStyle(
                                           fontFamily: AppTheme.ruFontKanit,
-                                          fontSize: 14,
+                                          fontSize: 16,
                                           color: FitnessAppTheme.nearlyBlack,
                                         ),
                                       ),
@@ -549,9 +566,9 @@ class AreaView extends StatelessWidget {
                                 ),
                               ),
                             );
-                          },
+                          }),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -560,6 +577,9 @@ class AreaView extends StatelessWidget {
           ),
         );
       },
+      
     );
+    
   }
+  
 }

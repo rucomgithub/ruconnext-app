@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../fitness_app/fitness_app_theme.dart';
 import '../../model/checkregis_model.dart';
+import 'package:intl/intl.dart'; // อย่าลืม import
 
 class ReceiptLocationExamView extends StatefulWidget {
   const ReceiptLocationExamView(
@@ -26,10 +27,17 @@ class _ReceiptLocationExamViewState extends State<ReceiptLocationExamView>
   @override
   void initState() {
     Provider.of<RuregionReceiptProvider>(context, listen: false)
-        .getEnrollRegionProv('6201432835', '1', '2567');
+        .getEnrollRegionProv('', '', '');
     animationController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
     super.initState();
+
+        final provider =
+        Provider.of<RuregionCheckCartProvider>(context, listen: false);
+    provider.loadSavedStatus(); // ✅ โหลดค่าที่บันทึกไว้ก่อนหน้า
+    provider.fetchLocationExam(); // ✅ โหลดศูนย์สอบ
+
+    
   }
 
   @override
@@ -79,7 +87,7 @@ class _ReceiptLocationExamViewState extends State<ReceiptLocationExamView>
                           style: TextStyle(
                             fontFamily: AppTheme.ruFontKanit,
                             fontWeight: FontWeight.normal,
-                            fontSize: 15,
+                            fontSize:  18,
                             letterSpacing: 0.0,
                             color: FitnessAppTheme.nearlyBlack,
                           ),
@@ -89,7 +97,7 @@ class _ReceiptLocationExamViewState extends State<ReceiptLocationExamView>
                           style: TextStyle(
                             fontFamily: AppTheme.ruFontKanit,
                             fontWeight: FontWeight.bold,
-                            fontSize: 15,
+                            fontSize:  18,
                             letterSpacing: 0.0,
                             color: FitnessAppTheme.nearlyBlack,
                           ),
@@ -105,7 +113,7 @@ class _ReceiptLocationExamViewState extends State<ReceiptLocationExamView>
                           style: TextStyle(
                             fontFamily: AppTheme.ruFontKanit,
                             fontWeight: FontWeight.normal,
-                            fontSize: 15,
+                            fontSize:  18,
                             letterSpacing: 0.0,
                             color: FitnessAppTheme.nearlyBlack,
                           ),
@@ -115,7 +123,7 @@ class _ReceiptLocationExamViewState extends State<ReceiptLocationExamView>
                           style: TextStyle(
                             fontFamily: AppTheme.ruFontKanit,
                             fontWeight: FontWeight.bold,
-                            fontSize: 15,
+                            fontSize:  18,
                             letterSpacing: 0.0,
                             color: FitnessAppTheme.nearlyBlack,
                           ),
@@ -132,17 +140,17 @@ class _ReceiptLocationExamViewState extends State<ReceiptLocationExamView>
                           style: TextStyle(
                             fontFamily: AppTheme.ruFontKanit,
                             fontWeight: FontWeight.normal,
-                            fontSize: 15,
+                            fontSize:  18,
                             letterSpacing: 0.0,
                             color: FitnessAppTheme.nearlyBlack,
                           ),
                         ),
                         Text(
-                          '$summary บาท',
+                            '${_formatAmount(summary)} บาท', 
                           style: TextStyle(
                             fontFamily: AppTheme.ruFontKanit,
                             fontWeight: FontWeight.bold,
-                            fontSize: 15,
+                            fontSize:  18,
                             letterSpacing: 0.0,
                             color: FitnessAppTheme.nearlyBlack,
                           ),
@@ -153,6 +161,17 @@ class _ReceiptLocationExamViewState extends State<ReceiptLocationExamView>
                 ),
               );
       },
+      
     );
+    
+  }
+    String _formatAmount(dynamic amount) {
+    try {
+      final numValue = num.parse(amount.toString());
+      final formatter = NumberFormat('#,###');
+      return formatter.format(numValue);
+    } catch (e) {
+      return amount.toString(); // ถ้าไม่ใช่ตัวเลข คืนค่าเดิม
+    }
   }
 }

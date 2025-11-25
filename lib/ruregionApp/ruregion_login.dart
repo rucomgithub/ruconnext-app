@@ -45,7 +45,7 @@ class _RuregionAppLoginPageState extends State<RuregionAppLoginPage> {
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
-                      Image.asset('assets/images/logo.png', height: 80),
+                      Image.asset('assets/images/ram.png', height: 80),
                       const SizedBox(height: 200),
                       TextField(
                         onChanged: (text) {

@@ -68,17 +68,17 @@ class _RuregionMr30ListScreenState extends State<RuregionMr30ListScreen>
     const int count = 9;
     //var mr30 = context.watch<MR30Provider>().mr30record;
 
-    listViews.add(
-      RuregionTitleNoneView(
-        titleTxt: 'รายการวิชาที่สนใจ',
-        subTxt: 'รายละเอียด',
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController!,
-            curve:
-                Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController!,
-      ),
-    );
+    // listViews.add(
+    //   RuregionTitleNoneView(
+    //     titleTxt: 'รายการวิชาที่สนใจ',
+    //     subTxt: 'รายละเอียด',
+    //     animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+    //         parent: widget.animationController!,
+    //         curve:
+    //             Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+    //     animationController: widget.animationController!,
+    //   ),
+    // );
    
     listViews.add(
       RuregionFavoriteListView(
@@ -91,15 +91,15 @@ class _RuregionMr30ListScreenState extends State<RuregionMr30ListScreen>
       ),
     );
 
-    listViews.add(
-      RuregisView(
-          animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-              CurvedAnimation(
-                  parent: widget.animationController!,
-                  curve: Interval((1 / count) * 8, 1.0,
-                      curve: Curves.fastOutSlowIn))),
-          animationController: widget.animationController!),
-    );
+    // listViews.add(
+    //   RuregisView(
+    //       animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+    //           CurvedAnimation(
+    //               parent: widget.animationController!,
+    //               curve: Interval((1 / count) * 8, 1.0,
+    //                   curve: Curves.fastOutSlowIn))),
+    //       animationController: widget.animationController!),
+    // );
 
     listViews.add(
       RuregionTitleNoneView(

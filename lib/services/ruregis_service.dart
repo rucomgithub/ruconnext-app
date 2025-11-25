@@ -72,7 +72,7 @@ class RuregisService {
       await dioapi.createIntercepter();
       //   var response = await dioapi.api.get('$ruregisurl/profileApp.jsp?STUDENTID=6601602904',
       var response = await dioapi.api.get(
-        '$ruregionurl/region_student_profile/6299499991',
+        '$ruregionurl/region_student_profile/$stdcode',
       );
       if (response.statusCode == 200) {
         print('datas ${response.data}');
@@ -237,7 +237,7 @@ Future<SaveStatus> saveStatusApp() async {
         '$ruregionurl/region_system_control/${profile.rec![0].username}',
       );
       if (responsecounter.statusCode == 200) {
-        //print('data ${response.data}');
+      //  print('data counter ${responsecounter.data}');
 
         counterregiondata = CounterRegion.fromJson(responsecounter.data);
           await dioapi.createIntercepter();
@@ -245,7 +245,7 @@ Future<SaveStatus> saveStatusApp() async {
         '$ruregionurl/region_save_status/${profile.rec![0].username}/${counterregiondata.resultsCounter![0].sTUDYSEMESTER}/${counterregiondata.resultsCounter![0].sTUDYYEAR}',
       );
       if (response.statusCode == 200) {
-        //print('data ${response.data}');
+      //  print('data service save status ${response.data}');
 
         savestatus = SaveStatus.fromJson(response.data);
       } else {
@@ -800,7 +800,7 @@ Future<SaveStatus> saveStatusApp() async {
       await dioapi.createIntercepter();
       var response = await dioapi.api.get(
         // '$ruregionurl/region_course/$stdcode/$sem/$year',
-        '$ruregionurl/region_course/6299499992/1/2567',
+        '$ruregionurl/region_course/$stdcode/$sem/$year',
       );
       if (response.statusCode == 200) {
         print('data mr30  ${response.data}');

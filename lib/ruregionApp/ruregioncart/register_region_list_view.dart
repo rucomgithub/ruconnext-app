@@ -11,7 +11,7 @@ import 'package:th.ac.ru.uSmart/providers/ruregis_provider.dart';
 import 'package:th.ac.ru.uSmart/registers/register_nodata_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:intl/intl.dart'; // อย่าลืม import
 import '../../fitness_app/fitness_app_theme.dart';
 import '../../model/register_model.dart';
 import '../../model/ruregion_mr30_model.dart';
@@ -56,7 +56,6 @@ class _RuregionCartListViewState extends State<RuregionCartListView>
 
   @override
   Widget build(BuildContext context) {
-
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -90,6 +89,7 @@ class _RuregionCartListViewState extends State<RuregionCartListView>
 
   Container mr30cart(BuildContext context) {
     return Container(
+      
       width: MediaQuery.of(context).size.width *
           0.8, // Set a fixed width for the container
       // height: MediaQuery.of(context).size.height * 0.5,
@@ -374,7 +374,7 @@ class AreaViewFee extends StatelessWidget {
                                   ),
                                 ),
                                 trailing: Text(
-                                  ' ${values![index].fEEAMOUNT} .-',
+                                  '${_formatAmount(values![index].fEEAMOUNT)}',
                                   style: TextStyle(
                                     fontFamily: AppTheme.ruFontKanit,
                                     fontSize: 14,
@@ -403,7 +403,7 @@ class AreaViewFee extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              'รวม ${feeData.sumTotal} บาท', // Replace with your right-aligned text
+                            'รวม ${_formatAmount(feeData.sumTotal)} บาท', 
                               textAlign: TextAlign.end,
                               style: TextStyle(
                                 fontFamily: AppTheme.ruFontKanit,
@@ -424,6 +424,15 @@ class AreaViewFee extends StatelessWidget {
         );
       },
     );
+  }
+      String _formatAmount(dynamic amount) {
+    try {
+      final numValue = num.parse(amount.toString());
+      final formatter = NumberFormat('#,###');
+      return formatter.format(numValue);
+    } catch (e) {
+      return amount.toString(); // ถ้าไม่ใช่ตัวเลข คืนค่าเดิม
+    }
   }
 }
 
@@ -500,7 +509,7 @@ class AreaView extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              '$sumcredit หน่วยกิต', // Replace with your right-aligned text
+                              '$sumcredit หน่วยกิต', // Replace with y our right-aligned text
                               textAlign: TextAlign.end,
                               style: TextStyle(
                                 fontFamily: AppTheme.ruFontKanit,
@@ -514,50 +523,61 @@ class AreaView extends StatelessWidget {
                       ),
                       Container(
                         height: values!.length * 30,
-                        child: ListView.builder(
-                          padding: const EdgeInsets.only(
-                              left: 8, top: 0, right: 1, bottom: 0),
-                          itemCount: values!.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Container(
-                              height: 25,
-                              child: ListTile(
-                                title: RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text:
-                                            '${index + 1}. ${values![index].cOURSENO} (${values![index].cREDIT})',
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.ruFontKanit,
-                                          fontSize: 14,
-                                          color: FitnessAppTheme.nearlyBlack,
-                                        ),
+                        child: Builder(
+                          builder: (context) {
+                            // เรียงก่อนใช้ ListView
+                            values!.sort((a, b) => a.cOURSENO!
+                                .toLowerCase()
+                                .compareTo(b.cOURSENO!.toLowerCase()));
+
+                            return ListView.builder(
+                              padding: const EdgeInsets.only(
+                                  left: 8, top: 0, right: 1, bottom: 0),
+                              itemCount: values!.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Container(
+                                  height: 25,
+                                  child: ListTile(
+                                    title: RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          TextSpan(
+                                            text:
+                                                '${index + 1}. ${values![index].cOURSENO} (${values![index].cREDIT})',
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.ruFontKanit,
+                                              fontSize: 14,
+                                              color:
+                                                  FitnessAppTheme.nearlyBlack,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
+                                    ),
+                                    trailing: RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          TextSpan(
+                                            text:
+                                                '${values![index].cOURSEDUP ?? ' '}',
+                                            style: TextStyle(color: Colors.red),
+                                          ),
+                                          TextSpan(
+                                            text:
+                                                ' ${values![index].eXAMDATE} (${values![index].eXAMPERIOD})',
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.ruFontKanit,
+                                              fontSize: 14,
+                                              color:
+                                                  FitnessAppTheme.nearlyBlack,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                                trailing: RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text:
-                                            '${values![index].cOURSEDUP ?? ' '}',
-                                        style: TextStyle(color: Colors.red),
-                                      ),
-                                      TextSpan(
-                                        text:
-                                            ' ${values![index].eXAMDATE} (${values![index].eXAMPERIOD})',
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.ruFontKanit,
-                                          fontSize: 14,
-                                          color: FitnessAppTheme.nearlyBlack,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
+                                );
+                              },
                             );
                           },
                         ),

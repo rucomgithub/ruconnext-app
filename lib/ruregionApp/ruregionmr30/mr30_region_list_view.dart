@@ -28,7 +28,6 @@ class _RuregionMr30ListViewState extends State<RuregionMr30ListView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
 
-
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
@@ -50,15 +49,11 @@ class _RuregionMr30ListViewState extends State<RuregionMr30ListView>
   }
 
   void _onRefresh() async {
-    // monitor network fetch
-    // if failed,use refreshFailed()
     getData();
     _refreshController.refreshCompleted(resetFooterState: true);
   }
 
   void _onLoading() async {
-    // monitor network fetch
-    // if failed,use loadFailed(),if no data return,use LoadNodata()
     getData();
     _refreshController.loadComplete();
   }
@@ -73,6 +68,7 @@ class _RuregionMr30ListViewState extends State<RuregionMr30ListView>
     var err = context.watch<RUREGISMR30Provider>().error;
     var mr30ruregion = context.watch<RUREGISMR30Provider>().mr30filterApp;
     var loading = context.watch<RUREGISMR30Provider>().isLoadingMr30;
+
     if (loading) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -90,8 +86,8 @@ class _RuregionMr30ListViewState extends State<RuregionMr30ListView>
                 return FadeTransition(
                   opacity: widget.mainScreenAnimation!,
                   child: Transform(
-                    transform: Matrix4.translationValues(0.0,
-                        30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
+                    transform: Matrix4.translationValues(
+                        0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
                     child: AspectRatio(
                       aspectRatio: 1.0,
                       child: Padding(
@@ -124,40 +120,55 @@ class _RuregionMr30ListViewState extends State<RuregionMr30ListView>
                           controller: _refreshController,
                           onRefresh: _onRefresh,
                           onLoading: _onLoading,
-                          child: ListView(
-                            padding: const EdgeInsets.only(
-                                left: 16, right: 16, top: 16, bottom: 16),
-                            physics: const BouncingScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            children: List<Widget>.generate(
-                              mr30ruregion.results!.length > 20
-                                  ? 20
-                                  : mr30ruregion.results!.length,
-                              (int index) {
-                                final int count =
+                          // 👇 ส่วนนี้คือจุดที่เพิ่มการตรวจสอบข้อมูล
+                          child: (mr30ruregion.results == null ||
+                                  mr30ruregion.results!.isEmpty)
+                              ? Center(
+                                  child: Text(
+                                    'นักศึกษาไม่สามารถลงทะเบียนเรียนได้',
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.ruFontKanit,
+                                      fontSize: 16,
+                                      color: Colors.redAccent,
+                                    ),
+                                  ),
+                                )
+                              : ListView(
+                                  padding: const EdgeInsets.only(
+                                      left: 16, right: 16, top: 16, bottom: 16),
+                                  physics: const BouncingScrollPhysics(),
+                                  scrollDirection: Axis.vertical,
+                                  children: List<Widget>.generate(
                                     mr30ruregion.results!.length > 20
                                         ? 20
-                                        : mr30ruregion.results!.length;
-                                final Animation<double> animation =
-                                    Tween<double>(begin: 0.0, end: 1.0).animate(
-                                  CurvedAnimation(
-                                    parent: animationController!,
-                                    curve: Interval((1 / count) * index, 1.0,
-                                        curve: Curves.fastOutSlowIn),
+                                        : mr30ruregion.results!.length,
+                                    (int index) {
+                                      final int count =
+                                          mr30ruregion.results!.length > 20
+                                              ? 20
+                                              : mr30ruregion.results!.length;
+                                      final Animation<double> animation =
+                                          Tween<double>(begin: 0.0, end: 1.0)
+                                              .animate(
+                                        CurvedAnimation(
+                                          parent: animationController!,
+                                          curve: Interval((1 / count) * index,
+                                              1.0,
+                                              curve: Curves.fastOutSlowIn),
+                                        ),
+                                      );
+                                      animationController?.forward();
+                                      return Mr30ItemView(
+                                        index: index,
+                                        course: mr30ruregion.results
+                                            ?.elementAt(index),
+                                        animation: animation,
+                                        animationController:
+                                            animationController!,
+                                      );
+                                    },
                                   ),
-                                );
-                                animationController?.forward();
-                                // return Text('asdfasdfasdf');
-                                return Mr30ItemView(
-                                  index: index,
-                                  course:
-                                      mr30ruregion.results?.elementAt(index),
-                                  animation: animation,
-                                  animationController: animationController!,
-                                );
-                              },
-                            ),
-                          ),
+                                ),
                         ),
                       ),
                     ),
@@ -200,28 +211,40 @@ class Mr30ItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var ruregionprov = context.watch<RUREGISMR30Provider>();
-    var mr30ruregion = context.watch<RuregionProvider>().mr30ruregion;
     var regionProv = context.watch<RuregionCheckCartProvider>();
 
-    // print('mr30 filter ${mr30fil.results}');
-
     void addToCart(ResultsMr30 course) {
-      print('add to cart ${course}');
-      
-      // ruregionprov.addRuregionMR30(context,mr30ruregion.results![index]);
-      ruregionprov.addRuregisAppMR30(context,course);
+      print('add to cart $course');
+      ruregionprov.addRuregisAppMR30(context, course);
       regionProv.getCalPayRegionApp();
     }
 
-    List<String> parts = this.course.toString().split(',');
     EdgeInsets listItemPadding =
-        EdgeInsets.only(left: 0, bottom: 4, top: 4, right: 40);
+        const EdgeInsets.only(left: 0, bottom: 4, top: 4, right: 0);
     Color favColor = AppTheme.ru_text_ocean_blue;
 
     return AnimatedBuilder(
-      animation: animationController!,
-      builder: (BuildContext context, Widget? child) {
-        return Padding(
+  animation: animationController!,
+  builder: (BuildContext context, Widget? child) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // 🔹 แสดงชื่อภาคเรียนแค่ครั้งเดียว (ด้านบนสุด)
+        if (index == 0)
+          Padding(
+            padding: const EdgeInsets.only(left: 16, top: 0, bottom: 8),
+            child: Text(
+              'ปีภาค ${course?.rEGISSEMESTER}/${course?.rEGISYEAR}',
+              style: TextStyle(
+                fontFamily: AppTheme.ruFontKanit,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.blueGrey,
+              ),
+            ),
+          ),
+
+        Padding(
           padding: listItemPadding,
           child: FadeTransition(
             opacity: animation!,
@@ -233,73 +256,35 @@ class Mr30ItemView extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       color: FitnessAppTheme.nearlyWhite.withOpacity(0.9),
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(8.0),
-                          bottomLeft: Radius.circular(0.0),
-                          bottomRight: Radius.circular(0.0),
-                          topRight: Radius.circular(8.0)),
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
                       boxShadow: <BoxShadow>[
                         BoxShadow(
-                            color: FitnessAppTheme.grey.withOpacity(0.4),
-                            offset: const Offset(1.1, 1.1),
-                            blurRadius: 10.0),
+                          color: FitnessAppTheme.grey.withOpacity(0.4),
+                          offset: const Offset(1.1, 1.1),
+                          blurRadius: 10.0,
+                        ),
                       ],
                     ),
                     child: Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        focusColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        hoverColor: Colors.transparent,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(8.0)),
                         splashColor: AppTheme.dark_grey.withOpacity(0.2),
-                         onTap: () {
-                            addToCart(course!);
+                        onTap: () {
+                          addToCart(course!);
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 16, right: 8),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Color.fromARGB(255, 244, 237, 237)
-                                          .withOpacity(0.9),
-                                      borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(8.0),
-                                          bottomLeft: Radius.circular(8.0),
-                                          bottomRight: Radius.circular(8.0),
-                                          topRight: Radius.circular(8.0)),
-                                      boxShadow: <BoxShadow>[
-                                        BoxShadow(
-                                            color: FitnessAppTheme.grey
-                                                .withOpacity(0.4),
-                                            offset: const Offset(1.1, 1.1),
-                                            blurRadius: 10.0),
-                                      ],
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(4.0),
-                                      child: IconFavorite(true),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      '${course?.cOURSENO}',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.ruFontKanit,
-                                        fontSize: 20,
-                                        color: favColor,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                              padding: const EdgeInsets.only(left: 16, right: 8),
+                              child: Text(
+                                '${course?.cOURSENO} (${course?.cREDIT}) ',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontFamily: AppTheme.ruFontKanit,
+                                  fontSize: 16,
+                                  color: favColor,
+                                ),
                               ),
                             ),
                             Padding(
@@ -307,11 +292,11 @@ class Mr30ItemView extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Text(
-                                    '${course?.eXAMDATE}  ',
+                                    '${course?.eXAMDATE}   ',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontFamily: AppTheme.ruFontKanit,
-                                      fontSize: 16,
+                                      fontSize: 14,
                                     ),
                                   ),
                                   Text(
@@ -319,120 +304,31 @@ class Mr30ItemView extends StatelessWidget {
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontFamily: AppTheme.ruFontKanit,
-                                      fontSize: 16,
+                                      fontSize: 14,
                                       color: AppTheme.ru_text_grey,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 2,
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(4.0),
-                    decoration: BoxDecoration(
-                      color: FitnessAppTheme.nearlyWhite.withOpacity(0.9),
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(0.0),
-                          bottomLeft: Radius.circular(8.0),
-                          bottomRight: Radius.circular(8.0),
-                          topRight: Radius.circular(0.0)),
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                            color: FitnessAppTheme.grey.withOpacity(0.4),
-                            offset: const Offset(1.1, 1.1),
-                            blurRadius: 10.0),
-                      ],
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        focusColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        hoverColor: Colors.transparent,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(8.0)),
-                        splashColor:
-                            FitnessAppTheme.nearlyDarkBlue.withOpacity(0.2),
-                           onTap: () {
-                            addToCart(course!);
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
                             Container(
-                              padding: EdgeInsets.fromLTRB(5, 1, 5, 1),
                               decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 227, 227, 227)
+                                color: const Color.fromARGB(255, 244, 237, 237)
                                     .withOpacity(0.9),
-                                borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(8.0),
-                                    bottomLeft: Radius.circular(8.0),
-                                    bottomRight: Radius.circular(8.0),
-                                    topRight: Radius.circular(8.0)),
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(8.0)),
                                 boxShadow: <BoxShadow>[
                                   BoxShadow(
                                     color:
                                         FitnessAppTheme.grey.withOpacity(0.4),
+                                    offset: const Offset(1.1, 1.1),
+                                    blurRadius: 10.0,
                                   ),
                                 ],
                               ),
                               child: Padding(
-                                padding: EdgeInsets.all(4.0),
-                                child: Text(
-                                  '${course?.rEGISSEMESTER}/${course?.rEGISYEAR}',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.ruFontKanit,
-                                    fontSize: 12,
-                                    color: favColor,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(5, 1, 5, 1),
-                              decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 227, 227, 227)
-                                    .withOpacity(0.9),
-                                borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(8.0),
-                                    bottomLeft: Radius.circular(8.0),
-                                    bottomRight: Radius.circular(8.0),
-                                    topRight: Radius.circular(8.0)),
-                                boxShadow: <BoxShadow>[
-                                  BoxShadow(
-                                    color:
-                                        FitnessAppTheme.grey.withOpacity(0.4),
-                                  ),
-                                ],
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.all(4.0),
-                                child: Text(
-                                  '${course?.eXAMDATE}',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.ruFontKanit,
-                                    fontSize: 12,
-                                    color: favColor,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Text(
-                              '${course?.cREDIT} หน่วยกิต',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: AppTheme.ruFontKanit,
-                                fontSize: 12,
-                                color: AppTheme.ru_text_grey,
+                                padding: const EdgeInsets.all(4.0),
+                                child: IconFavorite(true),
                               ),
                             ),
                           ],
@@ -440,12 +336,16 @@ class Mr30ItemView extends StatelessWidget {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 2),
                 ],
               ),
             ),
           ),
-        );
-      },
+        ),
+      ],
     );
+  },
+);
+
   }
 }

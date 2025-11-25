@@ -91,8 +91,13 @@ class AuthenRuRegionAppProvider extends ChangeNotifier {
     _loginres = new Loginregion();
     await RuregionLoginStorage.removeProfile();
     await MR30AppStorage.removeMR30App();
+    
+    // final prefs = await SharedPreferences.getInstance();
+    // print('sadsadsadsadasds');
+    // await prefs.setString('mr30ruregis', jsonEncode([]));
     Get.offNamedUntil('/', (route) => true);
     notifyListeners();
+    
   }
 
   Future<void> getProfile() async {

@@ -17,7 +17,6 @@ class ProfileRegionView extends StatefulWidget {
 
   @override
   State<ProfileRegionView> createState() => _ProfileRegionViewState();
-  
 }
 
 class _ProfileRegionViewState extends State<ProfileRegionView> {
@@ -26,7 +25,7 @@ class _ProfileRegionViewState extends State<ProfileRegionView> {
   @override
   Widget build(BuildContext context) {
     var ruregisProv = context.watch<RuregisProvider>().ruregionApp;
-        var provruregis =
+    var provruregis =
         Provider.of<AuthenRuRegionAppProvider>(context, listen: false);
     print('view ${provruregis.loginres.rec![0].username}');
 
@@ -213,14 +212,18 @@ class _ProfileRegionViewState extends State<ProfileRegionView> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 4.0),
                                 child: Text(
-                                  '${ruregisProv.eRRMSG!} ',
+                                  '${ruregisProv.eRRMSG!}',
                                   textAlign: TextAlign.start,
+                                  softWrap: true, // ✅ ให้ตัดบรรทัดอัตโนมัติ
+                                  overflow: TextOverflow
+                                      .visible, // ✅ แสดงข้อความต่อบรรทัดถัดไป
                                   style: TextStyle(
                                     fontFamily: AppTheme.ruFontKanit,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14,
                                     letterSpacing: 0.0,
-                                    color: Color.fromARGB(255, 113, 113, 113),
+                                    color: const Color.fromARGB(
+                                        255, 113, 113, 113),
                                   ),
                                 ),
                               ),
