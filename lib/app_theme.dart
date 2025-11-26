@@ -45,13 +45,14 @@ static const MaterialColor myColor = MaterialColor(0xFFEDF0F2, {
   static const String ruFontCharm = 'Charm';
   
   static const TextTheme textTheme = TextTheme(
-    headline4: display1,
-    headline5: headline,
-    headline6: title,
-    subtitle2: subtitle,
-    bodyText2: body2,
-    bodyText1: body1,
-    caption: caption,
+headlineMedium: display1,
+headlineSmall: headline,
+titleLarge: title,
+titleSmall: subtitle,
+bodyMedium: body2,
+bodyLarge: body1,
+bodySmall: caption,
+
   );
 
   static const TextStyle display1 = TextStyle( // h4 -> display1

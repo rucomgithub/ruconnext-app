@@ -53,7 +53,7 @@ class RuregionOtherListView extends StatelessWidget {
                           children: <Widget>[
                             Container(
                               color: RuConnextAppTheme.buildLightTheme()
-                                  .backgroundColor,
+                                  .scaffoldBackgroundColor,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,

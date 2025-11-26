@@ -89,7 +89,7 @@ class _RotcsHomeScreenState extends State<RotcsHomeScreen>
         : 0;
     return Container(
       decoration: BoxDecoration(
-        color: RuConnextAppTheme.buildLightTheme().backgroundColor,
+        color: RuConnextAppTheme.buildLightTheme().scaffoldBackgroundColor,
         boxShadow: <BoxShadow>[
           BoxShadow(
               color: Colors.grey.withOpacity(0.2),
@@ -143,7 +143,7 @@ class _RotcsHomeScreenState extends State<RotcsHomeScreen>
   Widget getAppBarUI() {
     return Container(
       decoration: BoxDecoration(
-        color: RuConnextAppTheme.buildLightTheme().backgroundColor,
+        color: RuConnextAppTheme.buildLightTheme().scaffoldBackgroundColor,
         boxShadow: <BoxShadow>[
           BoxShadow(
               color: Colors.grey.withOpacity(0.2),

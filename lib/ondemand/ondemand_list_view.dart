@@ -105,7 +105,7 @@ class ListOndemand extends StatelessWidget {
                         // ),
                         Container(
                           color:
-                              HotelAppTheme.buildLightTheme().backgroundColor,
+                              HotelAppTheme.buildLightTheme().scaffoldBackgroundColor,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,

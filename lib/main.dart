@@ -187,7 +187,7 @@ class MyApp extends StatelessWidget {
               primarySwatch: AppTheme.myColor,
               canvasColor: AppTheme.dark_grey,
               textTheme: const TextTheme(
-                  bodyText1: TextStyle(
+                  bodyLarge: TextStyle(
                       fontSize: 40,
                       color: Color.fromRGBO(84, 88, 89, 1.0),
                       fontFamily: AppTheme.ruFontKanit))),

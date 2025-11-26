@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' hide DioException;
 import '../exceptions/dioexception.dart';
 import '../model/ondemand.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

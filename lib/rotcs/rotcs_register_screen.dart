@@ -163,7 +163,7 @@ class _RotcsRegisterScreenState extends State<RotcsRegisterScreen>
           child: Container(
             height: 24,
             decoration: BoxDecoration(
-              color: RuConnextAppTheme.buildLightTheme().backgroundColor,
+              color: RuConnextAppTheme.buildLightTheme().scaffoldBackgroundColor,
               boxShadow: <BoxShadow>[
                 BoxShadow(
                     color: Colors.grey.withOpacity(0.2),
@@ -174,7 +174,7 @@ class _RotcsRegisterScreenState extends State<RotcsRegisterScreen>
           ),
         ),
         Container(
-          color: RuConnextAppTheme.buildLightTheme().backgroundColor,
+          color: RuConnextAppTheme.buildLightTheme().scaffoldBackgroundColor,
           child: Padding(
             padding:
                 const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 4),
@@ -244,7 +244,7 @@ class _RotcsRegisterScreenState extends State<RotcsRegisterScreen>
   Widget getAppBarUI() {
     return Container(
       decoration: BoxDecoration(
-        color: RuConnextAppTheme.buildLightTheme().backgroundColor,
+        color: RuConnextAppTheme.buildLightTheme().scaffoldBackgroundColor,
         boxShadow: <BoxShadow>[
           BoxShadow(
               color: Colors.grey.withOpacity(0.2),
@@ -331,7 +331,7 @@ class _RotcsRegisterScreenState extends State<RotcsRegisterScreen>
                     ),
                     Container(
                       color:
-                          RuConnextAppTheme.buildLightTheme().backgroundColor,
+                          RuConnextAppTheme.buildLightTheme().scaffoldBackgroundColor,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,

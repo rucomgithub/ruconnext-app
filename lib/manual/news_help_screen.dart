@@ -82,7 +82,7 @@ class _NewsHelpScreenState extends State<NewsHelpScreen> {
 Widget getAppBarUI(BuildContext context) {
   return Container(
     decoration: BoxDecoration(
-      color: RuConnextAppTheme.buildLightTheme().backgroundColor,
+      color: RuConnextAppTheme.buildLightTheme().scaffoldBackgroundColor,
       boxShadow: <BoxShadow>[
         BoxShadow(
             color: Colors.grey.withOpacity(0.2),

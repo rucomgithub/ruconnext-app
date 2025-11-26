@@ -124,7 +124,7 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
   Widget getListUI() {
     return Container(
       decoration: BoxDecoration(
-        color: RuConnextAppTheme.buildLightTheme().backgroundColor,
+        color: RuConnextAppTheme.buildLightTheme().scaffoldBackgroundColor,
         boxShadow: <BoxShadow>[
           BoxShadow(
               color: Colors.grey.withOpacity(0.2),
@@ -374,7 +374,7 @@ class _RuRegionOtherHomeScreenState extends State<RuRegionOtherHomeScreen>
     var provmr30 = Provider.of<RUREGISMR30Provider>(context, listen: false);
     return Container(
       decoration: BoxDecoration(
-        color: RuConnextAppTheme.buildLightTheme().backgroundColor,
+        color: RuConnextAppTheme.buildLightTheme().scaffoldBackgroundColor,
         boxShadow: <BoxShadow>[
           BoxShadow(
               color: Colors.grey.withOpacity(0.2),

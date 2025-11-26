@@ -132,24 +132,24 @@ class _RuMapState extends State<RuMap>
   }
 
    getPolyPoints() async {
-    PolylinePoints polylinePoints = PolylinePoints();
+    // PolylinePoints polylinePoints = PolylinePoints();
 
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      "AIzaSyBDni9WvxHp5hBqVmm80tJDhgYotiOJC-A",
-      PointLatLng(sourceLocation.latitude, sourceLocation.longitude),
-      PointLatLng(destination.latitude, destination.longitude),
-    );
+    // PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+    //   "AIzaSyBDni9WvxHp5hBqVmm80tJDhgYotiOJC-A",
+    //   PointLatLng(sourceLocation.latitude, sourceLocation.longitude),
+    //   PointLatLng(destination.latitude, destination.longitude),
+    // );
 
-    if (result.points.isNotEmpty) {
-      result.points.forEach(
-        (PointLatLng point) => polylineCoordinates.add(
-          LatLng(point.latitude, point.longitude),
-        ),
-      );
-      setState(() {});
-    } else {
-      print('Error from Polyline : ${result.errorMessage}');
-    }
+    // if (result.points.isNotEmpty) {
+    //   result.points.forEach(
+    //     (PointLatLng point) => polylineCoordinates.add(
+    //       LatLng(point.latitude, point.longitude),
+    //     ),
+    //   );
+    //   setState(() {});
+    // } else {
+    //   print('Error from Polyline : ${result.errorMessage}');
+    // }
   }
 
   void setCustomMarkerIcon(){

@@ -169,7 +169,8 @@ class _RuregionQRScreenState extends State<RuregionQRScreen>
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue, // Background color
-                            onPrimary: Colors.white, // Text color
+                            foregroundColor:
+                                Colors.white, // Text color (เดิม onPrimary)
                             padding: EdgeInsets.symmetric(
                                 vertical: 16.0), // Button padding
                             shape: RoundedRectangleBorder(

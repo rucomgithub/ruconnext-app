@@ -1,5 +1,5 @@
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart' as cs;
 import 'package:flutter/material.dart';
 
 class aboutRam extends StatefulWidget {
@@ -13,7 +13,7 @@ class _aboutRamState extends State<aboutRam> {
   int _current = 0;
   dynamic _selectedIndex = {};
 
-  CarouselController _carouselController = new CarouselController();
+final cs.CarouselSliderController _carouselController = cs.CarouselSliderController();
 
   List<dynamic> _products = [
     {
@@ -68,9 +68,9 @@ class _aboutRamState extends State<aboutRam> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        child: CarouselSlider(
+        child: cs.CarouselSlider(
             carouselController: _carouselController,
-            options: CarouselOptions(
+            options: cs.CarouselOptions(
                 height: 550.0,
                 aspectRatio: 16 / 9,
                 viewportFraction: 0.90,

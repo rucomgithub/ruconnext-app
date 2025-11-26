@@ -61,22 +61,22 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
   }
 
   void getPolyPoints() async {
-    PolylinePoints polylinePoints = PolylinePoints();
+    // PolylinePoints polylinePoints = PolylinePoints();
 
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      "AIzaSyDleXXfNBGkKuNFZyT_tYFAqKc7yqkPYLE",
-      PointLatLng(sourceLocation.latitude, sourceLocation.longitude),
-      PointLatLng(destination.latitude, destination.longitude),
-    );
+    // PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+    //   "AIzaSyDleXXfNBGkKuNFZyT_tYFAqKc7yqkPYLE",
+    //   PointLatLng(sourceLocation.latitude, sourceLocation.longitude),
+    //   PointLatLng(destination.latitude, destination.longitude),
+    // );
 
-    if (result.points.isNotEmpty) {
-      result.points.forEach(
-        (PointLatLng point) => polylineCoordinates.add(
-          LatLng(point.latitude, point.longitude),
-        ),
-      );
-      setState(() {});
-    }
+    // if (result.points.isNotEmpty) {
+    //   result.points.forEach(
+    //     (PointLatLng point) => polylineCoordinates.add(
+    //       LatLng(point.latitude, point.longitude),
+    //     ),
+    //   );
+    //   setState(() {});
+    // }
   }
 
   void setCustomMarkerIcon(){

@@ -76,7 +76,7 @@ class _ManualHomeScreenState extends State<ManualHomeScreen>
   Widget getListUI() {
     return Container(
       decoration: BoxDecoration(
-        color: RuConnextAppTheme.buildLightTheme().backgroundColor,
+        color: RuConnextAppTheme.buildLightTheme().scaffoldBackgroundColor,
         boxShadow: <BoxShadow>[
           BoxShadow(
               color: Colors.grey.withOpacity(0.2),
@@ -146,7 +146,7 @@ class _ManualHomeScreenState extends State<ManualHomeScreen>
   Widget getAppBarUI() {
     return Container(
       decoration: BoxDecoration(
-        color: RuConnextAppTheme.buildLightTheme().backgroundColor,
+        color: RuConnextAppTheme.buildLightTheme().scaffoldBackgroundColor,
         boxShadow: <BoxShadow>[
           BoxShadow(
               color: Colors.grey.withOpacity(0.2),

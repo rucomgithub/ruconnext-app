@@ -274,7 +274,7 @@ class _FlipCardPageState extends State<FlipCardPage>
                         ],
                       ),
                       ImageLoader(),
-                      QrImage(
+                      QrImageView(
                         data: authen.profile.studentCode!,
                         version: QrVersions.auto,
                         size: 60,
@@ -379,8 +379,8 @@ class _FlipCardPageState extends State<FlipCardPage>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              QrImage(
-                data: studentProv.student.stdcode!,
+              QrImageView(
+                data: 'HELLO',
                 version: QrVersions.auto,
                 size: 320,
                 gapless: false,

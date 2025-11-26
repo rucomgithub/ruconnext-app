@@ -73,14 +73,14 @@ class _TodayScreenState extends State<TodayScreen> {
                                 children: [
                                   Text(
                                     "วันนี้เรียนอะไร?",
-                                    style: textTheme.headline5,
+                                    style: textTheme.headlineSmall,
                                   ),
                                   Expanded(
                                     child: Center(),
                                   ),
                                   Text(
                                     "รายการทั้งหมด > ",
-                                    style: textTheme.subtitle2!
+                                    style: textTheme.titleSmall!
                                         .apply(color: COLOR_ORANGE),
                                   ),
                                   addHorizontalSpace(5),
@@ -186,7 +186,7 @@ class _TodayScreenState extends State<TodayScreen> {
                         child: Text(
                           "วันนี้เรียนอะไร ?",
                           style:
-                              textTheme.headline5!.apply(color: Colors.white),
+                              textTheme.headlineSmall!.apply(color: Colors.white),
                         ),
                       )
                     ],

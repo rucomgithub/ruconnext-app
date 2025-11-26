@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -13,31 +11,45 @@ class WebsitePage extends StatefulWidget {
 
 class _WebsitePageState extends State<WebsitePage> {
   Map<String, dynamic> news = {};
-  final Completer<WebViewController> _controller =
-      Completer<WebViewController>();
+  late final WebViewController _controller;
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    news = Get.arguments;
+
+    // ตรวจสอบ null safety
+    news = Get.arguments ?? {};
+
+    // สร้าง controller แบบใหม่
+    _controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageFinished: (url) {
+            setState(() {
+              isLoading = false;
+            });
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(news['url'] ?? 'https://flutter.dev'));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('${news['title']}')),
-      body: WebView(
-        initialUrl: '${news['url']}',
-        javascriptMode: JavascriptMode.unrestricted,
-        onWebViewCreated: (WebViewController webViewController) {
-          _controller.complete(webViewController);
-        },
-        onPageFinished: (finish) {
-          setState(() {
-            isLoading = false;
-          });
-        },
+      appBar: AppBar(
+        title: Text(news['title'] ?? 'Web Page'),
+      ),
+      body: Stack(
+        children: [
+          WebViewWidget(controller: _controller),
+          if (isLoading)
+            const Center(
+              child: CircularProgressIndicator(),
+            ),
+        ],
       ),
     );
   }

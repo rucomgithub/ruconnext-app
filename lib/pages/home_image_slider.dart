@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:intl/intl.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart' as cs;
 
 import '../app_theme.dart';
 
@@ -22,7 +22,7 @@ class _homeImageSliderState extends State<homeImageSlider> {
   int _current = 0;
   dynamic _selectedIndex = {};
 
-  CarouselController _carouselController = new CarouselController();
+final cs.CarouselSliderController _carouselController = cs.CarouselSliderController();
   int currentIndex = 0;
   String imgClock='';
   profileImage profileImages  =    profileImage(    
@@ -77,8 +77,8 @@ class _homeImageSliderState extends State<homeImageSlider> {
 
   @override
   Widget build(BuildContext context) {
-    return CarouselSlider(
-      options: CarouselOptions(
+    return cs.CarouselSlider(
+      options: cs.CarouselOptions(
         height: 130.0,
         aspectRatio: 16 / 9,
         viewportFraction: 1.02,

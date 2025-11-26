@@ -167,16 +167,15 @@ class _RuregisQRScreenState extends State<RuregisQRScreen>
                             Navigator.of(context)
                                 .pushNamed('/ruregishome'); // Navigate to home
                           },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue, // Background color
-                            onPrimary: Colors.white, // Text color
-                            padding: EdgeInsets.symmetric(
-                                vertical: 16.0), // Button padding
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  12.0), // Rounded corners
-                            ),
-                          ),
+                         style: ElevatedButton.styleFrom(
+  backgroundColor: Colors.blue, // Background color
+  foregroundColor: Colors.white, // Text color (เดิม onPrimary)
+  padding: EdgeInsets.symmetric(vertical: 16.0), // Button padding
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(12.0), // Rounded corners
+  ),
+),
+
                           child: Text('กลับสู่หน้าหลัก'),
                         ),
                       ),

@@ -1,6 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart' as cs;
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/hotel_booking/model/hotel_list_data.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +26,7 @@ class _RuregionMR30ScreenState extends State<RuregionMR30Screen>
   int _current = 0;
   dynamic _selectedIndex = {};
 
-  CarouselController _carouselController = new CarouselController();
+final cs.CarouselSliderController _carouselController = cs.CarouselSliderController();
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -280,9 +280,9 @@ class _RuregionMR30ScreenState extends State<RuregionMR30Screen>
     return Container(
       width: double.infinity,
       height: double.infinity,
-      child: CarouselSlider(
+      child: cs.CarouselSlider(
           carouselController: _carouselController,
-          options: CarouselOptions(
+          options: cs.CarouselOptions(
               height: 500.0,
               aspectRatio: 16 / 9,
               viewportFraction: 0.90,

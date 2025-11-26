@@ -73,7 +73,7 @@ class _OtherHomeScreenState extends State<OtherHomeScreen>
   Widget getListUI() {
     return Container(
       decoration: BoxDecoration(
-        color: RuConnextAppTheme.buildLightTheme().backgroundColor,
+        color: RuConnextAppTheme.buildLightTheme().scaffoldBackgroundColor,
         boxShadow: <BoxShadow>[
           BoxShadow(
               color: Colors.grey.withOpacity(0.2),
@@ -143,7 +143,7 @@ class _OtherHomeScreenState extends State<OtherHomeScreen>
   Widget getAppBarUI() {
     return Container(
       decoration: BoxDecoration(
-        color: RuConnextAppTheme.buildLightTheme().backgroundColor,
+        color: RuConnextAppTheme.buildLightTheme().scaffoldBackgroundColor,
         boxShadow: <BoxShadow>[
           BoxShadow(
               color: Colors.grey.withOpacity(0.2),

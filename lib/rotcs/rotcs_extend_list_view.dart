@@ -58,7 +58,7 @@ class RotcsExtendListView extends StatelessWidget {
                             // ),
                             Container(
                               color: RuConnextAppTheme.buildLightTheme()
-                                  .backgroundColor,
+                                  .scaffoldBackgroundColor,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,

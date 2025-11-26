@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:th.ac.ru.uSmart/model/runews.dart';
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' hide DioException;
 import '../exceptions/dioexception.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
