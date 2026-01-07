@@ -1,23 +1,10 @@
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
-import 'package:th.ac.ru.uSmart/hotel_booking/calendar_popup_view.dart';
-import 'package:th.ac.ru.uSmart/hotel_booking/hotel_list_view.dart';
-import 'package:th.ac.ru.uSmart/hotel_booking/model/hotel_list_data.dart';
 import 'package:th.ac.ru.uSmart/model/ondemand.dart';
 import 'package:th.ac.ru.uSmart/providers/ondemand_provider.dart';
-import 'package:th.ac.ru.uSmart/providers/schedule_provider.dart';
-import 'package:th.ac.ru.uSmart/schedule/schedule_list_view.dart';
-import 'package:th.ac.ru.uSmart/today/today_list_view.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../app_theme.dart';
-import '../hotel_booking/filters_screen.dart';
-import '../hotel_booking/hotel_app_theme.dart';
-import '../login_page.dart';
-import '../providers/authenprovider.dart';
 import 'ondemand_list_view.dart';
 
 class OndemandHomeScreen extends StatefulWidget {
@@ -28,11 +15,7 @@ class OndemandHomeScreen extends StatefulWidget {
 class _OndemandHomeScreenState extends State<OndemandHomeScreen>
     with TickerProviderStateMixin {
   AnimationController? animationController;
-  List<HotelListData> hotelList = HotelListData.hotelList;
   final ScrollController _scrollController = ScrollController();
-
-  DateTime startDate = DateTime.now();
-  DateTime endDate = DateTime.now().add(const Duration(days: 5));
   Ondemand article = Ondemand();
 
   final RefreshController _refreshController =
@@ -79,23 +62,19 @@ class _OndemandHomeScreenState extends State<OndemandHomeScreen>
 
   @override
   void initState() {
+    super.initState();
     animationController = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
 
-    super.initState();
-    final Map<String, dynamic> args = Get.arguments;
-    final String? course = args['course'];
-    final String? semester = args['semester'];
-    final String? year = args['year'];
-    Provider.of<OndemandProvider>(context, listen: false)
-        .getOndemandList('$course', '$semester', '$year');
-    // print('init ----${course.toString().trim()}xxx');
-    getData();
-  }
-
-  Future<bool> getData2() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
-    return true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final Map<String, dynamic> args = Get.arguments;
+      final String? course = args['course'];
+      final String? semester = args['semester'];
+      final String? year = args['year'];
+      Provider.of<OndemandProvider>(context, listen: false)
+          .getOndemandList('$course', '$semester', '$year');
+      getData();
+    });
   }
 
   @override
@@ -111,15 +90,46 @@ class _OndemandHomeScreenState extends State<OndemandHomeScreen>
     final String? semester = args['semester'];
     final String? year = args['year'];
     var dataOndemand = context.watch<OndemandProvider>();
-    // authen.profile.accessToken =
-    //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NfdG9rZW5fa2V5IjoiNjI5OTk5OTk5MTo6YWNjZXNzOjo3YWIyYzVhNC0wNDViLTRiMjgtYTFhMy1iNmM2MTJlODhmNTIiLCJleHBpcmVzX3Rva2VuIjoxNjg4NzA2MDE5LCJpc3N1ZXIiOiJSdS1TbWFydCIsInJlZnJlc2hfdG9rZW5fa2V5IjoiNjI5OTk5OTk5MTo6cmVmcmVzaDo6MmFlNmEwMzMtOTVkYy00ZTQ3LTkxYzEtMmM0YjY0MmZkYjQ3Iiwicm9sZSI6IiIsInN1YmplY3QiOiJSdS1TbWFydDYyOTk5OTk5OTEifQ.IrdWhLxJUZMG1YwzOrr3KLToeZ8z4rrRiZzFbyqLL2A';
-    return Theme(
-      data: HotelAppTheme.buildLightTheme(),
-      child: Container(
-        child: Scaffold(
-          body: Stack(
-            children: <Widget>[
-              InkWell(
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
+
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: AppTheme.nearlyWhite,
+        ),
+        title: Text(
+          'วิดีโอคำบรรยาย',
+          style: TextStyle(
+            fontSize: baseFontSize - 2,
+            fontFamily: AppTheme.ruFontKanit,
+            color: AppTheme.nearlyWhite,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: AppTheme.ru_dark_blue,
+      ),
+      backgroundColor:
+          isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
+      body: Container(
+        decoration: BoxDecoration(
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.grey.withValues(alpha: 0.2),
+                offset: const Offset(0, -2),
+                blurRadius: 8.0),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: InkWell(
                 splashColor: Colors.transparent,
                 focusColor: Colors.transparent,
                 highlightColor: Colors.transparent,
@@ -127,26 +137,78 @@ class _OndemandHomeScreenState extends State<OndemandHomeScreen>
                 onTap: () {
                   FocusScope.of(context).requestFocus(FocusNode());
                 },
-                child: Column(
-                  children: <Widget>[
-                    getAppBarUI(course.toString(), semester.toString(),
-                        year.toString()),
-                    Expanded(
-                      child: NestedScrollView(
-                        controller: _scrollController,
-                        headerSliverBuilder:
-                            (BuildContext context, bool innerBoxIsScrolled) {
-                          return <Widget>[
-                            SliverPersistentHeader(
-                              pinned: true,
-                              floating: true,
-                              delegate: ContestTabHeader(
-                                getFilterBarUI(context),
-                              ),
-                            ),
-                          ];
-                        },
-                        body: SmartRefresher(
+                child: NestedScrollView(
+                  controller: _scrollController,
+                  headerSliverBuilder:
+                      (BuildContext context, bool innerBoxIsScrolled) {
+                    return <Widget>[
+                      SliverPersistentHeader(
+                        pinned: true,
+                        floating: true,
+                        delegate: ContestTabHeader(
+                          getFilterBarUI(context),
+                        ),
+                      ),
+                    ];
+                  },
+                  body: (dataOndemand.ondemand.rECORD?.detail == null ||
+                          dataOndemand.ondemand.rECORD!.detail!.isEmpty)
+                      ? Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              if (dataOndemand.isLoading) ...[
+                                CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      AppTheme.ru_dark_blue),
+                                ),
+                                SizedBox(height: 16),
+                                Text(
+                                  "กำลังโหลดข้อมูล...",
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.ruFontKanit,
+                                    fontSize: 16,
+                                    color: isLightMode
+                                        ? AppTheme.ru_dark_blue
+                                        : AppTheme.nearlyWhite,
+                                  ),
+                                ),
+                              ] else ...[
+                                Icon(
+                                  Icons.video_library_outlined,
+                                  size: 80,
+                                  color: isLightMode
+                                      ? AppTheme.ru_dark_blue.withValues(alpha: 0.3)
+                                      : AppTheme.nearlyWhite.withValues(alpha: 0.3),
+                                ),
+                                SizedBox(height: 16),
+                                Text(
+                                  "ไม่พบรายการวิดีโอคำบรรยาย",
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.ruFontKanit,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    color: isLightMode
+                                        ? AppTheme.ru_dark_blue
+                                        : AppTheme.nearlyWhite,
+                                  ),
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  "ไม่มีวิดีโอคำบรรยายสำหรับรายวิชานี้",
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.ruFontKanit,
+                                    fontSize: 14,
+                                    color: isLightMode
+                                        ? AppTheme.ru_dark_blue.withValues(alpha: 0.6)
+                                        : AppTheme.nearlyWhite.withValues(alpha: 0.6),
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                        )
+                      : SmartRefresher(
                           enablePullDown: true,
                           enablePullUp: false,
                           header: const WaterDropHeader(),
@@ -189,7 +251,16 @@ class _OndemandHomeScreenState extends State<OndemandHomeScreen>
                                           curve: Interval(
                                               (1 / count) * index, 1.0,
                                               curve: Curves.fastOutSlowIn)));
-                              animationController?.forward();
+
+                              if (index == 0 &&
+                                  animationController?.status ==
+                                      AnimationStatus.dismissed) {
+                                WidgetsBinding.instance
+                                    .addPostFrameCallback((_) {
+                                  animationController?.forward();
+                                });
+                              }
+
                               return OndemandListView(
                                 record: dataOndemand
                                     .ondemand.rECORD!.detail![index],
@@ -201,532 +272,140 @@ class _OndemandHomeScreenState extends State<OndemandHomeScreen>
                                         '${dataOndemand.ondemand.rECORD!.detail![index].subjectId}ครั้งที่${dataOndemand.ondemand.rECORD!.detail![index].audioSec}(${dataOndemand.ondemand.rECORD!.detail![index].sem}/${dataOndemand.ondemand.rECORD!.detail![index].year})',
                                   });
                                 },
-                                //hotelData: hotelList[index],
                                 index: index,
                                 animation: animation,
                                 animationController: animationController!,
                               );
-
-                              // return Container(child: Text('data'));
                             },
                           ),
                         ),
-                      ),
-                    ),
-                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget getListUI() {
-    return Container(
-      decoration: BoxDecoration(
-        color: HotelAppTheme.buildLightTheme().backgroundColor,
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              offset: const Offset(0, -2),
-              blurRadius: 8.0),
-        ],
-      ),
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height - 156 - 50,
-            child: FutureBuilder<bool>(
-              future: getData2(),
-              builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                if (!snapshot.hasData) {
-                  return const SizedBox();
-                } else {
-                  return ListView.builder(
-                    itemCount: hotelList.length,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (BuildContext context, int index) {
-                      final int count =
-                          hotelList.length > 10 ? 10 : hotelList.length;
-                      final Animation<double> animation =
-                          Tween<double>(begin: 0.0, end: 1.0).animate(
-                              CurvedAnimation(
-                                  parent: animationController!,
-                                  curve: Interval((1 / count) * index, 1.0,
-                                      curve: Curves.fastOutSlowIn)));
-                      animationController?.forward();
-
-                      return HotelListView(
-                        callback: () {},
-                        hotelData: hotelList[index],
-                        animation: animation,
-                        animationController: animationController!,
-                      );
-                    },
-                  );
-                }
-              },
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget getHotelViewList() {
-    final List<Widget> hotelListViews = <Widget>[];
-    for (int i = 0; i < hotelList.length; i++) {
-      final int count = hotelList.length;
-      final Animation<double> animation =
-          Tween<double>(begin: 0.0, end: 1.0).animate(
-        CurvedAnimation(
-          parent: animationController!,
-          curve: Interval((1 / count) * i, 1.0, curve: Curves.fastOutSlowIn),
-        ),
-      );
-      hotelListViews.add(
-        HotelListView(
-          callback: () {},
-          hotelData: hotelList[i],
-          animation: animation,
-          animationController: animationController!,
-        ),
-      );
-    }
-    animationController?.forward();
-    return Column(
-      children: hotelListViews,
-    );
-  }
-
-  Widget getTimeDateUI() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 18, bottom: 16),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Row(
-              children: <Widget>[
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    focusColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    splashColor: Colors.grey.withOpacity(0.2),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(4.0),
-                    ),
-                    onTap: () {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                      // setState(() {
-                      //   isDatePopupOpen = true;
-                      // });
-                      showDemoDialog(context: context);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 8, right: 8, top: 4, bottom: 4),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Choose date',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w100,
-                                fontSize: 16,
-                                color: Colors.grey.withOpacity(0.8)),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            '${DateFormat("dd, MMM").format(startDate)} - ${DateFormat("dd, MMM").format(endDate)}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w100,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: Container(
-              width: 1,
-              height: 42,
-              color: Colors.grey.withOpacity(0.8),
-            ),
-          ),
-          Expanded(
-            child: Row(
-              children: <Widget>[
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    focusColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    splashColor: Colors.grey.withOpacity(0.2),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(4.0),
-                    ),
-                    onTap: () {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 8, right: 8, top: 4, bottom: 4),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Number of Rooms',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w100,
-                                fontSize: 16,
-                                color: Colors.grey.withOpacity(0.8)),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            '1 Room - 2 Adults',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w100,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget getSearchBarUI() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 16, top: 8, bottom: 8),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: HotelAppTheme.buildLightTheme().backgroundColor,
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(38.0),
-                  ),
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                        color: Colors.grey.withOpacity(0.2),
-                        offset: const Offset(0, 2),
-                        blurRadius: 8.0),
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 16, right: 16, top: 4, bottom: 4),
-                  child: TextField(
-                    onChanged: (String txt) {},
-                    style: const TextStyle(
-                      fontSize: 18,
-                    ),
-                    cursorColor: HotelAppTheme.buildLightTheme().primaryColor,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'London...',
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              color: HotelAppTheme.buildLightTheme().primaryColor,
-              borderRadius: const BorderRadius.all(
-                Radius.circular(38.0),
-              ),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                    color: Colors.grey.withOpacity(0.4),
-                    offset: const Offset(0, 2),
-                    blurRadius: 8.0),
-              ],
-            ),
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(32.0),
-                ),
-                onTap: () {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Icon(FontAwesomeIcons.magnifyingGlass,
-                      size: 20,
-                      color: HotelAppTheme.buildLightTheme().backgroundColor),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void showAlertDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Alert'),
-          content: Text('This is an alert message.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                // Close the dialog
-                Navigator.of(context).pop();
-              },
-              child: Text('OK'),
             ),
           ],
-        );
-      },
+        ),
+      ),
     );
   }
 
   Widget getFilterBarUI(BuildContext context) {
     var dataOndemand = context.watch<OndemandProvider>();
-    return Stack(
-      children: <Widget>[
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          child: Container(
-            height: 24,
-            decoration: BoxDecoration(
-              color: HotelAppTheme.buildLightTheme().backgroundColor,
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
-                    offset: const Offset(0, -2),
-                    blurRadius: 8.0),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          color: HotelAppTheme.buildLightTheme().backgroundColor,
-          child: Padding(
-            padding:
-                const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 4),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: dataOndemand.ondemand.rECORD!.subjectCode != ""
-                        ? Text(
-                            'วิดีโอคำบรรยาย จำนวน ${dataOndemand.countOndemand} ครั้ง',
-                            style: TextStyle(
-                              fontFamily: AppTheme.ruFontKanit,
-                              //fontWeight: FontWeight.w100,
-                              fontSize: 16,
-                            ),
-                          )
-                        : Text(
-                            'ไม่พบวีดีโอคำบรรยายในวิชานี้',
-                            style: TextStyle(
-                              fontFamily: AppTheme.ruFontKanit,
-                              //fontWeight: FontWeight.w100,
-                              fontSize: 16,
-                              color: Colors.redAccent,
-                            ),
-                          ),
-                  ),
-                ),
-                // Material(
-                //   color: Colors.transparent,
-                //   child: InkWell(
-                //     focusColor: Colors.transparent,
-                //     highlightColor: Colors.transparent,
-                //     hoverColor: Colors.transparent,
-                //     splashColor: Colors.grey.withOpacity(0.2),
-                //     borderRadius: const BorderRadius.all(
-                //       Radius.circular(4.0),
-                //     ),
-                //     onTap: () {
-                //       FocusScope.of(context).requestFocus(FocusNode());
-                //       Navigator.push<dynamic>(
-                //         context,
-                //         MaterialPageRoute<dynamic>(
-                //             builder: (BuildContext context) => FiltersScreen(),
-                //             fullscreenDialog: true),
-                //       );
-                //     },
-                //     child: Padding(
-                //       padding: const EdgeInsets.only(left: 8),
-                //       child: Row(
-                //         children: <Widget>[
-                //           Text(
-                //             'Filter',
-                //             style: TextStyle(
-                //               fontWeight: FontWeight.w100,
-                //               fontSize: 16,
-                //             ),
-                //           ),
-                //           Padding(
-                //             padding: const EdgeInsets.all(8.0),
-                //             child: Icon(Icons.sort,
-                //                 color: HotelAppTheme.buildLightTheme()
-                //                     .primaryColor),
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //   ),
-                // ),
-              ],
-            ),
-          ),
-        ),
-        const Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          child: Divider(
-            height: 1,
-          ),
-        )
-      ],
-    );
-  }
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
 
-  void showDemoDialog({BuildContext? context}) {
-    showDialog<dynamic>(
-      context: context!,
-      builder: (BuildContext context) => CalendarPopupView(
-        barrierDismissible: true,
-        minimumDate: DateTime.now(),
-        //  maximumDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 10),
-        initialEndDate: endDate,
-        initialStartDate: startDate,
-        onApplyClick: (DateTime startData, DateTime endData) {
-          setState(() {
-            startDate = startData;
-            endDate = endData;
-          });
-        },
-        onCancelClick: () {},
-      ),
-    );
-  }
+    // Safe null checks
+    final hasData = dataOndemand.ondemand.rECORD?.subjectCode != null &&
+        dataOndemand.ondemand.rECORD!.subjectCode != "";
+    final videoCount = dataOndemand.countOndemand;
 
-  Widget getAppBarUI(String course, semester, year) {
     return Container(
       decoration: BoxDecoration(
-        color: HotelAppTheme.buildLightTheme().backgroundColor,
+        gradient: LinearGradient(
+          colors: [
+            isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
+            isLightMode
+                ? AppTheme.ru_dark_blue.withValues(alpha: 0.02)
+                : AppTheme.nearlyBlack,
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
         boxShadow: <BoxShadow>[
           BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              offset: const Offset(0, 2),
-              blurRadius: 8.0),
+            color: isLightMode
+                ? Colors.grey.withValues(alpha: 0.15)
+                : Colors.black.withValues(alpha: 0.3),
+            offset: const Offset(0, 2),
+            blurRadius: 8.0,
+          ),
         ],
       ),
       child: Padding(
-        padding: EdgeInsets.only(
-            top: MediaQuery.of(context).padding.top, left: 8, right: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Container(
-              alignment: Alignment.centerLeft,
-              width: AppBar().preferredSize.height + 40,
-              height: AppBar().preferredSize.height,
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(32.0),
+            Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        AppTheme.ru_dark_blue.withValues(alpha: 0.1),
+                        AppTheme.ru_yellow.withValues(alpha: 0.1),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(Icons.arrow_back),
+                  child: Icon(
+                    Icons.video_library_rounded,
+                    color: AppTheme.ru_dark_blue,
+                    size: 20,
                   ),
                 ),
-              ),
-            ),
-            Expanded(
-              child: Center(
-                child: Text(
-                  '$course($semester/$year)',
+                SizedBox(width: 12),
+                Text(
+                  hasData ? 'วิดีโอคำบรรยาย' : 'กำลังโหลด...',
                   style: TextStyle(
                     fontFamily: AppTheme.ruFontKanit,
-                    //fontWeight: FontWeight.w600,
-                    fontSize: 22,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: isLightMode
+                        ? AppTheme.ru_dark_blue
+                        : AppTheme.nearlyWhite,
                   ),
                 ),
-              ),
+              ],
             ),
-            Container(
-              width: AppBar().preferredSize.height + 40,
-              height: AppBar().preferredSize.height,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  // Material(
-                  //   color: Colors.transparent,
-                  //   child: InkWell(
-                  //     borderRadius: const BorderRadius.all(
-                  //       Radius.circular(32.0),
-                  //     ),
-                  //     onTap: () {},
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.all(8.0),
-                  //       child: Icon(Icons.favorite_border),
-                  //     ),
-                  //   ),
-                  // ),
-                  // Material(
-                  //   color: Colors.transparent,
-                  //   child: InkWell(
-                  //     borderRadius: const BorderRadius.all(
-                  //       Radius.circular(32.0),
-                  //     ),
-                  //     onTap: () {},
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.all(8.0),
-                  //       child: Icon(FontAwesomeIcons.locationDot),
-                  //     ),
-                  //   ),
-                  // ),
-                ],
+            if (hasData && videoCount > 0)
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      AppTheme.ru_dark_blue,
+                      AppTheme.ru_dark_blue.withValues(alpha: 0.8),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppTheme.ru_dark_blue.withValues(alpha: 0.3),
+                      offset: Offset(0, 2),
+                      blurRadius: 6,
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.format_list_numbered_rounded,
+                      color: AppTheme.ru_yellow,
+                      size: 18,
+                    ),
+                    SizedBox(width: 6),
+                    Text(
+                      '$videoCount',
+                      style: TextStyle(
+                        fontFamily: AppTheme.ruFontKanit,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.nearlyWhite,
+                      ),
+                    ),
+                    SizedBox(width: 4),
+                    Text(
+                      'ครั้ง',
+                      style: TextStyle(
+                        fontFamily: AppTheme.ruFontKanit,
+                        fontSize: 14,
+                        color: AppTheme.nearlyWhite.withValues(alpha: 0.9),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            )
           ],
         ),
       ),

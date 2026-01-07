@@ -3,7 +3,6 @@ import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:th.ac.ru.uSmart/providers/grade_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../fitness_app_theme.dart';
 
 class GradeView extends StatelessWidget {
   final AnimationController? animationController;
@@ -39,7 +38,7 @@ class GradeView extends StatelessWidget {
                       topRight: Radius.circular(68.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: HexColor("#FF19196B").withOpacity(0.6),
+                        color: HexColor("#FF19196B").withValues(alpha: 0.6),
                         offset: const Offset(1.1, 4.0),
                         blurRadius: 8.0),
                   ],
@@ -113,7 +112,7 @@ class GradeView extends StatelessWidget {
                                 boxShadow: <BoxShadow>[
                                   BoxShadow(
                                       color:
-                                          AppTheme.nearlyBlack.withOpacity(0.4),
+                                          AppTheme.nearlyBlack.withValues(alpha: 0.4),
                                       offset: Offset(8.0, 8.0),
                                       blurRadius: 8.0),
                                 ],

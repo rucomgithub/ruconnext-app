@@ -5,7 +5,7 @@ class Noti {
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async {
     var andriodInitialize =
         new AndroidInitializationSettings('mipmap/ic_launcher');
-    var iOSInitialize = new IOSInitializationSettings();
+    var iOSInitialize = new DarwinInitializationSettings();
     var initializationSettings = new InitializationSettings(
         android: andriodInitialize, iOS: iOSInitialize);
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
@@ -26,7 +26,7 @@ class Noti {
       priority: Priority.high,
     );
     var not = NotificationDetails(
-        android: androidNotificationDetails, iOS: IOSNotificationDetails());
+        android: androidNotificationDetails, iOS: DarwinNotificationDetails());
     await fln.show(0, title, body, not);
   }
 }

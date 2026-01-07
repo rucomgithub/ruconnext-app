@@ -2,10 +2,8 @@ import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregion_mr30_provider.dart';
-import 'package:th.ac.ru.uSmart/utils/yeardropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../fitness_app/fitness_app_theme.dart';
 import '../providers/mr30_provider.dart';
 import 'package:badges/badges.dart' as badges;
 
@@ -58,7 +56,7 @@ class _Mr30RuregisViewState extends State<Mr30RuregisView> {
                       topRight: Radius.circular(68.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: AppTheme.grey.withOpacity(0.6),
+                        color: AppTheme.grey.withValues(alpha: 0.6),
                         offset: Offset(1.1, 1.1),
                         blurRadius: 10.0),
                   ],

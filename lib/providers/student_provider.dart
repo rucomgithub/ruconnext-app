@@ -1,6 +1,6 @@
+import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:th.ac.ru.uSmart/model/mr30_catalog.dart';
 import 'package:th.ac.ru.uSmart/model/student.dart';
 import 'package:th.ac.ru.uSmart/services/studentservice.dart';
 
@@ -25,25 +25,25 @@ class StudentProvider extends ChangeNotifier {
   Student get student => _student;
 
   Future<void> getImageProfile() async {
-    //print("call getImageProfile");
+    print('🔄 StudentProvider: Starting getImageProfile()');
     _isLoading = true;
+    notifyListeners(); // แจ้งว่าเริ่มโหลดแล้ว
+
     try {
       _service.context = _context;
       final response = await _service.getImageProfile();
-      //print(response);
       _imageData = response;
-      // var snackbar = SnackBar(content: Text('Load image success.'));
-      // ScaffoldMessenger.of(_context).showSnackBar(snackbar);
+      print('✅ StudentProvider: Image loaded successfully');
     } catch (e) {
-      //print("Error $e");
-
-      // var snackbar = SnackBar(content: Text('Error: Load Image Profile. ${e.toString()}'));
-      // ScaffoldMessenger.of(_context).showSnackBar(snackbar);
+      print('❌ StudentProvider Image Error: $e');
+      _isLoading = false;
       _error = e.toString();
-      // notifyListeners();
+      notifyListeners();
+      return;
     }
+
     _isLoading = false;
-    //notifyListeners();
+    notifyListeners(); // แจ้งว่าโหลดเสร็จแล้ว
   }
 
   Future<void> refreshData() async {
@@ -53,21 +53,31 @@ class StudentProvider extends ChangeNotifier {
   }
 
   Future<void> getStudent() async {
+    print('🔄 StudentProvider: Starting getStudent()');
     _isLoading = true;
     _error = '';
+    notifyListeners(); // แจ้งว่าเริ่มโหลดแล้ว
 
-    // notifyListeners();
     try {
       final response = await _service.getStudent();
       _student = response;
-    } on Exception catch (e) {
+      print('✅ StudentProvider: Student data loaded - ${_student.namethai}');
+    } catch (e) {
+      print('❌ StudentProvider Error: $e');
       _isLoading = false;
-      _error = 'เกิดข้อผิดพลาดดึงข้อมูลนักศึกษา';
+
+      // จัดการ error ที่เป็น Exception object
+      if (e is Exception) {
+        _error = e.toString().replaceAll('Exception: ', '');
+      } else {
+        _error = 'เกิดข้อผิดพลาดดึงข้อมูลนักศึกษา: ${e.toString()}';
+      }
+
+      notifyListeners();
+      return;
     }
 
-    //await _service.asyncName();
-
     _isLoading = false;
-    notifyListeners();
+    notifyListeners(); // แจ้งว่าโหลดเสร็จแล้ว
   }
 }

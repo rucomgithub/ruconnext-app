@@ -1,17 +1,9 @@
-import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/ui_view/glass_view.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/mr30/favorite_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:th.ac.ru.uSmart/ruregis/mr30_view.dart';
 import 'package:th.ac.ru.uSmart/widget/Rubar.dart';
-import 'package:badges/badges.dart' as badges;
 
-import '../providers/grade_provider.dart';
-import '../fitness_app/ui_view/running_view.dart';
-import '../providers/mr30_provider.dart';
 import 'mr30_list_view.dart';
 import 'titlenone_view.dart';
 
@@ -183,14 +175,14 @@ class _Mr30ListScreenState extends State<Mr30ListScreen>
                     0.0, 30 * (1.0 - topBarAnimation!.value), 0.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: AppTheme.white.withOpacity(topBarOpacity),
+                    color: AppTheme.white.withValues(alpha: topBarOpacity),
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(32.0),
                     ),
                     boxShadow: <BoxShadow>[
                       BoxShadow(
                           color: AppTheme.grey
-                              .withOpacity(0.4 * topBarOpacity),
+                              .withValues(alpha: 0.4 * topBarOpacity),
                           offset: const Offset(1.1, 1.1),
                           blurRadius: 10.0),
                     ],

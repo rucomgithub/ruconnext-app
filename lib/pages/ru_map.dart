@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/models/tabIcon_data.dart';
 
@@ -82,8 +81,8 @@ class _RuMapState extends State<RuMap>
                   }else {
                   throw ('Error Get Data');
                 }
-            }  on DioError catch (err) {
-              final errorMessage = DioException.fromDioError(err).toString();
+            }  on DioException catch (err) {
+              final errorMessage = DioExceptionHandler.fromDioError(err).toString();
               print('$errorMessage ...');
               throw ('$errorMessage ...');
             } catch (e) {
@@ -132,12 +131,16 @@ class _RuMapState extends State<RuMap>
   }
 
    getPolyPoints() async {
-    PolylinePoints polylinePoints = PolylinePoints();
+    PolylinePoints polylinePoints = PolylinePoints(
+      apiKey: "AIzaSyBDni9WvxHp5hBqVmm80tJDhgYotiOJC-A",
+    );
 
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      "AIzaSyBDni9WvxHp5hBqVmm80tJDhgYotiOJC-A",
-      PointLatLng(sourceLocation.latitude, sourceLocation.longitude),
-      PointLatLng(destination.latitude, destination.longitude),
+      request: PolylineRequest(
+        origin: PointLatLng(sourceLocation.latitude, sourceLocation.longitude),
+        destination: PointLatLng(destination.latitude, destination.longitude),
+        mode: TravelMode.driving,
+      ),
     );
 
     if (result.points.isNotEmpty) {
@@ -153,19 +156,19 @@ class _RuMapState extends State<RuMap>
   }
 
   void setCustomMarkerIcon(){
-    BitmapDescriptor.fromAssetImage(
+    BitmapDescriptor.asset(
       ImageConfiguration(devicePixelRatio: 10.5), 'assets/images/logo.png').then(
          (icon){
         sourceIcon = icon;
       }
     );
-    BitmapDescriptor.fromAssetImage(
+    BitmapDescriptor.asset(
       ImageConfiguration(devicePixelRatio: 1.5), 'assets/images/ram.png').then(
          (icon){
         destinationIcon = icon;
       }
     );
-    BitmapDescriptor.fromAssetImage(
+    BitmapDescriptor.asset(
       ImageConfiguration(devicePixelRatio: 7.5), 'assets/images/me.png').then(
          (icon){
         currentLocationIcon = icon;
@@ -219,11 +222,33 @@ final Map<String, dynamic> args = Get.arguments;
             );
             } else {
               print(tokenMr30);
-              List<Roommap> room =  jsonData.where((Roommap r) => r.room!.substring(0,3) == (courseRoom.toString().trim()).substring(0,3)).toList();
+              List<Roommap> room =  jsonData.where((Roommap r) =>
+                r.room != null && r.room!.length >= 3 &&
+                courseRoom != null && courseRoom.trim().length >= 3 &&
+                r.room!.substring(0,3) == courseRoom.trim().substring(0,3)
+              ).toList();
               print(jsonData.length);
-             print('jsonData -------------------  ${room[0].room!.substring(0,3)}');
-              print('jsonlatlng -------------------  ${room[0].destlat!.toDouble()} and ${room[0].destlng!.toDouble()}');
-              return room.length == 0 ? Stack(
+
+              if (room.isNotEmpty) {
+                print('jsonData -------------------  ${room[0].room?.substring(0,3)}');
+                print('jsonlatlng -------------------  ${room[0].destlat?.toDouble()} and ${room[0].destlng?.toDouble()}');
+              }
+
+              // Check if currentLocation is available
+              if (currentLocation == null) {
+                return const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(),
+                      SizedBox(height: 16),
+                      Text('กำลังรับตำแหน่งปัจจุบัน...'),
+                    ],
+                  ),
+                );
+              }
+
+              return room.isEmpty ? Stack(
                       children: <Widget>[
                         GoogleMap(
               initialCameraPosition: CameraPosition(
@@ -241,10 +266,11 @@ final Map<String, dynamic> args = Get.arguments;
                   markerId: const MarkerId("current"),
                 //  icon: currentLocationIcon,
                   position: LatLng(
-                      currentLocation!.latitude!, currentLocation!.longitude!),
-              
+                      currentLocation?.latitude ?? 13.756230984740453,
+                      currentLocation?.longitude ?? 100.61881313427858),
+
                 ),
-                
+
                 //  Marker(
                 //   markerId: MarkerId("source"),
                 //   icon: sourceIcon,
@@ -266,7 +292,8 @@ final Map<String, dynamic> args = Get.arguments;
                         GoogleMap(
               initialCameraPosition: CameraPosition(
                   target:  LatLng(
-                      room[0].destlat!.toDouble(), room[0].destlng!.toDouble()) ,
+                      room[0].destlat?.toDouble() ?? 13.756230984740453,
+                      room[0].destlng?.toDouble() ?? 100.61881313427858) ,
                   zoom: 15.0),
               polylines: {
                 Polyline(
@@ -279,7 +306,8 @@ final Map<String, dynamic> args = Get.arguments;
                   markerId: const MarkerId("current"),
                 //  icon: currentLocationIcon,
                   position: LatLng(
-                      currentLocation!.latitude!, currentLocation!.longitude!),
+                      currentLocation?.latitude ?? 13.756230984740453,
+                      currentLocation?.longitude ?? 100.61881313427858),
                 ),
                 //  Marker(
                 //   markerId: MarkerId("source"),
@@ -289,7 +317,9 @@ final Map<String, dynamic> args = Get.arguments;
                  Marker(
                   markerId: MarkerId("destination"),
                  // icon: destinationIcon,
-                  position: LatLng(room[0].destlat!.toDouble(), room[0].destlng!.toDouble()),
+                  position: LatLng(
+                    room[0].destlat?.toDouble() ?? 13.756230984740453,
+                    room[0].destlng?.toDouble() ?? 100.61881313427858),
                 )
               },
               onMapCreated: (mapController) {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import '../fitness_app_theme.dart';
 
 class RunningView extends StatelessWidget {
   final AnimationController? animationController;
@@ -43,7 +42,7 @@ class RunningView extends StatelessWidget {
                                 topRight: Radius.circular(8.0)),
                             boxShadow: <BoxShadow>[
                               BoxShadow(
-                                  color: AppTheme.grey.withOpacity(0.4),
+                                  color: AppTheme.grey.withValues(alpha: 0.4),
                                   offset: Offset(1.1, 1.1),
                                   blurRadius: 10.0),
                             ],

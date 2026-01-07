@@ -9,9 +9,6 @@ import 'package:th.ac.ru.uSmart/providers/region_enroll_provider.dart';
 import 'package:th.ac.ru.uSmart/widget/Rubar.dart';
 import '../hotel_booking/hotel_app_theme.dart';
 import '../providers/ruregis_provider.dart';
-import '../providers/ruregis_fee_provider.dart';
-import 'package:get/get.dart';
-import '../providers/mr30_provider.dart';
 
 class RuregionReceiptScreen extends StatefulWidget {
   @override
@@ -556,7 +553,7 @@ class _RuregionReceiptScreenState extends State<RuregionReceiptScreen>
         color: AppTheme.background,
         boxShadow: <BoxShadow>[
           BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
+              color: Colors.grey.withValues(alpha: 0.2),
               offset: const Offset(0, 2),
               blurRadius: 8.0),
         ],

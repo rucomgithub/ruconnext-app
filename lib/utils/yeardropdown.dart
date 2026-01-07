@@ -33,7 +33,7 @@ class _YearDropdownWidgetState extends State<YearDropdownWidget> {
               "${course["course_year"]}/${course["course_semester"]}")
           .toList();
       setState(() {
-        _options = options ?? [];
+        _options = options;
         _selectedOption = _options.isNotEmpty ? _options.first : "";
       });
     }

@@ -72,7 +72,7 @@ class MasterRegisterProvider extends ChangeNotifier {
         _registeryear = response;
         await RegisterYearStorage.saveRegisterYear(_registeryear);
         isLoading = false;
-      } on Exception catch (e) {
+      } on Exception {
         isLoading = false;
         _error = 'เกิดข้อผิดพลาด';
       }

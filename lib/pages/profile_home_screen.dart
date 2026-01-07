@@ -1,6 +1,5 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:th.ac.ru.uSmart/login_page.dart';
 import 'package:th.ac.ru.uSmart/pages/flipcard_screen.dart';
 import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
 import '../fitness_app/fitness_app_theme.dart';

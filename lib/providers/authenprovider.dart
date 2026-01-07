@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:th.ac.ru.uSmart/store/authen.dart';
 import 'package:th.ac.ru.uSmart/store/rotcsextend.dart';
@@ -16,7 +14,6 @@ import '../store/profile.dart';
 
 class AuthenProvider extends ChangeNotifier {
   final _service = AuthenService();
-  final _googleSingIn = GoogleSignIn();
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -41,7 +38,7 @@ class AuthenProvider extends ChangeNotifier {
 
     try {
       _isLoading = false;
-      _profile = await _service.getAuthenGoogleDev(std_code);
+      _profile = await _service.getAuthenGoogleDev();
       await ProfileStorage.saveProfile(_profile);
       await AuthenStorage.setAccessToken('${_profile.accessToken}');
       await AuthenStorage.setRefreshToken('${_profile.refreshToken}');
@@ -53,7 +50,7 @@ class AuthenProvider extends ChangeNotifier {
 
       Get.offNamedUntil('/', (route) => true);
     } catch (e) {
-      await _googleSingIn.signOut();
+      await GoogleSignIn.instance.signOut();
       _isLoading = false;
       var snackbar = SnackBar(content: Text('$e'));
       print('$e');
@@ -82,7 +79,7 @@ class AuthenProvider extends ChangeNotifier {
 
       Get.offNamedUntil('/', (route) => true);
     } catch (e) {
-      await _googleSingIn.signOut();
+      await GoogleSignIn.instance.signOut();
       _isLoading = false;
       var snackbar = SnackBar(content: Text('$e'));
       print('$e');
@@ -101,9 +98,8 @@ class AuthenProvider extends ChangeNotifier {
     await RotcsExtendStorage.removeExtend();
     await RotcsRegisterStorage.removeRegister();
     await SchStorage.removeSch();
-
     await AuthenStorage.clearTokens();
-    await _googleSingIn.signOut();
+    await GoogleSignIn.instance.signOut();
 
     //Get.offNamed('/login');
     notifyListeners();

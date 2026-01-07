@@ -1,15 +1,12 @@
-import 'package:th.ac.ru.uSmart/fitness_app/my_diary/yearsemester_list_view.dart';
+import 'package:th.ac.ru.uSmart/grade/yearsemester_list_view.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/ui_view/body_measurement.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/ui_view/glass_view.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/ui_view/mediterranean_diet_view.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/ui_view/title_view.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/my_diary/meals_list_view.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/my_diary/water_view.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../../providers/grade_provider.dart';
 import '../ui_view/titlenone_view.dart';
 
 class MyDiaryScreen extends StatefulWidget {
@@ -228,14 +225,15 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                     0.0, 30 * (1.0 - topBarAnimation!.value), 0.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: FitnessAppTheme.white.withOpacity(topBarOpacity),
+                    color:
+                        FitnessAppTheme.white.withValues(alpha: topBarOpacity),
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(32.0),
                     ),
                     boxShadow: <BoxShadow>[
                       BoxShadow(
                           color: FitnessAppTheme.grey
-                              .withOpacity(0.4 * topBarOpacity),
+                              .withValues(alpha: 0.4 * topBarOpacity),
                           offset: const Offset(1.1, 1.1),
                           blurRadius: 10.0),
                     ],

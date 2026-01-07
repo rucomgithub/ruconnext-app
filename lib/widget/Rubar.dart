@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import '../app_theme.dart';
 
 class Rubar extends StatelessWidget {
-  String textTitle;
+  final String textTitle;
 
-  Rubar({required this.textTitle});
+  const Rubar({super.key, required this.textTitle});
   @override
   Widget build(BuildContext context) {
     return Container(

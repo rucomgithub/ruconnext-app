@@ -1,11 +1,9 @@
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/providers/register_provider.dart';
-import 'package:th.ac.ru.uSmart/registers/register_nodata_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../fitness_app/fitness_app_theme.dart';
-import '../model/register_model.dart';
 
 class RegisterListView extends StatefulWidget {
   const RegisterListView(
@@ -160,17 +158,21 @@ class AreaView extends StatelessWidget {
                 0.0, 50 * (1.0 - animation!.value), 0.0),
             child: Container(
               decoration: BoxDecoration(
-                color: FitnessAppTheme.white,
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(8.0),
-                    bottomLeft: Radius.circular(8.0),
-                    bottomRight: Radius.circular(8.0),
-                    topRight: Radius.circular(8.0)),
+                gradient: LinearGradient(
+                  colors: [
+                    AppTheme.nearlyWhite,
+                    AppTheme.nearlyWhite.withValues(alpha: 0.95),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(16.0),
                 boxShadow: <BoxShadow>[
                   BoxShadow(
-                      color: FitnessAppTheme.grey.withOpacity(0.4),
-                      offset: const Offset(1.1, 1.1),
-                      blurRadius: 10.0),
+                      color: AppTheme.ru_dark_blue.withValues(alpha: 0.12),
+                      offset: const Offset(0, 4),
+                      blurRadius: 12.0,
+                      spreadRadius: 0),
                 ],
               ),
               child: Material(
@@ -179,61 +181,175 @@ class AreaView extends StatelessWidget {
                   focusColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   hoverColor: Colors.transparent,
-                  borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                  splashColor: AppTheme.ru_dark_blue.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(16.0),
+                  splashColor: AppTheme.ru_dark_blue.withValues(alpha: 0.1),
                   onTap: () {},
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(left: 4, bottom: 3, top: 20),
-                        child: Text(
-                          'ปีการศึกษา $name',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: AppTheme.ruFontKanit,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20,
-                            color: AppTheme.ru_dark_blue,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Text(
-                          'จำนวนวิชาที่ลงทะเบียน ${values == null ? "0" : values!.length} รายการ',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontFamily: AppTheme.ruFontKanit,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14,
-                            letterSpacing: 0.0,
-                            color: Color.fromARGB(255, 29, 30, 31),
-                          ),
-                        ),
-                      ),
                       Container(
-                        height: 250,
-                        child: ListView.separated(
-                          padding: const EdgeInsets.all(8),
-                          separatorBuilder: (BuildContext context, int index) =>
-                              const Divider(),
-                          itemCount: values!.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Container(
-                              height: 30,
-                              child: ListTile(
-                                title: Text(
-                                  '${index + 1}. ${values![index]}',
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 16),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              AppTheme.ru_dark_blue,
+                              AppTheme.ru_dark_blue.withValues(alpha: 0.9),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(16.0),
+                            topRight: Radius.circular(16.0),
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.calendar_today_rounded,
+                              color: AppTheme.ru_yellow,
+                              size: 32,
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              'ปีการศึกษา',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: AppTheme.ruFontKanit,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                color: AppTheme.nearlyWhite.withValues(alpha: 0.8),
+                              ),
+                            ),
+                            Text(
+                              name!,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: AppTheme.ruFontKanit,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 28,
+                                color: AppTheme.ru_yellow,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 12),
+                          decoration: BoxDecoration(
+                            color:
+                                AppTheme.ru_dark_blue.withValues(alpha: 0.08),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.class_rounded,
+                                color: AppTheme.ru_dark_blue,
+                                size: 20,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                'จำนวนวิชาที่ลงทะเบียน',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontFamily: AppTheme.ruFontKanit,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 13,
+                                  color: AppTheme.ru_dark_blue,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.ru_yellow,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  '${values == null ? "0" : values!.length}',
                                   style: TextStyle(
                                     fontFamily: AppTheme.ruFontKanit,
+                                    fontWeight: FontWeight.bold,
                                     fontSize: 14,
-                                    color: FitnessAppTheme.nearlyDarkBlue,
+                                    color: AppTheme.ru_dark_blue,
                                   ),
                                 ),
                               ),
-                            );
-                          },
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 16),
+                          child: ListView.separated(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            separatorBuilder:
+                                (BuildContext context, int index) =>
+                                    const SizedBox(height: 8),
+                            itemCount: values!.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 10),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.nearlyWhite,
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color: AppTheme.ru_dark_blue
+                                        .withValues(alpha: 0.1),
+                                    width: 1,
+                                  ),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 28,
+                                      height: 28,
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.ru_yellow
+                                            .withValues(alpha: 0.2),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          '${index + 1}',
+                                          style: TextStyle(
+                                            fontFamily:
+                                                AppTheme.ruFontKanit,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                            color: AppTheme.ru_dark_blue,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Expanded(
+                                      child: Text(
+                                        values![index],
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.ruFontKanit,
+                                          fontSize: 13,
+                                          color: AppTheme.ru_dark_blue,
+                                        ),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ],

@@ -1,10 +1,6 @@
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/ui_view/wave_view.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
-import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:th.ac.ru.uSmart/providers/grade_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/widget/RadarChartWidget.dart';
 

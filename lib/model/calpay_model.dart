@@ -34,7 +34,7 @@ class Results {
   int? fEENO;
   String? fEENAME;
   int? fEEAMOUNT;
-  Null? fEETYPE;
+  Null fEETYPE;
 
   Results({this.fEENO, this.fEENAME, this.fEEAMOUNT, this.fEETYPE});
 

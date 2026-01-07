@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -53,260 +52,245 @@ class _homeImageSliderState extends State<homeImageSlider> {
     title = context.watch<HomeProvider>().title;
     icon = context.watch<HomeProvider>().icon;
     colorFilter = context.watch<HomeProvider>().colorFilter;
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      color: Color.fromARGB(255, 233, 233, 230).withOpacity(0.5),
-      child: CarouselSlider(
-        options: CarouselOptions(
-          height: MediaQuery.of(context).size.height * 0.6,
-          aspectRatio: 16 / 9,
-          viewportFraction: 0.86,
-          initialPage: 0,
-          enableInfiniteScroll: true,
-          reverse: false,
-          autoPlay: true,
-          autoPlayInterval: Duration(seconds: 8),
-          autoPlayAnimationDuration: Duration(milliseconds: 1000),
-          autoPlayCurve: Curves.easeInOutCubicEmphasized,
-          enlargeCenterPage: true,
-          enlargeFactor: 0.3,
-          scrollDirection: Axis.horizontal,
-        ),
-        items: _products.map((data) {
-          return Builder(
-            builder: (BuildContext context) {
-              return SingleChildScrollView(
-                child: Column(
+
+    // Filter images based on current time/title
+    List<profileImage> displayImages = _products.where((data) {
+      return data.title == title;
+    }).toList();
+
+    // If no match found, show all images
+    if (displayImages.isEmpty) {
+      displayImages = _products;
+    }
+
+    // Get current time colors for styling
+    Color accentColor = _getAccentColor();
+    Color gradientStart = _getGradientStartColor();
+    Color gradientEnd = _getGradientEndColor();
+
+    return CarouselSlider(
+      options: CarouselOptions(
+        height: double.infinity,
+        aspectRatio: 16 / 9,
+        viewportFraction: displayImages.length == 1 ? 1.0 : 0.92,
+        initialPage: 0,
+        enableInfiniteScroll: displayImages.length > 1,
+        reverse: false,
+        autoPlay: displayImages.length > 1,
+        autoPlayInterval: const Duration(seconds: 6),
+        autoPlayAnimationDuration: const Duration(milliseconds: 1200),
+        autoPlayCurve: Curves.easeInOutCubicEmphasized,
+        enlargeCenterPage: displayImages.length > 1,
+        enlargeFactor: 0.15,
+        scrollDirection: Axis.horizontal,
+      ),
+      items: displayImages.map((data) {
+        return Builder(
+          builder: (BuildContext context) {
+            return Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: displayImages.length == 1 ? 0.0 : 4.0,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: accentColor.withValues(alpha: 0.3),
+                    offset: const Offset(0, 8),
+                    blurRadius: 20,
+                    spreadRadius: 2,
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: Stack(
+                  fit: StackFit.expand,
                   children: [
-                    Stack(
-                      children: [
-                        AspectRatio(
-                            aspectRatio: 3,
-                            child: Image.asset(
-                              data.imageHome!,
-                              fit: BoxFit.cover,
-                            )),
-                        // child: ColorFiltered(
-                        //   colorFilter: colorFilter,
-                        //   child: Image.asset(
-                        //     data.imageHome!,
-                        //     fit: BoxFit.cover,
-                        //   ),
-                        // )),
-                        Positioned(
-                          left: 5.0,
-                          child: Container(
-                              padding: EdgeInsets.symmetric(vertical: 10.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: <Widget>[
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: AppTheme.nearlyWhite,
-                                      shape: BoxShape.circle,
-                                      boxShadow: <BoxShadow>[
-                                        BoxShadow(
-                                            color: AppTheme.nearlyBlack
-                                                .withOpacity(0.4),
-                                            offset: Offset(2.0, 2.0),
-                                            blurRadius: 4.0),
-                                      ],
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(2.0),
-                                      child: Icon(
-                                        icon,
-                                        color: AppTheme.ru_yellow,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(6.0),
-                                      child: Text(
-                                        title,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.ruFontKanit,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 12,
-                                          letterSpacing: 0.2,
-                                          color: AppTheme.nearlyWhite,
-                                        ),
-                                      ),
-                                    ),
+                    // Background Image
+                    Image.asset(
+                      data.imageHome!,
+                      fit: BoxFit.cover,
+                    ),
+
+                    // Gradient Overlay with time-based colors
+                    Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            gradientStart.withValues(alpha: 0.4),
+                            gradientEnd.withValues(alpha: 0.2),
+                            Colors.transparent,
+                          ],
+                          stops: const [0.0, 0.4, 1.0],
+                        ),
+                      ),
+                    ),
+
+                    // Decorative Corner Element
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          gradient: RadialGradient(
+                            colors: [
+                              accentColor.withValues(alpha: 0.2),
+                              Colors.transparent,
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // Greeting Badge
+                    Positioned(
+                      top: 12.0,
+                      left: 12.0,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0,
+                          vertical: 6.0,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.9),
+                          borderRadius: BorderRadius.circular(20.0),
+                          border: Border.all(
+                            color: accentColor.withValues(alpha: 0.2),
+                            width: 1.5,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.1),
+                              offset: const Offset(0, 3),
+                              blurRadius: 10,
+                              spreadRadius: 0,
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    accentColor,
+                                    accentColor.withValues(alpha: 0.7),
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: accentColor.withValues(alpha: 0.25),
+                                    offset: const Offset(0, 1),
+                                    blurRadius: 4,
                                   ),
                                 ],
-                              )
-                              // child: Text(
-                              //    title,
-                              //   textAlign: TextAlign.center,
-                              //   style: TextStyle(
-                              //     fontFamily: AppTheme.ruFontKanit,
-                              //     color: Colors.white,
-                              //     fontSize: 16.0,
-                              //     fontWeight: FontWeight.w100,
-                              //   ),
-                              // ),
                               ),
+                              child: Icon(
+                                icon,
+                                color: Colors.white,
+                                size: 14,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              title,
+                              style: TextStyle(
+                                fontFamily: AppTheme.ruFontKanit,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 12,
+                                color: AppTheme.ru_dark_blue,
+                                letterSpacing: 0.3,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
+
+                    // Time Period Label
+                    // Positioned(
+                    //   bottom: 16.0,
+                    //   right: 16.0,
+                    //   child: Container(
+                    //     padding: const EdgeInsets.symmetric(
+                    //       horizontal: 16.0,
+                    //       vertical: 8.0,
+                    //     ),
+                    //     decoration: BoxDecoration(
+                    //       color: accentColor,
+                    //       borderRadius: BorderRadius.circular(20.0),
+                    //       boxShadow: [
+                    //         BoxShadow(
+                    //           color: Colors.black.withValues(alpha: 0.2),
+                    //           offset: const Offset(0, 4),
+                    //           blurRadius: 12,
+                    //         ),
+                    //       ],
+                    //     ),
+                    //     child: Text(
+                    //       data.description ?? '',
+                    //       style: TextStyle(
+                    //         fontFamily: AppTheme.ruFontKanit,
+                    //         fontWeight: FontWeight.w600,
+                    //         fontSize: 12,
+                    //         color: Colors.white,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
-              );
-            },
-          );
-        }).toList(),
-      ),
+              ),
+            );
+          },
+        );
+      }).toList(),
     );
-    // return CarouselSlider(
-    //   options: CarouselOptions(
-    //     height: 120.0,
-    //     aspectRatio: 16 / 9,
-    //     viewportFraction: 1.02,
-    //   ),
-    //   // items: [1, 2, 3, 4, 5].map((i) {
-    //   items: _products.map((data) {
-    //     return Builder(
-    //       builder: (BuildContext context) {
-    //         return Container(
-    //           width: MediaQuery.of(context).size.width,
-    //           margin: EdgeInsets.symmetric(horizontal: 5.0),
-    //           decoration: BoxDecoration(color: Colors.transparent),
-    //           child: SingleChildScrollView(
-    //             child: Column(
-    //               children: [
-    //                 Container(
-    //                     height: 220,
-    //                     margin: const EdgeInsets.only(top: 10),
-    //                     clipBehavior: Clip.hardEdge,
-    //                     decoration: BoxDecoration(
-    //                       borderRadius: BorderRadius.only(
-    //                         bottomLeft: Radius.circular(20.0),
-    //                         bottomRight: Radius.circular(20.0),
-    //                       ),
-    //                     ),
-    //                     child: Stack(
-    //                       children: [
-    //                         AspectRatio(
-    //                     aspectRatio: 3,
-    //                     child: Image.asset(
-    //                       data.imageHome!,
-    //                       fit: BoxFit.cover,
-    //                     ),
-    //                   ),
+  }
 
-    //                         Positioned(
-    //                           left: 5.0,
-    //                           child: Container(
-    //                             padding: EdgeInsets.symmetric(vertical: 10.0),
-    //                             child: Text(
-    //                                profileImages.title!,
-    //                               textAlign: TextAlign.center,
-    //                               style: TextStyle(
-    //                                 fontFamily: AppTheme.ruFontKanit,
-    //                                 color: Color.fromARGB(255, 7, 26, 64),
-    //                                 fontSize: 16.0,
-    //                                 fontWeight: FontWeight.w100,
-    //                               ),
-    //                             ),
-    //                           ),
-    //                         ),
-    //                       ],
-    //                     )),
-    //               ],
-    //             ),
-    //           ),
-    //         );
-    //       },
-    //     );
-    //   }).toList(),
-    // );
+  // Helper method to get accent color based on time
+  Color _getAccentColor() {
+    if (title.contains('เช้า')) {
+      return const Color(0xFFFFA726); // Orange for morning
+    } else if (title.contains('บ่าย')) {
+      return const Color(0xFF42A5F5); // Blue for afternoon
+    } else if (title.contains('เย็น')) {
+      return const Color(0xFFAB47BC); // Purple for evening
+    }
+    return AppTheme.ru_yellow;
+  }
+
+  // Helper method to get gradient start color
+  Color _getGradientStartColor() {
+    if (title.contains('เช้า')) {
+      return const Color(0xFFFF6B6B); // Red-orange for morning
+    } else if (title.contains('บ่าย')) {
+      return const Color(0xFF4FC3F7); // Light blue for afternoon
+    } else if (title.contains('เย็น')) {
+      return const Color(0xFF7E57C2); // Deep purple for evening
+    }
+    return Colors.black;
+  }
+
+  // Helper method to get gradient end color
+  Color _getGradientEndColor() {
+    if (title.contains('เช้า')) {
+      return const Color(0xFFFFA726); // Orange for morning
+    } else if (title.contains('บ่าย')) {
+      return const Color(0xFF1976D2); // Dark blue for afternoon
+    } else if (title.contains('เย็น')) {
+      return const Color(0xFF512DA8); // Purple for evening
+    }
+    return Colors.black;
   }
 }
-// class HomeSky extends StatelessWidget {
-//   const HomeSky(
-//       {Key? key,
-//       this.animationController,
-//       this.animation})
-//       : super(key: key);
-
-//   final AnimationController? animationController;
-//   final Animation<double>? animation;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return AnimatedBuilder(
-//       animation: animationController!,
-//       builder: (BuildContext context, Widget? child) {
-//         return FadeTransition(
-//           opacity: animation!,
-//           child: Transform(
-//             transform: Matrix4.translationValues(
-//                 0.0, 50 * (1.0 - animation!.value), 0.0),
-//             child: AspectRatio(
-//               aspectRatio: 1.5,
-//               child: ClipRRect(
-//                 borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-//                 child: Stack(
-//                   alignment: AlignmentDirectional.center,
-//                   children: <Widget>[
-//                     Positioned.fill(
-//                       child: Image.network('https://img.freepik.com/free-photo/beautiful-dusk-light-colorful-beauty_1203-5706.jpg?w=2000&t=st=1680158838~exp=1680159438~hmac=1b217772a111ade190d2da34d5437d637381b96bb253e162631c2f5caf054334',  fit: BoxFit.cover,height: 220,  width: 500,),
-//                     ),
-           
-//                     // Positioned.fill(
-//                     //   child: Icon(listData!.iconsData,
-//                     //               size: 120,
-//                     //               color: listData!.color,
-//                     //               ),
-//                     // ),
-//                     Material(
-//                       color: Colors.transparent,
-//                       child: InkWell(
-//                         splashColor: Colors.grey.withOpacity(0.2),
-//                         borderRadius:
-//                             const BorderRadius.all(Radius.circular(4.0)),
-//                         // onTap: callBack,
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             ),
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }
-
-// Stack(
-//                   children: [
-//                       Image.network(
-//                         data['image'],
-//                         fit: BoxFit.cover,
-//                         height: 280,
-//                         width: 500,
-                      
-//                       ),
-//                           Positioned(
-//                         bottom: 0.0,
-//                         left: 0.0,
-//                         right: 0.0,
-//                         child: Container(
-//                           padding: EdgeInsets.symmetric(vertical: 10.0),
-//                           color: Colors.black.withOpacity(0.5),
-//                           child: Text(
-//                             'My Text on Image',
-//                             textAlign: TextAlign.center,
-//                             style: TextStyle(
-//                               color: Colors.white,
-//                               fontSize: 20.0,
-//                               fontWeight: FontWeight.bold,
-//                             ),
-//                           ),
-//                         ),
-//                       ),

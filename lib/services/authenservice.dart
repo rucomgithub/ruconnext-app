@@ -1,29 +1,75 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:th.ac.ru.uSmart/store/authen.dart';
-import 'package:th.ac.ru.uSmart/store/profile.dart';
 import '../exceptions/dioexception.dart';
 import '../model/profile.dart';
 import '../model/rutoken.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-final String? usertest = dotenv.env['USERTEST'];
+final usertest = dotenv.env['USERTEST'];
 
 class AuthenService {
   final authurlgoogle = dotenv.env['APP_URL'];
+
+  // Initialize GoogleSignIn singleton once
+  static bool _isInitialized = false;
+
+  Future<void> _ensureInitialized() async {
+    if (!_isInitialized) {
+      await GoogleSignIn.instance.initialize();
+      _isInitialized = true;
+    }
+  }
+
   Future<Profile> getAuthenGoogle() async {
-    final googleSingIn = GoogleSignIn();
     Profile profile;
+    StreamSubscription<GoogleSignInAuthenticationEvent>? subscription;
+    Completer<GoogleSignInAccount?> completer =
+        Completer<GoogleSignInAccount?>();
+
     try {
-      //print('signIn');
-      GoogleSignInAccount? user = await googleSingIn.signIn();
-      //print(user);
-      GoogleSignInAuthentication usergoogle = await user!.authentication;
-      //print(usergoogle.accessToken);
-      // ignore: avoid_print
-      //print('user: ${usergoogle.idToken}');
+      // Ensure GoogleSignIn is initialized
+      await _ensureInitialized();
+
+      // Listen for authentication events
+      subscription = GoogleSignIn.instance.authenticationEvents.listen(
+        (GoogleSignInAuthenticationEvent event) {
+          if (event is GoogleSignInAuthenticationEventSignIn) {
+            if (!completer.isCompleted) {
+              completer.complete(event.user);
+            }
+          }
+        },
+        onError: (error) {
+          if (!completer.isCompleted) {
+            completer.completeError(error);
+          }
+        },
+      );
+
+      // Trigger authentication
+      if (GoogleSignIn.instance.supportsAuthenticate()) {
+        await GoogleSignIn.instance.authenticate();
+      } else {
+        throw ('Google Sign-In authentication not supported on this platform');
+      }
+
+      // Wait for authentication event
+      GoogleSignInAccount? user = await completer.future.timeout(
+        Duration(seconds: 60),
+        onTimeout: () => throw ('Authentication timeout'),
+      );
+
+      if (user == null) {
+        throw ('Authentication cancelled or failed');
+      }
+
+      // Get ID token
+      GoogleSignInAuthentication usergoogle = await user.authentication;
+      print(authurlgoogle);
+      print(usergoogle.idToken);
 
       String studentcode = user.email.substring(0, 10);
 
@@ -41,9 +87,6 @@ class AuthenService {
 
       if (response.statusCode == 200) {
         Rutoken token = Rutoken.fromJson(response.data);
-        // ignore: avoid_print
-        //print('response ${response.data}');
-        // print('rutoken : ${token.accessToken}');
         profile = Profile.fromJson({
           'displayName': user.displayName,
           'email': user.email,
@@ -54,26 +97,26 @@ class AuthenService {
           'refreshToken': token.refreshToken,
           'isAuth': token.isAuth
         });
-
-        //print(profile.email);
         return profile;
       } else {
         throw ('Error Authentication Ramkhamhaeng University.');
       }
-    } on DioError catch (err) {
-      final errorMessage = DioException.fromDioError(err).toString();
-      //print('${err.response} ...');
+    } on DioException catch (err) {
+      final errorMessage = DioExceptionHandler.fromDioError(err).toString();
       throw ('Error Authentication Ramkhamhaeng University: $errorMessage .');
     } catch (e) {
-      // print('เกิดข้อผิดพลาดในการเชื่อมต่อ. $e');
       throw ('เกิดข้อผิดพลาดในการเชื่อมต่อ. $e');
+    } finally {
+      // Clean up subscription
+      await subscription?.cancel();
     }
   }
 
-  Future<Profile> getAuthenGoogleDev(String std_code) async {
+  Future<Profile> getAuthenGoogleDev() async {
     Profile profile;
     try {
-      var params = {"std_code": std_code};
+      String studentcode = "$usertest";
+      var params = {"std_code": studentcode};
       var response = await Dio().post(
         '$authurlgoogle/google/authorization-test',
         options: Options(
@@ -87,31 +130,35 @@ class AuthenService {
 
       if (response.statusCode == 200) {
         Rutoken token = Rutoken.fromJson(response.data);
-        // print("-------------ru authen success-------------------\n");
-        // print('response ${response.data}');
-        // print('rutoken : ${token.accessToken}');
         profile = Profile.fromJson({
-          'displayName': "$std_code",
-          'email': "$std_code@rumail.ru.ac.th",
-          'studentCode': std_code,
+          'displayName': "$usertest",
+          'email': "$usertest@rumail.ru.ac.th",
+          'studentCode': studentcode,
           'photoUrl': '',
           'googleToken': '',
           'accessToken': token.accessToken,
           'refreshToken': token.refreshToken,
           'isAuth': token.isAuth
         });
-        // print(profile.email);
         return profile;
       } else {
         throw ('Error Authentication Ramkhamhaeng University.');
       }
-    } on DioError catch (err) {
-      final errorMessage = DioException.fromDioError(err).toString();
-      //print('Error Authentication Ramkhamhaeng University: $errorMessage .');
+    } on DioException catch (err) {
+      final errorMessage = DioExceptionHandler.fromDioError(err).toString();
       throw ('Error Authentication Ramkhamhaeng University: $errorMessage .');
     } catch (e) {
-      // print('เกิดข้อผิดพลาดในการเชื่อมต่อ. $e');
       throw ('เกิดข้อผิดพลาดในการเชื่อมต่อ. $e');
+    }
+  }
+
+  // Sign out method using v7.x API
+  Future<void> signOut() async {
+    try {
+      await _ensureInitialized();
+      await GoogleSignIn.instance.signOut();
+    } catch (e) {
+      throw ('Error signing out: $e');
     }
   }
 }

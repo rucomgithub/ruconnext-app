@@ -2,7 +2,6 @@ import 'package:th.ac.ru.uSmart/design_course/category_list_view.dart';
 import 'package:th.ac.ru.uSmart/design_course/course_info_screen.dart';
 import 'package:th.ac.ru.uSmart/design_course/popular_course_list_view.dart';
 import 'package:th.ac.ru.uSmart/main.dart';
-import 'package:th.ac.ru.uSmart/model/mr30_model.dart';
 import 'package:flutter/material.dart';
 import 'design_course_app_theme.dart';
 

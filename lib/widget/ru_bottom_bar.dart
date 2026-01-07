@@ -4,12 +4,7 @@ import 'package:th.ac.ru.uSmart/fitness_app/bottom_navigation_view/bottom_bar_vi
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/models/tabIcon_data.dart';
 import 'package:th.ac.ru.uSmart/home_screen.dart';
-import 'package:th.ac.ru.uSmart/pages/flipcard_screen.dart';
 import 'package:th.ac.ru.uSmart/providers/home_provider.dart';
-import 'package:th.ac.ru.uSmart/ru_home_screen.dart';
-import 'package:th.ac.ru.uSmart/screens/runewsScreen.dart';
-import 'package:th.ac.ru.uSmart/today/ru_today_screen.dart';
-import 'package:th.ac.ru.uSmart/today/today_home_screen.dart';
 
 class RuBottomBar extends StatefulWidget {
   const RuBottomBar({super.key});

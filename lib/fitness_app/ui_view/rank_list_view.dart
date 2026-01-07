@@ -136,7 +136,7 @@ class AreaView extends StatelessWidget {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: FitnessAppTheme.nearlyWhite.withOpacity(0.9),
+                      color: FitnessAppTheme.nearlyWhite.withValues(alpha: 0.9),
                       borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(8.0),
                           bottomLeft: Radius.circular(0.0),
@@ -144,7 +144,7 @@ class AreaView extends StatelessWidget {
                           topRight: Radius.circular(8.0)),
                       boxShadow: <BoxShadow>[
                         BoxShadow(
-                            color: FitnessAppTheme.grey.withOpacity(0.4),
+                            color: FitnessAppTheme.grey.withValues(alpha: 0.4),
                             offset: const Offset(1.1, 1.1),
                             blurRadius: 10.0),
                       ],
@@ -158,7 +158,7 @@ class AreaView extends StatelessWidget {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(8.0)),
                         splashColor:
-                            FitnessAppTheme.nearlyDarkBlue.withOpacity(0.2),
+                            FitnessAppTheme.nearlyDarkBlue.withValues(alpha: 0.2),
                         onTap: () {},
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -171,7 +171,7 @@ class AreaView extends StatelessWidget {
                                   Container(
                                     decoration: BoxDecoration(
                                       color: AppTheme.ru_text_light_blue
-                                          .withOpacity(0.9),
+                                          .withValues(alpha: 0.9),
                                       borderRadius: const BorderRadius.only(
                                           topLeft: Radius.circular(8.0),
                                           bottomLeft: Radius.circular(8.0),
@@ -180,7 +180,7 @@ class AreaView extends StatelessWidget {
                                       boxShadow: <BoxShadow>[
                                         BoxShadow(
                                             color: FitnessAppTheme.grey
-                                                .withOpacity(0.4),
+                                                .withValues(alpha: 0.4),
                                             offset: const Offset(1.1, 1.1),
                                             blurRadius: 10.0),
                                       ],
@@ -232,7 +232,7 @@ class AreaView extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.all(4.0),
                     decoration: BoxDecoration(
-                      color: FitnessAppTheme.nearlyWhite.withOpacity(0.9),
+                      color: FitnessAppTheme.nearlyWhite.withValues(alpha: 0.9),
                       borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(0.0),
                           bottomLeft: Radius.circular(8.0),
@@ -240,7 +240,7 @@ class AreaView extends StatelessWidget {
                           topRight: Radius.circular(0.0)),
                       boxShadow: <BoxShadow>[
                         BoxShadow(
-                            color: FitnessAppTheme.grey.withOpacity(0.4),
+                            color: FitnessAppTheme.grey.withValues(alpha: 0.4),
                             offset: const Offset(1.1, 1.1),
                             blurRadius: 10.0),
                       ],
@@ -254,7 +254,7 @@ class AreaView extends StatelessWidget {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(8.0)),
                         splashColor:
-                            FitnessAppTheme.nearlyDarkBlue.withOpacity(0.2),
+                            FitnessAppTheme.nearlyDarkBlue.withValues(alpha: 0.2),
                         onTap: () {},
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,

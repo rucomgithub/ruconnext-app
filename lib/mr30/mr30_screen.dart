@@ -1,13 +1,9 @@
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/ui_view/area_list_view.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/ui_view/rank_list_view.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/ui_view/rank_view.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/ui_view/running_view.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/ui_view/title_view.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/ui_view/workout_view.dart';
 import 'package:flutter/material.dart';
 
-import '../fitness_app/fitness_app_theme.dart';
 
 class Mr30Screen extends StatefulWidget {
   const Mr30Screen({Key? key, this.animationController}) : super(key: key);
@@ -155,14 +151,14 @@ class _Mr30ScreenState extends State<Mr30Screen> with TickerProviderStateMixin {
                     0.0, 30 * (1.0 - topBarAnimation!.value), 0.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: AppTheme.white.withOpacity(topBarOpacity),
+                    color: AppTheme.white.withValues(alpha: topBarOpacity),
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(32.0),
                     ),
                     boxShadow: <BoxShadow>[
                       BoxShadow(
                           color: AppTheme.grey
-                              .withOpacity(0.4 * topBarOpacity),
+                              .withValues(alpha: 0.4 * topBarOpacity),
                           offset: const Offset(1.1, 1.1),
                           blurRadius: 10.0),
                     ],

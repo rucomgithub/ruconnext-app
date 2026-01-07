@@ -1,7 +1,4 @@
-import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/models/grade_list_data.dart';
-import 'package:th.ac.ru.uSmart/main.dart';
-import 'package:th.ac.ru.uSmart/model/insurance.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/providers/insurance_provider.dart';

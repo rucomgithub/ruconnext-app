@@ -1,7 +1,6 @@
 // import 'dart:convert';
 
 // import 'package:dio/dio.dart';
-import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:th.ac.ru.uSmart/model/checkregis_model.dart';
@@ -34,8 +33,8 @@ class RuregisFeeProvider extends ChangeNotifier {
   List<RECORD> _mr30record = [];
   List<RECORD> get mr30record => _mr30record;
 
-  List<Results> _summaryrec = [];
-  List<Results> get summaryrec => _summaryrec;
+  List<ResultsFee> _summaryrec = [];
+  List<ResultsFee> get summaryrec => _summaryrec;
   int sumIntCredit = 0;
 
   Future<void> fetchFeeRuregis() async {
@@ -48,7 +47,7 @@ class RuregisFeeProvider extends ChangeNotifier {
       _ruregisfee = response;
       // print('length ${_ruregisfee.rec!.length}');
       //  print('fee $_ruregisfee');
-    } on Exception catch (e) {
+    } on Exception {
       isLoading = false;
       _error = 'เกิดข้อผิดพลาดดึงข้อมูลนักศึกษา';
     }
@@ -69,7 +68,7 @@ class RuregisFeeProvider extends ChangeNotifier {
       _ruregisfee = response;
       // print('length ${_ruregisfee.rec!.length}');
       //  print('fee $_ruregisfee');
-    } on Exception catch (e) {
+    } on Exception {
       isLoading = false;
       _error = 'เกิดข้อผิดพลาดดึงข้อมูลนักศึกษา';
     }
@@ -80,26 +79,51 @@ class RuregisFeeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getCalPay(mr30,stdcode,semester,year) async {
+  Future<void> getCalPay(mr30, stdcode, semester, year) async {
     isLoading = true;
-
+    print(mr30);
     //final Map<String, dynamic> jsonData = json.decode(mr30ruregion);
     double sumCredit = 0;
     int countElements = 0;
+    String courseNo = '';
     mr30.forEach((element) => {
           sumCredit += element.cREDIT,
           countElements++,
         });
     sumIntCredit = sumCredit.round();
+    List<Map<String, dynamic>> resultArray = [];
 
+    // วนลูปผ่าน mr30 และดึง courseNo และ cREDIT มาเก็บใน resultArray
+    mr30.forEach((element) {
+      resultArray.add({
+        'COURSE_NO': element['courseNo'],
+        'CREDIT': element['cREDIT'],
+      });
+    });
     try {
       final response = await _ruregisService.getProfileRuregion(stdcode);
       // print('${response} ${sumIntCredit} ${countElements}');
       final responseCheck = await _ruregisService.postCalPayRegion(
-          response, sumIntCredit, countElements,semester,year);
+          response, sumIntCredit, countElements, semester, year, resultArray);
       _summary = responseCheck;
       // print('summary ${_summary.success}');
-    } on Exception catch (e) {
+    } on Exception {
+    } catch (e) {}
+
+    isLoading = false;
+
+    notifyListeners();
+  }
+
+  Future<void> getCalPayRegionApp() async {
+    isLoading = true;
+    try {
+      print('getCalPayRegionApp');
+      final responseCheck = await _ruregisService.postCalPayRegionApp();
+      _summary = responseCheck;
+
+      print('summary ${_summary}');
+    } on Exception {
     } catch (e) {}
 
     isLoading = false;
@@ -121,12 +145,8 @@ class RuregisFeeProvider extends ChangeNotifier {
       final responsefee = await _ruregisService.getFeeRuregis();
       _ruregisfee = responsefee;
 
-      if (sres != null) {
-        res = RECORD.decode(sres);
-        _mr30record = res;
-      } else {
-        res = [];
-      }
+      res = RECORD.decode(sres);
+      _mr30record = res;
 
       _mr30record
           .forEach((element) => print('mr30storage ${element.courseNo}'));
@@ -139,7 +159,7 @@ class RuregisFeeProvider extends ChangeNotifier {
       });
       final response = await _ruregisService.getFeeRuregis();
       _ruregisfee = response;
-    } on Exception catch (e) {
+    } on Exception {
       isLoading = false;
       _error = 'เกิดข้อผิดพลาดดึงข้อมูลนักศึกษา';
     }

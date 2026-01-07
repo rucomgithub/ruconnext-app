@@ -12,9 +12,11 @@ import 'package:th.ac.ru.uSmart/model/region_login_model.dart';
 import 'package:th.ac.ru.uSmart/model/ruregion_profile_model.dart';
 import 'package:th.ac.ru.uSmart/model/ruregis_model.dart';
 import 'package:th.ac.ru.uSmart/model/save_enroll_model.dart';
+import 'package:th.ac.ru.uSmart/model/save_status.dart';
 
 import 'package:th.ac.ru.uSmart/services/ruregis_service.dart';
 import 'package:flutter/material.dart';
+import 'package:th.ac.ru.uSmart/store/profileApp.dart';
 import 'package:th.ac.ru.uSmart/store/ruregion_login.dart';
 
 // import 'package:shared_preferences/shared_preferences.dart';
@@ -25,6 +27,9 @@ class RuregisProvider extends ChangeNotifier {
   final _ruregisService = RuregisService();
   bool _isLoading = false;
   bool get isLoading => _isLoading;
+
+  bool _isLoadingRuregisProfile = false;
+  bool get isLoadingRuregisProfile => _isLoadingRuregisProfile;
 
   // List<Ruregis> _ruregis = [];
   String _error = '';
@@ -50,14 +55,29 @@ class RuregisProvider extends ChangeNotifier {
   bool ctrlReceipt = true;
   // List<Ruregis> get ruregis => _ruregis;
 
+  CounterRegion _counter = CounterRegion();
+  CounterRegion get counter => _counter;
+
   Ruregis _ruregis = Ruregis();
   Ruregis get ruregis => _ruregis;
+
+  Ruregis _ruregisApp = Ruregis();
+  Ruregis get ruregisApp => _ruregisApp;
+
+  Ruregis _ruregionApp = Ruregis();
+  Ruregis get ruregionApp => _ruregionApp;
 
   Loginregion _logindata = Loginregion();
   Loginregion get logindata => _logindata;
 
   CounterRegion _counterregion = CounterRegion();
   CounterRegion get counterregion => _counterregion;
+
+  CounterRegion _counterregionApp = CounterRegion();
+  CounterRegion get counterregionApp => _counterregionApp;
+
+  SaveStatus _buttonQRregionApp = SaveStatus();
+  SaveStatus get buttonQRregionApp => _buttonQRregionApp;
 
   MessageRegion _messageregion = MessageRegion();
   MessageRegion get messageregion => _messageregion;
@@ -68,8 +88,8 @@ class RuregisProvider extends ChangeNotifier {
   Locationexam _locationexam = Locationexam();
   Locationexam get locationexam => _locationexam;
 
-  Ruregion _ruregion = Ruregion();
-  Ruregion get ruregion => _ruregion;
+  Ruregionprofile _ruregion = Ruregionprofile();
+  Ruregionprofile get ruregion => _ruregion;
 
   List<Results> _locationexamrec = [];
   List<Results> get locationexamrec => _locationexamrec;
@@ -116,6 +136,42 @@ class RuregisProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void doLoginRegionApp(context, username, password) async {
+    _isLoading = true;
+    _error = '';
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // final sres = prefs.getString('regionlogin')!;
+    notifyListeners();
+    try {
+      final response = await _ruregisService.postLogin(username, password);
+      _logindata = response;
+      _logindata.rec?.forEach((element) {
+        stdcode = element.username!;
+      });
+      // print(_logindata.tf);
+      if (_logindata.tf == true) {
+        await prefs.setString('regionApplogin', jsonEncode(stdcode));
+        Get.offNamedUntil('/ruregionApphome', (route) => true);
+        // Get.offNamedUntil('/', (route) => true);
+      } else {
+        var snackbar = SnackBar(content: Text('รหัสนศหรือรหัสผ่านไม่ถูกต้อง'));
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      }
+    } on Exception catch (e) {
+      var snackbar = SnackBar(content: Text('$e'));
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+
+      _isLoading = false;
+      _error = 'เกิดข้อผิดพลาดดึงข้อมูลนักศึกษา';
+    }
+
+    //await _service.asyncName();
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
   Future<bool> tryLogin() async {
     final preferences = await SharedPreferences.getInstance();
 
@@ -133,23 +189,22 @@ class RuregisProvider extends ChangeNotifier {
     _isLoading = true;
     _error = '';
     var stdpref = '';
-      RuregionLoginStorage.getProfile();
+    RuregionLoginStorage.getProfile();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     //  await prefs.setString('regionlogin', 'notoken');
-  //   bool displayedOnboard = prefs.getBool('regionlogin') ?? false;
-  //  //  bool? isDarkMode = prefs.getBool('regionlogin');
+    //   bool displayedOnboard = prefs.getBool('regionlogin') ?? false;
+    //  //  bool? isDarkMode = prefs.getBool('regionlogin');
     stdpref = prefs.getString('regionlogin')!;
     stdpref = stdpref.replaceAll('"', '');
     auth = stdpref;
-  // // print(isDarkMode);
-    if (stdpref != null) {
-      stdcode = stdpref;
-    }
+    // // print(isDarkMode);
+    stdcode = stdpref;
     notifyListeners();
+
     try {
       final response = await _ruregisService.getProfileRuregion(stdcode);
       _ruregis = response;
-    } on Exception catch (e) {
+    } on Exception {
       _isLoading = false;
       _error = 'เกิดข้อผิดพลาดดึงข้อมูลนักศึกษา';
     }
@@ -160,6 +215,43 @@ class RuregisProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> fetchProfileAppRuregis() async {
+    _isLoadingRuregisProfile = true;
+    _error = '';
+    print('res fetch');
+
+    try {
+      final response = await _ruregisService.getProfileRuregis(stdcode);
+      _ruregisApp = response;
+      print('res fetch');
+      _isLoadingRuregisProfile = false;
+    } on Exception {
+      _isLoadingRuregisProfile = false;
+      _error = 'เกิดข้อผิดพลาดดึงข้อมูลนักศึกษา';
+    }
+
+    notifyListeners();
+  }
+
+  Future<void> fetchProfileAppRuregion() async {
+    _isLoadingRuregisProfile = true;
+    _error = '';
+    print('res fetch1');
+
+    try {
+      final response = await _ruregisService.getProfileRuregionApp(stdcode);
+      _ruregionApp = response;
+      await ProfileAppStorage.saveProfileApp(response);
+      print('res fetch2 $_ruregionApp');
+      _isLoadingRuregisProfile = false;
+    } on Exception {
+      _isLoadingRuregisProfile = false;
+      _error = 'เกิดข้อผิดพลาดดึงข้อมูลนักศึกษา';
+    }
+
+    notifyListeners();
+  }
+
   Future<void> fetchLocationExam() async {
     _isLoading = true;
     _error = '';
@@ -167,7 +259,7 @@ class RuregisProvider extends ChangeNotifier {
       final response =
           await _ruregisService.getLocationExam(stdcode, semester, year);
       _locationexam = response;
-    } on Exception catch (e) {
+    } on Exception {
       _isLoading = false;
       _error = 'เกิดข้อผิดพลาดดึงข้อมูลนักศึกษา';
     }
@@ -175,6 +267,43 @@ class RuregisProvider extends ChangeNotifier {
     //await _service.asyncName();
 
     _isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> getCounterRegionApp() async {
+    _isLoading = true;
+    notifyListeners();
+    print('enter couter');
+    try {
+      _isLoading = false;
+      final response = await _ruregisService.getCounterAdminRegionApp();
+      if (response.success == true) {
+        _counterregionApp = response;
+      }
+    } catch (e) {
+      _isLoading = false;
+    }
+    notifyListeners();
+  }
+
+  Future<void> getQRButton() async {
+    _isLoading = true;
+    notifyListeners();
+    print('enter couter');
+    try {
+      _isLoading = false;
+      final responseStatus = await _ruregisService.saveStatusApp();
+      if (responseStatus.success == true) {
+        _buttonQRregionApp = responseStatus;
+      }
+      print('QR =======> $responseStatus');
+      // final responseCounter = await _ruregisService.getCounterAdminRegionApp();
+      // if (responseCounter.success == true) {
+      //  _buttonQRregionApp = responseCounter;
+      // }
+    } catch (e) {
+      _isLoading = false;
+    }
     notifyListeners();
   }
 
@@ -186,7 +315,7 @@ class RuregisProvider extends ChangeNotifier {
     try {
       final response = await _ruregisService.getCounterAdmin(stdcode);
       _counterregion = response;
-    } on Exception catch (e) {
+    } on Exception {
       _isLoading = false;
       _error = 'เกิดข้อผิดพลาดดึงข้อมูลนักศึกษา';
     }
@@ -234,7 +363,7 @@ class RuregisProvider extends ChangeNotifier {
           await _ruregisService.getMessageRegion(stdcode, semester, year);
       _messageregion = response;
       msgNotiRegion = (_messageregion.messageNoti).toString();
-    } on Exception catch (e) {
+    } on Exception {
       _isLoading = false;
       _error = 'เกิดข้อผิดพลาดดึงข้อมูลนักศึกษา';
     }
@@ -258,7 +387,7 @@ class RuregisProvider extends ChangeNotifier {
         msgSaveEnroll = _saveenroll.message.toString();
         // print(_saveenroll);
       }
-    } on Exception catch (e) {
+    } on Exception {
     } catch (e) {}
 
     _isLoading = false;

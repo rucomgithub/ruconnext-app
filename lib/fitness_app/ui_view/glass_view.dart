@@ -1,8 +1,6 @@
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:flutter/material.dart';
 
-import '../fitness_app_theme.dart';
 
 class GlassView extends StatelessWidget {
   final AnimationController? animationController;
@@ -32,7 +30,7 @@ class GlassView extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 16),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: AppTheme.ru_grey.withOpacity(0.3),
+                            color: AppTheme.ru_grey.withValues(alpha: 0.3),
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(8.0),
                                 bottomLeft: Radius.circular(8.0),
@@ -40,7 +38,7 @@ class GlassView extends StatelessWidget {
                                 topRight: Radius.circular(8.0)),
                             // boxShadow: <BoxShadow>[
                             //   BoxShadow(
-                            //       color: AppTheme.grey.withOpacity(0.2),
+                            //       color: AppTheme.grey.withValues(alpha: 0.2),
                             //       offset: Offset(1.1, 1.1),
                             //       blurRadius: 10.0),
                             // ],

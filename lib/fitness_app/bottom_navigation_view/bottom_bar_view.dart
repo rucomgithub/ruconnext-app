@@ -1,12 +1,8 @@
 import 'dart:math' as math;
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/models/tabIcon_data.dart';
-import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:flutter/material.dart';
 
-import '../../main.dart';
-import '../models/tabIcon_data.dart';
 
 class BottomBarView extends StatefulWidget {
   const BottomBarView(
@@ -154,7 +150,7 @@ class _BottomBarViewState extends State<BottomBarView>
                       //   shape: BoxShape.circle,
                       //   boxShadow: <BoxShadow>[
                       //     BoxShadow(
-                      //         color: AppTheme.nearlyWhite.withOpacity(0.4),
+                      //         color: AppTheme.nearlyWhite.withValues(alpha: 0.4),
                       //         offset: const Offset(8.0, 16.0),
                       //         blurRadius: 16.0),
                       //   ],
@@ -162,7 +158,7 @@ class _BottomBarViewState extends State<BottomBarView>
                       child: Material(
                         color: Colors.transparent,
                         child: InkWell(
-                            splashColor: Colors.white.withOpacity(0.1),
+                            splashColor: Colors.white.withValues(alpha: 0.1),
                             highlightColor: Colors.transparent,
                             focusColor: Colors.transparent,
                             onTap: widget.addClick,

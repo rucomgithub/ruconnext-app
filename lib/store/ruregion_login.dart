@@ -3,14 +3,14 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:th.ac.ru.uSmart/model/region_login_model.dart';
 
-
-
 class RuregionLoginStorage {
-  static const String key = 'regionlogin';
+  static const String key = 'regionApplogin';
 
-  static Future<void> saveProfile(Loginregion profile) async {
+  static Future<void> saveProfile(Loginregion res) async {
+    print('save profile $res');
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final regionlogin = profile.toJson();
+    final regionlogin = res.toJson();
     await prefs.setString(key, jsonEncode(regionlogin));
   }
 
@@ -29,5 +29,4 @@ class RuregionLoginStorage {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove(key);
   }
-
 }

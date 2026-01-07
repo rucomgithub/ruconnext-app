@@ -1,12 +1,10 @@
-import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/affairs/insurance/insurance_list_screen.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/models/tabIcon_data.dart';
 import 'package:flutter/material.dart';
-import 'package:th.ac.ru.uSmart/hotel_booking/hotel_app_theme.dart';
+import 'package:flutter/services.dart';
 import 'package:th.ac.ru.uSmart/login_page.dart';
-import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
 import 'package:th.ac.ru.uSmart/store/authen.dart';
 
 String? tokenMr30;
@@ -51,23 +49,31 @@ class _InsuranceHomeScreenState extends State<InsuranceHomeScreen>
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double baseFontSize =
+        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
+
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.light,
+          statusBarBrightness: Brightness.dark,
+        ),
         iconTheme: IconThemeData(
-          color: AppTheme.nearlyWhite, // Change back arrow color to white
+          color: AppTheme.nearlyWhite,
         ),
         title: Text(
           'กรมธรรม์ประกันภัย',
           style: TextStyle(
-            fontSize: 22,
+            fontSize: baseFontSize,
             fontFamily: AppTheme.ruFontKanit,
             color: AppTheme.nearlyWhite,
             fontWeight: FontWeight.bold,
           ),
         ),
-        centerTitle: true, // Centers the title
-        backgroundColor:
-            AppTheme.ru_dark_blue, // Background color of the AppBar
+        centerTitle: true,
+        backgroundColor: AppTheme.ru_dark_blue,
       ),
       backgroundColor:
           isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
@@ -75,25 +81,11 @@ class _InsuranceHomeScreenState extends State<InsuranceHomeScreen>
         future: getData(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           if (!snapshot.hasData) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const CircularProgressIndicator(),
-                  ],
-                ),
-              ],
+            return const Center(
+              child: CircularProgressIndicator(),
             );
           } else {
-            return accessToken != null
-                ? Stack(
-                    children: <Widget>[
-                      tabBody,
-                    ],
-                  )
-                : LoginPage();
+            return accessToken != null ? tabBody : LoginPage();
           }
         },
       ),

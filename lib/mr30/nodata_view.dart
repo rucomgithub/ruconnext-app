@@ -9,8 +9,8 @@ class NoDataView extends StatelessWidget {
 
   const NoDataView(
       {Key? key,
-      this.titleTxt: "",
-      this.subTxt: "",
+      this.titleTxt = "",
+      this.subTxt = "",
       this.animationController,
       this.animation})
       : super(key: key);
@@ -22,45 +22,55 @@ class NoDataView extends StatelessWidget {
       builder: (BuildContext context, Widget? child) {
         return FadeTransition(
           opacity: animation!,
-          child: new Transform(
-            transform: new Matrix4.translationValues(
+          child: Transform(
+            transform: Matrix4.translationValues(
                 0.0, 30 * (1.0 - animation!.value), 0.0),
-            child: Container(
-              child: Row(
-                children: <Widget>[
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Text(
-                          titleTxt,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontFamily: FitnessAppTheme.fontName,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18,
-                            letterSpacing: 0.5,
-                            color: FitnessAppTheme.lightText,
-                          ),
-                        ),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        color: FitnessAppTheme.nearlyDarkBlue
+                            .withValues(alpha: 0.1),
+                        shape: BoxShape.circle,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Text(
-                          titleTxt,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontFamily: FitnessAppTheme.fontName,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18,
-                            letterSpacing: 0.5,
-                            color: FitnessAppTheme.lightText,
-                          ),
-                        ),
+                      child: Icon(
+                        Icons.search_off_rounded,
+                        size: 64,
+                        color: FitnessAppTheme.nearlyDarkBlue
+                            .withValues(alpha: 0.5),
                       ),
-                    ],
-                  )
-                ],
+                    ),
+                    const SizedBox(height: 24),
+                    Text(
+                      titleTxt.isNotEmpty ? titleTxt : 'ไม่พบข้อมูล',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: FitnessAppTheme.fontName,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                        color: FitnessAppTheme.darkerText,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      subTxt.isNotEmpty
+                          ? subTxt
+                          : 'ลองค้นหาด้วยคำอื่นหรือปรับเปลี่ยนตัวกรอง',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: FitnessAppTheme.fontName,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: FitnessAppTheme.grey,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

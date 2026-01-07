@@ -1,7 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -485,7 +484,7 @@ class _RuRegisHomeScreenState extends State<RuRegisHomeScreen>
         color: AppTheme.background,
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
+            color: Colors.grey.withValues(alpha: 0.2),
             offset: const Offset(0, 2),
             blurRadius: 8.0,
           ),

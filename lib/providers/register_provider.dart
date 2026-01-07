@@ -97,7 +97,7 @@ class RegisterProvider extends ChangeNotifier {
         final response = await _service.getAllRegisterList("");
         _registerall = response;
         isLoading = false;
-      } on Exception catch (e) {
+      } on Exception {
         _error = 'เกิดข้อผิดพลาด';
       }
     }
@@ -119,7 +119,7 @@ class RegisterProvider extends ChangeNotifier {
             _register.record!, ['regisYear', 'regisSemester']);
       }
       isLoading = false;
-    } on Exception catch (e) {
+    } on Exception {
       _error = 'เกิดข้อผิดพลาด';
     }
 
@@ -481,7 +481,7 @@ class RegisterProvider extends ChangeNotifier {
         _registeryear = response;
         await RegisterYearStorage.saveRegisterYear(_registeryear);
         isLoading = false;
-      } on Exception catch (e) {
+      } on Exception {
         _error = 'เกิดข้อผิดพลาด';
       }
     }

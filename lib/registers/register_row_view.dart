@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/model/register_model.dart';
@@ -29,12 +28,12 @@ class _RegisterRowViewState extends State<RegisterRowView>
     Provider.of<RegisterProvider>(context, listen: false).getAllRegisterYear();
     Provider.of<RegisterProvider>(context, listen: false).getAllMr30Catalog();
     animationController = AnimationController(
-        duration: const Duration(milliseconds: 600), vsync: this);
+        duration: const Duration(milliseconds: 1000), vsync: this);
     super.initState();
   }
 
   Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 1000));
     return true;
   }
 
@@ -81,55 +80,69 @@ class _RegisterRowViewState extends State<RegisterRowView>
                           padding: const EdgeInsets.only(
                               top: 8, bottom: 8, right: 16, left: 16),
                           child: Container(
+                              padding: const EdgeInsets.all(32),
                               decoration: BoxDecoration(
-                                // image: DecorationImage(
-                                //   image: AssetImage('assets/images/ID.png'),
-                                //   fit: BoxFit.cover,
-                                //   opacity: isLightMode ? 0.6 : 0.2,
-                                // ),
                                 color: isLightMode
                                     ? AppTheme.nearlyWhite
                                     : AppTheme.ru_grey,
-                                borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(8.0),
-                                    bottomLeft: Radius.circular(8.0),
-                                    bottomRight: Radius.circular(8.0),
-                                    topRight: Radius.circular(40.0)),
+                                borderRadius: BorderRadius.circular(16.0),
                                 boxShadow: <BoxShadow>[
                                   BoxShadow(
-                                      color: AppTheme.ru_grey.withOpacity(0.2),
-                                      offset: const Offset(1.1, 1.1),
-                                      blurRadius: 10.0),
+                                      color: AppTheme.ru_dark_blue
+                                          .withValues(alpha: 0.1),
+                                      offset: const Offset(0, 4),
+                                      blurRadius: 12.0),
                                 ],
                               ),
-                              child: Text('ไม่พบข้อมูลลงทะเบียน')),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.inbox_rounded,
+                                    size: 64,
+                                    color: AppTheme.ru_dark_blue
+                                        .withValues(alpha: 0.3),
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Text(
+                                    'ไม่พบข้อมูลลงทะเบียน',
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.ruFontKanit,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppTheme.ru_dark_blue,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'กรุณาเลือกปีการศึกษาด้านบน',
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.ruFontKanit,
+                                      fontSize: 14,
+                                      color: AppTheme.dark_grey,
+                                    ),
+                                  ),
+                                ],
+                              )),
                         )
                       : Padding(
                           padding: const EdgeInsets.only(
                               top: 8, bottom: 8, right: 16, left: 16),
                           child: Container(
                             decoration: BoxDecoration(
-                              // image: DecorationImage(
-                              //   image: AssetImage('assets/images/ID.png'),
-                              //   fit: BoxFit.cover,
-                              //   opacity: isLightMode ? 0.6 : 0.2,
-                              // ),
                               color: isLightMode
                                   ? AppTheme.nearlyWhite
                                   : AppTheme.ru_grey,
-                              borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(8.0),
-                                  bottomLeft: Radius.circular(8.0),
-                                  bottomRight: Radius.circular(8.0),
-                                  topRight: Radius.circular(40.0)),
+                              borderRadius: BorderRadius.circular(16.0),
                               boxShadow: <BoxShadow>[
                                 BoxShadow(
-                                    color: AppTheme.ru_grey.withOpacity(0.2),
-                                    offset: const Offset(1.1, 1.1),
-                                    blurRadius: 10.0),
+                                    color: AppTheme.ru_dark_blue
+                                        .withValues(alpha: 0.1),
+                                    offset: const Offset(0, 4),
+                                    blurRadius: 12.0),
                               ],
                             ),
-                            height: (prov.listGroupCourse.length * 290) + 8,
+                            height: (prov.listGroupCourse.length * 320) + 16,
                             width: double.infinity,
                             child: ListView.builder(
                               itemCount: prov.listGroupCourse.length,
@@ -152,66 +165,81 @@ class _RegisterRowViewState extends State<RegisterRowView>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
+                                      margin: const EdgeInsets.only(
+                                          left: 8, right: 8, top: 12, bottom: 8),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 14),
                                       decoration: BoxDecoration(
-                                        color: isLightMode
-                                            ? AppTheme.nearlyWhite
-                                                .withAlpha(255)
-                                            : AppTheme.ru_grey,
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(8.0),
-                                            bottomLeft: Radius.circular(8.0),
-                                            bottomRight: Radius.circular(8.0),
-                                            topRight: Radius.circular(68.0)),
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            AppTheme.ru_dark_blue,
+                                            AppTheme.ru_dark_blue
+                                                .withValues(alpha: 0.85),
+                                          ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
                                         boxShadow: <BoxShadow>[
                                           BoxShadow(
-                                              color: isLightMode
-                                                  ? AppTheme.ru_grey
-                                                  : AppTheme.nearlyWhite,
-                                              offset: Offset(0, 4),
+                                              color: AppTheme.ru_dark_blue
+                                                  .withValues(alpha: 0.3),
+                                              offset: Offset(0, 2),
                                               blurRadius: 8.0),
                                         ],
                                       ),
-                                      height: 50,
-                                      child: Column(
+                                      child: Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                              left: 8.0,
-                                              top: 8.0,
-                                              right: 24.0,
+                                          Row(
+                                            children: [
+                                              Container(
+                                                padding:
+                                                    const EdgeInsets.all(8),
+                                                decoration: BoxDecoration(
+                                                  color: AppTheme.ru_yellow
+                                                      .withValues(alpha: 0.2),
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                ),
+                                                child: Icon(
+                                                  Icons.book_rounded,
+                                                  color: AppTheme.ru_yellow,
+                                                  size: 20,
+                                                ),
+                                              ),
+                                              const SizedBox(width: 12),
+                                              Text(
+                                                'ภาคเรียนที่ ${prov.listGroupCourse.entries.elementAt(index).key}',
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      AppTheme.ruFontKanit,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: AppTheme.nearlyWhite,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 12, vertical: 6),
+                                            decoration: BoxDecoration(
+                                              color: AppTheme.ru_yellow,
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
                                             ),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.book,
-                                                      color: AppTheme.dark_grey,
-                                                      size: 16,
-                                                    ),
-                                                    Text(
-                                                      'ภาคเรียนที่ ${prov.listGroupCourse.entries.elementAt(index).key}',
-                                                      style: AppTheme.body2,
-                                                    ),
-                                                  ],
-                                                ),
-                                                Text(
-                                                  '${prov.listGroupCourse.entries.elementAt(index).value.length} วิชา',
-                                                  style: AppTheme.body2,
-                                                ),
-                                              ],
+                                            child: Text(
+                                              '${prov.listGroupCourse.entries.elementAt(index).value.length} วิชา',
+                                              style: TextStyle(
+                                                fontFamily:
+                                                    AppTheme.ruFontKanit,
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold,
+                                                color: AppTheme.ru_dark_blue,
+                                              ),
                                             ),
                                           ),
                                         ],

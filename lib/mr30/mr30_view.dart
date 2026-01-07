@@ -3,7 +3,6 @@ import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:th.ac.ru.uSmart/utils/yeardropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../fitness_app/fitness_app_theme.dart';
 import '../providers/mr30_provider.dart';
 
 class Mr30View extends StatefulWidget {
@@ -35,106 +34,158 @@ class _Mr30ViewState extends State<Mr30View> {
                 0.0, 30 * (1.0 - widget.animation!.value), 0.0),
             child: Padding(
               padding: const EdgeInsets.only(
-                  left: 24, right: 24, top: 16, bottom: 18),
+                  left: 16, right: 16, top: 8, bottom: 8),
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8.0),
-                      bottomLeft: Radius.circular(8.0),
-                      bottomRight: Radius.circular(8.0),
-                      topRight: Radius.circular(68.0)),
+                  color: AppTheme.nearlyWhite,
+                  borderRadius: BorderRadius.circular(16.0),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: HexColor("#FF19196B").withOpacity(0.6),
-                        offset: const Offset(1.1, 4.0),
-                        blurRadius: 8.0),
+                        color: AppTheme.ru_dark_blue.withValues(alpha: 0.15),
+                        offset: const Offset(0, 4),
+                        blurRadius: 12.0,
+                        spreadRadius: 0),
                   ],
-                  gradient: LinearGradient(
-                    colors: <HexColor>[
-                      HexColor("#FF19196B"),
-                      HexColor("#FF1919EB"),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          YearDropdownWidget(),
-                          Expanded(
-                            child: SizedBox(),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        color: AppTheme.nearlyBlack,
-                        padding: const EdgeInsets.only(left: 16, right: 16),
-                        child: TextFormField(
-                          style: TextStyle(
-                            fontFamily: AppTheme.ruFontKanit,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14,
-                            color: AppTheme.white,
-                          ),
-                          //keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            labelText: 'ค้นหารหัสวิชา',
-                            border: InputBorder.none,
-                            helperStyle: TextStyle(
-                              fontSize: 14,
-                              color: AppTheme.white,
-                            ),
-                            labelStyle: TextStyle(
-                              fontSize: 14,
-                              letterSpacing: 0.2,
-                              color: AppTheme.white,
-                            ),
-                          ),
-                          onChanged: (value) {
-                            mr30prov.filterMr30(value);
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16.0),
+                    gradient: LinearGradient(
+                      colors: [
+                        AppTheme.ru_dark_blue,
+                        AppTheme.ru_dark_blue.withValues(alpha: 0.9),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8),
+                            Container(
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: AppTheme.ru_yellow.withValues(alpha: 0.2),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
                               child: Icon(
-                                Icons.list,
-                                color: AppTheme.white,
-                                size: 16,
+                                Icons.search_rounded,
+                                color: AppTheme.ru_yellow,
+                                size: 24,
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 4.0),
+                            const SizedBox(width: 12),
+                            Expanded(
                               child: Text(
-                                'รายการที่สนใจ ${mr30.length} รายการ',
-                                textAlign: TextAlign.center,
+                                'ค้นหาและกรองข้อมูล',
                                 style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,
-                                  fontSize: 11,
-                                  letterSpacing: 0.0,
-                                  color: AppTheme.white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
+                                  color: AppTheme.nearlyWhite,
                                 ),
                               ),
                             ),
-                            Expanded(
-                              child: SizedBox(),
-                            ),
                           ],
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 16),
+                        YearDropdownWidget(),
+                        const SizedBox(height: 16),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: AppTheme.nearlyWhite,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: TextFormField(
+                            style: TextStyle(
+                              fontFamily: AppTheme.ruFontKanit,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 14,
+                              color: AppTheme.ru_dark_blue,
+                            ),
+                            decoration: InputDecoration(
+                              labelText: 'ค้นหารหัสวิชา',
+                              prefixIcon: Icon(
+                                Icons.search,
+                                color: AppTheme.ru_dark_blue.withValues(alpha: 0.5),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide.none,
+                              ),
+                              filled: true,
+                              fillColor: AppTheme.nearlyWhite,
+                              labelStyle: TextStyle(
+                                fontFamily: AppTheme.ruFontKanit,
+                                fontSize: 14,
+                                color: AppTheme.ru_dark_blue.withValues(alpha: 0.6),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 14),
+                            ),
+                            onChanged: (value) {
+                              mr30prov.filterMr30(value);
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 12),
+                          decoration: BoxDecoration(
+                            color: AppTheme.ru_yellow.withValues(alpha: 0.15),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: AppTheme.ru_yellow.withValues(alpha: 0.3),
+                              width: 1,
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.bookmark_rounded,
+                                color: AppTheme.ru_yellow,
+                                size: 20,
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  'รายการที่สนใจ',
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.ruFontKanit,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    color: AppTheme.nearlyWhite.withValues(alpha: 0.9),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 6),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.ru_yellow,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Text(
+                                  '${mr30.length}',
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.ruFontKanit,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    color: AppTheme.ru_dark_blue,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

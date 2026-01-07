@@ -170,7 +170,7 @@ class _MasterGradeScreenState extends State<MasterGradeScreen>
         decoration: BoxDecoration(
           boxShadow: <BoxShadow>[
             BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
+                color: Colors.grey.withValues(alpha: 0.2),
                 offset: const Offset(0, -2),
                 blurRadius: 8.0),
           ],
@@ -231,14 +231,14 @@ class _MasterGradeScreenState extends State<MasterGradeScreen>
                     0.0, 30 * (1.0 - topBarAnimation!.value), 0.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: FitnessAppTheme.white.withOpacity(topBarOpacity),
+                    color: FitnessAppTheme.white.withValues(alpha: topBarOpacity),
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(32.0),
                     ),
                     boxShadow: <BoxShadow>[
                       BoxShadow(
                           color: FitnessAppTheme.grey
-                              .withOpacity(0.4 * topBarOpacity),
+                              .withValues(alpha: 0.4 * topBarOpacity),
                           offset: const Offset(1.1, 1.1),
                           blurRadius: 10.0),
                     ],

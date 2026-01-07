@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:th.ac.ru.uSmart/affairs/affairs_home_screen.dart';
-import 'package:th.ac.ru.uSmart/affairs/affairs_web.dart';
 import 'package:th.ac.ru.uSmart/affairs/insurance/insurance_home_screen.dart';
 import 'package:th.ac.ru.uSmart/affairs/rotcs/rotcs_home_screen.dart';
 //
@@ -23,11 +22,13 @@ import 'package:th.ac.ru.uSmart/master/providers/master_register_provider.dart';
 import 'package:th.ac.ru.uSmart/master/services/masterregisterservice.dart';
 import 'package:th.ac.ru.uSmart/pages/ru_map.dart';
 import 'package:th.ac.ru.uSmart/pages/runewsdetail_page.dart';
+import 'package:th.ac.ru.uSmart/providers/authen_regis.dart';
 import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
 import 'package:th.ac.ru.uSmart/providers/home_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/insurance_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/region_enroll_provider.dart';
+import 'package:th.ac.ru.uSmart/providers/region_receipt_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/register_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/rotcs_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/runewsprovider.dart';
@@ -36,12 +37,20 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:th.ac.ru.uSmart/providers/ruregion_check_cart.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregion_mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregis_fee_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregis_mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregis_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/sch_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/student_provider.dart';
+import 'package:th.ac.ru.uSmart/ruregionApp/ruregion_other_home_screen.dart';
+import 'package:th.ac.ru.uSmart/ruregionApp/ruregioncart/register_region_home_screen.dart';
+import 'package:th.ac.ru.uSmart/ruregionApp/ruregionmr30/mr30_region_home_screen.dart';
+import 'package:th.ac.ru.uSmart/ruregionApp/ruregionqrcode/ruregion_qr.dart';
+import 'package:th.ac.ru.uSmart/ruregionApp/ruregionreceipt/receipt_register_region_home_screen.dart';
+import 'package:th.ac.ru.uSmart/ruregionApp/ruregionsuccess/ruregion_receipt.dart';
+import 'package:th.ac.ru.uSmart/ruregionApp/ruregionsuccess/success_register_region_home_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregis/mr30_home_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregion_login.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregion_mr30.dart';
@@ -51,6 +60,10 @@ import 'package:th.ac.ru.uSmart/ruregis/ruregis_cart.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregis_confirm.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregis_home_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregis/ruregis_search_mr30.dart';
+import 'package:th.ac.ru.uSmart/ruregisApp/ruregis_other_home_screen.dart';
+import 'package:th.ac.ru.uSmart/ruregisApp/ruregiscart/register_home_screen.dart';
+import 'package:th.ac.ru.uSmart/ruregisApp/ruregismr30/mr30_home_screen.dart';
+import 'package:th.ac.ru.uSmart/ruregisApp/ruregisqrcode/ruregion_qr.dart';
 import 'package:th.ac.ru.uSmart/scholarship/sch_home_screen.dart';
 import 'package:th.ac.ru.uSmart/services/insuranceservice.dart';
 import 'package:th.ac.ru.uSmart/services/rotcsservice.dart';
@@ -63,7 +76,6 @@ import 'manual/grade_help_screen.dart';
 import 'manual/news_help_screen.dart';
 import 'manual/schedule_help_screen.dart';
 import 'navigation_home_screen.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'providers/grade_provider.dart';
 import 'providers/schedule_provider.dart';
 
@@ -151,8 +163,6 @@ class MyApp extends StatelessWidget {
               create: (_) => OndemandProvider()),
           ChangeNotifierProvider<RuregisProvider>(
               create: (_) => RuregisProvider()),
-          ChangeNotifierProvider<RUREGISMR30Provider>(
-              create: (_) => RUREGISMR30Provider()),
           ChangeNotifierProvider<RuregisFeeProvider>(
               create: (_) => RuregisFeeProvider()),
           ChangeNotifierProvider<RuregionProvider>(
@@ -170,6 +180,22 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<MasterRegisterProvider>(
               create: (_) =>
                   MasterRegisterProvider(service: MasterRegisterService())),
+          ChangeNotifierProvider<RuregisProvider>(
+              create: (_) => RuregisProvider()),
+          ChangeNotifierProvider<RUREGISMR30Provider>(
+              create: (_) => RUREGISMR30Provider()),
+          ChangeNotifierProvider<RuregisFeeProvider>(
+              create: (_) => RuregisFeeProvider()),
+          ChangeNotifierProvider<RuregionProvider>(
+              create: (_) => RuregionProvider()),
+          ChangeNotifierProvider<RegionEnrollProvider>(
+              create: (_) => RegionEnrollProvider()),
+          ChangeNotifierProvider<AuthenRuRegionAppProvider>(
+              create: (_) => AuthenRuRegionAppProvider()),
+          ChangeNotifierProvider<RuregionCheckCartProvider>(
+              create: (_) => RuregionCheckCartProvider()),
+          ChangeNotifierProvider<RuregionReceiptProvider>(
+              create: (_) => RuregionReceiptProvider()),
         ],
         child: GetMaterialApp(
           title: 'RU CONNEXT',
@@ -177,7 +203,7 @@ class MyApp extends StatelessWidget {
               primarySwatch: AppTheme.myColor,
               canvasColor: AppTheme.dark_grey,
               textTheme: const TextTheme(
-                  bodyText1: TextStyle(
+                  bodyMedium: TextStyle(
                       fontSize: 40,
                       color: Color.fromRGBO(84, 88, 89, 1.0),
                       fontFamily: AppTheme.ruFontKanit))),
@@ -196,6 +222,12 @@ class MyApp extends StatelessWidget {
                 page: () =>
                     token == null ? const LoginPage() : FitnessAppHomeScreen()),
             GetPage(name: '/manual', page: () => ManualHomeScreen()),
+            GetPage(name: '/affairs', page: () => AffairsHomeScreen()),
+            GetPage(name: '/scholarship', page: () => SchHomeScreen()),
+            GetPage(
+                name: '/fitness',
+                page: () =>
+                    token == null ? const LoginPage() : FitnessAppHomeScreen()),
             GetPage(name: '/ondemand', page: () => OndemandHomeScreen()),
             GetPage(name: '/homehelp', page: () => HomeHelpScreen()),
             GetPage(name: '/cardhelp', page: () => CardHelpScreen()),
@@ -215,9 +247,29 @@ class MyApp extends StatelessWidget {
             GetPage(name: '/ruregionqrcode', page: () => RuregionQRScreen()),
             GetPage(name: '/ruregionlogin', page: () => RuregionLoginPage()),
             GetPage(name: '/ruregionhome', page: () => RuRegisHomeScreen()),
-            GetPage(name: '/affairs', page: () => AffairsHomeScreen()),
-            GetPage(name: '/scholarship', page: () => SchHomeScreen()),
-            GetPage(name: '/webpage', page: () => WebPage()),
+            GetPage(name: '/ruregishome', page: () => RuRegisOtherHomeScreen()),
+            GetPage(name: '/ruregismr30', page: () => RuregisMr30HomeScreen()),
+            GetPage(name: '/ruregisqrcode', page: () => RuregisQRScreen()),
+            GetPage(name: '/ruregisqcart', page: () => RuregisCartHomeScreen()),
+            GetPage(
+                name: '/ruregionApphome',
+                page: () => RuRegionOtherHomeScreen()),
+            GetPage(
+                name: '/ruregionAppmr30', page: () => RuregionMr30HomeScreen()),
+            GetPage(name: '/ruregionAppqrcode', page: () => RuregionQRScreen()),
+            GetPage(
+                name: '/ruregionAppcart',
+                page: () => RuRegionAppCartHomeScreen()),
+            GetPage(
+                name: '/ruregionAppreceipt',
+                page: () => ReceiptRuRegionHomeScreen()),
+            GetPage(
+                name: '/ruregionAppsuccess',
+                page: () => SuccessRuRegionHomeScreen()),
+            GetPage(name: '/ruregionAppQR', page: () => RuregionAppQRScreen()),
+            GetPage(
+                name: '/ruregionAppsuccess2',
+                page: () => RuregionSuccessScreen()),
           ],
           debugShowCheckedModeBanner: false,
         ));

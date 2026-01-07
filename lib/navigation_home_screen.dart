@@ -1,6 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/custom_drawer/drawer_user_controller.dart';
 import 'package:th.ac.ru.uSmart/custom_drawer/home_drawer.dart';
@@ -11,7 +10,6 @@ import 'package:th.ac.ru.uSmart/invite_friend_screen.dart';
 import 'package:th.ac.ru.uSmart/manual/manual_home_screen.dart';
 import 'package:th.ac.ru.uSmart/pages/aboutRam_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:th.ac.ru.uSmart/providers/mr30_provider.dart';
 
 class NavigationHomeScreen extends StatefulWidget {
   @override

@@ -3,7 +3,6 @@ import 'package:th.ac.ru.uSmart/fitness_app/models/tabIcon_data.dart';
 import 'package:th.ac.ru.uSmart/master/pages/register/master_register_list_screen.dart';
 import 'package:th.ac.ru.uSmart/master/providers/master_register_provider.dart';
 import 'package:flutter/material.dart';
-import '../../../login_page.dart';
 import '../../../fitness_app/fitness_app_theme.dart';
 import '../../../providers/authenprovider.dart';
 

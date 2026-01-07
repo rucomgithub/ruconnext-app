@@ -1,8 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:auth_buttons/auth_buttons.dart' show GoogleAuthButton;
-import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregis_provider.dart';
 import '../providers/authenprovider.dart';
@@ -100,7 +98,7 @@ class _RuregionLoginPageState extends State<RuregionLoginPage> {
                             // Get.toNamed('/ruregionhome'); // ทำอะไรก็ตามเมื่อปุ่มถูกกด
                           },
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
+                            backgroundColor: WidgetStateProperty.all<Color>(
                                 Color.fromARGB(255, 164, 193, 163)), // เปลี่ยนสีปุ่มเป็นสีแดง
                           ),
                           child: Text('เข้าสู่ระบบ'),

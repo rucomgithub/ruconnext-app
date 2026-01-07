@@ -4,8 +4,6 @@ import 'package:th.ac.ru.uSmart/fitness_app/models/tabIcon_data.dart';
 import 'package:th.ac.ru.uSmart/providers/mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/registers/register_list_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:th.ac.ru.uSmart/widget/ru_bottom_bar.dart';
-import '../login_page.dart';
 import '../fitness_app/fitness_app_theme.dart';
 import '../providers/authenprovider.dart';
 import '../providers/register_provider.dart';

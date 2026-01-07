@@ -2,17 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
-import 'package:th.ac.ru.uSmart/home_screen.dart';
 import 'package:th.ac.ru.uSmart/navigation_home_screen.dart';
 import 'package:th.ac.ru.uSmart/pages/aboutRam_screen.dart';
-import 'package:th.ac.ru.uSmart/pages/profile_home_screen.dart';
-import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
 import 'package:th.ac.ru.uSmart/providers/home_provider.dart';
 import 'package:th.ac.ru.uSmart/schedule/schedule_home_screen.dart';
-import 'package:th.ac.ru.uSmart/today/today_home_screen.dart';
 import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
-import 'package:th.ac.ru.uSmart/widget/top_bar.dart';
 
 import '../hotel_booking/hotel_app_theme.dart';
 
@@ -88,7 +82,9 @@ class _RunewsScreenState extends State<RunewsScreen> {
   @override
   void initState() {
     super.initState();
-    getData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getData();
+    });
   }
 
   void dispose() {
@@ -138,7 +134,7 @@ class _RunewsScreenState extends State<RunewsScreen> {
         decoration: BoxDecoration(
           boxShadow: <BoxShadow>[
             BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
+                color: Colors.grey.withValues(alpha: 0.2),
                 offset: const Offset(0, -2),
                 blurRadius: 8.0),
           ],
@@ -220,7 +216,7 @@ class _RunewsScreenState extends State<RunewsScreen> {
                                 // borderRadius: const BorderRadius.all(Radius.circular(20.0)),
                                 boxShadow: <BoxShadow>[
                                   BoxShadow(
-                                    color: Colors.grey.withOpacity(0.6),
+                                    color: Colors.grey.withValues(alpha: 0.6),
                                     offset: const Offset(4, 4),
                                     blurRadius: 30,
                                   ),
@@ -396,16 +392,12 @@ class _RunewsScreenState extends State<RunewsScreen> {
   }
 
   Expanded showHit(runews runew, BuildContext context) {
-    List<runews> listNew = context.watch<RunewsProvider>().runewsRecord;
-    final runews singlenews =
-        listNew.singleWhere((runews element) => element.id == runew.id);
-
     return Expanded(
         flex: 6,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('${singlenews.hit}',
+            Text('${runew.hit}',
                 style: const TextStyle(
                     fontSize: 12, color: Color.fromARGB(255, 41, 46, 93)))
           ],
@@ -415,10 +407,10 @@ class _RunewsScreenState extends State<RunewsScreen> {
   Widget getAppBarUI() {
     return Container(
       decoration: BoxDecoration(
-        color: HotelAppTheme.buildLightTheme().backgroundColor,
+        color: HotelAppTheme.buildLightTheme().scaffoldBackgroundColor,
         boxShadow: <BoxShadow>[
           BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
+              color: Colors.grey.withValues(alpha: 0.2),
               offset: const Offset(0, 2),
               blurRadius: 8.0),
         ],

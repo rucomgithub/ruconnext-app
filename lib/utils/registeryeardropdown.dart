@@ -4,7 +4,6 @@ import 'package:th.ac.ru.uSmart/providers/register_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../providers/mr30_provider.dart';
 
 class RegisterYearDropdownWidget extends StatefulWidget {
   const RegisterYearDropdownWidget({Key? key}) : super(key: key);
@@ -36,7 +35,7 @@ class _RegisterYearDropdownWidgetState
           .map((course) => "${course["year"]}")
           .toList();
       setState(() {
-        _options = options ?? [];
+        _options = options;
         _selectedOption = _options.isNotEmpty ? _options.first : "";
       });
     }

@@ -96,7 +96,7 @@ class MasterGradeProvider extends ChangeNotifier {
         _groupGrade = sortByKeys(_groupGrade, '');
 
         summary(response.gradedata!);
-      } on Exception catch (e) {
+      } on Exception {
         _error = 'เกิดข้อผิดพลาด';
       }
     }

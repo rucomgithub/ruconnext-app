@@ -55,7 +55,7 @@ class _SummaryCreditViewState extends State<SummaryCreditView>
                             topRight: Radius.circular(24.0)),
                         boxShadow: <BoxShadow>[
                           BoxShadow(
-                              color: AppTheme.ru_grey.withOpacity(0.2),
+                              color: AppTheme.ru_grey.withValues(alpha: 0.2),
                               offset: const Offset(1.1, 1.1),
                               blurRadius: 10.0),
                         ],

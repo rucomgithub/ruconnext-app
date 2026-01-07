@@ -1,10 +1,7 @@
-import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/master/pages/register/master_register_row_view.dart';
 import 'package:flutter/material.dart';
 import 'package:th.ac.ru.uSmart/mr30/titlenone_view.dart';
-import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
 import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
 
 class MasterRegisterListScreen extends StatefulWidget {
@@ -124,7 +121,7 @@ class _MasterRegisterListScreenState extends State<MasterRegisterListScreen>
         decoration: BoxDecoration(
           boxShadow: <BoxShadow>[
             BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
+                color: Colors.grey.withValues(alpha: 0.2),
                 offset: const Offset(0, -2),
                 blurRadius: 8.0),
           ],

@@ -1,21 +1,11 @@
-import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
-import 'package:th.ac.ru.uSmart/hotel_booking/calendar_popup_view.dart';
-
 import 'package:th.ac.ru.uSmart/model/scholarship.dart';
-import 'package:th.ac.ru.uSmart/providers/ondemand_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/providers/sch_provider.dart';
-import 'package:th.ac.ru.uSmart/ruconnext_app_theme.dart';
 import 'package:th.ac.ru.uSmart/scholarship/sch_list_view.dart';
 import 'package:th.ac.ru.uSmart/store/authen.dart';
-import 'package:th.ac.ru.uSmart/widget/top_bar.dart';
 import '../app_theme.dart';
-import '../hotel_booking/hotel_app_theme.dart';
 import '../login_page.dart';
 import '../providers/authenprovider.dart';
 
@@ -29,9 +19,6 @@ class _SchHomeScreenState extends State<SchHomeScreen>
   AnimationController? animationController;
   final ScrollController _scrollController = ScrollController();
   String? accessToken;
-
-  DateTime startDate = DateTime.now();
-  DateTime endDate = DateTime.now().add(const Duration(days: 5));
   Scholarship scholarship = Scholarship();
 
   final RefreshController _refreshController =
@@ -159,17 +146,109 @@ class _SchHomeScreenState extends State<SchHomeScreen>
 
   Widget getListUI() {
     var sch = context.watch<SchProvider>();
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
 
-    return sch.scholarshipData.rECORD == null
-        ? Container(
+    // Show loading state
+    if (sch.isLoading) {
+      return Expanded(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(AppTheme.ru_dark_blue),
+              ),
+              SizedBox(height: 16),
+              Text(
+                "กำลังโหลดข้อมูล...",
+                style: TextStyle(
+                  fontFamily: AppTheme.ruFontKanit,
+                  fontSize: 16,
+                  color: isLightMode ? AppTheme.ru_dark_blue : AppTheme.nearlyWhite,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    // Show empty state
+    if (sch.scholarshipData.rECORD == null || sch.scholarshipData.rECORD!.isEmpty) {
+      return Expanded(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(40.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("ไม่พบข้อมูลประวัติการรับทุนการศึกษา"),
+                Container(
+                  padding: EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    color: AppTheme.ru_yellow.withValues(alpha: 0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.school_outlined,
+                    size: 80,
+                    color: AppTheme.ru_dark_blue.withValues(alpha: 0.5),
+                  ),
+                ),
+                SizedBox(height: 24),
+                Text(
+                  "ไม่พบข้อมูลทุนการศึกษา",
+                  style: TextStyle(
+                    fontFamily: AppTheme.ruFontKanit,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: isLightMode ? AppTheme.ru_dark_blue : AppTheme.nearlyWhite,
+                  ),
+                ),
+                SizedBox(height: 12),
+                Text(
+                  "ยังไม่มีประวัติการรับทุนการศึกษา\nของคุณในระบบ",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: AppTheme.ruFontKanit,
+                    fontSize: 16,
+                    height: 1.5,
+                    color: isLightMode
+                        ? AppTheme.ru_dark_blue.withValues(alpha: 0.6)
+                        : AppTheme.nearlyWhite.withValues(alpha: 0.7),
+                  ),
+                ),
+                SizedBox(height: 24),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    setState(() {});
+                    Provider.of<SchProvider>(context, listen: false).getScholarShip();
+                  },
+                  icon: Icon(Icons.refresh_rounded, color: AppTheme.nearlyWhite),
+                  label: Text(
+                    'รีเฟรช',
+                    style: TextStyle(
+                      fontFamily: AppTheme.ruFontKanit,
+                      fontSize: 16,
+                      color: AppTheme.nearlyWhite,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.ru_dark_blue,
+                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                ),
               ],
             ),
-          )
-        : Expanded(
+          ),
+        ),
+      );
+    }
+
+    return Expanded(
             child: NestedScrollView(
               controller: _scrollController,
               headerSliverBuilder:
@@ -242,416 +321,120 @@ class _SchHomeScreenState extends State<SchHomeScreen>
   }
 
   Widget getFilterBarUI(SchProvider sch) {
-    return Stack(
-      children: <Widget>[
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          child: Container(
-            height: 24,
-            decoration: BoxDecoration(
-              color: RuConnextAppTheme.buildLightTheme().backgroundColor,
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
-                    offset: const Offset(0, -2),
-                    blurRadius: 8.0),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          color: RuConnextAppTheme.buildLightTheme().backgroundColor,
-          child: Padding(
-            padding:
-                const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 4),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'ทุนการศึกษาทั้งหมด',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w100,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ),
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    focusColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    splashColor: Colors.grey.withOpacity(0.2),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(4.0),
-                    ),
-                    onTap: () {},
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(Icons.list,
-                                color: RuConnextAppTheme.buildLightTheme()
-                                    .primaryColor),
-                          ),
-                          Text(
-                            '${sch.scholarshipData.rECORD!.length} รายการ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w100,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        const Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          child: Divider(
-            height: 1,
-          ),
-        )
-      ],
-    );
-  }
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
 
-  Widget getTimeDateUI() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 18, bottom: 16),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Row(
-              children: <Widget>[
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    focusColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    splashColor: Colors.grey.withOpacity(0.2),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(4.0),
-                    ),
-                    onTap: () {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                      // setState(() {
-                      //   isDatePopupOpen = true;
-                      // });
-                      showDemoDialog(context: context);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 8, right: 8, top: 4, bottom: 4),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Choose date',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w100,
-                                fontSize: 16,
-                                color: Colors.grey.withOpacity(0.8)),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            '${DateFormat("dd, MMM").format(startDate)} - ${DateFormat("dd, MMM").format(endDate)}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w100,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: Container(
-              width: 1,
-              height: 42,
-              color: Colors.grey.withOpacity(0.8),
-            ),
-          ),
-          Expanded(
-            child: Row(
-              children: <Widget>[
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    focusColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    splashColor: Colors.grey.withOpacity(0.2),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(4.0),
-                    ),
-                    onTap: () {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 8, right: 8, top: 4, bottom: 4),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Number of Rooms',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w100,
-                                fontSize: 16,
-                                color: Colors.grey.withOpacity(0.8)),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            '1 Room - 2 Adults',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w100,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget getSearchBarUI() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 16, top: 8, bottom: 8),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: HotelAppTheme.buildLightTheme().backgroundColor,
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(38.0),
-                  ),
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                        color: Colors.grey.withOpacity(0.2),
-                        offset: const Offset(0, 2),
-                        blurRadius: 8.0),
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 16, right: 16, top: 4, bottom: 4),
-                  child: TextField(
-                    onChanged: (String txt) {},
-                    style: const TextStyle(
-                      fontSize: 18,
-                    ),
-                    cursorColor: HotelAppTheme.buildLightTheme().primaryColor,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'London...',
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              color: HotelAppTheme.buildLightTheme().primaryColor,
-              borderRadius: const BorderRadius.all(
-                Radius.circular(38.0),
-              ),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                    color: Colors.grey.withOpacity(0.4),
-                    offset: const Offset(0, 2),
-                    blurRadius: 8.0),
-              ],
-            ),
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(32.0),
-                ),
-                onTap: () {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Icon(FontAwesomeIcons.magnifyingGlass,
-                      size: 20,
-                      color: HotelAppTheme.buildLightTheme().backgroundColor),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void showAlertDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Alert'),
-          content: Text('This is an alert message.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                // Close the dialog
-                Navigator.of(context).pop();
-              },
-              child: Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void showDemoDialog({BuildContext? context}) {
-    showDialog<dynamic>(
-      context: context!,
-      builder: (BuildContext context) => CalendarPopupView(
-        barrierDismissible: true,
-        minimumDate: DateTime.now(),
-        //  maximumDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 10),
-        initialEndDate: endDate,
-        initialStartDate: startDate,
-        onApplyClick: (DateTime startData, DateTime endData) {
-          setState(() {
-            startDate = startData;
-            endDate = endData;
-          });
-        },
-        onCancelClick: () {},
-      ),
-    );
-  }
-
-  Widget getAppBarUI() {
     return Container(
       decoration: BoxDecoration(
-        color: HotelAppTheme.buildLightTheme().backgroundColor,
+        gradient: LinearGradient(
+          colors: [
+            isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
+            isLightMode
+                ? AppTheme.ru_dark_blue.withValues(alpha: 0.02)
+                : AppTheme.nearlyBlack,
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
         boxShadow: <BoxShadow>[
           BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              offset: const Offset(0, 2),
-              blurRadius: 8.0),
+            color: isLightMode
+                ? Colors.grey.withValues(alpha: 0.15)
+                : Colors.black.withValues(alpha: 0.3),
+            offset: const Offset(0, 2),
+            blurRadius: 8.0,
+          ),
         ],
       ),
       child: Padding(
-        padding: EdgeInsets.only(
-            top: MediaQuery.of(context).padding.top, left: 8, right: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Container(
-              alignment: Alignment.centerLeft,
-              width: AppBar().preferredSize.height + 40,
-              height: AppBar().preferredSize.height,
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(32.0),
+            Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        AppTheme.ru_dark_blue.withValues(alpha: 0.1),
+                        AppTheme.ru_yellow.withValues(alpha: 0.1),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(Icons.arrow_back),
+                  child: Icon(
+                    Icons.workspace_premium_rounded,
+                    color: AppTheme.ru_dark_blue,
+                    size: 20,
                   ),
                 ),
-              ),
-            ),
-            Expanded(
-              child: Center(
-                child: Text(
-                  'ประวัติการรับทุนการศึกษา',
+                SizedBox(width: 12),
+                Text(
+                  'ทุนการศึกษาทั้งหมด',
                   style: TextStyle(
                     fontFamily: AppTheme.ruFontKanit,
-                    //fontWeight: FontWeight.w600,
-                    fontSize: 22,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: isLightMode ? AppTheme.ru_dark_blue : AppTheme.nearlyWhite,
                   ),
                 ),
-              ),
+              ],
             ),
             Container(
-              width: AppBar().preferredSize.height + 40,
-              height: AppBar().preferredSize.height,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  // Material(
-                  //   color: Colors.transparent,
-                  //   child: InkWell(
-                  //     borderRadius: const BorderRadius.all(
-                  //       Radius.circular(32.0),
-                  //     ),
-                  //     onTap: () {},
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.all(8.0),
-                  //       child: Icon(Icons.favorite_border),
-                  //     ),
-                  //   ),
-                  // ),
-                  // Material(
-                  //   color: Colors.transparent,
-                  //   child: InkWell(
-                  //     borderRadius: const BorderRadius.all(
-                  //       Radius.circular(32.0),
-                  //     ),
-                  //     onTap: () {},
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.all(8.0),
-                  //       child: Icon(FontAwesomeIcons.locationDot),
-                  //     ),
-                  //   ),
-                  // ),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    AppTheme.ru_dark_blue,
+                    AppTheme.ru_dark_blue.withValues(alpha: 0.8),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppTheme.ru_dark_blue.withValues(alpha: 0.3),
+                    offset: Offset(0, 2),
+                    blurRadius: 6,
+                  ),
                 ],
               ),
-            )
+              child: Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.format_list_numbered_rounded,
+                    color: AppTheme.ru_yellow,
+                    size: 18,
+                  ),
+                  SizedBox(width: 6),
+                  Text(
+                    '${sch.scholarshipData.rECORD!.length}',
+                    style: TextStyle(
+                      fontFamily: AppTheme.ruFontKanit,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.nearlyWhite,
+                    ),
+                  ),
+                  SizedBox(width: 4),
+                  Text(
+                    'รายการ',
+                    style: TextStyle(
+                      fontFamily: AppTheme.ruFontKanit,
+                      fontSize: 14,
+                      color: AppTheme.nearlyWhite.withValues(alpha: 0.9),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
     );
   }
+
 }
 
 class ContestTabHeader extends SliverPersistentHeaderDelegate {

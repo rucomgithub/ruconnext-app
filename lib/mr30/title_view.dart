@@ -1,5 +1,4 @@
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/ui_view/grade_screen.dart';
 import 'package:flutter/material.dart';
 import '../fitness_app/ui_view/rank_screen.dart';
@@ -12,8 +11,8 @@ class TitleView extends StatelessWidget {
 
   const TitleView(
       {Key? key,
-      this.titleTxt: "",
-      this.subTxt: "",
+      this.titleTxt = "",
+      this.subTxt = "",
       this.animationController,
       this.animation})
       : super(key: key);

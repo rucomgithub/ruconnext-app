@@ -1,13 +1,6 @@
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/models/tabIcon_data.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/training/training_screen.dart';
 import 'package:th.ac.ru.uSmart/grade/my_grade_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../login_page.dart';
-import '../fitness_app/bottom_navigation_view/bottom_bar_view.dart';
 import '../fitness_app/fitness_app_theme.dart';
 import '../providers/authenprovider.dart';
 

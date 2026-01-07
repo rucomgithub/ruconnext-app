@@ -49,7 +49,7 @@ class CardBookTitle extends StatelessWidget {
                       decoration: BoxDecoration(
                         boxShadow: <BoxShadow>[
                           BoxShadow(
-                              color: HexColor("#FF19196B").withOpacity(0.6),
+                              color: HexColor("#FF19196B").withValues(alpha: 0.6),
                               offset: const Offset(1.1, 4.0),
                               blurRadius: 8.0),
                         ],
@@ -117,7 +117,7 @@ class CardBookTitle extends StatelessWidget {
                                     boxShadow: <BoxShadow>[
                                       BoxShadow(
                                           color: AppTheme.nearlyBlack
-                                              .withOpacity(0.4),
+                                              .withValues(alpha: 0.4),
                                           offset: Offset(2.0, 2.0),
                                           blurRadius: 4.0),
                                     ],
@@ -159,7 +159,7 @@ class CardBookTitle extends StatelessWidget {
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: AppTheme.ru_yellow.withOpacity(0.9),
+                          color: AppTheme.ru_yellow.withValues(alpha: 0.9),
                           shape: BoxShape.circle,
                         ),
                       ),

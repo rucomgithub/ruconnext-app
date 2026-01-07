@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
@@ -47,6 +46,15 @@ class StudentService {
     Student studentdata = Student.fromJson({});
     try {
       Profile profile = await ProfileStorage.getProfile();
+
+      // ตรวจสอบว่ามี studentCode หรือไม่
+      if (profile.studentCode == null || profile.studentCode == '') {
+        print('❌ Error: studentCode is null or empty');
+        print('Profile data: ${profile.toJson()}');
+        throw Exception('ไม่พบรหัสนักศึกษา กรุณาเข้าสู่ระบบใหม่');
+      }
+
+      print('🔍 Fetching student data for: ${profile.studentCode}');
       await dioapi.createIntercepter();
       var response =
           await dioapi.api.get('$appUrl/student/profile/${profile.studentCode}',
@@ -56,13 +64,15 @@ class StudentService {
                 },
               ));
       if (response.statusCode == 200) {
-        //print('data ${response}');
+        print('✅ Student data loaded successfully');
+        print('Response data: ${response.data}');
         studentdata = Student.fromJson(response.data);
       } else {
-        throw ('Error Get Data');
+        print('❌ Error: Status code ${response.statusCode}');
+        throw Exception('ไม่สามารถดึงข้อมูลนักศึกษาได้ (Status: ${response.statusCode})');
       }
     } catch (err) {
-      //print(err);
+      print('❌ Error in getStudent: $err');
       throw (err);
     }
 

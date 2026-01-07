@@ -18,14 +18,26 @@ class RunewsdetailPage extends StatefulWidget {
 class _RunewsdetailPageState extends State<RunewsdetailPage> {
   Map<String, dynamic> news = {};
 
-  final Completer<WebViewController> _controller =
-      Completer<WebViewController>();
+  late WebViewController _controller;
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
     news = Get.arguments;
+
+    _controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageFinished: (String url) {
+            setState(() {
+              isLoading = false;
+            });
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse('${news['url']}'));
   }
 
   @override
@@ -43,18 +55,7 @@ class _RunewsdetailPageState extends State<RunewsdetailPage> {
           },
         ),
       ),
-      body: WebView(
-        initialUrl: '${news['url']}',
-        javascriptMode: JavascriptMode.unrestricted,
-        onWebViewCreated: (WebViewController webViewController) {
-          _controller.complete(webViewController);
-        },
-        onPageFinished: (finish) {
-          setState(() {
-            isLoading = false;
-          });
-        },
-      ),
+      body: WebViewWidget(controller: _controller),
     );
   }
 }

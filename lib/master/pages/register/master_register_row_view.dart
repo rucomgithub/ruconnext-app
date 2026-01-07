@@ -1,11 +1,9 @@
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/master/models/master_grade_list_data.dart';
 import 'package:th.ac.ru.uSmart/master/models/master_register.dart';
 import 'package:th.ac.ru.uSmart/master/providers/master_register_provider.dart';
-import 'package:th.ac.ru.uSmart/widget/card/card_book_title.dart';
 
 class MasterRegisterRowView extends StatefulWidget {
   const MasterRegisterRowView(
@@ -57,135 +55,166 @@ class _MasterRegisterRowViewState extends State<MasterRegisterRowView>
                 0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
             child: prov.listGroupYearSemester.isEmpty
                 ? Padding(
-                    padding: const EdgeInsets.only(
-                        top: 8, bottom: 8, right: 16, left: 16),
+                    padding: const EdgeInsets.all(24.0),
                     child: Container(
-                        padding: const EdgeInsets.only(
-                            top: 8, bottom: 8, right: 0, left: 0),
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 240, 232, 232),
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(8.0),
-                              bottomLeft: Radius.circular(8.0),
-                              bottomRight: Radius.circular(8.0),
-                              topRight: Radius.circular(48.0)),
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                                color: AppTheme.ru_yellow,
-                                offset: Offset(1.1, 1.1),
-                                blurRadius: 5.0),
+                      padding: const EdgeInsets.all(32.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16.0),
+                        border: Border.all(
+                          color: Colors.grey.shade300,
+                          width: 2,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withValues(alpha: 0.1),
+                            offset: const Offset(0, 4),
+                            blurRadius: 12,
+                            spreadRadius: 1,
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.inbox_outlined,
+                              size: 48,
+                              color: Colors.grey.shade400,
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              'ไม่พบข้อมูลลงทะเบียน',
+                              style: TextStyle(
+                                fontFamily: AppTheme.ruFontKanit,
+                                fontSize: 16,
+                                color: Colors.grey.shade600,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                           ],
                         ),
-                        child: Text('ไม่พบข้อมูลลงทะเบียน')),
+                      ),
+                    ),
                   )
                 : Padding(
-                    padding: const EdgeInsets.only(
-                        top: 8, bottom: 8, right: 16, left: 16),
-                    child: Container(
-                      height: (prov.listGroupYearSemester.length * 300) + 8,
-                      width: double.infinity,
-                      child: ListView.builder(
-                        itemCount: prov.listGroupYearSemester.length,
-                        scrollDirection: Axis.vertical,
-                        itemBuilder: (BuildContext context, int index) {
-                          final int count =
-                              prov.listGroupYearSemester.length > 10
-                                  ? 10
-                                  : prov.listGroupYearSemester.length;
-                          final Animation<double> animation =
-                              Tween<double>(begin: 0.0, end: 1.0).animate(
-                                  CurvedAnimation(
-                                      parent: animationController!,
-                                      curve: Interval((1 / count) * index, 1.0,
-                                          curve: Curves.fastOutSlowIn)));
-                          animationController?.forward();
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.only(
-                                    top: 8, bottom: 8, right: 16, left: 8),
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage('assets/images/ID.png'),
-                                    fit: BoxFit.cover,
-                                    opacity: 0.2,
-                                  ),
-                                  color: isLightMode
-                                      ? AppTheme.nearlyWhite
-                                      : AppTheme.ru_grey,
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(8.0),
-                                      bottomLeft: Radius.circular(8.0),
-                                      bottomRight: Radius.circular(8.0),
-                                      topRight: Radius.circular(48.0)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color:
-                                          AppTheme.ru_yellow.withOpacity(0.4),
-                                      spreadRadius: 2,
-                                      blurRadius: 4,
-                                      offset: Offset(4, 4),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 8.0),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: prov.listGroupYearSemester.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final int count = prov.listGroupYearSemester.length > 10
+                            ? 10
+                            : prov.listGroupYearSemester.length;
+                        final Animation<double> animation =
+                            Tween<double>(begin: 0.0, end: 1.0).animate(
+                                CurvedAnimation(
+                                    parent: animationController!,
+                                    curve: Interval((1 / count) * index, 1.0,
+                                        curve: Curves.fastOutSlowIn)));
+                        animationController?.forward();
+
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Year/Semester Header
+                            AnimatedBuilder(
+                              animation: animationController!,
+                              builder: (BuildContext context, Widget? child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: Container(
+                                    margin: const EdgeInsets.only(
+                                        bottom: 12.0, top: 8.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20.0, vertical: 12.0),
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          AppTheme.ru_dark_blue,
+                                          AppTheme.ru_dark_blue.withValues(alpha: 0.8)
+                                        ],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                      ),
+                                      borderRadius: BorderRadius.circular(16.0),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: AppTheme.ru_dark_blue,
+                                          offset: const Offset(0, 4),
+                                          blurRadius: 12,
+                                          spreadRadius: 0,
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                                height: 60,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Row(
+                                    child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
                                       children: [
-                                        Stack(
-                                          alignment: Alignment.center,
+                                        Row(
                                           children: [
-                                            Icon(
-                                              Icons.book,
-                                              size: 38,
-                                              color: AppTheme.ru_dark_blue,
+                                            Container(
+                                              padding: const EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                shape: BoxShape.circle,
+                                              ),
+                                              child: Icon(
+                                                Icons.calendar_today,
+                                                color: AppTheme.ru_dark_blue,
+                                                size: 20,
+                                              ),
                                             ),
-                                            Positioned(
-                                              top: 14,
-                                              left: 20,
-                                              child: Text(
-                                                '${prov.listGroupYearSemester.entries.elementAt(index).value.length}',
-                                                style: AppTheme.subtitle,
+                                            const SizedBox(width: 12),
+                                            Text(
+                                              '${prov.listGroupYearSemester.entries.elementAt(index).key}',
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.ruFontKanit,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
                                               ),
                                             ),
                                           ],
                                         ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              '${prov.listGroupYearSemester.entries.elementAt(index).key}  ',
-                                              style: AppTheme.header,
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 12, vertical: 6),
+                                          decoration: BoxDecoration(
+                                            color: AppTheme.ru_yellow,
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                          child: Text(
+                                            '${prov.listGroupYearSemester.entries.elementAt(index).value.length} วิชา',
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.ruFontKanit,
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                              color: AppTheme.ru_dark_blue,
                                             ),
-                                          ],
+                                          ),
                                         ),
                                       ],
                                     ),
-                                  ],
-                                ),
-                              ),
-                              ListRegisterListValueView(
-                                listData: prov.listGroupYearSemester.entries
-                                    .elementAt(index)
-                                    .value,
-                                animation: animation,
-                                animationController: animationController!,
-                              ),
-                            ],
-                          );
-                        },
-                      ),
+                                  ),
+                                );
+                              },
+                            ),
+                            // Course Cards List
+                            ListRegisterListValueView(
+                              listData: prov.listGroupYearSemester.entries
+                                  .elementAt(index)
+                                  .value,
+                              animation: animation,
+                              animationController: animationController!,
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ),
           ),
@@ -205,63 +234,177 @@ class ListRegisterListValueView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: animationController!,
-      builder: (BuildContext context, Widget? child) {
-        return FadeTransition(
-          opacity: animation!,
-          child: Transform(
-            transform: Matrix4.translationValues(
-                200 * (1.0 - animation!.value), 0.0, 0.0),
-            child: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/ID.png'),
-                  fit: BoxFit.cover,
-                  opacity: 0.2,
-                ),
-              ),
-              height: 240.0,
-              width: double.infinity,
-              child: ListView.builder(
-                itemCount: listData!.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  final int count =
-                      listData!.length > 10 ? 10 : listData!.length;
-                  final Animation<double> animation =
-                      Tween<double>(begin: 0.0, end: 1.0).animate(
-                          CurvedAnimation(
-                              parent: animationController!,
-                              curve: Interval((1 / count) * index, 1.0,
-                                  curve: Curves.fastOutSlowIn)));
-                  animationController?.forward();
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 8.0, left: 8.0, bottom: 8.0, right: 8.0),
-                        child: CardBookTitle(
-                          iconheader: Icons.book,
-                          iconfooter: Icons.grade,
-                          header: '${listData!.elementAt(index).courseNo}',
-                          footer:
-                              '${listData!.elementAt(index).credit.toString()} หน่วยกิต',
-                          title: '${listData!.elementAt(index).courseNo}',
-                          //content: listData!.elementAt(index).stdCode,
-                          animation: animation,
-                          animationController: animationController!,
+    return SizedBox(
+      height: 190,
+      child: ListView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+        itemCount: listData!.length,
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
+        itemBuilder: (BuildContext context, int index) {
+          final int count = listData!.length > 10 ? 10 : listData!.length;
+          final Animation<double> animation =
+              Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+                  parent: animationController!,
+                  curve: Interval((1 / count) * index, 1.0,
+                      curve: Curves.fastOutSlowIn)));
+          animationController?.forward();
+
+          final bool isEven = index % 2 == 0;
+          final Color primaryColor =
+              isEven ? AppTheme.ru_yellow : AppTheme.ru_dark_blue;
+          final Color secondaryColor =
+              isEven ? AppTheme.ru_dark_blue : AppTheme.ru_yellow;
+
+          return AnimatedBuilder(
+            animation: animationController!,
+            builder: (BuildContext context, Widget? child) {
+              return FadeTransition(
+                opacity: animation,
+                child: Transform(
+                  transform: Matrix4.translationValues(
+                      100 * (1.0 - animation.value), 0.0, 0.0),
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(20.0),
+                        onTap: () {
+                          // Handle tap if needed
+                        },
+                        child: Container(
+                          width: 170,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20.0),
+                            border: Border.all(
+                              color: primaryColor,
+                              width: 2,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: primaryColor,
+                                offset: const Offset(0, 6),
+                                blurRadius: 16,
+                                spreadRadius: 0,
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              // Icon Section
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(20.0),
+                                decoration: BoxDecoration(
+                                  color: secondaryColor,
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(18.0),
+                                    topRight: Radius.circular(18.0),
+                                  ),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.all(12),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        shape: BoxShape.circle,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black
+                                                .withValues(alpha: 0.2),
+                                            offset: const Offset(0, 4),
+                                            blurRadius: 8,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Icon(
+                                        Icons.book_outlined,
+                                        color: primaryColor,
+                                        size: 32,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              // Content Section
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0, vertical: 12.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '${listData!.elementAt(index).courseNo}',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.ruFontKanit,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: AppTheme.ru_dark_blue,
+                                        ),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12, vertical: 6),
+                                        decoration: BoxDecoration(
+                                          color: primaryColor,
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Icon(
+                                              Icons.credit_card,
+                                              size: 14,
+                                              color: Colors.white,
+                                            ),
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              '${listData!.elementAt(index).credit}',
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.ruFontKanit,
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            const SizedBox(width: 2),
+                                            Text(
+                                              'หน่วยกิต',
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.ruFontKanit,
+                                                fontSize: 11,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      )
-                    ],
-                  );
-                },
-              ),
-            ),
-          ),
-        );
-      },
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

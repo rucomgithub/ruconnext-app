@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:th.ac.ru.uSmart/ruconnext_app_theme.dart';
 
 class HeadLogoView extends StatelessWidget {
   final AnimationController? animationController;

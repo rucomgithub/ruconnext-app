@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     return Container(
       color: isLightMode
           ? AppTheme.nearlyWhite
-          : AppTheme.nearlyBlack.withOpacity(0.3),
+          : AppTheme.nearlyBlack.withValues(alpha: 0.3),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Consumer<AuthenProvider>(
@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   decoration: BoxDecoration(
                     boxShadow: <BoxShadow>[
                       BoxShadow(
-                          color: AppTheme.nearlyWhite.withOpacity(0.2),
+                          color: AppTheme.nearlyWhite.withValues(alpha: 0.2),
                           offset: const Offset(0, -2),
                           blurRadius: 8.0),
                     ],
@@ -191,7 +191,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             if (inputText.length == 10)
                               if (targetValue.contains(inputText))
                                 GoogleAuthButton(
-                                  text: "เข้าสู่ระบบ @rumail.ru.ac.th",
+                                  text: "เข้าสู่ระบบ",
                                   style: AuthButtonStyle(
                                     textStyle: TextStyle(
                                         color: AppTheme.ru_dark_blue,

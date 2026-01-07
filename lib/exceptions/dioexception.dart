@@ -2,28 +2,28 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 
-class DioException implements Exception {
+class DioExceptionHandler implements Exception {
   late String errorMessage;
 
-  DioException.fromDioError(DioError dioError) {
+  DioExceptionHandler.fromDioError(DioException dioError) {
     switch (dioError.type) {
-      case DioErrorType.cancel:
+      case DioExceptionType.cancel:
         errorMessage = 'Request to the server was cancelled.';
         break;
-      case DioErrorType.connectTimeout:
+      case DioExceptionType.connectionTimeout:
         errorMessage = 'Connection timed out.';
         break;
-      case DioErrorType.receiveTimeout:
+      case DioExceptionType.receiveTimeout:
         errorMessage = 'Receiving timeout occurred.';
         break;
-      case DioErrorType.sendTimeout:
+      case DioExceptionType.sendTimeout:
         errorMessage = 'Request send timeout.';
         break;
-      case DioErrorType.response:
+      case DioExceptionType.badResponse:
         errorMessage = _handleStatusCode(dioError);
         break;
-      case DioErrorType.other:
-        if (dioError.message.contains('SocketException')) {
+      case DioExceptionType.unknown:
+        if (dioError.message?.contains('SocketException') ?? false) {
           errorMessage = 'No Internet.';
           break;
         }
@@ -35,7 +35,7 @@ class DioException implements Exception {
     }
   }
 
-  String _handleStatusCode(DioError dioError) {
+  String _handleStatusCode(DioException dioError) {
     var data = json.decode(dioError.response.toString());
     switch (dioError.response?.statusCode) {
       case 400:

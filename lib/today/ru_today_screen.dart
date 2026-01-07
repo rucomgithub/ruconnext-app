@@ -2,14 +2,10 @@ import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/models/tabIcon_data.dart';
 import 'package:flutter/material.dart';
 import 'package:th.ac.ru.uSmart/grade/grade_app_home_screen.dart';
-import 'package:th.ac.ru.uSmart/home_screen.dart';
-import 'package:th.ac.ru.uSmart/pages/flipcard_screen.dart';
 import 'package:th.ac.ru.uSmart/registers/register_home_screen.dart';
 import 'package:th.ac.ru.uSmart/ru_home_screen.dart';
-import 'package:th.ac.ru.uSmart/screens/runewsScreen.dart';
 import 'package:th.ac.ru.uSmart/today/today_home_screen.dart';
 import '../fitness_app/bottom_navigation_view/bottom_bar_view.dart';
-import '../fitness_app/fitness_app_theme.dart';
 
 class RuTodayScreen extends StatefulWidget {
   @override

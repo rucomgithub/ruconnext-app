@@ -1,16 +1,11 @@
 import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/ui_view/area_list_view.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/ui_view/rank_list_view.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/ui_view/rank_view.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/ui_view/running_view.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/ui_view/title_view.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/ui_view/workout_view.dart';
 import 'package:flutter/material.dart';
 import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
-import 'package:th.ac.ru.uSmart/widget/top_bar.dart';
 
-import '../fitness_app_theme.dart';
 
 class RankScreen extends StatefulWidget {
   const RankScreen({Key? key, this.animationController}) : super(key: key);
@@ -142,7 +137,7 @@ class _RankScreenState extends State<RankScreen> with TickerProviderStateMixin {
         decoration: BoxDecoration(
           boxShadow: <BoxShadow>[
             BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
+                color: Colors.grey.withValues(alpha: 0.2),
                 offset: const Offset(0, -2),
                 blurRadius: 8.0),
           ],
@@ -212,13 +207,13 @@ class _RankScreenState extends State<RankScreen> with TickerProviderStateMixin {
                 ),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: AppTheme.white.withOpacity(topBarOpacity),
+                    color: AppTheme.white.withValues(alpha: topBarOpacity),
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(32.0),
                     ),
                     boxShadow: <BoxShadow>[
                       BoxShadow(
-                        color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
+                        color: AppTheme.grey.withValues(alpha: 0.4 * topBarOpacity),
                         offset: const Offset(1.1, 1.1),
                         blurRadius: 10.0,
                       ),

@@ -31,7 +31,7 @@ class InfoView extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 16),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: AppTheme.ru_grey.withOpacity(0.3),
+                            color: AppTheme.ru_grey.withValues(alpha: 0.3),
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(8.0),
                                 bottomLeft: Radius.circular(8.0),
@@ -39,7 +39,7 @@ class InfoView extends StatelessWidget {
                                 topRight: Radius.circular(8.0)),
                             // boxShadow: <BoxShadow>[
                             //   BoxShadow(
-                            //       color: AppTheme.grey.withOpacity(0.2),
+                            //       color: AppTheme.grey.withValues(alpha: 0.2),
                             //       offset: Offset(1.1, 1.1),
                             //       blurRadius: 10.0),
                             // ],

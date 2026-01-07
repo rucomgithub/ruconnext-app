@@ -18,7 +18,7 @@ class InsuranceLogoView extends StatelessWidget {
             transform: new Matrix4.translationValues(
                 0.0, 30 * (1.0 - animation!.value), 0.0),
             child: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+              borderRadius: const BorderRadius.all(Radius.circular(16.0)),
               child: Stack(
                 children: <Widget>[
                   Column(
@@ -32,7 +32,7 @@ class InsuranceLogoView extends StatelessWidget {
                       ),
                       Container(
                         color:
-                            RuConnextAppTheme.buildLightTheme().backgroundColor,
+                            RuConnextAppTheme.buildLightTheme().scaffoldBackgroundColor,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,

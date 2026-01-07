@@ -27,7 +27,13 @@ class OndemandProvider with ChangeNotifier {
       //print('provider' + subject_id + semester + year);
       final response = await _service.getOndemand(subject_id, semester, year);
       _ondemand = response;
-      if (response.rECORD!.detail?[0].audioId == "") {
+
+      // Safe null checks without assertion operators
+      if (response.rECORD == null ||
+          response.rECORD!.detail == null ||
+          response.rECORD!.detail!.isEmpty) {
+        _countOndemand = 0;
+      } else if (response.rECORD!.detail!.first.audioId == "") {
         //print(response);
         _countOndemand = 0;
       } else {

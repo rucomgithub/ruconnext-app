@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/store/profile.dart';
 import 'package:th.ac.ru.uSmart/model/yearsemester.dart';
 import 'package:th.ac.ru.uSmart/store/yearsemester.dart';
@@ -86,7 +85,7 @@ class MR30Provider extends ChangeNotifier {
   String _errorhavetodayNow = '';
   String get errorhavetodayNow => _errorhavetodayNow;
 
-  void getSchedule() async {
+  Future<void> getSchedule() async {
     //print('call getSchedule');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _errormr30record = '';
@@ -115,19 +114,61 @@ class MR30Provider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getYearSemesterLatest() async {
+  Future<void> getYearSemesterLatest() async {
+    print('========================================');
+    print('getYearSemesterLatest START');
     isLoading = true;
     _erroryearsemester = '';
 
     try {
+      // อ่านค่าเก่าจาก Storage ก่อน
+      YearSemester oldYearSemester = await YearSemtesterStorage.getYearSemester();
+      print('OLD Year/Semester from Storage: ${oldYearSemester.year}/${oldYearSemester.semester}');
+
+      // เรียก API เพื่อดึงข้อมูลล่าสุด
+      print('Calling API to get latest year/semester...');
       var response = await _service.getYearSemesterLatest();
-      _yearsemester = response;
-      await YearSemtesterStorage.saveYearSemester(_yearsemester);
+
+      // ตรวจสอบว่าได้ข้อมูลกลับมาหรือไม่
+      if (response != null && response.year != null && response.semester != null) {
+        print('API Response - Year: ${response.year}, Semester: ${response.semester}');
+        _yearsemester = response;
+
+        // บันทึกลง Storage
+        await YearSemtesterStorage.saveYearSemester(_yearsemester);
+        print('Saved NEW year/semester to Storage: ${_yearsemester.year}/${_yearsemester.semester}');
+
+        // ตรวจสอบว่าบันทึกสำเร็จหรือไม่
+        YearSemester verifyYearSemester = await YearSemtesterStorage.getYearSemester();
+        print('VERIFY after save: ${verifyYearSemester.year}/${verifyYearSemester.semester}');
+
+        if (verifyYearSemester.year != response.year || verifyYearSemester.semester != response.semester) {
+          print('WARNING: Saved data does not match! Storage might not be updated correctly.');
+        }
+      } else {
+        print('WARNING: API returned null or incomplete data!');
+        print('Using old data from storage: ${oldYearSemester.year}/${oldYearSemester.semester}');
+        _yearsemester = oldYearSemester;
+        _erroryearsemester = 'API returned incomplete year/semester data';
+      }
     } catch (e) {
+      print('ERROR in getYearSemesterLatest: $e');
       _erroryearsemester = e.toString();
+
+      // กรณี error ให้ใช้ค่าเก่าจาก Storage
+      try {
+        YearSemester fallbackYearSemester = await YearSemtesterStorage.getYearSemester();
+        _yearsemester = fallbackYearSemester;
+        print('Using fallback year/semester from storage: ${_yearsemester.year}/${_yearsemester.semester}');
+      } catch (storageError) {
+        print('ERROR reading from storage: $storageError');
+        _yearsemester = YearSemester(year: "", semester: "");
+      }
     }
 
     isLoading = false;
+    print('getYearSemesterLatest END - Final: ${_yearsemester.year}/${_yearsemester.semester}');
+    print('========================================');
     notifyListeners();
   }
 
@@ -359,15 +400,24 @@ class MR30Provider extends ChangeNotifier {
   }
 
   Future<List<RECORD>> getListFromPreferences(String key) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<RECORD> list = [];
-    final stringValue = prefs.getString(key);
-    //print('$key : ${prefs.getString('mr30')}');
-    if (stringValue != null) {
-      return RECORD.decode(stringValue);
-    }
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      List<RECORD> list = [];
+      final stringValue = prefs.getString(key);
+      print('getListFromPreferences - key: $key, hasValue: ${stringValue != null}');
 
-    return list;
+      if (stringValue != null && stringValue != "null" && stringValue.isNotEmpty) {
+        list = RECORD.decode(stringValue);
+        print('getListFromPreferences - $key count: ${list.length}');
+        return list;
+      }
+
+      print('getListFromPreferences - $key is empty, returning empty list');
+      return list;
+    } catch (e) {
+      print('Error in getListFromPreferences for key $key: $e');
+      return [];
+    }
   }
 
   void getStudyList() async {
@@ -470,55 +520,92 @@ class MR30Provider extends ChangeNotifier {
     return day;
   }
 
-  void getHaveTodayList() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final mr30 = prefs.getString('mr30');
+  Future<void> getHaveTodayList() async {
+    try {
+      print('getHaveTodayList start... (refreshing year/semester)');
+      isLoading = true;
+      notifyListeners();
 
-    YearSemester yearSemester = await YearSemtesterStorage.getYearSemester();
+      // Step 1: โหลดข้อมูล ปี/ภาค ล่าสุดจาก API
+      print('Fetching latest year/semester from API...');
+      await getYearSemesterLatest();
 
-    List<RECORD> listrecord = [];
-    if (mr30 != "null") {
-      listrecord = RECORD.decode(mr30!);
-      String dayName = dayNormal() + '|' + daySummer();
-      _havetoday = filterList(
-          listrecord, dayName, yearSemester.year, yearSemester.semester);
-      _havetoday.forEach((element) => element.register = false);
-    }
+      // Step 2: อ่านค่า ปี/ภาค ที่เพิ่งอัพเดท
+      YearSemester yearSemester = await YearSemtesterStorage.getYearSemester();
+      print('Year: ${yearSemester.year}, Semester: ${yearSemester.semester}');
 
-    final mr30register = prefs.getString('mr30register');
-    List<RECORD> listmr30register = [];
-    if (mr30register != "null") {
-      listmr30register = RECORD.decode(mr30register!);
-      String dayName = dayNormal() + '|' + daySummer();
-      _havetodayRegister = filterList(
-          listmr30register, dayName, yearSemester.year, yearSemester.semester);
-      _havetodayRegister.forEach((element) => element.register = true);
-    }
+      // Step 3: อ่านข้อมูลรายวิชาจาก SharedPreferences
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final mr30 = prefs.getString('mr30');
 
-    _havetoday.addAll(_havetodayRegister);
-    _havetoday.sort((a, b) {
-      int compareResult =
-          b.register.toString().compareTo(a.register.toString());
-      if (compareResult != 0) {
-        return compareResult;
+      List<RECORD> listrecord = [];
+      if (mr30 != null && mr30 != "null" && mr30.isNotEmpty) {
+        listrecord = RECORD.decode(mr30);
+        print('mr30 records count: ${listrecord.length}');
+        String dayName = dayNormal() + '|' + daySummer();
+        print('dayName: $dayName');
+        _havetoday = filterList(
+            listrecord, dayName, yearSemester.year, yearSemester.semester);
+        _havetoday.forEach((element) => element.register = false);
+        print('_havetoday after filter: ${_havetoday.length}');
       } else {
-        return a.timePeriod.toString().compareTo(b.timePeriod.toString());
+        print('mr30 is null or empty');
+        _havetoday = [];
       }
-    });
+
+      final mr30register = prefs.getString('mr30register');
+      List<RECORD> listmr30register = [];
+      if (mr30register != null && mr30register != "null" && mr30register.isNotEmpty) {
+        listmr30register = RECORD.decode(mr30register);
+        print('mr30register records count: ${listmr30register.length}');
+        String dayName = dayNormal() + '|' + daySummer();
+        _havetodayRegister = filterList(
+            listmr30register, dayName, yearSemester.year, yearSemester.semester);
+        _havetodayRegister.forEach((element) => element.register = true);
+        print('_havetodayRegister after filter: ${_havetodayRegister.length}');
+      } else {
+        print('mr30register is null or empty');
+        _havetodayRegister = [];
+      }
+
+      _havetoday.addAll(_havetodayRegister);
+      _havetoday.sort((a, b) {
+        int compareResult =
+            b.register.toString().compareTo(a.register.toString());
+        if (compareResult != 0) {
+          return compareResult;
+        } else {
+          return a.timePeriod.toString().compareTo(b.timePeriod.toString());
+        }
+      });
+      print('Total _havetoday count: ${_havetoday.length}');
+
+      isLoading = false;
+    } catch (e) {
+      print('Error in getHaveTodayList: $e');
+      _havetoday = [];
+      _errorhavetoday = e.toString();
+      isLoading = false;
+    }
     notifyListeners();
   }
 
-  void getHaveCourseNotTimeEnd() async {
-    print('getHaveCourseNotTimeEnd......');
-    initializeDateFormatting('th_TH', null);
+  Future<void> getHaveCourseNotTimeEnd() async {
+    try {
+      print('getHaveCourseNotTimeEnd start...');
+      initializeDateFormatting('th_TH', null);
 
-    YearSemester yearSemester = await YearSemtesterStorage.getYearSemester();
+      YearSemester yearSemester = await YearSemtesterStorage.getYearSemester();
+      print('getHaveCourseNotTimeEnd - Year: ${yearSemester.year}, Semester: ${yearSemester.semester}');
 
-    List<RECORD> listmr30 = await getListFromPreferences('mr30');
-    List<RECORD> listmr30register =
-        await getListFromPreferences('mr30register');
+      List<RECORD> listmr30 = await getListFromPreferences('mr30');
+      List<RECORD> listmr30register =
+          await getListFromPreferences('mr30register');
 
-    String dayName = dayNormal() + '|' + daySummer();
+      print('getHaveCourseNotTimeEnd - mr30: ${listmr30.length}, mr30register: ${listmr30register.length}');
+
+      String dayName = dayNormal() + '|' + daySummer();
+      print('getHaveCourseNotTimeEnd - dayName: $dayName');
 
     _havetodayNow =
         filterList(listmr30, dayName, yearSemester.year, yearSemester.semester);
@@ -588,47 +675,66 @@ class MR30Provider extends ChangeNotifier {
         .where((RECORD r) => checkTimeStudy(r.timePeriod.toString(), checktime))
         .toList();
 
-    if (noti.isNotEmpty) {
-      String courseNos = noti.map((record) => record.courseNo).join(', ');
-      Noti.showTodayNotification(
-          title: 'notification',
-          body: 'อีก $checktime จะเริ่มเรียนวิชา $courseNos',
-          fln: flutterLocalNotificationsPlugin);
+      if (noti.isNotEmpty) {
+        String courseNos = noti.map((record) => record.courseNo).join(', ');
+        Noti.showTodayNotification(
+            title: 'notification',
+            body: 'อีก $checktime จะเริ่มเรียนวิชา $courseNos',
+            fln: flutterLocalNotificationsPlugin);
+      }
+
+      print('getHaveCourseNotTimeEnd - completed with ${_havetodayNow.length} courses');
+    } catch (e) {
+      print('Error in getHaveCourseNotTimeEnd: $e');
+      _havetodayNow = [];
+      _errorhavetodayNow = e.toString();
     }
 
     notifyListeners();
   }
 
-  void getHaveToday() async {
-    print('getHaveToday');
-    initializeDateFormatting('th_TH', null);
+  Future<void> getHaveToday() async {
+    try {
+      print('getHaveToday start...');
+      initializeDateFormatting('th_TH', null);
 
-    YearSemester yearSemester = await YearSemtesterStorage.getYearSemester();
+      YearSemester yearSemester = await YearSemtesterStorage.getYearSemester();
+      print('getHaveToday - Year: ${yearSemester.year}, Semester: ${yearSemester.semester}');
 
-    List<RECORD> listmr30 = await getListFromPreferences('mr30');
-    List<RECORD> listmr30register =
-        await getListFromPreferences('mr30register');
+      List<RECORD> listmr30 = await getListFromPreferences('mr30');
+      List<RECORD> listmr30register =
+          await getListFromPreferences('mr30register');
 
-    String dayName = dayNormal() + '|' + daySummer();
+      print('getHaveToday - mr30 count: ${listmr30.length}, mr30register count: ${listmr30register.length}');
 
-    _havetoday =
-        filterList(listmr30, dayName, yearSemester.year, yearSemester.semester);
-    _havetoday.forEach((element) => element.register = false);
+      String dayName = dayNormal() + '|' + daySummer();
+      print('getHaveToday - dayName: $dayName');
 
-    _havetodayRegister = filterList(
-        listmr30register, dayName, yearSemester.year, yearSemester.semester);
-    _havetodayRegister.forEach((element) => element.register = true);
-    _havetoday.addAll(_havetodayRegister);
+      _havetoday =
+          filterList(listmr30, dayName, yearSemester.year, yearSemester.semester);
+      _havetoday.forEach((element) => element.register = false);
 
-    _havetoday.sort((a, b) {
-      int compareResult =
-          b.register.toString().compareTo(a.register.toString());
-      if (compareResult != 0) {
-        return compareResult;
-      } else {
-        return a.timePeriod.toString().compareTo(b.timePeriod.toString());
-      }
-    });
+      _havetodayRegister = filterList(
+          listmr30register, dayName, yearSemester.year, yearSemester.semester);
+      _havetodayRegister.forEach((element) => element.register = true);
+      _havetoday.addAll(_havetodayRegister);
+
+      _havetoday.sort((a, b) {
+        int compareResult =
+            b.register.toString().compareTo(a.register.toString());
+        if (compareResult != 0) {
+          return compareResult;
+        } else {
+          return a.timePeriod.toString().compareTo(b.timePeriod.toString());
+        }
+      });
+
+      print('getHaveToday - Total count: ${_havetoday.length}');
+    } catch (e) {
+      print('Error in getHaveToday: $e');
+      _havetoday = [];
+      _errorhavetoday = e.toString();
+    }
 
     notifyListeners();
   }

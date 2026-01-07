@@ -1,6 +1,4 @@
-import 'package:th.ac.ru.uSmart/design_course/course_info_screen.dart';
 import 'package:th.ac.ru.uSmart/design_course/design_course_app_theme.dart';
-import 'package:th.ac.ru.uSmart/design_course/models/category.dart';
 import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -290,7 +288,7 @@ class CategoryView extends StatelessWidget {
                             boxShadow: <BoxShadow>[
                               BoxShadow(
                                   color: DesignCourseAppTheme.grey
-                                      .withOpacity(0.2),
+                                      .withValues(alpha: 0.2),
                                   offset: const Offset(0.0, 0.0),
                                   blurRadius: 6.0),
                             ],

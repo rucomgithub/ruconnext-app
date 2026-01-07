@@ -1,18 +1,14 @@
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/hotel_booking/calendar_popup_view.dart';
 import 'package:th.ac.ru.uSmart/hotel_booking/hotel_list_view.dart';
 import 'package:th.ac.ru.uSmart/hotel_booking/model/hotel_list_data.dart';
-import 'package:th.ac.ru.uSmart/main.dart';
-import 'package:th.ac.ru.uSmart/today/today_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
-import 'package:th.ac.ru.uSmart/widget/top_bar.dart';
 import '../hotel_booking/hotel_app_theme.dart';
 import '../providers/mr30_provider.dart';
 // import '../utils/noti.dart';
@@ -111,7 +107,7 @@ class _StudyHomeScreenState extends State<StudyHomeScreen>
         decoration: BoxDecoration(
           boxShadow: <BoxShadow>[
             BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
+                color: Colors.grey.withValues(alpha: 0.2),
                 offset: const Offset(0, -2),
                 blurRadius: 8.0),
           ],
@@ -223,10 +219,10 @@ class _StudyHomeScreenState extends State<StudyHomeScreen>
   Widget getListUI() {
     return Container(
       decoration: BoxDecoration(
-        color: HotelAppTheme.buildLightTheme().backgroundColor,
+        color: HotelAppTheme.buildLightTheme().scaffoldBackgroundColor,
         boxShadow: <BoxShadow>[
           BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
+              color: Colors.grey.withValues(alpha: 0.2),
               offset: const Offset(0, -2),
               blurRadius: 8.0),
         ],
@@ -312,7 +308,7 @@ class _StudyHomeScreenState extends State<StudyHomeScreen>
                     focusColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     hoverColor: Colors.transparent,
-                    splashColor: Colors.grey.withOpacity(0.2),
+                    splashColor: Colors.grey.withValues(alpha: 0.2),
                     borderRadius: const BorderRadius.all(
                       Radius.circular(4.0),
                     ),
@@ -335,7 +331,7 @@ class _StudyHomeScreenState extends State<StudyHomeScreen>
                             style: TextStyle(
                                 fontWeight: FontWeight.w100,
                                 fontSize: 16,
-                                color: Colors.grey.withOpacity(0.8)),
+                                color: Colors.grey.withValues(alpha: 0.8)),
                           ),
                           const SizedBox(
                             height: 8,
@@ -360,7 +356,7 @@ class _StudyHomeScreenState extends State<StudyHomeScreen>
             child: Container(
               width: 1,
               height: 42,
-              color: Colors.grey.withOpacity(0.8),
+              color: Colors.grey.withValues(alpha: 0.8),
             ),
           ),
           Expanded(
@@ -372,7 +368,7 @@ class _StudyHomeScreenState extends State<StudyHomeScreen>
                     focusColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     hoverColor: Colors.transparent,
-                    splashColor: Colors.grey.withOpacity(0.2),
+                    splashColor: Colors.grey.withValues(alpha: 0.2),
                     borderRadius: const BorderRadius.all(
                       Radius.circular(4.0),
                     ),
@@ -391,7 +387,7 @@ class _StudyHomeScreenState extends State<StudyHomeScreen>
                             style: TextStyle(
                                 fontWeight: FontWeight.w100,
                                 fontSize: 16,
-                                color: Colors.grey.withOpacity(0.8)),
+                                color: Colors.grey.withValues(alpha: 0.8)),
                           ),
                           const SizedBox(
                             height: 8,
@@ -426,13 +422,13 @@ class _StudyHomeScreenState extends State<StudyHomeScreen>
               padding: const EdgeInsets.only(right: 16, top: 8, bottom: 8),
               child: Container(
                 decoration: BoxDecoration(
-                  color: HotelAppTheme.buildLightTheme().backgroundColor,
+                  color: HotelAppTheme.buildLightTheme().scaffoldBackgroundColor,
                   borderRadius: const BorderRadius.all(
                     Radius.circular(38.0),
                   ),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: Colors.grey.withOpacity(0.2),
+                        color: Colors.grey.withValues(alpha: 0.2),
                         offset: const Offset(0, 2),
                         blurRadius: 8.0),
                   ],
@@ -463,7 +459,7 @@ class _StudyHomeScreenState extends State<StudyHomeScreen>
               ),
               boxShadow: <BoxShadow>[
                 BoxShadow(
-                    color: Colors.grey.withOpacity(0.4),
+                    color: Colors.grey.withValues(alpha: 0.4),
                     offset: const Offset(0, 2),
                     blurRadius: 8.0),
               ],
@@ -481,7 +477,7 @@ class _StudyHomeScreenState extends State<StudyHomeScreen>
                   padding: const EdgeInsets.all(16.0),
                   child: Icon(FontAwesomeIcons.magnifyingGlass,
                       size: 20,
-                      color: HotelAppTheme.buildLightTheme().backgroundColor),
+                      color: HotelAppTheme.buildLightTheme().scaffoldBackgroundColor),
                 ),
               ),
             ),
@@ -501,10 +497,10 @@ class _StudyHomeScreenState extends State<StudyHomeScreen>
           child: Container(
             height: 24,
             decoration: BoxDecoration(
-              color: HotelAppTheme.buildLightTheme().backgroundColor,
+              color: HotelAppTheme.buildLightTheme().scaffoldBackgroundColor,
               boxShadow: <BoxShadow>[
                 BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
+                    color: Colors.grey.withValues(alpha: 0.2),
                     offset: const Offset(0, -2),
                     blurRadius: 8.0),
               ],
@@ -512,7 +508,7 @@ class _StudyHomeScreenState extends State<StudyHomeScreen>
           ),
         ),
         Container(
-          color: HotelAppTheme.buildLightTheme().backgroundColor,
+          color: HotelAppTheme.buildLightTheme().scaffoldBackgroundColor,
           child: Padding(
             padding:
                 const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
@@ -569,10 +565,10 @@ class _StudyHomeScreenState extends State<StudyHomeScreen>
   Widget getAppBarUI() {
     return Container(
       decoration: BoxDecoration(
-        color: HotelAppTheme.buildLightTheme().backgroundColor,
+        color: HotelAppTheme.buildLightTheme().scaffoldBackgroundColor,
         boxShadow: <BoxShadow>[
           BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
+              color: Colors.grey.withValues(alpha: 0.2),
               offset: const Offset(0, 2),
               blurRadius: 8.0),
         ],

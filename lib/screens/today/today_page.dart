@@ -87,7 +87,7 @@ class _TodayPageState extends State<TodayPage> {
                                           children: [
                                             Text(
                                               "${widget.todayData.courseNo}",
-                                              style: textTheme.headline5,
+                                              style: textTheme.headlineSmall,
                                             ),
                                             addVerticalSpace(5),
                                             RichText(
@@ -102,7 +102,7 @@ class _TodayPageState extends State<TodayPage> {
                                                       text:
                                                           "${widget.todayData.courseRoom}",
                                                       style: textTheme
-                                                          .subtitle2!
+                                                          .titleSmall!
                                                           .apply(
                                                               color:
                                                                   COLOR_GREY))
@@ -120,7 +120,7 @@ class _TodayPageState extends State<TodayPage> {
                                               TextSpan(
                                                   text:
                                                       "${widget.todayData.courseSemester}",
-                                                  style: textTheme.headline5!
+                                                  style: textTheme.headlineSmall!
                                                       .apply(
                                                           color: COLOR_ORANGE))
                                             ])),
@@ -145,7 +145,7 @@ class _TodayPageState extends State<TodayPage> {
                                                 TextSpan(
                                                     text:
                                                         "${widget.todayData.courseCredit}",
-                                                    style: textTheme.bodyText2!
+                                                    style: textTheme.bodyMedium!
                                                         .apply(
                                                             fontWeightDelta: 4))
                                               ])),
@@ -159,7 +159,7 @@ class _TodayPageState extends State<TodayPage> {
                                                         size: 15)),
                                                 TextSpan(
                                                     text: " 18 Mins",
-                                                    style: textTheme.bodyText2!
+                                                    style: textTheme.bodyMedium!
                                                         .apply(
                                                             fontWeightDelta: 4))
                                               ])),
@@ -173,7 +173,7 @@ class _TodayPageState extends State<TodayPage> {
                                                         size: 15)),
                                                 TextSpan(
                                                     text: "2.3 KM",
-                                                    style: textTheme.bodyText2!
+                                                    style: textTheme.bodyMedium!
                                                         .apply(
                                                             fontWeightDelta: 4))
                                               ])),
@@ -183,12 +183,12 @@ class _TodayPageState extends State<TodayPage> {
                                     Divider(),
                                     Text(
                                       "Overview",
-                                      style: textTheme.headline6,
+                                      style: textTheme.titleLarge,
                                     ),
                                     addVerticalSpace(10),
                                     Text(
                                       "${widget.todayData.courseComment.toString()}",
-                                      style: textTheme.subtitle2!
+                                      style: textTheme.titleSmall!
                                           .apply(heightDelta: 2.0),
                                     ),
                                     addVerticalSpace(100),
@@ -219,7 +219,7 @@ class _TodayPageState extends State<TodayPage> {
                                         boxShadow: [
                                           BoxShadow(
                                               color:
-                                                  Colors.red.withOpacity(0.2),
+                                                  Colors.red.withValues(alpha: 0.2),
                                               blurRadius: 10.0,
                                               spreadRadius: 5.0)
                                         ]),
@@ -266,6 +266,7 @@ class _TodayPageState extends State<TodayPage> {
                               });
                               // _buttonKey.currentState!.reset();
                             });
+                            return null;
                           },
                           sliderRotate: false,
                           borderRadius: 10.0,

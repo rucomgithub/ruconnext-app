@@ -1,7 +1,6 @@
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/model/mr30_model.dart';
-import 'package:th.ac.ru.uSmart/providers/grade_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -33,6 +32,10 @@ class _Mr30ListViewState extends State<Mr30ListView>
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
+  // Pagination state
+  int _displayedItemCount = 20;
+  static const int _itemsPerPage = 20;
+
   @override
   void initState() {
     animationController = AnimationController(
@@ -47,17 +50,29 @@ class _Mr30ListViewState extends State<Mr30ListView>
   }
 
   void _onRefresh() async {
-    // monitor network fetch
-    // if failed,use refreshFailed()
-    getData();
+    // Reset to show first 20 items
+    setState(() {
+      _displayedItemCount = _itemsPerPage;
+    });
+    await getData();
     _refreshController.refreshCompleted(resetFooterState: true);
   }
 
   void _onLoading() async {
-    // monitor network fetch
-    // if failed,use loadFailed(),if no data return,use LoadNodata()
-    getData();
-    _refreshController.loadComplete();
+    // Load more items
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    var mr30 = Provider.of<MR30Provider>(context, listen: false);
+    int totalItems = mr30.mr30filter.rECORD?.length ?? 0;
+
+    setState(() {
+      if (_displayedItemCount < totalItems) {
+        _displayedItemCount = (_displayedItemCount + _itemsPerPage).clamp(0, totalItems);
+        _refreshController.loadComplete();
+      } else {
+        _refreshController.loadNoData();
+      }
+    });
   }
 
   Future<bool> getData() async {
@@ -92,24 +107,117 @@ class _Mr30ListViewState extends State<Mr30ListView>
                   padding: const EdgeInsets.only(left: 8.0, right: 8),
                   child: SmartRefresher(
                     enablePullDown: true,
-                    enablePullUp: false,
+                    enablePullUp: true,
                     header: const WaterDropHeader(),
                     footer: CustomFooter(
                       builder: (BuildContext context, LoadStatus? mode) {
                         Widget body;
                         if (mode == LoadStatus.idle) {
-                          body = const Text("กำลังโหลดข้อมูล...");
+                          body = Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.arrow_upward_rounded,
+                                size: 16,
+                                color: AppTheme.ru_dark_blue.withValues(alpha: 0.5),
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                "ดึงขึ้นเพื่อโหลดเพิ่มเติม",
+                                style: TextStyle(
+                                  fontFamily: AppTheme.ruFontKanit,
+                                  fontSize: 14,
+                                  color: AppTheme.dark_grey,
+                                ),
+                              ),
+                            ],
+                          );
                         } else if (mode == LoadStatus.loading) {
-                          body = const CircularProgressIndicator();
+                          body = Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      AppTheme.ru_dark_blue),
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Text(
+                                "กำลังโหลด...",
+                                style: TextStyle(
+                                  fontFamily: AppTheme.ruFontKanit,
+                                  fontSize: 14,
+                                  color: AppTheme.ru_dark_blue,
+                                ),
+                              ),
+                            ],
+                          );
                         } else if (mode == LoadStatus.failed) {
-                          body = const Text(
-                              "ไม่สามารถโหลดข้อมูลได้ กรุณาลองอีกครั้ง");
+                          body = Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.error_outline_rounded,
+                                size: 18,
+                                color: Colors.red,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                "โหลดไม่สำเร็จ แตะเพื่อลองใหม่",
+                                style: TextStyle(
+                                  fontFamily: AppTheme.ruFontKanit,
+                                  fontSize: 14,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ],
+                          );
                         } else if (mode == LoadStatus.canLoading) {
-                          body = const Text("release to load more");
+                          body = Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.arrow_downward_rounded,
+                                size: 16,
+                                color: AppTheme.ru_yellow,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                "ปล่อยเพื่อโหลดเพิ่ม",
+                                style: TextStyle(
+                                  fontFamily: AppTheme.ruFontKanit,
+                                  fontSize: 14,
+                                  color: AppTheme.ru_dark_blue,
+                                ),
+                              ),
+                            ],
+                          );
                         } else {
-                          body = const Text("ไม่พบข้อมูลแล้ว...");
+                          body = Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.check_circle_outline_rounded,
+                                size: 18,
+                                color: AppTheme.ru_dark_blue.withValues(alpha: 0.5),
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                "แสดงครบทั้งหมดแล้ว",
+                                style: TextStyle(
+                                  fontFamily: AppTheme.ruFontKanit,
+                                  fontSize: 14,
+                                  color: AppTheme.dark_grey,
+                                ),
+                              ),
+                            ],
+                          );
                         }
-                        return SizedBox(
+                        return Container(
                           height: 55.0,
                           child: Center(child: body),
                         );
@@ -124,9 +232,10 @@ class _Mr30ListViewState extends State<Mr30ListView>
                       physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       children: List<Widget>.generate(
-                        mr30.mr30filter.rECORD!.length > 20 ? 20: mr30.mr30filter.rECORD!.length,
+                        _displayedItemCount.clamp(
+                            0, mr30.mr30filter.rECORD?.length ?? 0),
                         (int index) {
-                          final int count = mr30.mr30filter.rECORD!.length > 20 ? 20: mr30.mr30filter.rECORD!.length;
+                          final int count = _displayedItemCount;
                           final Animation<double> animation =
                               Tween<double>(begin: 0.0, end: 1.0).animate(
                             CurvedAnimation(
@@ -136,7 +245,6 @@ class _Mr30ListViewState extends State<Mr30ListView>
                             ),
                           );
                           animationController?.forward();
-                          //return Text('asdfasdfasdf');
                           return Mr30ItemView(
                             index: index,
                             course: mr30.mr30filter.rECORD?.elementAt(index),
@@ -185,251 +293,256 @@ class Mr30ItemView extends StatelessWidget {
   final AnimationController? animationController;
   final Animation<double>? animation;
 
+  Color _getDayColor(String? dayName) {
+    switch (dayName) {
+      case 'M':
+        return Color(0xFFFFC107); // Amber
+      case 'TU':
+        return Color(0xFFE91E63); // Pink
+      case 'W':
+        return Color(0xFF4CAF50); // Green
+      case 'TH':
+        return Color(0xFFFF9800); // Orange
+      case 'F':
+        return Color(0xFF2196F3); // Blue
+      case 'SAT':
+        return Color(0xFF9C27B0); // Purple
+      case 'SU':
+        return Color(0xFFF44336); // Red
+      default:
+        return AppTheme.dark_grey;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var mr30prov = Provider.of<MR30Provider>(context, listen: false);
-    List<String> parts = this.course.toString().split(',');
-    EdgeInsets listItemPadding =
-        EdgeInsets.only(left: 0, bottom: 4, top: 4, right: 40);
-    Color favColor = AppTheme.ru_text_ocean_blue;
-    if (course!.favorite!) {
-      listItemPadding = EdgeInsets.only(left: 40, bottom: 4, top: 4, right: 0);
-      favColor = AppTheme.ru_text_light_blue;
-    }
-    Color dayColor = Color.fromARGB(255, 43, 43, 43);
-    if(course?.dayNameS == 'M'){
-      dayColor = Color.fromARGB(255, 206, 196, 6);
-    } if(course?.dayNameS == 'TU'){
-      dayColor = Color.fromARGB(255, 224, 47, 236);
-    } if(course?.dayNameS == 'W'){
-      dayColor = Color.fromARGB(255, 5, 113, 2);
-    } if(course?.dayNameS == 'TH'){
-      dayColor = Color.fromARGB(255, 224, 142, 11);
-    } if(course?.dayNameS == 'F'){
-      dayColor = Color.fromARGB(255, 84, 178, 241);
-    } if(course?.dayNameS == 'SAT'){
-      dayColor = Color.fromARGB(255, 121, 11, 224);
-    } if(course?.dayNameS == 'SU'){
-      dayColor = Color.fromARGB(255, 242, 40, 40);
-    } 
+    Color dayColor = _getDayColor(course?.dayNameS);
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
         return Padding(
-          padding: listItemPadding,
+          padding: const EdgeInsets.only(left: 0, right: 0, top: 6, bottom: 6),
           child: FadeTransition(
             opacity: animation!,
             child: Transform(
               transform: Matrix4.translationValues(
                   0.0, 50 * (1.0 - animation!.value), 0.0),
-              child: Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: FitnessAppTheme.nearlyWhite.withOpacity(0.9),
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(8.0),
-                          bottomLeft: Radius.circular(0.0),
-                          bottomRight: Radius.circular(0.0),
-                          topRight: Radius.circular(8.0)),
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                            color: FitnessAppTheme.grey.withOpacity(0.4),
-                            offset: const Offset(1.1, 1.1),
-                            blurRadius: 10.0),
-                      ],
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        focusColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        hoverColor: Colors.transparent,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(8.0)),
-                        splashColor: AppTheme.dark_grey.withOpacity(0.2),
-                        onTap: () {
-                          mr30prov.addMR30(course!);
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 16, right: 8),
-                              child: Row(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppTheme.nearlyWhite,
+                  borderRadius: BorderRadius.circular(16.0),
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                        color: AppTheme.ru_dark_blue.withValues(alpha: 0.12),
+                        offset: const Offset(0, 4),
+                        blurRadius: 12.0,
+                        spreadRadius: 0),
+                  ],
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(16.0),
+                    splashColor: AppTheme.ru_dark_blue.withValues(alpha: 0.1),
+                    onTap: () {
+                      mr30prov.addMR30(course!);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Header: Course No + Favorite
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
                                 children: [
                                   Container(
+                                    padding: const EdgeInsets.all(8),
                                     decoration: BoxDecoration(
-                                      color: Color.fromARGB(255, 244, 237, 237).withOpacity(0.9),
-                                      borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(8.0),
-                                          bottomLeft: Radius.circular(8.0),
-                                          bottomRight: Radius.circular(8.0),
-                                          topRight: Radius.circular(8.0)),
-                                      boxShadow: <BoxShadow>[
-                                        BoxShadow(
-                                            color: FitnessAppTheme.grey
-                                                .withOpacity(0.4),
-                                            offset: const Offset(1.1, 1.1),
-                                            blurRadius: 10.0),
-                                      ],
+                                      color: AppTheme.ru_dark_blue
+                                          .withValues(alpha: 0.1),
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(4.0),
-                                      child: IconFavorite(course!.favorite!),
+                                    child: Icon(
+                                      Icons.school_rounded,
+                                      color: AppTheme.ru_dark_blue,
+                                      size: 20,
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      '${course?.courseNo}',
-                                      textAlign: TextAlign.center,
+                                  const SizedBox(width: 12),
+                                  Text(
+                                    '${course?.courseNo}',
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.ruFontKanit,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppTheme.ru_dark_blue,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  course!.favorite!
+                                      ? Icons.bookmark
+                                      : Icons.bookmark_border,
+                                  color: course!.favorite!
+                                      ? AppTheme.ru_yellow
+                                      : AppTheme.dark_grey,
+                                  size: 28,
+                                ),
+                                onPressed: () {
+                                  mr30prov.addMR30(course!);
+                                },
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          // Day & Time
+                          Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 6),
+                                decoration: BoxDecoration(
+                                  color: dayColor.withValues(alpha: 0.15),
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color: dayColor.withValues(alpha: 0.3),
+                                    width: 1,
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.calendar_today_rounded,
+                                      color: dayColor,
+                                      size: 14,
+                                    ),
+                                    const SizedBox(width: 6),
+                                    Text(
+                                      '${course?.dayNameS}',
                                       style: TextStyle(
                                         fontFamily: AppTheme.ruFontKanit,
-                                        fontSize: 20,
-                                        color: favColor,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                        color: dayColor,
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 16),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    '${course?.dayNameS}  ',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.ruFontKanit,
-                                      fontSize: 16,
-                                      color: dayColor,
+                              const SizedBox(width: 8),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 6),
+                                decoration: BoxDecoration(
+                                  color:
+                                      AppTheme.dark_grey.withValues(alpha: 0.1),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.access_time_rounded,
+                                      color: AppTheme.dark_grey,
+                                      size: 14,
                                     ),
-                                  ), Text(
-                                    '${course?.timePeriod} ',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.ruFontKanit,
-                                      fontSize: 16,
-                                      color: AppTheme.ru_text_grey,
+                                    const SizedBox(width: 6),
+                                    Text(
+                                      '${course?.timePeriod}',
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.ruFontKanit,
+                                        fontSize: 13,
+                                        color: AppTheme.dark_grey,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 2,
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(4.0),
-                    decoration: BoxDecoration(
-                      color: FitnessAppTheme.nearlyWhite.withOpacity(0.9),
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(0.0),
-                          bottomLeft: Radius.circular(8.0),
-                          bottomRight: Radius.circular(8.0),
-                          topRight: Radius.circular(0.0)),
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                            color: FitnessAppTheme.grey.withOpacity(0.4),
-                            offset: const Offset(1.1, 1.1),
-                            blurRadius: 10.0),
-                      ],
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        focusColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        hoverColor: Colors.transparent,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(8.0)),
-                        splashColor:
-                            FitnessAppTheme.nearlyDarkBlue.withOpacity(0.2),
-                        onTap: () {},
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.fromLTRB(5, 1, 5, 1),
-                              decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 227, 227, 227).withOpacity(0.9),
-                                borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(8.0),
-                                    bottomLeft: Radius.circular(8.0),
-                                    bottomRight: Radius.circular(8.0),
-                                    topRight: Radius.circular(8.0)),
-                                boxShadow: <BoxShadow>[
-                                  BoxShadow(
-                                      color:
-                                          FitnessAppTheme.grey.withOpacity(0.4),
-                                    ),
-                                ],
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.all(4.0),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          // Bottom Info
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 6),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.ru_yellow
+                                      .withValues(alpha: 0.15),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
                                 child: Text(
                                   '${course?.courseSemester}/${course?.courseYear}',
-                                  textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontFamily: AppTheme.ruFontKanit,
                                     fontSize: 12,
-                                    color: favColor,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppTheme.ru_dark_blue,
                                   ),
                                 ),
                               ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(5, 1, 5, 1),
-                              decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 227, 227, 227).withOpacity(0.9),
-                                borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(8.0),
-                                    bottomLeft: Radius.circular(8.0),
-                                    bottomRight: Radius.circular(8.0),
-                                    topRight: Radius.circular(8.0)),
-                                boxShadow: <BoxShadow>[
-                                  BoxShadow(
-                                      color:
-                                          FitnessAppTheme.grey.withOpacity(0.4),
-                              ),
-                                ],
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.all(4.0),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 6),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.ru_dark_blue
+                                      .withValues(alpha: 0.08),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
                                 child: Text(
                                   '${course?.courseExamdate}',
-                                  textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontFamily: AppTheme.ruFontKanit,
                                     fontSize: 12,
-                                    color: favColor,
+                                    color: AppTheme.dark_grey,
                                   ),
                                 ),
                               ),
-                            ),
-                            Text(
-                              '${course?.courseCredit} หน่วยกิต',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: AppTheme.ruFontKanit,
-                                fontSize: 12,
-                                color: AppTheme.ru_text_grey,
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 6),
+                                decoration: BoxDecoration(
+                                  color:
+                                      AppTheme.ru_yellow.withValues(alpha: 0.2),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.star_rounded,
+                                      color: AppTheme.ru_yellow,
+                                      size: 14,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      '${course?.courseCredit}',
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.ruFontKanit,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppTheme.ru_dark_blue,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ],
+                ),
               ),
             ),
           ),

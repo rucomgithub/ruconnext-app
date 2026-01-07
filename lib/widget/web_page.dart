@@ -19,13 +19,32 @@ class _WebPageState extends State<WebPage> {
 
   String? accessToken = "";
 
-  final Completer<WebViewController> _controller =
-      Completer<WebViewController>();
+  late WebViewController _controller;
   bool isLoading = true;
 
   Future<bool> getData() async {
     print('call getData');
     accessToken = await AuthenStorage.getAccessToken();
+
+    _controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onNavigationRequest: (NavigationRequest request) {
+            if (request.url.startsWith('https://')) {
+              return NavigationDecision.navigate;
+            }
+            return NavigationDecision.prevent;
+          },
+          onPageFinished: (String url) {
+            setState(() {
+              isLoading = false;
+            });
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse('${web['url']}&id_token=${accessToken}'));
+
     await Future<dynamic>.delayed(const Duration(milliseconds: 400));
     return true;
   }
@@ -89,29 +108,12 @@ class _WebPageState extends State<WebPage> {
                   ),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: Colors.grey.withOpacity(0.2),
+                        color: Colors.grey.withValues(alpha: 0.2),
                         offset: const Offset(0, -2),
                         blurRadius: 8.0),
                   ],
                 ),
-                child: WebView(
-                  initialUrl: '${web['url']}&id_token=${accessToken}',
-                  javascriptMode: JavascriptMode.unrestricted,
-                  onWebViewCreated: (WebViewController webViewController) {
-                    _controller.complete(webViewController);
-                  },
-                  navigationDelegate: (NavigationRequest request) {
-                    if (request.url.startsWith('https://')) {
-                      return NavigationDecision.navigate;
-                    }
-                    return NavigationDecision.prevent;
-                  },
-                  onPageFinished: (finish) {
-                    setState(() {
-                      isLoading = false;
-                    });
-                  },
-                ),
+                child: WebViewWidget(controller: _controller),
               );
             }
           }),

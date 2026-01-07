@@ -1,4 +1,3 @@
-import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -45,7 +44,7 @@ class CourseRankView extends StatelessWidget {
                             topRight: Radius.circular(24.0)),
                         boxShadow: <BoxShadow>[
                           BoxShadow(
-                              color: AppTheme.ru_grey.withOpacity(0.2),
+                              color: AppTheme.ru_grey.withValues(alpha: 0.2),
                               offset: const Offset(1.1, 1.1),
                               blurRadius: 10.0),
                         ],
@@ -129,7 +128,7 @@ class CourseRankView extends StatelessWidget {
                                             Icon(
                                               Icons.access_time,
                                               color: AppTheme.ru_text_grey
-                                                  .withOpacity(0.5),
+                                                  .withValues(alpha: 0.5),
                                               size: baseFontSize - 6,
                                             ),
                                             Padding(
@@ -146,7 +145,7 @@ class CourseRankView extends StatelessWidget {
                                                   letterSpacing: 0.0,
                                                   color: AppTheme
                                                       .ru_text_ocean_blue
-                                                      .withOpacity(0.5),
+                                                      .withValues(alpha: 0.5),
                                                 ),
                                               ),
                                             ),

@@ -1,7 +1,6 @@
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/main.dart';
 
 class RuGradeView extends StatelessWidget {
@@ -20,7 +19,7 @@ class RuGradeView extends StatelessWidget {
   final String? description2;
   final IconData? iconname;
   final IconData? iconname2;
-  int duration;
+  final int duration;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +63,7 @@ class RuGradeView extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: AppTheme.ru_dark_blue.withOpacity(0.4),
+                color: AppTheme.ru_dark_blue.withValues(alpha: 0.4),
                 spreadRadius: 2,
                 blurRadius: 4,
                 offset: Offset(4, 4),
@@ -165,7 +164,7 @@ class RuGradeView extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: AppTheme.ru_dark_blue.withOpacity(0.4),
+                color: AppTheme.ru_dark_blue.withValues(alpha: 0.4),
                 spreadRadius: 2,
                 blurRadius: 4,
                 offset: Offset(4, 4),

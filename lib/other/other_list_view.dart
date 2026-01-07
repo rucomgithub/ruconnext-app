@@ -38,7 +38,7 @@ class OtherListView extends StatelessWidget {
                     borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                     boxShadow: <BoxShadow>[
                       BoxShadow(
-                        color: Color.fromARGB(255, 67, 67, 67).withOpacity(0.6),
+                        color: Color.fromARGB(255, 67, 67, 67).withValues(alpha: 0.6),
                         offset: const Offset(4, 4),
                         blurRadius: 16,
                       ),
@@ -52,7 +52,7 @@ class OtherListView extends StatelessWidget {
                           children: <Widget>[
                             Container(
                               color: RuConnextAppTheme.buildLightTheme()
-                                  .backgroundColor,
+                                  .scaffoldBackgroundColor,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,

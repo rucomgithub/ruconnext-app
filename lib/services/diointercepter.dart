@@ -2,12 +2,9 @@ import 'dart:convert';
 import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:th.ac.ru.uSmart/model/profile.dart';
 import 'package:th.ac.ru.uSmart/model/rutoken.dart';
 import 'package:th.ac.ru.uSmart/store/authen.dart';
-import 'package:th.ac.ru.uSmart/store/profile.dart';
 
 class DioIntercepter {
   final dio.Dio api = dio.Dio();
@@ -15,8 +12,8 @@ class DioIntercepter {
 
   createIntercepter() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    api.options..connectTimeout = 10000;
-    api.options..receiveTimeout = 10000;
+    api.options..connectTimeout = Duration(milliseconds: 10000);
+    api.options..receiveTimeout = Duration(milliseconds: 10000);
 
     api.interceptors
         .add(dio.InterceptorsWrapper(onRequest: (options, handler) async {
@@ -29,7 +26,7 @@ class DioIntercepter {
       }
 
       return handler.next(options);
-    }, onError: (dio.DioError error, handler) async {
+    }, onError: (dio.DioException error, handler) async {
       if ((error.response?.statusCode == 401 &&
           error.response?.data['message'] ==
               "Authorization falil because of timeout...")) {
@@ -70,8 +67,8 @@ class DioIntercepter {
         return true;
       }
       return false;
-    } on DioError catch (err) {
-      print('DioError $err');
+    } on DioException catch (err) {
+      print('DioException $err');
       AuthenStorage.clearTokens();
       return false;
     } catch (e) {

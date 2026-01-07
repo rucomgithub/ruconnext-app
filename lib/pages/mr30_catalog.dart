@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 class Mr30CatalogPage extends StatefulWidget {
   const Mr30CatalogPage({super.key});

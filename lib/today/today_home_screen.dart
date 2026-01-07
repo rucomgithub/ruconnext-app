@@ -2,12 +2,9 @@ import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
-import 'package:th.ac.ru.uSmart/home_screen.dart';
 import 'package:th.ac.ru.uSmart/hotel_booking/calendar_popup_view.dart';
 import 'package:th.ac.ru.uSmart/hotel_booking/hotel_list_view.dart';
 import 'package:th.ac.ru.uSmart/hotel_booking/model/hotel_list_data.dart';
-import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:th.ac.ru.uSmart/navigation_home_screen.dart';
 import 'package:th.ac.ru.uSmart/pages/profile_home_screen.dart';
 import 'package:th.ac.ru.uSmart/providers/register_provider.dart';
@@ -20,7 +17,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
-import 'package:th.ac.ru.uSmart/widget/top_bar.dart';
 import '../hotel_booking/hotel_app_theme.dart';
 import '../providers/mr30_provider.dart';
 import '../widget/Rubar.dart';
@@ -66,16 +62,43 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
   }
 
   Future<bool> getData() async {
-    Provider.of<RegisterProvider>(context, listen: false).getAllRegisterYear();
-    Provider.of<RegisterProvider>(context, listen: false).getAllRegister();
+    try {
+      print('=========================================');
+      print('getData START');
+      final mr30Provider = Provider.of<MR30Provider>(context, listen: false);
+      final registerProvider = Provider.of<RegisterProvider>(context, listen: false);
 
-    Provider.of<MR30Provider>(context, listen: false).getYearSemesterLatest();
-    Provider.of<MR30Provider>(context, listen: false).getSchedule();
-    Provider.of<MR30Provider>(context, listen: false).getHaveTodayList();
-    Provider.of<MR30Provider>(context, listen: false).getHaveToday();
-    Provider.of<MR30Provider>(context, listen: false).getHaveCourseNotTimeEnd();
-    await Future<dynamic>.delayed(const Duration(milliseconds: 1000));
-    return true;
+      // Step 1: Get year/semester first (critical for filtering)
+      // Note: getHaveTodayList() will also refresh year/semester internally
+      print('Step 1: Loading year/semester...');
+      await mr30Provider.getYearSemesterLatest();
+      print('Step 1: Year/Semester loaded');
+
+      // Step 2: Load register data in parallel
+      print('Step 2: Loading register data...');
+      await Future.wait([
+        Future(() => registerProvider.getAllRegisterYear()),
+        Future(() => registerProvider.getAllRegister()),
+        Future(() => mr30Provider.getSchedule()),
+      ]);
+      print('Step 2: Register data loaded');
+
+      // Step 3: Filter today's courses
+      // Note: These should run sequentially to avoid race conditions
+      print('Step 3: Filtering today courses...');
+      await mr30Provider.getHaveTodayList(); // This also refreshes year/semester
+      await mr30Provider.getHaveToday();
+      await mr30Provider.getHaveCourseNotTimeEnd();
+      print('Step 3: Today courses filtered');
+
+      print('getData COMPLETED successfully');
+      print('=========================================');
+      return true;
+    } catch (e) {
+      print('ERROR in getData: $e');
+      print('=========================================');
+      return false;
+    }
   }
 
   @override
@@ -150,7 +173,7 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
         decoration: BoxDecoration(
           boxShadow: <BoxShadow>[
             BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
+                color: Colors.grey.withValues(alpha: 0.2),
                 offset: const Offset(0, -2),
                 blurRadius: 8.0),
           ],
@@ -185,75 +208,141 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
                           ),
                         ];
                       },
-                      body: SmartRefresher(
-                        enablePullDown: true,
-                        enablePullUp: false,
-                        header: const WaterDropHeader(),
-                        footer: CustomFooter(
-                          builder: (BuildContext context, LoadStatus? mode) {
-                            Widget body;
-                            if (mode == LoadStatus.idle) {
-                              body = const Text("กำลังโหลดข้อมูล...");
-                            } else if (mode == LoadStatus.loading) {
-                              body = const CircularProgressIndicator();
-                            } else if (mode == LoadStatus.failed) {
-                              body = const Text(
-                                  "ไม่สามารถโหลดข้อมูลได้ กรุณาลองอีกครั้ง");
-                            } else if (mode == LoadStatus.canLoading) {
-                              body = const Text("release to load more");
-                            } else {
-                              body = const Text("ไม่พบข้อมูลแล้ว.");
-                            }
-                            return SizedBox(
-                              height: 55.0,
-                              child: Center(child: body),
-                            );
-                          },
-                        ),
-                        controller: _refreshController,
-                        onRefresh: _onRefresh,
-                        onLoading: _onLoading,
-                        child: ListView.builder(
-                          itemCount: mr30.havetoday.length,
-                          padding: const EdgeInsets.only(top: 8),
-                          scrollDirection: Axis.vertical,
-                          itemBuilder: (BuildContext context, int index) {
-                            final int count = mr30.havetoday.length > 10
-                                ? 10
-                                : mr30.havetoday.length;
-                            final Animation<double> animation =
-                                Tween<double>(begin: 0.0, end: 1.0).animate(
-                                    CurvedAnimation(
-                                        parent: animationController!,
-                                        curve: Interval(
-                                            (1 / count) * index, 1.0,
-                                            curve: Curves.fastOutSlowIn)));
-                            animationController?.forward();
-                            return TodayListView(
-                              record: mr30.havetoday[index],
-                              callback: () {
-                                Get.toNamed('/ondemand', arguments: {
-                                  'course': '${mr30.studylist[index].courseNo}',
-                                  'semester':
-                                      '${mr30.studylist[index].courseSemester.toString()}',
-                                  'year':
-                                      '${mr30.studylist[index].courseYear.toString().substring(2, 4)}'
-                                });
-                                //   Noti.showTodayNotification(
-                                //       title: mr30.havetoday[index].courseNo
-                                //           .toString(),
-                                //       body: mr30.havetoday[index].showRu30
-                                //           .toString(),
-                                //       fln: flutterLocalNotificationsPlugin);
-                              },
-                              //hotelData: hotelList[index],
-                              index: index,
-                              animation: animation,
-                              animationController: animationController!,
-                            );
-                          },
-                        ),
-                      ),
+                      body: mr30.havetoday.isEmpty
+                          ? Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  if (mr30.isLoading) ...[
+                                    CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          AppTheme.ru_dark_blue),
+                                    ),
+                                    SizedBox(height: 16),
+                                    Text(
+                                      "กำลังโหลดข้อมูล...",
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.ruFontKanit,
+                                        fontSize: 16,
+                                        color: isLightMode
+                                            ? AppTheme.ru_dark_blue
+                                            : AppTheme.nearlyWhite,
+                                      ),
+                                    ),
+                                  ] else ...[
+                                    Icon(
+                                      Icons.calendar_today_outlined,
+                                      size: 80,
+                                      color: isLightMode
+                                          ? AppTheme.ru_dark_blue
+                                              .withValues(alpha: 0.3)
+                                          : AppTheme.nearlyWhite
+                                              .withValues(alpha: 0.3),
+                                    ),
+                                    SizedBox(height: 16),
+                                    Text(
+                                      "วันนี้ไม่มีรายวิชาที่ต้องเรียน",
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.ruFontKanit,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        color: isLightMode
+                                            ? AppTheme.ru_dark_blue
+                                            : AppTheme.nearlyWhite,
+                                      ),
+                                    ),
+                                    SizedBox(height: 8),
+                                    Text(
+                                      "เพิ่มรายวิชาที่เรียนได้จากหน้า 'วิชาเรียนทั้งหมด'",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.ruFontKanit,
+                                        fontSize: 14,
+                                        color: isLightMode
+                                            ? AppTheme.ru_dark_blue
+                                                .withValues(alpha: 0.6)
+                                            : AppTheme.nearlyWhite
+                                                .withValues(alpha: 0.6),
+                                      ),
+                                    ),
+                                  ],
+                                ],
+                              ),
+                            )
+                          : SmartRefresher(
+                              enablePullDown: true,
+                              enablePullUp: false,
+                              header: const WaterDropHeader(),
+                              footer: CustomFooter(
+                                builder:
+                                    (BuildContext context, LoadStatus? mode) {
+                                  Widget body;
+                                  if (mode == LoadStatus.idle) {
+                                    body = const Text("กำลังโหลดข้อมูล...");
+                                  } else if (mode == LoadStatus.loading) {
+                                    body = const CircularProgressIndicator();
+                                  } else if (mode == LoadStatus.failed) {
+                                    body = const Text(
+                                        "ไม่สามารถโหลดข้อมูลได้ กรุณาลองอีกครั้ง");
+                                  } else if (mode == LoadStatus.canLoading) {
+                                    body = const Text("release to load more");
+                                  } else {
+                                    body = const Text("ไม่พบข้อมูลแล้ว.");
+                                  }
+                                  return SizedBox(
+                                    height: 55.0,
+                                    child: Center(child: body),
+                                  );
+                                },
+                              ),
+                              controller: _refreshController,
+                              onRefresh: _onRefresh,
+                              onLoading: _onLoading,
+                              child: ListView.builder(
+                                itemCount: mr30.havetoday.length,
+                                padding: const EdgeInsets.only(top: 8),
+                                scrollDirection: Axis.vertical,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final int count = mr30.havetoday.length > 10
+                                      ? 10
+                                      : mr30.havetoday.length;
+                                  final Animation<double> animation =
+                                      Tween<double>(begin: 0.0, end: 1.0)
+                                          .animate(CurvedAnimation(
+                                              parent: animationController!,
+                                              curve: Interval(
+                                                  (1 / count) * index, 1.0,
+                                                  curve:
+                                                      Curves.fastOutSlowIn)));
+                                  animationController?.forward();
+                                  print(
+                                      'index $index lenght ${mr30.havetoday.length}');
+                                  return TodayListView(
+                                    record: mr30.havetoday[index],
+                                    callback: () {
+                                      Get.toNamed('/ondemand', arguments: {
+                                        'course':
+                                            '${mr30.havetoday[index].courseNo}',
+                                        'semester':
+                                            '${mr30.havetoday[index].courseSemester.toString()}',
+                                        'year':
+                                            '${mr30.havetoday[index].courseYear.toString().substring(2, 4)}'
+                                      });
+                                      //   Noti.showTodayNotification(
+                                      //       title: mr30.havetoday[index].courseNo
+                                      //           .toString(),
+                                      //       body: mr30.havetoday[index].showRu30
+                                      //           .toString(),
+                                      //       fln: flutterLocalNotificationsPlugin);
+                                    },
+                                    //hotelData: hotelList[index],
+                                    index: index,
+                                    animation: animation,
+                                    animationController: animationController!,
+                                  );
+                                },
+                              ),
+                            ),
                     ),
                   )
                 ],
@@ -334,10 +423,10 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
   Widget getListUI() {
     return Container(
       decoration: BoxDecoration(
-        color: HotelAppTheme.buildLightTheme().backgroundColor,
+        color: HotelAppTheme.buildLightTheme().scaffoldBackgroundColor,
         boxShadow: <BoxShadow>[
           BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
+              color: Colors.grey.withValues(alpha: 0.2),
               offset: const Offset(0, -2),
               blurRadius: 8.0),
         ],
@@ -423,7 +512,7 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
                     focusColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     hoverColor: Colors.transparent,
-                    splashColor: Colors.grey.withOpacity(0.2),
+                    splashColor: Colors.grey.withValues(alpha: 0.2),
                     borderRadius: const BorderRadius.all(
                       Radius.circular(4.0),
                     ),
@@ -446,7 +535,7 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
                             style: TextStyle(
                                 fontWeight: FontWeight.w100,
                                 fontSize: 16,
-                                color: Colors.grey.withOpacity(0.8)),
+                                color: Colors.grey.withValues(alpha: 0.8)),
                           ),
                           const SizedBox(
                             height: 8,
@@ -471,7 +560,7 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
             child: Container(
               width: 1,
               height: 42,
-              color: Colors.grey.withOpacity(0.8),
+              color: Colors.grey.withValues(alpha: 0.8),
             ),
           ),
           Expanded(
@@ -483,7 +572,7 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
                     focusColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     hoverColor: Colors.transparent,
-                    splashColor: Colors.grey.withOpacity(0.2),
+                    splashColor: Colors.grey.withValues(alpha: 0.2),
                     borderRadius: const BorderRadius.all(
                       Radius.circular(4.0),
                     ),
@@ -502,7 +591,7 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
                             style: TextStyle(
                                 fontWeight: FontWeight.w100,
                                 fontSize: 16,
-                                color: Colors.grey.withOpacity(0.8)),
+                                color: Colors.grey.withValues(alpha: 0.8)),
                           ),
                           const SizedBox(
                             height: 8,
@@ -537,13 +626,14 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
               padding: const EdgeInsets.only(right: 16, top: 8, bottom: 8),
               child: Container(
                 decoration: BoxDecoration(
-                  color: HotelAppTheme.buildLightTheme().backgroundColor,
+                  color:
+                      HotelAppTheme.buildLightTheme().scaffoldBackgroundColor,
                   borderRadius: const BorderRadius.all(
                     Radius.circular(38.0),
                   ),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: Colors.grey.withOpacity(0.2),
+                        color: Colors.grey.withValues(alpha: 0.2),
                         offset: const Offset(0, 2),
                         blurRadius: 8.0),
                   ],
@@ -574,7 +664,7 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
               ),
               boxShadow: <BoxShadow>[
                 BoxShadow(
-                    color: Colors.grey.withOpacity(0.4),
+                    color: Colors.grey.withValues(alpha: 0.4),
                     offset: const Offset(0, 2),
                     blurRadius: 8.0),
               ],
@@ -592,7 +682,8 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
                   padding: const EdgeInsets.all(16.0),
                   child: Icon(FontAwesomeIcons.magnifyingGlass,
                       size: 20,
-                      color: HotelAppTheme.buildLightTheme().backgroundColor),
+                      color: HotelAppTheme.buildLightTheme()
+                          .scaffoldBackgroundColor),
                 ),
               ),
             ),
@@ -616,10 +707,10 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
           child: Container(
             height: 50,
             decoration: BoxDecoration(
-              color: HotelAppTheme.buildLightTheme().backgroundColor,
+              color: HotelAppTheme.buildLightTheme().scaffoldBackgroundColor,
               boxShadow: <BoxShadow>[
                 BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
+                    color: Colors.grey.withValues(alpha: 0.2),
                     offset: const Offset(0, -2),
                     blurRadius: 8.0),
               ],
@@ -627,11 +718,12 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
           ),
         ),
         Container(
-          color: HotelAppTheme.buildLightTheme().backgroundColor,
+          color: HotelAppTheme.buildLightTheme().scaffoldBackgroundColor,
           child: Padding(
             padding:
-                const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
+                const EdgeInsets.only(left: 8, right: 8, top: 6, bottom: 6),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   'ปีการศึกษา ${mr30Prov.yearsemester.year}/${mr30Prov.yearsemester.semester}',
@@ -741,10 +833,10 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
     var mr30Prov = context.watch<MR30Provider>();
     return Container(
       decoration: BoxDecoration(
-        color: HotelAppTheme.buildLightTheme().backgroundColor,
+        color: HotelAppTheme.buildLightTheme().scaffoldBackgroundColor,
         boxShadow: <BoxShadow>[
           BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
+              color: Colors.grey.withValues(alpha: 0.2),
               offset: const Offset(0, 2),
               blurRadius: 8.0),
         ],

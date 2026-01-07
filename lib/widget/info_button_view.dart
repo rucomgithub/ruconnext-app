@@ -37,7 +37,7 @@ class InfoButtonView extends StatelessWidget {
                   decoration: BoxDecoration(
                     boxShadow: <BoxShadow>[
                       BoxShadow(
-                          color: HexColor("#FF19196B").withOpacity(0.6),
+                          color: HexColor("#FF19196B").withValues(alpha: 0.6),
                           offset: const Offset(1.1, 4.0),
                           blurRadius: 8.0),
                     ],

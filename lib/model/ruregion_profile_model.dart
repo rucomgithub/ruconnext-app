@@ -1,4 +1,4 @@
-class Ruregion {
+class Ruregionprofile {
   bool? success;
   String? message;
   String? cHKCERTNO;
@@ -20,7 +20,7 @@ class Ruregion {
   String? eRRMSG;
   bool? rEGISSTATUS;
 
-  Ruregion(
+  Ruregionprofile(
       {this.success,
       this.message,
       this.cHKCERTNO,
@@ -42,7 +42,7 @@ class Ruregion {
       this.eRRMSG,
       this.rEGISSTATUS});
 
-  Ruregion.fromJson(Map<String, dynamic> json) {
+  Ruregionprofile.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
     cHKCERTNO = json['CHK_CERT_NO'];

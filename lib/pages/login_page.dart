@@ -20,11 +20,13 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormBuilderState>();
-  final _googleSignIn = GoogleSignIn();
 
   Future<void> login(Map<dynamic, dynamic>? formValue) async {
      //print(formValue);
-    var user = await _googleSignIn.signIn();
+    // TODO: Update to use google_sign_in 7.x API (see authenservice.dart for reference)
+    // The signIn() method is deprecated in google_sign_in 7.x
+    // Use authenticate() with authenticationEvents instead
+    var user; // = await GoogleSignIn.instance.signIn();
     // print(user);
     if (user != null){
       SharedPreferences prefs = await SharedPreferences.getInstance();

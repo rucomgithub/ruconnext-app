@@ -1,7 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/models/tabIcon_data.dart';
-import 'package:th.ac.ru.uSmart/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:th.ac.ru.uSmart/master/pages/master_profile_list.dart';
 import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';

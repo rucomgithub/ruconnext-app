@@ -56,7 +56,7 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                             topRight: Radius.circular(24.0)),
                         boxShadow: <BoxShadow>[
                           BoxShadow(
-                              color: AppTheme.ru_grey.withOpacity(0.2),
+                              color: AppTheme.ru_grey.withValues(alpha: 0.2),
                               offset: const Offset(1.1, 1.1),
                               blurRadius: 10.0),
                         ],
@@ -94,7 +94,7 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                                                     width: 2,
                                                     decoration: BoxDecoration(
                                                       color: HexColor('#87A0E5')
-                                                          .withOpacity(0.5),
+                                                          .withValues(alpha: 0.5),
                                                       borderRadius:
                                                           BorderRadius.all(
                                                               Radius.circular(
@@ -225,8 +225,8 @@ class _SummaryGradeViewState extends State<SummaryGradeView> {
                                                                       -0.2,
                                                                   color: AppTheme
                                                                       .ru_text_grey
-                                                                      .withOpacity(
-                                                                          0.5),
+                                                                      .withValues(
+                                                                          alpha: 0.5),
                                                                 ),
                                                               ),
                                                             ),
@@ -389,7 +389,7 @@ class CurvePainter extends CustomPainter {
     }
 
     final shdowPaint = new Paint()
-      ..color = Colors.black.withOpacity(0.4)
+      ..color = Colors.black.withValues(alpha: 0.4)
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
       ..strokeWidth = 14;
@@ -403,7 +403,7 @@ class CurvePainter extends CustomPainter {
         false,
         shdowPaint);
 
-    shdowPaint.color = Colors.grey.withOpacity(0.3);
+    shdowPaint.color = Colors.grey.withValues(alpha: 0.3);
     shdowPaint.strokeWidth = 16;
     canvas.drawArc(
         new Rect.fromCircle(center: shdowPaintCenter, radius: shdowPaintRadius),
@@ -412,7 +412,7 @@ class CurvePainter extends CustomPainter {
         false,
         shdowPaint);
 
-    shdowPaint.color = Colors.grey.withOpacity(0.2);
+    shdowPaint.color = Colors.grey.withValues(alpha: 0.2);
     shdowPaint.strokeWidth = 20;
     canvas.drawArc(
         new Rect.fromCircle(center: shdowPaintCenter, radius: shdowPaintRadius),
@@ -421,7 +421,7 @@ class CurvePainter extends CustomPainter {
         false,
         shdowPaint);
 
-    shdowPaint.color = Colors.grey.withOpacity(0.1);
+    shdowPaint.color = Colors.grey.withValues(alpha: 0.1);
     shdowPaint.strokeWidth = 22;
     canvas.drawArc(
         new Rect.fromCircle(center: shdowPaintCenter, radius: shdowPaintRadius),

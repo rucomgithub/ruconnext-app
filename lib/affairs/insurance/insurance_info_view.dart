@@ -29,18 +29,15 @@ class InsuranceInfoView extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 16),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: AppTheme.ru_grey.withOpacity(0.3),
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(8.0),
-                                bottomLeft: Radius.circular(8.0),
-                                bottomRight: Radius.circular(8.0),
-                                topRight: Radius.circular(8.0)),
-                            // boxShadow: <BoxShadow>[
-                            //   BoxShadow(
-                            //       color: AppTheme.grey.withOpacity(0.2),
-                            //       offset: Offset(1.1, 1.1),
-                            //       blurRadius: 10.0),
-                            // ],
+                            color: AppTheme.ru_grey.withValues(alpha: 0.3),
+                            borderRadius: BorderRadius.circular(16.0),
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                color: Colors.grey.withValues(alpha: 0.12),
+                                offset: const Offset(0, 4),
+                                blurRadius: 12.0,
+                              ),
+                            ],
                           ),
                           child: Column(
                             children: <Widget>[

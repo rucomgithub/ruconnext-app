@@ -3,8 +3,6 @@ import 'package:th.ac.ru.uSmart/utils/custom_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:th.ac.ru.uSmart/utils/constants.dart';
 import 'package:th.ac.ru.uSmart/utils/widget_functions.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
 
 class TodayItem extends StatelessWidget {
   final double width;
@@ -70,7 +68,7 @@ class TodayItem extends StatelessWidget {
                     ))),
                 Text(
                   "${todayData.dayNameS} ${todayData.timePeriod}",
-                  style: textTheme.headline6,
+                  style: textTheme.titleLarge,
                 ),
                 TimeStudy(textTheme, todayData.timePeriod!),
                 addVerticalSpace(5),
@@ -82,7 +80,7 @@ class TodayItem extends StatelessWidget {
                               color: Colors.red, size: 15)),
                       TextSpan(
                           text: "${todayData.courseRoom}",
-                          style: textTheme.caption)
+                          style: textTheme.bodySmall)
                     ])),
                 addVerticalSpace(5),
                 Row(
@@ -98,7 +96,7 @@ class TodayItem extends StatelessWidget {
                                     color: Colors.orange, size: 15)),
                             TextSpan(
                                 text: "${todayData.courseCredit}",
-                                style: textTheme.subtitle2!
+                                style: textTheme.titleSmall!
                                     .apply(fontWeightDelta: 4))
                           ])),
                     ),
@@ -111,7 +109,7 @@ class TodayItem extends StatelessWidget {
                             TextSpan(
                                 text:
                                     "${todayData.courseYear}/${todayData.courseSemester}",
-                                style: textTheme.headline5!
+                                style: textTheme.headlineSmall!
                                     .apply(color: COLOR_ORANGE))
                           ])),
                     ),
@@ -129,7 +127,7 @@ class TodayItem extends StatelessWidget {
     String strcheck = StringTimeStudy(periodtime);
     return Text(
       "$strcheck",
-      style: textTheme.headline6,
+      style: textTheme.titleLarge,
     );
   }
 }

@@ -26,8 +26,8 @@ class RunewsService {
       } else {
         throw ('Error Get Data');
       }
-    } on DioError catch (err) {
-      final errorMessage = DioException.fromDioError(err).toString();
+    } on DioException catch (err) {
+      final errorMessage = DioExceptionHandler.fromDioError(err).toString();
       throw (errorMessage);
     }
 

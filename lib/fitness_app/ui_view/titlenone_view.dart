@@ -1,9 +1,5 @@
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/ui_view/grade_screen.dart';
 import 'package:flutter/material.dart';
-import 'gradeyear_screen.dart';
-import 'rank_screen.dart';
 
 class TitleNoneView extends StatelessWidget {
   final String titleTxt;
@@ -13,8 +9,8 @@ class TitleNoneView extends StatelessWidget {
 
   const TitleNoneView(
       {Key? key,
-      this.titleTxt: "",
-      this.subTxt: "",
+      this.titleTxt = "",
+      this.subTxt = "",
       this.animationController,
       this.animation})
       : super(key: key);

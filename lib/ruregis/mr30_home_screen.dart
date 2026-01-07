@@ -1,15 +1,8 @@
-import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/models/tabIcon_data.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/training/training_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
 import '../app_theme.dart';
 import '../hotel_booking/hotel_app_theme.dart';
-import '../login_page.dart';
-import '../fitness_app/bottom_navigation_view/bottom_bar_view.dart';
 import '../fitness_app/fitness_app_theme.dart';
-import '../providers/mr30_provider.dart';
 import 'mr30_list_screen.dart';
 
 String? tokenMr30;

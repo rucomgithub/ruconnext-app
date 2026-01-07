@@ -11,8 +11,6 @@ Color getFacultyColor(String facultyName) {
       return Colors.orange;
     case 'คณะศึกษาศาสตร์':
       return Colors.pink;
-    case 'คณะศึกษาศาสตร์':
-      return Colors.pink;
     case 'คณะรัฐศาสตร์':
       return Colors.red;
     case 'คณะวิทยาศาสตร์':

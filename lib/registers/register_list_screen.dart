@@ -1,18 +1,10 @@
 import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
-import 'package:th.ac.ru.uSmart/mr30/nodata_view.dart';
-import 'package:th.ac.ru.uSmart/providers/register_provider.dart';
-import 'package:th.ac.ru.uSmart/registers/register_nodata_view.dart';
 import 'package:th.ac.ru.uSmart/registers/register_row_view.dart';
 import 'package:th.ac.ru.uSmart/registers/mr30catalog_row_view.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:th.ac.ru.uSmart/widget/Rubar.dart';
 import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
-import 'package:th.ac.ru.uSmart/widget/top_bar.dart';
 import '../mr30/titlenone_view.dart';
-import 'register_list_view.dart';
 import 'register_view.dart';
 
 class RegisterListScreen extends StatefulWidget {
@@ -198,7 +190,7 @@ class _RegisterListScreenState extends State<RegisterListScreen>
         decoration: BoxDecoration(
           boxShadow: <BoxShadow>[
             BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
+                color: Colors.grey.withValues(alpha: 0.2),
                 offset: const Offset(0, -2),
                 blurRadius: 8.0),
           ],

@@ -1,30 +1,21 @@
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/grade/grade_app_home_screen.dart';
-import 'package:th.ac.ru.uSmart/home/homescreen.dart';
 import 'package:th.ac.ru.uSmart/model/access_rule.dart';
 import 'package:th.ac.ru.uSmart/navigation_home_screen.dart';
 import 'package:th.ac.ru.uSmart/pages/aboutRam_screen.dart';
 import 'package:th.ac.ru.uSmart/pages/home_image_slider.dart';
-import 'package:th.ac.ru.uSmart/pages/profile_home_screen.dart';
 import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
 import 'package:th.ac.ru.uSmart/providers/grade_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/home_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/register_provider.dart';
 import 'package:th.ac.ru.uSmart/providers/student_provider.dart';
-import 'package:th.ac.ru.uSmart/registers/register_home_screen.dart';
 import 'package:th.ac.ru.uSmart/screens/runewsScreen.dart';
-import 'package:th.ac.ru.uSmart/services/studentservice.dart';
 import 'package:th.ac.ru.uSmart/today/today_home_screen.dart';
-import 'package:th.ac.ru.uSmart/today/today_list_view.dart';
 import 'package:th.ac.ru.uSmart/utils/custom_functions.dart';
-import 'package:blinking_text/blinking_text.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
-import 'package:th.ac.ru.uSmart/widget/top_menu_bar.dart';
-import 'login_page.dart';
 import 'package:flutter/material.dart';
 import 'model/homelist.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -219,7 +210,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 decoration: BoxDecoration(
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: Colors.grey.withOpacity(0.2),
+                        color: Colors.grey.withValues(alpha: 0.2),
                         offset: const Offset(0, -2),
                         blurRadius: 8.0),
                   ],
@@ -239,15 +230,46 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                // Text('$')
-                                Container(
-                                  height: MediaQuery.of(context).size.width *
-                                      30 /
-                                      100,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: FadeTransition(
-                                      opacity: animationForImage,
-                                      child: homeImageSlider()),
+                                // Image Slider with responsive sizing
+                                LayoutBuilder(
+                                  builder: (context, constraints) {
+                                    // Calculate responsive height based on screen size
+                                    double sliderHeight;
+                                    if (screenWidth > 600) {
+                                      // Tablets and larger devices
+                                      sliderHeight = screenHeight * 0.25;
+                                    } else {
+                                      // Mobile devices
+                                      sliderHeight = screenHeight * 0.2;
+                                    }
+                                    // Ensure minimum and maximum heights
+                                    sliderHeight = sliderHeight.clamp(120.0, 250.0);
+
+                                    return Container(
+                                      height: sliderHeight,
+                                      width: double.infinity,
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 8.0, vertical: 8.0),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black.withValues(alpha: 0.1),
+                                            offset: const Offset(0, 4),
+                                            blurRadius: 12,
+                                            spreadRadius: 0,
+                                          ),
+                                        ],
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        child: FadeTransition(
+                                          opacity: animationForImage,
+                                          child: homeImageSlider(),
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8),
@@ -589,7 +611,7 @@ class HomeListView extends StatelessWidget {
                     Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        splashColor: Colors.grey.withOpacity(0.2),
+                        splashColor: Colors.grey.withValues(alpha: 0.2),
                         borderRadius:
                             const BorderRadius.all(Radius.circular(4.0)),
                         onTap: callBack,

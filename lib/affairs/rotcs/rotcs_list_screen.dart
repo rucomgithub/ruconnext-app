@@ -4,13 +4,9 @@ import 'package:th.ac.ru.uSmart/affairs/rotcs/rotcs_extend_list_view.dart';
 import 'package:th.ac.ru.uSmart/affairs/rotcs/rotcs_register_list_view.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
-import 'package:th.ac.ru.uSmart/main.dart';
 import 'package:th.ac.ru.uSmart/mr30/titlenone_view.dart';
 import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
-import 'package:th.ac.ru.uSmart/widget/Rubar.dart';
 import 'package:th.ac.ru.uSmart/widget/head_logo_view.dart';
-import 'package:th.ac.ru.uSmart/widget/info_button_view.dart';
 import 'package:th.ac.ru.uSmart/widget/info_view.dart';
 import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
 
@@ -30,7 +26,6 @@ class _RotcsListScreenState extends State<RotcsListScreen>
 
   List<Widget> listViews = <Widget>[];
   final ScrollController scrollController = ScrollController();
-  double topBarOpacity = 0.0;
 
   @override
   void initState() {
@@ -39,31 +34,7 @@ class _RotcsListScreenState extends State<RotcsListScreen>
         CurvedAnimation(
             parent: widget.animationController!,
             curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
-
     addAllListData();
-
-    scrollController.addListener(() {
-      if (scrollController.offset >= 24) {
-        if (topBarOpacity != 1.0) {
-          setState(() {
-            topBarOpacity = 1.0;
-          });
-        }
-      } else if (scrollController.offset <= 24 &&
-          scrollController.offset >= 0) {
-        if (topBarOpacity != scrollController.offset / 24) {
-          setState(() {
-            topBarOpacity = scrollController.offset / 24;
-          });
-        }
-      } else if (scrollController.offset <= 0) {
-        if (topBarOpacity != 0.0) {
-          setState(() {
-            topBarOpacity = 0.0;
-          });
-        }
-      }
-    });
     super.initState();
   }
 
@@ -170,26 +141,12 @@ class _RotcsListScreenState extends State<RotcsListScreen>
       color: Colors.transparent,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: Padding(
-          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Stack(
-                  children: <Widget>[
-                    RuWallpaper(),
-                    getMainListViewUI(),
-                    getAppBarUI(),
-                    SizedBox(
-                      height: MediaQuery.of(context).padding.bottom,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+        body: Stack(
+          children: <Widget>[
+            RuWallpaper(),
+            getMainListViewUI(),
+            getAppBarUI(),
+          ],
         ),
       ),
     );
@@ -204,12 +161,10 @@ class _RotcsListScreenState extends State<RotcsListScreen>
         } else {
           return ListView.builder(
             controller: scrollController,
-            // padding: EdgeInsets.only(
-            //   top: AppBar().preferredSize.height +
-            //       MediaQuery.of(context).padding.top +
-            //       24,
-            //   bottom: 1 + MediaQuery.of(context).padding.bottom,
-            // ),
+            padding: EdgeInsets.only(
+              top: 16,
+              bottom: 16 + MediaQuery.of(context).padding.bottom,
+            ),
             itemCount: listViews.length,
             scrollDirection: Axis.vertical,
             itemBuilder: (BuildContext context, int index) {
@@ -258,7 +213,7 @@ class _RotcsListScreenState extends State<RotcsListScreen>
                                 boxShadow: [
                                   BoxShadow(
                                     color:
-                                        AppTheme.ru_dark_blue.withOpacity(0.4),
+                                        AppTheme.ru_dark_blue.withValues(alpha: 0.4),
                                     spreadRadius: 2,
                                     blurRadius: 4,
                                     offset: Offset(1.1, 4.4),
@@ -276,7 +231,7 @@ class _RotcsListScreenState extends State<RotcsListScreen>
                                   gradient: LinearGradient(
                                       begin: Alignment.topRight,
                                       colors: [
-                                        AppTheme.nearlyWhite.withOpacity(0.8),
+                                        AppTheme.nearlyWhite.withValues(alpha: 0.8),
                                         Colors.transparent
                                       ])),
                             ),

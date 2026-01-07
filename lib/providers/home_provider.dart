@@ -84,13 +84,13 @@ class HomeProvider extends ChangeNotifier {
 
     if (hour >= 6 && hour < 12) {
       return ColorFilter.mode(
-          Colors.yellow.withOpacity(0.5), BlendMode.modulate);
+          Colors.yellow.withValues(alpha: 0.5), BlendMode.modulate);
     } else if (hour >= 12 && hour < 18) {
       return ColorFilter.mode(
-          Colors.orange.withOpacity(0.5), BlendMode.modulate);
+          Colors.orange.withValues(alpha: 0.5), BlendMode.modulate);
     } else {
       return ColorFilter.mode(
-          Colors.blueGrey.withOpacity(0.5), BlendMode.modulate);
+          Colors.blueGrey.withValues(alpha: 0.5), BlendMode.modulate);
     }
   }
 }

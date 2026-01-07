@@ -37,7 +37,7 @@ class BodyMeasurementView extends StatelessWidget {
                       topRight: Radius.circular(68.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: FitnessAppTheme.grey.withOpacity(0.2),
+                        color: FitnessAppTheme.grey.withValues(alpha: 0.2),
                         offset: Offset(1.1, 1.1),
                         blurRadius: 10.0),
                   ],
@@ -114,7 +114,7 @@ class BodyMeasurementView extends StatelessWidget {
                                       Icon(
                                         Icons.access_time,
                                         color: FitnessAppTheme.grey
-                                            .withOpacity(0.5),
+                                            .withValues(alpha: 0.5),
                                         size: 16,
                                       ),
                                       Padding(
@@ -131,7 +131,7 @@ class BodyMeasurementView extends StatelessWidget {
                                             fontSize: 14,
                                             letterSpacing: 0.0,
                                             color: FitnessAppTheme.grey
-                                                .withOpacity(0.5),
+                                                .withValues(alpha: 0.5),
                                           ),
                                         ),
                                       ),
@@ -201,7 +201,7 @@ class BodyMeasurementView extends StatelessWidget {
                                       fontWeight: FontWeight.w600,
                                       fontSize: 12,
                                       color:
-                                          FitnessAppTheme.grey.withOpacity(0.5),
+                                          FitnessAppTheme.grey.withValues(alpha: 0.5),
                                     ),
                                   ),
                                 ),
@@ -238,7 +238,7 @@ class BodyMeasurementView extends StatelessWidget {
                                           fontWeight: FontWeight.w600,
                                           fontSize: 12,
                                           color: FitnessAppTheme.grey
-                                              .withOpacity(0.5),
+                                              .withValues(alpha: 0.5),
                                         ),
                                       ),
                                     ),
@@ -276,7 +276,7 @@ class BodyMeasurementView extends StatelessWidget {
                                           fontWeight: FontWeight.w600,
                                           fontSize: 12,
                                           color: FitnessAppTheme.grey
-                                              .withOpacity(0.5),
+                                              .withValues(alpha: 0.5),
                                         ),
                                       ),
                                     ),

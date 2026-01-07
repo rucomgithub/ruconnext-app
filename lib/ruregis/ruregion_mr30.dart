@@ -2,17 +2,13 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/hotel_booking/model/hotel_list_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:th.ac.ru.uSmart/model/ruregis_list_data.dart';
 import 'package:th.ac.ru.uSmart/providers/ruregion_mr30_provider.dart';
 import 'package:th.ac.ru.uSmart/widget/Rubar.dart';
 import '../hotel_booking/hotel_app_theme.dart';
 import '../providers/ruregis_provider.dart';
-import '../providers/ruregis_fee_provider.dart';
 import 'package:get/get.dart';
-import '../providers/mr30_provider.dart';
 import 'package:badges/badges.dart' as badges;
 
 class RuregionMR30Screen extends StatefulWidget {
@@ -26,7 +22,7 @@ class _RuregionMR30ScreenState extends State<RuregionMR30Screen>
   int _current = 0;
   dynamic _selectedIndex = {};
 
-  CarouselController _carouselController = new CarouselController();
+  CarouselSliderController _carouselController = CarouselSliderController();
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -102,9 +98,9 @@ class _RuregionMR30ScreenState extends State<RuregionMR30Screen>
                                   Get.toNamed('/ruregiscart');
                                 },
                                 style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
+                                  backgroundColor: WidgetStateProperty.all(
                                       Color.fromARGB(255, 119, 223, 128)),
-                                  shape: MaterialStateProperty.all<
+                                  shape: WidgetStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(
@@ -142,9 +138,9 @@ class _RuregionMR30ScreenState extends State<RuregionMR30Screen>
                               child: ElevatedButton(
                                 onPressed: () {},
                                 style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
+                                  backgroundColor: WidgetStateProperty.all(
                                       Color.fromARGB(255, 125, 125, 125)),
-                                  shape: MaterialStateProperty.all<
+                                  shape: WidgetStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(
@@ -315,7 +311,7 @@ class _RuregionMR30ScreenState extends State<RuregionMR30Screen>
                               ]
                             : [
                                 BoxShadow(
-                                    color: Colors.grey.withOpacity(0.2),
+                                    color: Colors.grey.withValues(alpha: 0.2),
                                     blurRadius: 20,
                                     offset: const Offset(0, 5))
                               ]),
@@ -460,7 +456,7 @@ class _RuregionMR30ScreenState extends State<RuregionMR30Screen>
         color: AppTheme.background,
         boxShadow: <BoxShadow>[
           BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
+              color: Colors.grey.withValues(alpha: 0.2),
               offset: const Offset(0, 2),
               blurRadius: 8.0),
         ],

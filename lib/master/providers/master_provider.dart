@@ -68,7 +68,7 @@ class MasterProvider extends ChangeNotifier {
     try {
       final response = await _service.getStudent();
       _student = response;
-    } on Exception catch (e) {
+    } on Exception {
       isLoading = false;
       _error = 'เกิดข้อผิดพลาดดึงข้อมูลนักศึกษา';
     }

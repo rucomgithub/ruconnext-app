@@ -9,8 +9,8 @@ class NoDataView extends StatelessWidget {
 
   const NoDataView(
       {Key? key,
-      this.titleTxt: "",
-      this.subTxt: "",
+      this.titleTxt = "",
+      this.subTxt = "",
       this.animationController,
       this.animation})
       : super(key: key);

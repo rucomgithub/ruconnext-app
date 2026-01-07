@@ -73,14 +73,14 @@ class _TodayScreenState extends State<TodayScreen> {
                                 children: [
                                   Text(
                                     "วันนี้เรียนอะไร?",
-                                    style: textTheme.headline5,
+                                    style: textTheme.headlineSmall,
                                   ),
                                   Expanded(
                                     child: Center(),
                                   ),
                                   Text(
                                     "รายการทั้งหมด > ",
-                                    style: textTheme.subtitle2!
+                                    style: textTheme.titleSmall!
                                         .apply(color: COLOR_ORANGE),
                                   ),
                                   addHorizontalSpace(5),
@@ -159,7 +159,7 @@ class _TodayScreenState extends State<TodayScreen> {
             Image.asset(
               "assets/images/vs.png",
               fit: BoxFit.contain,
-              color: Colors.white.withOpacity(0.2),
+              color: Colors.white.withValues(alpha: 0.2),
               colorBlendMode: BlendMode.modulate,
             ),
             Padding(
@@ -186,7 +186,7 @@ class _TodayScreenState extends State<TodayScreen> {
                         child: Text(
                           "วันนี้เรียนอะไร ?",
                           style:
-                              textTheme.headline5!.apply(color: Colors.white),
+                              textTheme.headlineSmall!.apply(color: Colors.white),
                         ),
                       )
                     ],

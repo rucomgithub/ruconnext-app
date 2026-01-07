@@ -1,9 +1,7 @@
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/main.dart';
-import 'package:th.ac.ru.uSmart/providers/grade_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class MasterGradeYearView extends StatelessWidget {
   final AnimationController? animationController;
@@ -51,7 +49,7 @@ class MasterGradeYearView extends StatelessWidget {
                       topRight: Radius.circular(68.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: AppTheme.grey.withOpacity(0.6),
+                        color: AppTheme.grey.withValues(alpha: 0.6),
                         offset: Offset(1.1, 1.1),
                         blurRadius: 10.0),
                   ],
@@ -116,7 +114,7 @@ class MasterGradeYearView extends StatelessWidget {
                                 boxShadow: <BoxShadow>[
                                   BoxShadow(
                                       color: FitnessAppTheme.nearlyBlack
-                                          .withOpacity(0.4),
+                                          .withValues(alpha: 0.4),
                                       offset: Offset(8.0, 8.0),
                                       blurRadius: 8.0),
                                 ],

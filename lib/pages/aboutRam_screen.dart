@@ -6,8 +6,6 @@ import 'package:th.ac.ru.uSmart/navigation_home_screen.dart';
 import 'package:th.ac.ru.uSmart/schedule/schedule_home_screen.dart';
 import 'package:th.ac.ru.uSmart/screens/runewsScreen.dart';
 import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
-import 'package:th.ac.ru.uSmart/widget/top_bar.dart';
-import 'package:th.ac.ru.uSmart/widget/top_menu_bar.dart';
 
 class aboutRam extends StatefulWidget {
   const aboutRam({Key? key}) : super(key: key);
@@ -20,7 +18,7 @@ class _aboutRamState extends State<aboutRam> {
   int _current = 0;
   dynamic _selectedIndex = {};
 
-  CarouselController _carouselController = new CarouselController();
+  CarouselSliderController _carouselController = CarouselSliderController();
 
   List<dynamic> _products = [
     {
@@ -56,7 +54,7 @@ class _aboutRamState extends State<aboutRam> {
     },
     {
       'title': 'ผศ.วุฒิศักดิ์ ลาภเจริญทรัพย์',
-      'image': 'https://www.ru.ac.th/th/images/President/1720275748_.png',
+      'image': 'https://www.ru.ac.th/th/images/President/1742208645_.png',
       'description':
           'ประธานกรรมการส่งเสริมกิจการมหาวิทยาลัย กรรมการสภามหาวิทยาลัยรามคำแหง รักษาราชการแทน อธิการบดีมหาวิทยาลัยรามคำแหง'
     }
@@ -133,7 +131,7 @@ class _aboutRamState extends State<aboutRam> {
         decoration: BoxDecoration(
           boxShadow: <BoxShadow>[
             BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
+                color: Colors.grey.withValues(alpha: 0.2),
                 offset: const Offset(0, -2),
                 blurRadius: 8.0),
           ],

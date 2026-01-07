@@ -46,7 +46,7 @@ class _MasterSummaryGradeViewState extends State<MasterSummaryGradeView> {
                       topRight: Radius.circular(48.0)),
                   boxShadow: [
                     BoxShadow(
-                      color: AppTheme.ru_yellow.withOpacity(0.4),
+                      color: AppTheme.ru_yellow.withValues(alpha: 0.4),
                       spreadRadius: 2,
                       blurRadius: 4,
                       offset: Offset(4, 4),
@@ -54,211 +54,367 @@ class _MasterSummaryGradeViewState extends State<MasterSummaryGradeView> {
                   ],
                 ),
                 child: prov.groupGrade.isEmpty
-                    ? Text('ไม่พบข้อมูล')
+                    ? const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Center(
+                          child: Text(
+                            'ไม่พบข้อมูล',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ),
+                      )
                     : Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
                           children: <Widget>[
-                            Expanded(
+                            // Circular Progress Chart - Top Section
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 24),
+                              padding: const EdgeInsets.all(24),
+                              decoration: BoxDecoration(
+                                color: AppTheme.white,
+                                borderRadius: BorderRadius.circular(24),
+                                border: Border.all(
+                                  color: AppTheme.ru_yellow.withOpacity(0.3),
+                                  width: 2,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppTheme.ru_yellow.withOpacity(0.2),
+                                    offset: const Offset(0, 6),
+                                    blurRadius: 16,
+                                    spreadRadius: 2,
+                                  ),
+                                ],
+                              ),
                               child: Column(
-                                children: <Widget>[
-                                  ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: prov.groupGrade.length,
-                                    itemBuilder:
-                                        (BuildContext context, int childIndex) {
-                                      var key = prov.groupGrade.keys
-                                          .elementAt(childIndex);
-                                      var value = prov.groupGrade.values
-                                          .elementAt(childIndex);
-                                      return Container(
+                                children: [
+                                  Text(
+                                    'หน่วยกิตสะสม',
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.ruFontKanit,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppTheme.ru_dark_blue,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Stack(
+                                    clipBehavior: Clip.none,
+                                    alignment: Alignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                        width: 160,
+                                        height: 160,
                                         decoration: BoxDecoration(
-                                          color: AppTheme.white,
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(8.0),
-                                              bottomLeft: Radius.circular(8.0),
-                                              bottomRight:
-                                                  Radius.circular(38.0),
-                                              topRight: Radius.circular(48.0)),
+                                          color: Colors.white,
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            width: 10,
+                                            color: AppTheme.ru_dark_blue
+                                                .withOpacity(0.15),
+                                          ),
                                           boxShadow: [
                                             BoxShadow(
-                                              color: AppTheme.ru_yellow
-                                                  .withOpacity(0.4),
-                                              spreadRadius: 2,
-                                              blurRadius: 4,
-                                              offset: Offset(4, 4),
+                                              color:
+                                                  Colors.black.withOpacity(0.1),
+                                              blurRadius: 12,
+                                              offset: const Offset(0, 4),
                                             ),
                                           ],
                                         ),
-                                        child: Row(
+                                        child: Column(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                              MainAxisAlignment.center,
                                           children: <Widget>[
-                                            Padding(
+                                            TweenAnimationBuilder(
+                                              tween: Tween<double>(
+                                                  begin: 0.0, end: 1.0),
+                                              duration: const Duration(
+                                                  milliseconds: 2000),
+                                              builder: (context, double value,
+                                                  child) {
+                                                return Opacity(
+                                                  opacity: value,
+                                                  child: Transform.scale(
+                                                    scale: value,
+                                                    child: Text(
+                                                      '${prov.summaryCreditPass['PASS']!.toString()}',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: const TextStyle(
+                                                        fontFamily: AppTheme
+                                                            .ruFontKanit,
+                                                        fontSize: 42,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: AppTheme
+                                                            .ru_dark_blue,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                            const SizedBox(height: 4),
+                                            Container(
                                               padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Row(
-                                                children: [
-                                                  Container(
-                                                    height: 50,
-                                                    width: 2,
-                                                    decoration: BoxDecoration(
-                                                      color: childIndex % 2 == 0
-                                                          ? AppTheme.ru_yellow
-                                                          : AppTheme
-                                                              .ru_dark_blue,
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  4.0)),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        CircleAvatar(
-                                                          backgroundColor:
-                                                              AppTheme
-                                                                  .ru_dark_blue,
-                                                          radius: 16,
-                                                          child: Text(
-                                                            '${key} ....',
-                                                            style: AppTheme
-                                                                .subtitle,
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(4.0),
-                                                          child: CircleAvatar(
-                                                            backgroundColor:
-                                                                AppTheme
-                                                                    .ru_yellow,
-                                                            radius: 16,
-                                                            child: Text(
-                                                              '${value['count'].toString()}',
-                                                              style: AppTheme
-                                                                  .title,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 4),
+                                              decoration: BoxDecoration(
+                                                color: AppTheme.ru_yellow
+                                                    .withOpacity(0.2),
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                              child: Text(
+                                                'หน่วยกิต',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      AppTheme.ruFontKanit,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: AppTheme.ru_dark_blue,
+                                                ),
                                               ),
                                             ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Text(
-                                                  '${(int.parse(value['credit_sum'].toString()) * widget.animation!.value).toInt()}',
-                                                  textAlign: TextAlign.center,
-                                                  style: AppTheme.cardTitle,
-                                                ),
-                                                SizedBox(
-                                                  width: 4,
-                                                ),
-                                                Text(
-                                                  'หน่วยกิต',
-                                                  textAlign: TextAlign.center,
-                                                  style: AppTheme.caption,
-                                                ),
-                                              ],
-                                            )
                                           ],
                                         ),
-                                      );
-                                    },
+                                      ),
+                                      CustomPaint(
+                                        painter: CurvePainter(
+                                          colors: [
+                                            HexColor("#F6C563"),
+                                            HexColor("#F6C543"),
+                                            HexColor("#F6C523")
+                                          ],
+                                          angle: 360 *
+                                              ((100 *
+                                                      prov.grade.summaryCredit!
+                                                          .toInt() /
+                                                      50) /
+                                                  100),
+                                        ),
+                                        child: const SizedBox(
+                                          width: 160,
+                                          height: 160,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.trending_up,
+                                        color: AppTheme.ru_yellow,
+                                        size: 20,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        'ความคืบหน้า ${((prov.grade.summaryCredit!.toInt() / 48) * 100).toStringAsFixed(1)}%',
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.ruFontKanit,
+                                          fontSize: 14,
+                                          color: Colors.grey.shade700,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 16.0, left: 48.0),
-                              child: Stack(
-                                clipBehavior: Clip.none,
-                                children: <Widget>[
-                                  Container(
-                                    width: 140,
-                                    height: 140,
-                                    decoration: BoxDecoration(
-                                      color: AppTheme.white,
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(15 * 150),
-                                      ),
-                                      border: new Border.all(
-                                          width: 12,
-                                          color: AppTheme.ru_dark_blue),
+                            // Grade Cards Section
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: prov.groupGrade.length,
+                              itemBuilder:
+                                  (BuildContext context, int childIndex) {
+                                var key =
+                                    prov.groupGrade.keys.elementAt(childIndex);
+                                var value = prov.groupGrade.values
+                                    .elementAt(childIndex);
+                                final bool isEven = childIndex % 2 == 0;
+                                final Color primaryColor = isEven
+                                    ? AppTheme.ru_yellow
+                                    : AppTheme.ru_dark_blue;
+                                final Color secondaryColor = isEven
+                                    ? AppTheme.ru_dark_blue
+                                    : AppTheme.ru_yellow;
+
+                                return Container(
+                                  margin: const EdgeInsets.only(bottom: 12.0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(16.0),
+                                    border: Border.all(
+                                      color: primaryColor,
+                                      width: 2,
                                     ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: primaryColor,
+                                        offset: const Offset(0, 4),
+                                        blurRadius: 12,
+                                        spreadRadius: 1,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Row(
                                       children: <Widget>[
-                                        TweenAnimationBuilder(
-                                          tween: Tween<double>(
-                                              begin: 0.0, end: 1.0),
-                                          duration:
-                                              Duration(milliseconds: 2000),
-                                          builder:
-                                              (context, double value, child) {
-                                            return Opacity(
-                                              opacity: value,
-                                              child: Transform.scale(
-                                                scale: value,
-                                                child: Text(
-                                                  '${prov.summaryCreditPass['PASS']!.toString()}',
-                                                  textAlign: TextAlign.center,
-                                                  style: AppTheme.body1,
+                                        Container(
+                                          width: 60,
+                                          height: 60,
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                primaryColor,
+                                                primaryColor
+                                              ],
+                                              begin: Alignment.topLeft,
+                                              end: Alignment.bottomRight,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: primaryColor,
+                                                offset: const Offset(0, 4),
+                                                blurRadius: 8,
+                                              ),
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                key.length > 1
+                                                    ? key.substring(0, 1)
+                                                    : key,
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily:
+                                                      AppTheme.ruFontKanit,
                                                 ),
                                               ),
-                                            );
-                                          },
+                                              Container(
+                                                margin: const EdgeInsets.only(
+                                                    top: 2),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8,
+                                                        vertical: 2),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                ),
+                                                child: Text(
+                                                  '${value['count']}',
+                                                  style: TextStyle(
+                                                    color: primaryColor,
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                        Text(
-                                          'หน่วยกิตสะสม',
-                                          textAlign: TextAlign.center,
-                                          style: AppTheme.body2,
+                                        const SizedBox(width: 16),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'เกรด $key',
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      AppTheme.ruFontKanit,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: AppTheme.ru_dark_blue,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 4),
+                                              Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.assignment_turned_in,
+                                                    size: 14,
+                                                    color: Colors.grey.shade600,
+                                                  ),
+                                                  const SizedBox(width: 4),
+                                                  Text(
+                                                    '${value['count']} วิชา',
+                                                    style: TextStyle(
+                                                      fontFamily:
+                                                          AppTheme.ruFontKanit,
+                                                      fontSize: 12,
+                                                      color:
+                                                          Colors.grey.shade600,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 12, vertical: 8),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            border: Border.all(
+                                              color: primaryColor,
+                                              width: 2,
+                                            ),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                '${(int.parse(value['credit_sum'].toString()) * widget.animation!.value).toInt()}',
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      AppTheme.ruFontKanit,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: primaryColor,
+                                                ),
+                                              ),
+                                              Text(
+                                                'หน่วยกิต',
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      AppTheme.ruFontKanit,
+                                                  fontSize: 10,
+                                                  color: primaryColor,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
                                   ),
-                                  CustomPaint(
-                                    painter: CurvePainter(
-                                        colors: [
-                                          HexColor("#F6C563"),
-                                          HexColor("#F6C543"),
-                                          HexColor("#F6C523")
-                                        ],
-                                        angle: 360 *
-                                            ((100 *
-                                                    prov.grade.summaryCredit!
-                                                        .toInt() /
-                                                    48) /
-                                                100)),
-                                    child: SizedBox(
-                                      width: 140,
-                                      height: 140,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            )
+                                );
+                              },
+                            ),
                           ],
                         ),
                       ),
@@ -287,7 +443,7 @@ class CurvePainter extends CustomPainter {
     }
 
     final shdowPaint = new Paint()
-      ..color = Colors.black.withOpacity(0.4)
+      ..color = Colors.black.withValues(alpha: 0.4)
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
       ..strokeWidth = 14;
@@ -301,7 +457,7 @@ class CurvePainter extends CustomPainter {
         false,
         shdowPaint);
 
-    shdowPaint.color = Colors.grey.withOpacity(0.3);
+    shdowPaint.color = Colors.grey.withValues(alpha: 0.3);
     shdowPaint.strokeWidth = 16;
     canvas.drawArc(
         new Rect.fromCircle(center: shdowPaintCenter, radius: shdowPaintRadius),
@@ -310,7 +466,7 @@ class CurvePainter extends CustomPainter {
         false,
         shdowPaint);
 
-    shdowPaint.color = Colors.grey.withOpacity(0.2);
+    shdowPaint.color = Colors.grey.withValues(alpha: 0.2);
     shdowPaint.strokeWidth = 20;
     canvas.drawArc(
         new Rect.fromCircle(center: shdowPaintCenter, radius: shdowPaintRadius),
@@ -319,7 +475,7 @@ class CurvePainter extends CustomPainter {
         false,
         shdowPaint);
 
-    shdowPaint.color = Colors.grey.withOpacity(0.1);
+    shdowPaint.color = Colors.grey.withValues(alpha: 0.1);
     shdowPaint.strokeWidth = 22;
     canvas.drawArc(
         new Rect.fromCircle(center: shdowPaintCenter, radius: shdowPaintRadius),

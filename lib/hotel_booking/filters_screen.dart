@@ -22,7 +22,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: HotelAppTheme.buildLightTheme().backgroundColor,
+      color: HotelAppTheme.buildLightTheme().scaffoldBackgroundColor,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Column(
@@ -62,7 +62,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   borderRadius: const BorderRadius.all(Radius.circular(24.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.6),
+                      color: Colors.grey.withValues(alpha: 0.6),
                       blurRadius: 8,
                       offset: const Offset(4, 4),
                     ),
@@ -150,9 +150,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     ),
                   ),
                   CupertinoSwitch(
-                    activeColor: date.isSelected
+                    activeTrackColor: date.isSelected
                         ? HotelAppTheme.buildLightTheme().primaryColor
-                        : Colors.grey.withOpacity(0.6),
+                        : Colors.grey.withValues(alpha: 0.6),
                     onChanged: (bool value) {
                       setState(() {
                         checkAppPosition(i);
@@ -299,7 +299,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                                 : Icons.check_box_outline_blank,
                             color: date.isSelected
                                 ? HotelAppTheme.buildLightTheme().primaryColor
-                                : Colors.grey.withOpacity(0.6),
+                                : Colors.grey.withValues(alpha: 0.6),
                           ),
                           const SizedBox(
                             width: 4,
@@ -366,10 +366,10 @@ class _FiltersScreenState extends State<FiltersScreen> {
   Widget getAppBarUI() {
     return Container(
       decoration: BoxDecoration(
-        color: HotelAppTheme.buildLightTheme().backgroundColor,
+        color: HotelAppTheme.buildLightTheme().scaffoldBackgroundColor,
         boxShadow: <BoxShadow>[
           BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
+              color: Colors.grey.withValues(alpha: 0.2),
               offset: const Offset(0, 2),
               blurRadius: 4.0),
         ],

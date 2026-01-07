@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
-import 'package:th.ac.ru.uSmart/fitness_app/my_diary/yearsemester_list_view.dart';
+import 'package:th.ac.ru.uSmart/grade/yearsemester_list_view.dart';
 import 'package:th.ac.ru.uSmart/grade/course_rank_view.dart';
 import 'package:th.ac.ru.uSmart/grade/radar_view.dart';
 import 'package:th.ac.ru.uSmart/grade/summary_credit_view.dart';
@@ -229,7 +229,7 @@ class _MyGradeScreenState extends State<MyGradeScreen>
         decoration: BoxDecoration(
           boxShadow: <BoxShadow>[
             BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
+                color: Colors.grey.withValues(alpha: 0.2),
                 offset: const Offset(0, -2),
                 blurRadius: 8.0),
           ],
@@ -290,13 +290,14 @@ class _MyGradeScreenState extends State<MyGradeScreen>
                     0.0, 30 * (1.0 - topBarAnimation!.value), 0.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: AppTheme.white.withOpacity(topBarOpacity),
+                    color: AppTheme.white.withValues(alpha: topBarOpacity),
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(32.0),
                     ),
                     boxShadow: <BoxShadow>[
                       BoxShadow(
-                        color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
+                        color: AppTheme.grey
+                            .withValues(alpha: 0.4 * topBarOpacity),
                         offset: const Offset(1.1, 1.1),
                         blurRadius: 10.0,
                       ),

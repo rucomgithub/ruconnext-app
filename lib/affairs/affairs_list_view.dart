@@ -30,91 +30,45 @@ class AffairsListView extends StatelessWidget {
                 0.0, 50 * (1.0 - animation!.value), 0.0),
             child: Padding(
               padding:
-                  const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 8),
+                  const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
               child: InkWell(
                 splashColor: Colors.transparent,
                 onTap: callback,
                 child: Container(
                   decoration: BoxDecoration(
+                    color: RuConnextAppTheme.buildLightTheme()
+                        .scaffoldBackgroundColor,
+                    borderRadius: const BorderRadius.all(Radius.circular(16.0)),
                     boxShadow: <BoxShadow>[
                       BoxShadow(
-                          color: HexColor("#FF19196B").withOpacity(0.6),
-                          offset: const Offset(1.1, 4.0),
-                          blurRadius: 8.0),
+                        color: Colors.grey.withValues(alpha: 0.12),
+                        offset: const Offset(0, 4),
+                        blurRadius: 12.0,
+                      ),
                     ],
                   ),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                    child: Stack(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
                       children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            Container(
-                              color: RuConnextAppTheme.buildLightTheme()
-                                  .backgroundColor,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Container(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 4, top: 4, bottom: 4),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: <Widget>[
-                                                Container(
-                                                  child: Column(
-                                                    children: [
-                                                      SizedBox(
-                                                        width: 60,
-                                                        height: 60,
-                                                      )
-                                                    ],
-                                                  ),
-                                                  decoration: BoxDecoration(
-                                                      color: Color.fromARGB(
-                                                          0, 0, 0, 0),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      image: DecorationImage(
-                                                          fit: BoxFit.cover,
-                                                          image: AssetImage(
-                                                              '${affairsData!.imagePath}'))),
-                                                ),
-                                                Expanded(
-                                                  child: ListTile(
-                                                    title: Text(
-                                                      affairsData!.titleTxt,
-                                                      style: AppTheme.body1,
-                                                    ),
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 1,
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                        Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(12),
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: AssetImage('${affairsData!.imagePath}'),
                             ),
-                          ],
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Text(
+                            affairsData!.titleTxt,
+                            style: AppTheme.body1,
+                          ),
                         ),
                       ],
                     ),

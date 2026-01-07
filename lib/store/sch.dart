@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:th.ac.ru.uSmart/model/rotcs_register.dart';
 import 'package:th.ac.ru.uSmart/model/scholarship.dart';
 
 class SchStorage {

@@ -37,106 +37,119 @@ class _RegisterViewState extends State<RegisterView> {
                   const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8.0),
-                      bottomLeft: Radius.circular(8.0),
-                      bottomRight: Radius.circular(8.0),
-                      topRight: Radius.circular(68.0)),
+                  color: AppTheme.nearlyWhite,
+                  borderRadius: BorderRadius.circular(16.0),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: HexColor("#FF19196B").withOpacity(0.6),
-                        offset: const Offset(1.1, 4.0),
-                        blurRadius: 8.0),
+                        color: AppTheme.ru_dark_blue.withValues(alpha: 0.15),
+                        offset: const Offset(0, 4),
+                        blurRadius: 12.0,
+                        spreadRadius: 0),
                   ],
-                  gradient: LinearGradient(
-                    colors: <HexColor>[
-                      HexColor("#FF19196B"),
-                      HexColor("#FF1919EB"),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: const Text(
-                          'ระบุปีลงทะเบียนที่สนใจ',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontFamily: AppTheme.ruFontKanit,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 20,
-                            letterSpacing: 0.0,
-                            color: FitnessAppTheme.white,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      RegisterYearDropdownWidget(),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8, top: 8),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(left: 4),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16.0),
+                    gradient: LinearGradient(
+                      colors: [
+                        AppTheme.ru_dark_blue,
+                        AppTheme.ru_dark_blue.withValues(alpha: 0.9),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: AppTheme.ru_yellow.withValues(alpha: 0.2),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
                               child: Icon(
-                                Icons.list,
-                                color: FitnessAppTheme.white,
-                                size: 16,
+                                Icons.calendar_today_rounded,
+                                color: AppTheme.ru_yellow,
+                                size: 24,
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 4.0),
+                            const SizedBox(width: 12),
+                            Expanded(
                               child: Text(
-                                'จำนวนวิชาที่ลงทะเบียน ${register.record == null ? "0" : register.record!.length} รายการ',
-                                textAlign: TextAlign.center,
+                                'ระบุปีการศึกษาที่สนใจ',
+                                textAlign: TextAlign.left,
                                 style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
                                   letterSpacing: 0.0,
-                                  color: FitnessAppTheme.white,
+                                  color: AppTheme.nearlyWhite,
                                 ),
                               ),
                             ),
-                            Expanded(
-                              child: SizedBox(),
-                            ),
-                            // Container(
-                            //   decoration: BoxDecoration(
-                            //     color: FitnessAppTheme.nearlyWhite,
-                            //     shape: BoxShape.circle,
-                            //     boxShadow: <BoxShadow>[
-                            //       BoxShadow(
-                            //           color: FitnessAppTheme.nearlyBlack
-                            //               .withOpacity(0.4),
-                            //           offset: Offset(8.0, 8.0),
-                            //           blurRadius: 8.0),
-                            //     ],
-                            //   ),
-                            //   child: Padding(
-                            //     padding: const EdgeInsets.all(0.0),
-                            //     child: Icon(
-                            //       Icons.search,
-                            //       color: HexColor("#6F56E8"),
-                            //       size: 44,
-                            //     ),
-                            //   ),
-                            // )
                           ],
                         ),
-                      )
-                    ],
+                        const SizedBox(height: 16),
+                        RegisterYearDropdownWidget(),
+                        const SizedBox(height: 16),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 12),
+                          decoration: BoxDecoration(
+                            color: AppTheme.ru_yellow.withValues(alpha: 0.15),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: AppTheme.ru_yellow.withValues(alpha: 0.3),
+                              width: 1,
+                            ),
+                          ),
+                          child: Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.class_rounded,
+                                color: AppTheme.ru_yellow,
+                                size: 20,
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  'จำนวนวิชาที่ลงทะเบียน',
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.ruFontKanit,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    color: AppTheme.nearlyWhite.withValues(alpha: 0.9),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 6),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.ru_yellow,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Text(
+                                  '${register.record == null ? "0" : register.record!.length} รายการ',
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.ruFontKanit,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    color: AppTheme.ru_dark_blue,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),

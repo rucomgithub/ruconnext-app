@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/models/tabIcon_data.dart';
@@ -6,7 +5,6 @@ import 'package:th.ac.ru.uSmart/fitness_app/training/training_screen.dart';
 import 'package:th.ac.ru.uSmart/master/pages/grade/master_grade_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
-import '../../../login_page.dart';
 import '../../../fitness_app/bottom_navigation_view/bottom_bar_view.dart';
 import '../../../fitness_app/fitness_app_theme.dart';
 

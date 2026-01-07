@@ -53,18 +53,14 @@ class _MasterGradeYearListViewState extends State<MasterGradeYearListView>
           child: Transform(
             transform: Matrix4.translationValues(
                 0.0, 100 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
-            child: AspectRatio(
-              aspectRatio: 1.0,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 8.0,
-                  right: 8.0,
-                ),
-                child: ListView(
-                  padding: EdgeInsets.all(4.0),
-                  physics: const BouncingScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  children: List<Widget>.generate(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: ListView(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                children: List<Widget>.generate(
                     widget.grades!.length,
                     (int index) {
                       final int count = widget.grades!.length;
@@ -84,7 +80,6 @@ class _MasterGradeYearListViewState extends State<MasterGradeYearListView>
                         animationController: animationController!,
                       );
                     },
-                  ),
                 ),
               ),
             ),
@@ -119,166 +114,142 @@ class AreaView extends StatelessWidget {
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
         List<String> parts = this.course.toString().split(',');
-        EdgeInsets listItemPadding =
-            EdgeInsets.only(left: 0, bottom: 4, top: 4, right: 40);
-        Color gradColor = AppTheme.ru_text_light_blue;
-        if (parts[1].contains("F")) {
-          listItemPadding =
-              EdgeInsets.only(left: 40, bottom: 4, top: 4, right: 0);
-          gradColor = AppTheme.ru_text_grey;
-        }
+        final bool isFailed = parts[1].contains("F");
+        final Color gradeColor = isFailed
+            ? Colors.red.shade400
+            : AppTheme.ru_text_light_blue;
+        final Color cardColor = isFailed
+            ? Colors.red.shade50
+            : Colors.white;
+
         return Padding(
-          padding: listItemPadding,
+          padding: const EdgeInsets.only(bottom: 12.0),
           child: FadeTransition(
             opacity: animation!,
             child: Transform(
               transform: Matrix4.translationValues(
                   0.0, 80 * (1.0 - animation!.value), 0.0),
-              child: Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: FitnessAppTheme.nearlyWhite.withOpacity(0.9),
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(8.0),
-                          bottomLeft: Radius.circular(0.0),
-                          bottomRight: Radius.circular(0.0),
-                          topRight: Radius.circular(8.0)),
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                            color: FitnessAppTheme.grey.withOpacity(0.4),
-                            offset: const Offset(1.1, 1.1),
-                            blurRadius: 10.0),
-                      ],
+              child: Container(
+                decoration: BoxDecoration(
+                  color: cardColor,
+                  borderRadius: BorderRadius.circular(16.0),
+                  border: isFailed
+                      ? Border.all(color: Colors.red.shade200, width: 2)
+                      : null,
+                  boxShadow: [
+                    BoxShadow(
+                      color: isFailed
+                          ? Colors.red.withOpacity(0.2)
+                          : Colors.grey.withOpacity(0.15),
+                      offset: const Offset(0, 4),
+                      blurRadius: 12.0,
+                      spreadRadius: 1,
                     ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        focusColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        hoverColor: Colors.transparent,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(8.0)),
-                        splashColor:
-                            FitnessAppTheme.nearlyDarkBlue.withOpacity(0.2),
-                        onTap: () {},
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 16, right: 8),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: AppTheme.ru_text_light_blue
-                                          .withOpacity(0.9),
-                                      borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(8.0),
-                                          bottomLeft: Radius.circular(8.0),
-                                          bottomRight: Radius.circular(8.0),
-                                          topRight: Radius.circular(8.0)),
-                                      boxShadow: <BoxShadow>[
-                                        BoxShadow(
-                                            color: FitnessAppTheme.grey
-                                                .withOpacity(0.4),
-                                            offset: const Offset(1.1, 1.1),
-                                            blurRadius: 10.0),
+                  ],
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(16.0),
+                    splashColor: gradeColor.withOpacity(0.1),
+                    onTap: () {},
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            width: 48,
+                            height: 48,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: isFailed
+                                    ? [Colors.red.shade300, Colors.red.shade500]
+                                    : [
+                                        AppTheme.ru_text_light_blue,
+                                        AppTheme.ru_dark_blue
                                       ],
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(4.0),
-                                      child: Icon(
-                                        Icons.book_sharp,
-                                        color: AppTheme.white,
-                                        size: baseFontSize - 4,
-                                      ),
-                                    ),
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(12.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: gradeColor.withOpacity(0.3),
+                                  offset: const Offset(0, 2),
+                                  blurRadius: 6.0,
+                                ),
+                              ],
+                            ),
+                            child: Icon(
+                              Icons.book,
+                              color: Colors.white,
+                              size: 24,
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  parts[0],
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.ruFontKanit,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppTheme.ru_dark_blue,
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      '${parts[0]}',
-                                      textAlign: TextAlign.center,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 4),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.credit_card,
+                                      size: 14,
+                                      color: Colors.grey.shade600,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      '${parts[2]}.0 หน่วยกิต',
                                       style: TextStyle(
                                         fontFamily: AppTheme.ruFontKanit,
-                                        fontSize: baseFontSize - 4,
-                                        color: AppTheme.ru_text_ocean_blue,
+                                        fontSize: 12,
+                                        color: Colors.grey.shade600,
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 16),
-                              child: Text(
-                                '${parts[1]}',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.ruFontKanit,
-                                  fontSize: baseFontSize - 4,
-                                  color: gradColor,
+                                  ],
                                 ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            decoration: BoxDecoration(
+                              color: gradeColor.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(12.0),
+                              border: Border.all(
+                                color: gradeColor.withOpacity(0.3),
+                                width: 1.5,
                               ),
                             ),
-                          ],
-                        ),
+                            child: Text(
+                              parts[1],
+                              style: TextStyle(
+                                fontFamily: AppTheme.ruFontKanit,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: gradeColor,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 2,
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(4.0),
-                    decoration: BoxDecoration(
-                      color: FitnessAppTheme.nearlyWhite.withOpacity(0.9),
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(0.0),
-                          bottomLeft: Radius.circular(8.0),
-                          bottomRight: Radius.circular(8.0),
-                          topRight: Radius.circular(0.0)),
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                            color: FitnessAppTheme.grey.withOpacity(0.4),
-                            offset: const Offset(1.1, 1.1),
-                            blurRadius: 10.0),
-                      ],
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        focusColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        hoverColor: Colors.transparent,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(8.0)),
-                        splashColor:
-                            FitnessAppTheme.nearlyDarkBlue.withOpacity(0.2),
-                        onTap: () {},
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(right: 8),
-                              child: Text(
-                                '${parts[2]} หน่วยกิต',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: AppTheme.ruFontKanit,
-                                  fontSize: baseFontSize - 4,
-                                  color: AppTheme.ru_text_grey,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ),

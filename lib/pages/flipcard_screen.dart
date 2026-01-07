@@ -5,7 +5,6 @@ import 'package:th.ac.ru.uSmart/pages/ImageLoader.dart';
 import 'package:th.ac.ru.uSmart/providers/student_provider.dart';
 import 'package:th.ac.ru.uSmart/utils/faculty_color.dart';
 import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
-import '../login_page.dart';
 import 'package:flutter/material.dart';
 import '../model/homelist.dart';
 import 'package:flip_card/flip_card.dart';
@@ -30,12 +29,20 @@ class _FlipCardPageState extends State<FlipCardPage>
     animationController = AnimationController(
         duration: const Duration(milliseconds: 800), vsync: this);
     super.initState();
-    Provider.of<AuthenProvider>(context, listen: false).getProfile();
-    Provider.of<StudentProvider>(context, listen: false).refreshData();
+
+    // Set context first before calling any methods
+    Provider.of<StudentProvider>(context, listen: false).context = context;
+
+    // Call after frame is built to avoid "setState during build" error
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<AuthenProvider>(context, listen: false).getProfile();
+      Provider.of<StudentProvider>(context, listen: false).refreshData();
+    });
   }
 
   Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 500));
+
     return true;
   }
 
@@ -84,7 +91,7 @@ class _FlipCardPageState extends State<FlipCardPage>
         ),
         backgroundColor: isLightMode
             ? AppTheme.nearlyWhite
-            : AppTheme.nearlyBlack.withOpacity(0.2),
+            : AppTheme.nearlyBlack.withValues(alpha: 0.2),
         body: FutureBuilder<bool>(
             future: getData(),
             builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
@@ -130,273 +137,522 @@ class _FlipCardPageState extends State<FlipCardPage>
 
     var authen = context.watch<AuthenProvider>();
     var studentProv = context.watch<StudentProvider>();
-    var region = studentProv.student.regionalnamethai!;
-    region = region.replaceAll("จังหวัด", "");
-    return Card(
-      elevation: 0.0,
-      margin: const EdgeInsets.only(
-          left: 30.0, right: 30.0, top: 30.0, bottom: 30.0),
-      color: const Color(0x00000000),
-      child: FlipCard(
-        direction: FlipDirection.HORIZONTAL,
-        speed: 1000,
-        onFlipDone: (status) {
-          print(status);
-        },
-        front: Container(
+
+    // Check if there's an error
+    if (studentProv.error.isNotEmpty) {
+      return Center(
+        child: Container(
+          margin: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
           decoration: BoxDecoration(
-            // image: DecorationImage(
-            //   image: AssetImage('assets/images/ID.png'),
-            //   fit: BoxFit.cover,
-            //   opacity: 1.0,
-            // ),
-            color: AppTheme.nearlyWhite,
-            border: Border.all(
-              color: AppTheme.ru_dark_blue,
-              width: 2,
-            ),
-            borderRadius: const BorderRadius.only(
-              bottomRight: Radius.circular(16.0),
-              bottomLeft: Radius.circular(16.0),
-              topLeft: Radius.circular(16.0),
-              topRight: Radius.circular(16.0),
-            ),
-            boxShadow: <BoxShadow>[
+            color: const Color.fromARGB(255, 240, 232, 232),
+            borderRadius: BorderRadius.circular(16.0),
+            boxShadow: [
               BoxShadow(
-                  color: AppTheme.ru_dark_blue.withOpacity(0.4),
-                  offset: Offset(4.0, 4.0),
-                  blurRadius: 4.0),
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 8.0,
+                offset: const Offset(0, 2),
+              ),
             ],
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                      width: screenWidth * 0.15,
-                      height: screenHeight * 0.1,
-                      child: Padding(
-                        padding: EdgeInsets.all(7.0),
-                        child: ClipRRect(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10.0)),
-                          child:
-                              Image.asset('assets/images/Logo_VecRu_Thai.png'),
-                        ),
-                      )),
-                  Container(
-                    width: screenWidth * 0.5,
-                    height: screenHeight * 0.08,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('มหาวิทยาลัยรามคำแหง',
-                            style: TextStyle(
-                              fontFamily: AppTheme.ruFontKanit,
-                              fontSize: baseFontSize - 6,
-                              color: AppTheme.ru_dark_blue,
-                            )),
-                        Text('Ramkhamhaeng University',
-                            style: TextStyle(
-                              fontFamily: AppTheme.ruFontKanit,
-                              fontSize: baseFontSize - 6,
-                              color: AppTheme.ru_yellow,
-                            )),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(
-                              Icons.credit_card_sharp,
-                              size: baseFontSize - 6,
-                              color: Colors.blue[900],
-                            ),
-                            SizedBox(width: 2),
-                            Text('บัตรนักศึกษาอิเล็กทรอนิกส์',
-                                style: TextStyle(
-                                  fontFamily: AppTheme.ruFontKanit,
-                                  fontSize: baseFontSize - 6,
-                                  color: AppTheme.ru_text_ocean_blue,
-                                )),
-                          ],
-                        )
-                      ],
-                    ),
-                  )
-                ],
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.error_outline,
+                size: 48,
+                color: Colors.redAccent,
               ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                  shape: BoxShape.rectangle,
+              const SizedBox(height: 16),
+              Text(
+                studentProv.error,
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.black87,
+                  fontFamily: AppTheme.ruFontKanit,
                 ),
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        children: [
-                          Container(
-                            height: screenHeight * 0.15,
-                            width: screenWidth * 0.1,
-                            decoration: BoxDecoration(
-                              color: getFacultyColor(
-                                  studentProv.student.facultynamethai!),
-                              shape: BoxShape.rectangle,
-                              border: Border.all(
-                                color: Colors.black26,
-                                width: 1,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 8),
-                          RotatedBox(
-                            quarterTurns:
-                                1, // Rotate 270 degrees (or 3 quarter-turns) counterclockwise
-                            child: Text(
-                              region,
-                              style: TextStyle(
-                                fontFamily: AppTheme.ruFontKanit,
-                                fontSize: baseFontSize - 12,
-                                color: AppTheme.ru_yellow,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      ImageLoader(), //
-                      QrImage(
-                        data: authen.profile.studentCode!,
-                        version: QrVersions.auto,
-                        size: screenWidth * 0.15,
-                        gapless: false,
-                      )
-                    ],
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Provider.of<StudentProvider>(context, listen: false)
+                      .refreshData();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.ru_dark_blue,
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                ),
+                child: Text(
+                  'ลองอีกครั้ง',
+                  style: TextStyle(
+                    fontFamily: AppTheme.ruFontKanit,
+                    fontSize: 14,
+                    color: AppTheme.nearlyWhite,
                   ),
-                ),
-              ),
-              Container(
-                height: screenHeight * 0.2,
-                width: screenWidth * 0.6,
-                child: Column(
-                  children: [
-                    Expanded(
-                      flex: 4,
-                      child: Container(
-                        height: screenHeight * 0.1,
-                        width: screenWidth * 0.6,
-                        child: Container(
-                          height: screenHeight * 0.05,
-                          width: screenWidth * 0.6,
-                          child: Padding(
-                              padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('${studentProv.student.namethai!}',
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.ruFontKanit,
-                                        fontSize: baseFontSize - 6,
-                                        color: AppTheme.white,
-                                      )),
-                                  Text(studentProv.student.nameeng!,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.ruFontKanit,
-                                        fontSize: baseFontSize - 6,
-                                        color: AppTheme.ru_yellow,
-                                      ))
-                                ],
-                              )),
-                        ),
-                        color: AppTheme
-                            .ru_dark_blue, // Set the color for the red stripes
-                      ),
-                    ),
-                    Expanded(
-                      flex: 4,
-                      child: Container(
-                        height: screenHeight * 0.1,
-                        width: screenWidth * 0.6,
-                        child: Container(
-                          height: screenHeight * 0.05,
-                          width: screenWidth * 0.6,
-                          child: Padding(
-                              padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(studentProv.student.facultynamethai!,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.ruFontKanit,
-                                        fontSize: baseFontSize - 6,
-                                        color: AppTheme.ru_dark_blue,
-                                      )),
-                                  Text(studentProv.student.majornamethai!,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.ruFontKanit,
-                                        fontSize: baseFontSize - 6,
-                                        color: AppTheme.white,
-                                      ))
-                                ],
-                              )),
-                        ),
-                        color: AppTheme
-                            .ru_yellow, // Set the color for the blue stripes
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0.0, 4.0, 0.0, 16.0),
-                child: Column(
-                  children: [
-                    Container(
-                      height: screenHeight * 0.1,
-                      width: screenWidth * 0.6,
-                      child: Padding(
-                        padding: EdgeInsets.all(5.0),
-                        child: Image.network(
-                            'http://beta-e-service.ru.ac.th:8001/misservice/generate/barcode.php?barcode=${authen.profile.email!.substring(0, 10)}&width=${screenWidth * 0.6}&height=${screenHeight * 0.1}'),
-                      ),
-                    ),
-                  ],
                 ),
               ),
             ],
           ),
         ),
-        back: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromARGB(255, 113, 156, 156),
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              QrImage(
-                data: studentProv.student.stdcode!,
-                version: QrVersions.auto,
-                size: screenWidth * 0.8,
-                gapless: false,
-                embeddedImage: AssetImage('assets/images/Logo_VecRu_Thai.png'),
-                embeddedImageStyle: QrEmbeddedImageStyle(
-                  size: Size(screenWidth * 0.2, screenWidth * 0.2),
+      );
+    }
+
+    // Check if data is loaded
+    if (studentProv.isLoading ||
+        studentProv.student.regionalnamethai == null ||
+        studentProv.student.regionalnamethai == '' ||
+        studentProv.student.facultynamethai == null ||
+        studentProv.student.facultynamethai == '' ||
+        studentProv.student.namethai == null ||
+        studentProv.student.namethai == '' ||
+        studentProv.student.nameeng == null ||
+        studentProv.student.nameeng == '' ||
+        studentProv.student.majornamethai == null ||
+        studentProv.student.majornamethai == '' ||
+        studentProv.student.stdcode == null ||
+        studentProv.student.stdcode == '' ||
+        authen.profile.studentCode == null ||
+        authen.profile.studentCode == '' ||
+        authen.profile.email == null ||
+        authen.profile.email == '') {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(AppTheme.ru_dark_blue),
+            ),
+            SizedBox(height: 16),
+            Text(
+              'กำลังโหลดข้อมูล...',
+              style: TextStyle(
+                fontFamily: AppTheme.ruFontKanit,
+                fontSize: baseFontSize,
+                color:
+                    isLightMode ? AppTheme.ru_dark_blue : AppTheme.nearlyWhite,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    var region = studentProv.student.regionalnamethai!;
+    region = region.replaceAll("จังหวัด", "");
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
+        child: AspectRatio(
+          aspectRatio: 0.63,
+          child: FlipCard(
+            direction: FlipDirection.HORIZONTAL,
+            speed: 1000,
+            onFlipDone: (status) {
+              print(status);
+            },
+            front: ClipRRect(
+              borderRadius: BorderRadius.circular(16.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppTheme.white,
+                  image: DecorationImage(
+                    image: const AssetImage('assets/images/ID.png'),
+                    fit: BoxFit.cover,
+                    opacity: isLightMode ? 0.85 : 0.45,
+                  ),
+                  boxShadow: const <BoxShadow>[
+                    BoxShadow(
+                      color: AppTheme.ru_yellow,
+                      offset: Offset(2.0, 2.0),
+                      blurRadius: 12.0,
+                      spreadRadius: 1.0,
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      // Header Section
+                      Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: 50,
+                                height: 60,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: Image.asset(
+                                    'assets/images/Logo_VecRu_Thai.png',
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Flexible(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'มหาวิทยาลัยรามคำแหง',
+                                      style: AppTheme.body1.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    Text(
+                                      'Ramkhamhaeng University',
+                                      style:
+                                          AppTheme.body2.copyWith(fontSize: 10),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+                          Container(
+                            height: 4,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  getFacultyColor(
+                                      studentProv.student.facultynamethai!),
+                                  getFacultyColor(
+                                          studentProv.student.facultynamethai!)
+                                      .withOpacity(0.3),
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(2),
+                            ),
+                          ),
+                        ],
+                      ),
+                      // Middle Section - Image and Info
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 140,
+                            height: 160,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: getFacultyColor(
+                                          studentProv.student.facultynamethai!)
+                                      .withOpacity(0.3),
+                                  blurRadius: 12,
+                                  offset: const Offset(0, 4),
+                                  spreadRadius: 2,
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: ImageLoader(),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 12),
+                            decoration: BoxDecoration(
+                              color: AppTheme.ru_dark_blue.withOpacity(0.95),
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppTheme.ru_yellow.withOpacity(0.2),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                Text(
+                                  studentProv.student.namethai!,
+                                  style: const TextStyle(
+                                    color: AppTheme.ru_yellow,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: AppTheme.ruFontKanit,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  studentProv.student.nameeng!,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontFamily: AppTheme.ruFontKanit,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 10),
+                            decoration: BoxDecoration(
+                              color: AppTheme.ru_yellow.withOpacity(0.95),
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppTheme.ru_dark_blue.withOpacity(0.2),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                Text(
+                                  studentProv.student.majornamethai!,
+                                  style: const TextStyle(
+                                    color: AppTheme.ru_dark_blue,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: AppTheme.ruFontKanit,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 4),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.location_on,
+                                      size: 12,
+                                      color: AppTheme.ru_dark_blue
+                                          .withOpacity(0.7),
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Flexible(
+                                      child: Text(
+                                        region,
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                          color: AppTheme.ru_dark_blue
+                                              .withOpacity(0.8),
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      // Bottom Section - QR Code
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 6,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: QrImageView(
+                              data: authen.profile.studentCode!,
+                              version: QrVersions.auto,
+                              size: 70,
+                              gapless: false,
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'รหัสนักศึกษา',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      color: AppTheme.ru_dark_blue
+                                          .withOpacity(0.7),
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    authen.profile.studentCode!,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: AppTheme.ru_dark_blue,
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 1,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              Text('Back',
-                  style: TextStyle(
-                    fontFamily: AppTheme.ruFontKanit,
-                    fontSize: baseFontSize + 10,
-                    color: AppTheme.darkText,
-                  )),
-            ],
+            ),
+            back: ClipRRect(
+              borderRadius: BorderRadius.circular(16.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      AppTheme.ru_dark_blue,
+                      AppTheme.ru_dark_blue.withOpacity(0.9),
+                    ],
+                  ),
+                  boxShadow: const <BoxShadow>[
+                    BoxShadow(
+                      color: AppTheme.ru_yellow,
+                      offset: Offset(2.0, 2.0),
+                      blurRadius: 12.0,
+                      spreadRadius: 1.0,
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Column(
+                        children: [
+                          SizedBox(
+                            width: 60,
+                            height: 70,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12.0),
+                              child: Image.asset(
+                                'assets/images/Logo_VecRu_Thai.png',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          const Text(
+                            'มหาวิทยาลัยรามคำแหง',
+                            style: TextStyle(
+                              color: AppTheme.ru_yellow,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: AppTheme.ruFontKanit,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          const Text(
+                            'Ramkhamhaeng University',
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 11,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Container(
+                            height: 2,
+                            width: 100,
+                            decoration: BoxDecoration(
+                              color: AppTheme.ru_yellow,
+                              borderRadius: BorderRadius.circular(1),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: Container(
+                            constraints: const BoxConstraints(maxWidth: 220),
+                            padding: const EdgeInsets.all(20.0),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppTheme.ru_yellow.withOpacity(0.4),
+                                  blurRadius: 16,
+                                  spreadRadius: 3,
+                                ),
+                              ],
+                            ),
+                            child: QrImageView(
+                              data: authen.profile.studentCode!,
+                              version: QrVersions.auto,
+                              size: 180,
+                              gapless: false,
+                              embeddedImage: const AssetImage(
+                                  'assets/images/Logo_VecRu_Thai.png'),
+                              embeddedImageStyle: const QrEmbeddedImageStyle(
+                                size: Size(50, 50),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          const Text(
+                            'Student ID',
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 11,
+                              letterSpacing: 1,
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            authen.profile.studentCode!,
+                            style: const TextStyle(
+                              color: AppTheme.ru_yellow,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 2,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ),
         ),
       ),

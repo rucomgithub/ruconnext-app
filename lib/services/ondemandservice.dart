@@ -41,8 +41,8 @@ class OndemandService {
         throw ('Error Get Data');
         // print('Error Get Data');
       }
-    } on DioError catch (err) {
-      final errorMessage = DioException.fromDioError(err).toString();
+    } on DioException catch (err) {
+      final errorMessage = DioExceptionHandler.fromDioError(err).toString();
       throw (errorMessage);
       //กรณีไม่มีข้อมูลในระบบเลยจะคืนกลับมาใน error นี้
     }

@@ -44,7 +44,7 @@ class _MediterranesnDietViewState extends State<MediterranesnDietView> {
                       topRight: Radius.circular(68.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: FitnessAppTheme.grey.withOpacity(0.2),
+                        color: FitnessAppTheme.grey.withValues(alpha: 0.2),
                         offset: Offset(1.1, 1.1),
                         blurRadius: 10.0),
                   ],
@@ -81,7 +81,7 @@ class _MediterranesnDietViewState extends State<MediterranesnDietView> {
                                               width: 2,
                                               decoration: BoxDecoration(
                                                 color: HexColor('#87A0E5')
-                                                    .withOpacity(0.5),
+                                                    .withValues(alpha: 0.5),
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(4.0)),
                                               ),
@@ -113,7 +113,7 @@ class _MediterranesnDietViewState extends State<MediterranesnDietView> {
                                                         letterSpacing: -0.1,
                                                         color: FitnessAppTheme
                                                             .grey
-                                                            .withOpacity(0.5),
+                                                            .withValues(alpha: 0.5),
                                                       ),
                                                     ),
                                                   ),
@@ -174,8 +174,8 @@ class _MediterranesnDietViewState extends State<MediterranesnDietView> {
                                                             color:
                                                                 FitnessAppTheme
                                                                     .grey
-                                                                    .withOpacity(
-                                                                        0.5),
+                                                                    .withValues(
+                                                                        alpha: 0.5),
                                                           ),
                                                         ),
                                                       ),
@@ -213,7 +213,7 @@ class _MediterranesnDietViewState extends State<MediterranesnDietView> {
                                             width: 4,
                                             color: FitnessAppTheme
                                                 .nearlyDarkBlue
-                                                .withOpacity(0.2)),
+                                                .withValues(alpha: 0.2)),
                                       ),
                                       child: Column(
                                         mainAxisAlignment:
@@ -244,7 +244,7 @@ class _MediterranesnDietViewState extends State<MediterranesnDietView> {
                                               fontSize: 10,
                                               letterSpacing: 0.0,
                                               color: FitnessAppTheme.grey
-                                                  .withOpacity(0.5),
+                                                  .withValues(alpha: 0.5),
                                             ),
                                           ),
                                         ],
@@ -300,7 +300,7 @@ class _MediterranesnDietViewState extends State<MediterranesnDietView> {
                               left: 20, right: 8, top: 8, bottom: 20),
                           child: Icon(
                             Icons.abc,
-                            color: FitnessAppTheme.grey.withOpacity(1),
+                            color: FitnessAppTheme.grey.withValues(alpha: 1),
                             size: 20,
                           ),
                         ),
@@ -315,7 +315,7 @@ class _MediterranesnDietViewState extends State<MediterranesnDietView> {
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
                               letterSpacing: 0.0,
-                              color: FitnessAppTheme.grey.withOpacity(0.5),
+                              color: FitnessAppTheme.grey.withValues(alpha: 0.5),
                             ),
                           ),
                         ),
@@ -372,7 +372,7 @@ class _MediterranesnDietViewState extends State<MediterranesnDietView> {
                     //                             width: 70,
                     //                             decoration: BoxDecoration(
                     //                               color: HexColor('#87A0E5')
-                    //                                   .withOpacity(0.2),
+                    //                                   .withValues(alpha: 0.2),
                     //                               borderRadius:
                     //                                   BorderRadius.all(
                     //                                       Radius.circular(4.0)),
@@ -418,7 +418,7 @@ class _MediterranesnDietViewState extends State<MediterranesnDietView> {
                     //                               fontWeight: FontWeight.w600,
                     //                               fontSize: 12,
                     //                               color: FitnessAppTheme.grey
-                    //                                   .withOpacity(0.5),
+                    //                                   .withValues(alpha: 0.5),
                     //                             ),
                     //                           ),
                     //                         ),
@@ -459,7 +459,7 @@ class CurvePainter extends CustomPainter {
     }
 
     final shdowPaint = new Paint()
-      ..color = Colors.black.withOpacity(0.4)
+      ..color = Colors.black.withValues(alpha: 0.4)
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
       ..strokeWidth = 14;
@@ -473,7 +473,7 @@ class CurvePainter extends CustomPainter {
         false,
         shdowPaint);
 
-    shdowPaint.color = Colors.grey.withOpacity(0.3);
+    shdowPaint.color = Colors.grey.withValues(alpha: 0.3);
     shdowPaint.strokeWidth = 16;
     canvas.drawArc(
         new Rect.fromCircle(center: shdowPaintCenter, radius: shdowPaintRadius),
@@ -482,7 +482,7 @@ class CurvePainter extends CustomPainter {
         false,
         shdowPaint);
 
-    shdowPaint.color = Colors.grey.withOpacity(0.2);
+    shdowPaint.color = Colors.grey.withValues(alpha: 0.2);
     shdowPaint.strokeWidth = 20;
     canvas.drawArc(
         new Rect.fromCircle(center: shdowPaintCenter, radius: shdowPaintRadius),
@@ -491,7 +491,7 @@ class CurvePainter extends CustomPainter {
         false,
         shdowPaint);
 
-    shdowPaint.color = Colors.grey.withOpacity(0.1);
+    shdowPaint.color = Colors.grey.withValues(alpha: 0.1);
     shdowPaint.strokeWidth = 22;
     canvas.drawArc(
         new Rect.fromCircle(center: shdowPaintCenter, radius: shdowPaintRadius),
