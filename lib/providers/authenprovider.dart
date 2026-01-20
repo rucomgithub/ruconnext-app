@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/store/authen.dart';
 import 'package:th.ac.ru.uSmart/store/rotcsextend.dart';
 import 'package:th.ac.ru.uSmart/store/rotcsregister.dart';
@@ -52,10 +53,19 @@ class AuthenProvider extends ChangeNotifier {
     } catch (e) {
       await GoogleSignIn.instance.signOut();
       _isLoading = false;
-      var snackbar = SnackBar(content: Text('$e'));
       print('$e');
       _role = '';
-      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            '$e',
+            style: TextStyle(
+              fontFamily: AppTheme.ruFontKanit,
+              fontSize: 14,
+            ),
+          ),
+        ),
+      );
     }
 
     notifyListeners();
@@ -81,10 +91,19 @@ class AuthenProvider extends ChangeNotifier {
     } catch (e) {
       await GoogleSignIn.instance.signOut();
       _isLoading = false;
-      var snackbar = SnackBar(content: Text('$e'));
       print('$e');
       _role = '';
-      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            '$e',
+            style: TextStyle(
+              fontFamily: AppTheme.ruFontKanit,
+              fontSize: 14,
+            ),
+          ),
+        ),
+      );
     }
 
     notifyListeners();
@@ -122,26 +141,29 @@ class AuthenProvider extends ChangeNotifier {
       //print('refreshToken :$refreshToken');
     }
 
-    try {
-      Map<String, dynamic> decodedToken =
-          JwtDecoder.decode(accessToken.toString());
-      // Now you can use your decoded token
-      _role = decodedToken["role"];
-      switch (_role) {
-        case "Bachelor":
-          _roletext = "ปริญญาตรี";
-          break;
-        case "Master":
-          _roletext = "ปริญญาโท";
-          break;
-        case "Doctor":
-          _roletext = "ปริญญาเอก";
-          break;
-        default:
-          _roletext = "";
+    if (accessToken != null && accessToken.isNotEmpty) {
+      try {
+        Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
+        _role = decodedToken["role"] ?? '';
+        switch (_role) {
+          case "Bachelor":
+            _roletext = "ปริญญาตรี";
+            break;
+          case "Master":
+            _roletext = "ปริญญาโท";
+            break;
+          case "Doctor":
+            _roletext = "ปริญญาเอก";
+            break;
+          default:
+            _roletext = "";
+        }
+      } catch (e) {
+        print('Error decoding JWT: $e');
+        _role = '';
+        _roletext = "";
       }
-    } catch (e) {
-      print('Error decoding JWT: $e');
+    } else {
       _role = '';
       _roletext = "";
     }

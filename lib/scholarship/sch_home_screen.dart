@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:th.ac.ru.uSmart/model/scholarship.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,6 @@ import 'package:th.ac.ru.uSmart/providers/sch_provider.dart';
 import 'package:th.ac.ru.uSmart/scholarship/sch_list_view.dart';
 import 'package:th.ac.ru.uSmart/store/authen.dart';
 import '../app_theme.dart';
-import '../login_page.dart';
 import '../providers/authenprovider.dart';
 
 class SchHomeScreen extends StatefulWidget {
@@ -95,12 +95,7 @@ class _SchHomeScreenState extends State<SchHomeScreen>
         ),
         title: Text(
           'ประวัติการรับทุนการศึกษา',
-          style: TextStyle(
-            fontSize: 22,
-            fontFamily: AppTheme.ruFontKanit,
-            color: AppTheme.nearlyWhite,
-            fontWeight: FontWeight.bold,
-          ),
+          style: AppTheme.headline,
         ),
         centerTitle: true, // Centers the title
         backgroundColor:
@@ -108,39 +103,47 @@ class _SchHomeScreenState extends State<SchHomeScreen>
       ),
       backgroundColor:
           isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
-      body: accessToken != null
-          ? Padding(
-              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: <Widget>[
-                        InkWell(
-                          splashColor: Colors.transparent,
-                          focusColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          hoverColor: Colors.transparent,
-                          onTap: () {
-                            FocusScope.of(context).requestFocus(FocusNode());
-                          },
-                          child: Column(
-                            children: <Widget>[
-                              //getAppBarUI(),
-                              getListUI()
-                            ],
-                          ),
+      body: Builder(
+        builder: (context) {
+          if (accessToken == null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Get.offNamed('/login');
+            });
+            return const SizedBox();
+          }
+          return Padding(
+            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: <Widget>[
+                      InkWell(
+                        splashColor: Colors.transparent,
+                        focusColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        onTap: () {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                        },
+                        child: Column(
+                          children: <Widget>[
+                            //getAppBarUI(),
+                            getListUI()
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            )
-          : LoginPage(),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 

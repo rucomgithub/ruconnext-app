@@ -72,12 +72,7 @@ class _AffairsHomeScreenState extends State<AffairsHomeScreen>
         ),
         title: Text(
           'กองกิจการนักศึกษา',
-          style: TextStyle(
-            fontSize: baseFontSize,
-            fontFamily: AppTheme.ruFontKanit,
-            color: AppTheme.nearlyWhite,
-            fontWeight: FontWeight.bold,
-          ),
+          style: AppTheme.headline,
         ),
         centerTitle: true,
         backgroundColor: AppTheme.ru_dark_blue,

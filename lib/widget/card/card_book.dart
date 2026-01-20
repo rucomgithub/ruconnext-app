@@ -36,8 +36,8 @@ class CardBook extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(4.0)),
               onTap: callback,
               child: SizedBox(
-                width: 180,
-                height: 240,
+                width: 150,
+                height: 180,
                 child: Stack(
                   children: <Widget>[
                     Container(
@@ -65,7 +65,7 @@ class CardBook extends StatelessWidget {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.only(
-                            top: 24, left: 16, right: 16, bottom: 16),
+                            top: 18, left: 12, right: 12, bottom: 12),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -83,26 +83,26 @@ class CardBook extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: <Widget>[
                                 Container(
-                                  width: 120,
+                                  width: 110,
                                   decoration: BoxDecoration(
                                     color: AppTheme.nearlyWhite,
                                     shape: BoxShape.rectangle,
                                     borderRadius: const BorderRadius.only(
-                                      bottomRight: Radius.circular(16.0),
-                                      bottomLeft: Radius.circular(16.0),
-                                      topLeft: Radius.circular(16.0),
-                                      topRight: Radius.circular(16.0),
+                                      bottomRight: Radius.circular(12.0),
+                                      bottomLeft: Radius.circular(12.0),
+                                      topLeft: Radius.circular(12.0),
+                                      topRight: Radius.circular(12.0),
                                     ),
                                     boxShadow: <BoxShadow>[
                                       BoxShadow(
                                           color:
                                               AppTheme.ru_grey.withValues(alpha: 0.4),
-                                          offset: Offset(8.0, 8.0),
-                                          blurRadius: 8.0),
+                                          offset: Offset(6.0, 6.0),
+                                          blurRadius: 6.0),
                                     ],
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(6.0),
                                     child: Text(
                                       '$title',
                                       textAlign: TextAlign.center,
@@ -120,8 +120,8 @@ class CardBook extends StatelessWidget {
                       top: 0,
                       left: 4,
                       child: Container(
-                        width: 40,
-                        height: 40,
+                        width: 36,
+                        height: 36,
                         decoration: BoxDecoration(
                           color: AppTheme.ru_yellow.withValues(alpha: 0.9),
                           shape: BoxShape.circle,
@@ -132,11 +132,11 @@ class CardBook extends StatelessWidget {
                       top: 4,
                       left: 8,
                       child: SizedBox(
-                        width: 32,
-                        height: 32,
+                        width: 28,
+                        height: 28,
                         child: Icon(
                           icondata == null ? Icons.book : icondata,
-                          size: 24,
+                          size: 20,
                           color: AppTheme.ru_dark_blue,
                         ),
                       ),

@@ -1,10 +1,10 @@
+import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/affairs/insurance/insurance_list_screen.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/fitness_app_theme.dart';
 import 'package:th.ac.ru.uSmart/fitness_app/models/tabIcon_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:th.ac.ru.uSmart/login_page.dart';
 import 'package:th.ac.ru.uSmart/store/authen.dart';
 
 String? tokenMr30;
@@ -65,12 +65,7 @@ class _InsuranceHomeScreenState extends State<InsuranceHomeScreen>
         ),
         title: Text(
           'กรมธรรม์ประกันภัย',
-          style: TextStyle(
-            fontSize: baseFontSize,
-            fontFamily: AppTheme.ruFontKanit,
-            color: AppTheme.nearlyWhite,
-            fontWeight: FontWeight.bold,
-          ),
+          style: AppTheme.headline,
         ),
         centerTitle: true,
         backgroundColor: AppTheme.ru_dark_blue,
@@ -85,7 +80,13 @@ class _InsuranceHomeScreenState extends State<InsuranceHomeScreen>
               child: CircularProgressIndicator(),
             );
           } else {
-            return accessToken != null ? tabBody : LoginPage();
+            if (accessToken == null) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                Get.offNamed('/login');
+              });
+              return const SizedBox();
+            }
+            return tabBody;
           }
         },
       ),

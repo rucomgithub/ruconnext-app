@@ -5,6 +5,7 @@ import 'package:th.ac.ru.uSmart/grade/course_rank_view.dart';
 import 'package:th.ac.ru.uSmart/grade/radar_view.dart';
 import 'package:th.ac.ru.uSmart/grade/summary_credit_view.dart';
 import 'package:th.ac.ru.uSmart/grade/summary_grade_view.dart';
+import 'package:th.ac.ru.uSmart/registers/course_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:th.ac.ru.uSmart/mr30/title_view.dart';
@@ -135,6 +136,11 @@ class _MyGradeScreenState extends State<MyGradeScreen>
       ),
     );
 
+    // Link to Course by Skills
+    listViews.add(
+      _buildCourseLinkButton(),
+    );
+
     listViews.add(
       TitleView(
         titleTxt: 'สรุปรายการเกรด',
@@ -180,6 +186,86 @@ class _MyGradeScreenState extends State<MyGradeScreen>
     );
   }
 
+  Widget _buildCourseLinkButton() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+      child: Material(
+        elevation: 4,
+        borderRadius: BorderRadius.circular(16),
+        child: InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CourseHomeScreen()),
+            );
+          },
+          borderRadius: BorderRadius.circular(16),
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  AppTheme.ru_yellow,
+                  AppTheme.ru_yellow.withValues(alpha: 0.8),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: AppTheme.ru_dark_blue.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    Icons.school_rounded,
+                    color: AppTheme.ru_dark_blue,
+                    size: 28,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'วิชาตามความถนัดของนักศึกษา',
+                        style: TextStyle(
+                          fontFamily: AppTheme.ruFontKanit,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.ru_dark_blue,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'ดูรายวิชาที่แนะนำตามความถนัดเพื่อเลือกวิชาเพิ่มศักยภาพของนักศึกษา',
+                        style: TextStyle(
+                          fontFamily: AppTheme.ruFontKanit,
+                          fontSize: 13,
+                          color: AppTheme.ru_dark_blue.withValues(alpha: 0.7),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: AppTheme.ru_dark_blue,
+                  size: 20,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Future<bool> getData() async {
     await Future<dynamic>.delayed(const Duration(milliseconds: 200));
     return true;
@@ -201,12 +287,7 @@ class _MyGradeScreenState extends State<MyGradeScreen>
         ),
         title: Text(
           'ผลการศึกษา',
-          style: TextStyle(
-            fontSize: baseFontSize,
-            fontFamily: AppTheme.ruFontKanit,
-            color: AppTheme.nearlyWhite,
-            fontWeight: FontWeight.bold,
-          ),
+          style: AppTheme.headline,
         ),
         centerTitle: true, // Centers the title
         backgroundColor:

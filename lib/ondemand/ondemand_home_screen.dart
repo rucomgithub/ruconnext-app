@@ -103,12 +103,7 @@ class _OndemandHomeScreenState extends State<OndemandHomeScreen>
         ),
         title: Text(
           'วิดีโอคำบรรยาย',
-          style: TextStyle(
-            fontSize: baseFontSize - 2,
-            fontFamily: AppTheme.ruFontKanit,
-            color: AppTheme.nearlyWhite,
-            fontWeight: FontWeight.bold,
-          ),
+          style: AppTheme.headline,
         ),
         centerTitle: true,
         backgroundColor: AppTheme.ru_dark_blue,

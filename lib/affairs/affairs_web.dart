@@ -55,12 +55,7 @@ class _AffairsWebState extends State<AffairsWeb> with TickerProviderStateMixin {
         ),
         title: Text(
           'เว็บกองกิจการนักศึกษา',
-          style: TextStyle(
-            fontSize: baseFontSize,
-            fontFamily: AppTheme.ruFontKanit,
-            color: AppTheme.nearlyWhite,
-            fontWeight: FontWeight.bold,
-          ),
+          style: AppTheme.headline,
         ),
         centerTitle: true,
         backgroundColor: AppTheme.ru_dark_blue,

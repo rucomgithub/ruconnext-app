@@ -5,6 +5,10 @@ import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/providers/student_provider.dart';
 
 class ImageLoader extends StatefulWidget {
+  final bool autoRefresh;
+
+  const ImageLoader({Key? key, this.autoRefresh = false}) : super(key: key);
+
   @override
   _ImageLoaderState createState() => _ImageLoaderState();
 }
@@ -22,12 +26,27 @@ Future<void> refreshData(BuildContext context) async {
 
 class _ImageLoaderState extends State<ImageLoader> {
   Uint8List? imageData = Uint8List(0);
+  bool _hasLoadedImage = false;
 
   @override
   void initState() {
     super.initState();
-    // ไม่ต้องเรียก refreshData() ที่นี่ เพราะ parent screen (flipcard_screen) เรียกไปแล้ว
-    // ImageLoader เป็นแค่ display widget ที่ watch ข้อมูลจาก provider
+    // โหลดรูปอัตโนมัติเมื่อ widget ถูกสร้าง
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadImageIfNeeded();
+    });
+  }
+
+  void _loadImageIfNeeded() {
+    if (!_hasLoadedImage) {
+      final provider = Provider.of<StudentProvider>(context, listen: false);
+      // ตรวจสอบว่ายังไม่มีรูป หรือ autoRefresh เปิดอยู่
+      if (provider.imageData.isEmpty || widget.autoRefresh) {
+        provider.context = context;
+        provider.refreshData();
+      }
+      _hasLoadedImage = true;
+    }
   }
 
   @override

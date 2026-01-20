@@ -56,12 +56,7 @@ class _YearSemesterScreenState extends State<YearSemesterScreen>
         ),
         title: Text(
           'เกรดแยกตามปี/ภาค',
-          style: TextStyle(
-            fontSize: baseFontSize,
-            fontFamily: AppTheme.ruFontKanit,
-            color: AppTheme.nearlyWhite,
-            fontWeight: FontWeight.bold,
-          ),
+          style: AppTheme.headline,
         ),
         centerTitle: true,
         backgroundColor: AppTheme.ru_dark_blue,

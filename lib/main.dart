@@ -223,6 +223,7 @@ class MyApp extends StatelessWidget {
                     token == null ? const LoginPage() : FitnessAppHomeScreen()),
             GetPage(name: '/manual', page: () => ManualHomeScreen()),
             GetPage(name: '/affairs', page: () => AffairsHomeScreen()),
+            GetPage(name: '/webview', page: () => WebPage()),
             GetPage(name: '/scholarship', page: () => SchHomeScreen()),
             GetPage(
                 name: '/fitness',

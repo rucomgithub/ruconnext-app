@@ -145,12 +145,7 @@ class _TodayHomeScreenState extends State<TodayHomeScreen>
         ),
         title: Text(
           'วันนี้เรียนอะไร ? ',
-          style: TextStyle(
-            fontSize: baseFontSize - 2,
-            fontFamily: AppTheme.ruFontKanit,
-            color: AppTheme.nearlyWhite,
-            fontWeight: FontWeight.bold,
-          ),
+          style: AppTheme.headline,
         ),
         centerTitle: true, // Centers the title
         backgroundColor:

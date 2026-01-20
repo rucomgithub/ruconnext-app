@@ -55,55 +55,47 @@ class _RegisterListViewState extends State<RegisterListView>
                   SizedBox(
                     height: MediaQuery.of(context).padding.bottom,
                   ),
-                  FadeTransition(
-                    opacity: widget.mainScreenAnimation!,
-                    child: Transform(
-                      transform: Matrix4.translationValues(0.0,
-                          30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
-                      child: AspectRatio(
-                        aspectRatio: 1.0,
+                  Expanded(
+                    child: FadeTransition(
+                      opacity: widget.mainScreenAnimation!,
+                      child: Transform(
+                        transform: Matrix4.translationValues(0.0,
+                            30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
                         child: Padding(
                           padding: const EdgeInsets.only(left: 8.0, right: 8),
-                          child: GridView(
+                          child: ListView.builder(
                             padding: const EdgeInsets.only(
                                 left: 16, right: 16, top: 16, bottom: 16),
                             physics: const BouncingScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            children: List<Widget>.generate(
-                              registerProv.listGroupYearSemester.length,
-                              (int index) {
-                                final int count =
-                                    registerProv.listGroupYearSemester.length;
-                                final Animation<double> animation =
-                                    Tween<double>(begin: 0.0, end: 1.0).animate(
-                                  CurvedAnimation(
-                                    parent: animationController!,
-                                    curve: Interval((1 / count) * index, 1.0,
-                                        curve: Curves.fastOutSlowIn),
-                                  ),
-                                );
-                                animationController?.forward();
-                                String name = registerProv
-                                    .listGroupYearSemester.keys
-                                    .elementAt(index);
-                                List<String> values =
-                                    registerProv.listGroupYearSemester[name]!;
-                                return AreaView(
+                            itemCount: registerProv.listGroupYearSemester.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final int count =
+                                  registerProv.listGroupYearSemester.length;
+                              final Animation<double> animation =
+                                  Tween<double>(begin: 0.0, end: 1.0).animate(
+                                CurvedAnimation(
+                                  parent: animationController!,
+                                  curve: Interval((1 / count) * index, 1.0,
+                                      curve: Curves.fastOutSlowIn),
+                                ),
+                              );
+                              animationController?.forward();
+                              String name = registerProv
+                                  .listGroupYearSemester.keys
+                                  .elementAt(index);
+                              List<String> values =
+                                  registerProv.listGroupYearSemester[name]!;
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 16),
+                                child: AreaView(
                                   index: index,
                                   name: name,
                                   values: values,
                                   animation: animation,
                                   animationController: animationController!,
-                                );
-                              },
-                            ),
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 1,
-                              mainAxisSpacing: 24.0,
-                              crossAxisSpacing: 24.0,
-                              childAspectRatio: 1.0,
-                            ),
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ),
@@ -130,7 +122,7 @@ Icon IconFavorite(bool favorite) {
         );
 }
 
-class AreaView extends StatelessWidget {
+class AreaView extends StatefulWidget {
   const AreaView({
     Key? key,
     this.index,
@@ -147,15 +139,55 @@ class AreaView extends StatelessWidget {
   final Animation<double>? animation;
 
   @override
+  State<AreaView> createState() => _AreaViewState();
+}
+
+class _AreaViewState extends State<AreaView>
+    with SingleTickerProviderStateMixin {
+  bool _isExpanded = false;
+  late AnimationController _expandController;
+  late Animation<double> _expandAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _expandController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+    _expandAnimation = CurvedAnimation(
+      parent: _expandController,
+      curve: Curves.easeInOut,
+    );
+  }
+
+  @override
+  void dispose() {
+    _expandController.dispose();
+    super.dispose();
+  }
+
+  void _toggleExpanded() {
+    setState(() {
+      _isExpanded = !_isExpanded;
+      if (_isExpanded) {
+        _expandController.forward();
+      } else {
+        _expandController.reverse();
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: animationController!,
+      animation: widget.animationController!,
       builder: (BuildContext context, Widget? child) {
         return FadeTransition(
-          opacity: animation!,
+          opacity: widget.animation!,
           child: Transform(
             transform: Matrix4.translationValues(
-                0.0, 50 * (1.0 - animation!.value), 0.0),
+                0.0, 50 * (1.0 - widget.animation!.value), 0.0),
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -183,7 +215,7 @@ class AreaView extends StatelessWidget {
                   hoverColor: Colors.transparent,
                   borderRadius: BorderRadius.circular(16.0),
                   splashColor: AppTheme.ru_dark_blue.withValues(alpha: 0.1),
-                  onTap: () {},
+                  onTap: _toggleExpanded,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -205,32 +237,49 @@ class AreaView extends StatelessWidget {
                             topRight: Radius.circular(16.0),
                           ),
                         ),
-                        child: Column(
+                        child: Stack(
                           children: [
-                            Icon(
-                              Icons.calendar_today_rounded,
-                              color: AppTheme.ru_yellow,
-                              size: 32,
+                            Column(
+                              children: [
+                                Icon(
+                                  Icons.calendar_today_rounded,
+                                  color: AppTheme.ru_yellow,
+                                  size: 32,
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'ปีการศึกษา',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.ruFontKanit,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    color: AppTheme.nearlyWhite.withValues(alpha: 0.8),
+                                  ),
+                                ),
+                                Text(
+                                  widget.name!,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.ruFontKanit,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 28,
+                                    color: AppTheme.ru_yellow,
+                                  ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 8),
-                            Text(
-                              'ปีการศึกษา',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: AppTheme.ruFontKanit,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14,
-                                color: AppTheme.nearlyWhite.withValues(alpha: 0.8),
-                              ),
-                            ),
-                            Text(
-                              name!,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: AppTheme.ruFontKanit,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 28,
-                                color: AppTheme.ru_yellow,
+                            Positioned(
+                              right: 0,
+                              top: 0,
+                              child: AnimatedRotation(
+                                turns: _isExpanded ? 0.5 : 0,
+                                duration: const Duration(milliseconds: 300),
+                                child: Icon(
+                                  Icons.keyboard_arrow_down_rounded,
+                                  color: AppTheme.ru_yellow,
+                                  size: 32,
+                                ),
                               ),
                             ),
                           ],
@@ -274,7 +323,7 @@ class AreaView extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Text(
-                                  '${values == null ? "0" : values!.length}',
+                                  '${widget.values == null ? "0" : widget.values!.length}',
                                   style: TextStyle(
                                     fontFamily: AppTheme.ruFontKanit,
                                     fontWeight: FontWeight.bold,
@@ -287,15 +336,21 @@ class AreaView extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Expanded(
+                      SizeTransition(
+                        sizeFactor: _expandAnimation,
+                        axisAlignment: -1.0,
                         child: Container(
+                          constraints: BoxConstraints(
+                            maxHeight: MediaQuery.of(context).size.height * 0.4,
+                          ),
                           margin: const EdgeInsets.symmetric(horizontal: 16),
                           child: ListView.separated(
-                            padding: const EdgeInsets.only(bottom: 16),
+                            shrinkWrap: true,
+                            padding: const EdgeInsets.only(bottom: 16, top: 8),
                             separatorBuilder:
                                 (BuildContext context, int index) =>
                                     const SizedBox(height: 8),
-                            itemCount: values!.length,
+                            itemCount: widget.values!.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Container(
                                 padding: const EdgeInsets.symmetric(
@@ -335,7 +390,7 @@ class AreaView extends StatelessWidget {
                                     const SizedBox(width: 12),
                                     Expanded(
                                       child: Text(
-                                        values![index],
+                                        widget.values![index],
                                         style: TextStyle(
                                           fontFamily: AppTheme.ruFontKanit,
                                           fontSize: 13,

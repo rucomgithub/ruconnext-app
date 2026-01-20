@@ -51,7 +51,7 @@ class _HelpScreenState extends State<HelpScreen> {
       appBar: AppBar(
         leading: Container(),
         title: Text(
-          'ติดต่อเรา',
+          'ช่วยเหลือ',
           style: TextStyle(
             fontSize: 22,
             fontFamily: AppTheme.ruFontKanit,
@@ -62,7 +62,8 @@ class _HelpScreenState extends State<HelpScreen> {
         centerTitle: true,
         backgroundColor: AppTheme.ru_dark_blue,
       ),
-      backgroundColor: isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
+      backgroundColor:
+          isLightMode ? AppTheme.nearlyWhite : AppTheme.nearlyBlack,
       body: Stack(
         children: [
           RuWallpaper(),
@@ -84,9 +85,25 @@ class _HelpScreenState extends State<HelpScreen> {
                         Icons.school_rounded,
                         isLightMode,
                         [
-                          {'name': 'หน่วยรับสมัคร', 'phones': ['0-2310-8615', '0-2310-8623', '0-2310-8624'], 'location': 'สวป. ชั้น 3'},
-                          {'name': 'ตรวจสอบวุฒิบัตร', 'phones': ['0-2310-8000 ต่อ 4832'], 'location': 'สวป. ชั้น 3'},
-                          {'name': 'แนะแนวและประชาสัมพันธ์', 'phones': ['0-2310-8614'], 'location': 'สวป. ชั้น 4'},
+                          {
+                            'name': 'หน่วยรับสมัคร',
+                            'phones': [
+                              '0-2310-8615',
+                              '0-2310-8623',
+                              '0-2310-8624'
+                            ],
+                            'location': 'สวป. ชั้น 3'
+                          },
+                          {
+                            'name': 'ตรวจสอบวุฒิบัตร',
+                            'phones': ['0-2310-8000 ต่อ 4832'],
+                            'location': 'สวป. ชั้น 3'
+                          },
+                          {
+                            'name': 'แนะแนวและประชาสัมพันธ์',
+                            'phones': ['0-2310-8614'],
+                            'location': 'สวป. ชั้น 4'
+                          },
                         ],
                       ),
                       const SizedBox(height: 12),
@@ -97,9 +114,21 @@ class _HelpScreenState extends State<HelpScreen> {
                         Icons.person_outline_rounded,
                         isLightMode,
                         [
-                          {'name': 'ทะเบียนประวัตินักศึกษา', 'phones': ['0-2310-8606'], 'location': 'สวป. ชั้น 2'},
-                          {'name': 'บัตรประจำตัวนักศึกษา', 'phones': ['0-2310-8605'], 'location': 'สวป. ชั้น 2'},
-                          {'name': 'กรรมวิธีข้อมูล', 'phones': ['0-2310-8619'], 'location': 'สวป. ชั้น 4'},
+                          {
+                            'name': 'ทะเบียนประวัตินักศึกษา',
+                            'phones': ['0-2310-8606'],
+                            'location': 'สวป. ชั้น 2'
+                          },
+                          {
+                            'name': 'บัตรประจำตัวนักศึกษา',
+                            'phones': ['0-2310-8605'],
+                            'location': 'สวป. ชั้น 2'
+                          },
+                          {
+                            'name': 'กรรมวิธีข้อมูล',
+                            'phones': ['0-2310-8619'],
+                            'location': 'สวป. ชั้น 4'
+                          },
                         ],
                       ),
                       const SizedBox(height: 12),
@@ -110,10 +139,26 @@ class _HelpScreenState extends State<HelpScreen> {
                         Icons.app_registration_rounded,
                         isLightMode,
                         [
-                          {'name': 'จัดตารางสอน', 'phones': ['0-2310-8610'], 'location': 'สวป. ชั้น 6'},
-                          {'name': 'ลงทะเบียนเรียน', 'phones': ['0-2310-8616'], 'location': 'KLB ชั้น 1'},
-                          {'name': 'ตรวจสอบและแก้ไขข้อมูล', 'phones': ['0-2310-8626'], 'location': 'สวป. ชั้น 6'},
-                          {'name': 'จัดสอบ', 'phones': ['0-2310-8611'], 'location': 'สวป. ชั้น 6'},
+                          {
+                            'name': 'จัดตารางสอน',
+                            'phones': ['0-2310-8610'],
+                            'location': 'สวป. ชั้น 6'
+                          },
+                          {
+                            'name': 'ลงทะเบียนเรียน',
+                            'phones': ['0-2310-8616'],
+                            'location': 'KLB ชั้น 1'
+                          },
+                          {
+                            'name': 'ตรวจสอบและแก้ไขข้อมูล',
+                            'phones': ['0-2310-8626'],
+                            'location': 'สวป. ชั้น 6'
+                          },
+                          {
+                            'name': 'จัดสอบ',
+                            'phones': ['0-2310-8611'],
+                            'location': 'สวป. ชั้น 6'
+                          },
                         ],
                       ),
                       const SizedBox(height: 12),
@@ -124,9 +169,21 @@ class _HelpScreenState extends State<HelpScreen> {
                         Icons.analytics_rounded,
                         isLightMode,
                         [
-                          {'name': 'ประมวลและรับรองผลการศึกษา', 'phones': ['0-2310-8603'], 'location': 'สวป. ชั้น 1'},
-                          {'name': 'ปริญญาบัตรและตรวจสอบวุฒิบัตร', 'phones': ['0-2310-8604'], 'location': 'สวป. ชั้น 1'},
-                          {'name': 'บริการจุดเดียวเบ็ดเสร็จ', 'phones': ['0-2310-8890'], 'location': 'KLB ชั้น 1'},
+                          {
+                            'name': 'ประมวลและรับรองผลการศึกษา',
+                            'phones': ['0-2310-8603'],
+                            'location': 'สวป. ชั้น 1'
+                          },
+                          {
+                            'name': 'ปริญญาบัตรและตรวจสอบวุฒิบัตร',
+                            'phones': ['0-2310-8604'],
+                            'location': 'สวป. ชั้น 1'
+                          },
+                          {
+                            'name': 'บริการจุดเดียวเบ็ดเสร็จ',
+                            'phones': ['0-2310-8890'],
+                            'location': 'KLB ชั้น 1'
+                          },
                         ],
                       ),
                       const SizedBox(height: 12),
@@ -137,10 +194,30 @@ class _HelpScreenState extends State<HelpScreen> {
                         Icons.business_rounded,
                         isLightMode,
                         [
-                          {'name': 'บริหารและธุรการ', 'phones': ['0-2310-8617', '0-2310-8618', '0-2310-8619'], 'location': 'สวป. ชั้น 5'},
-                          {'name': 'นโยบายและแผน', 'phones': ['0-2310-8608'], 'location': 'สวป. ชั้น 5'},
-                          {'name': 'ประกันคุณภาพการศึกษา', 'phones': ['0-2310-8627'], 'location': 'สวป. ชั้น 5'},
-                          {'name': 'คลังและพัสดุ', 'phones': ['0-2310-8609'], 'location': 'สวป. ชั้น 5'},
+                          {
+                            'name': 'บริหารและธุรการ',
+                            'phones': [
+                              '0-2310-8617',
+                              '0-2310-8618',
+                              '0-2310-8619'
+                            ],
+                            'location': 'สวป. ชั้น 5'
+                          },
+                          {
+                            'name': 'นโยบายและแผน',
+                            'phones': ['0-2310-8608'],
+                            'location': 'สวป. ชั้น 5'
+                          },
+                          {
+                            'name': 'ประกันคุณภาพการศึกษา',
+                            'phones': ['0-2310-8627'],
+                            'location': 'สวป. ชั้น 5'
+                          },
+                          {
+                            'name': 'คลังและพัสดุ',
+                            'phones': ['0-2310-8609'],
+                            'location': 'สวป. ชั้น 5'
+                          },
                         ],
                       ),
                       const SizedBox(height: 12),
@@ -151,11 +228,34 @@ class _HelpScreenState extends State<HelpScreen> {
                         Icons.account_balance_rounded,
                         isLightMode,
                         [
-                          {'name': 'จัดหางานและแนะแนวการศึกษา', 'phones': ['0-2310-8126']},
-                          {'name': 'ทุนการศึกษา', 'phones': ['0-2310-8080']},
-                          {'name': 'ตำราเรียน', 'phones': ['0-2310-8757', '0-2310-8759 ต่อ 1101, 1103']},
-                          {'name': 'เทปคำบรรยาย', 'phones': ['0-2310-8703', '0-2310-8704', '0-2310-8705', '0-2310-8706']},
-                          {'name': 'บริการวิชาการและทดสอบอิเล็กทรอนิกส์', 'phones': ['0-2310-8790']},
+                          {
+                            'name': 'จัดหางานและแนะแนวการศึกษา',
+                            'phones': ['0-2310-8126']
+                          },
+                          {
+                            'name': 'ทุนการศึกษา',
+                            'phones': ['0-2310-8080']
+                          },
+                          {
+                            'name': 'ตำราเรียน',
+                            'phones': [
+                              '0-2310-8757',
+                              '0-2310-8759 ต่อ 1101, 1103'
+                            ]
+                          },
+                          {
+                            'name': 'เทปคำบรรยาย',
+                            'phones': [
+                              '0-2310-8703',
+                              '0-2310-8704',
+                              '0-2310-8705',
+                              '0-2310-8706'
+                            ]
+                          },
+                          {
+                            'name': 'บริการวิชาการและทดสอบอิเล็กทรอนิกส์',
+                            'phones': ['0-2310-8790']
+                          },
                         ],
                       ),
                       const SizedBox(height: 12),
@@ -166,15 +266,42 @@ class _HelpScreenState extends State<HelpScreen> {
                         Icons.domain_rounded,
                         isLightMode,
                         [
-                          {'name': 'นิติศาสตร์', 'phones': ['0-2310-8170', '0-2310-8174']},
-                          {'name': 'บริหารธุรกิจ', 'phones': ['0-2310-8214']},
-                          {'name': 'มนุษยศาสตร์', 'phones': ['0-2310-8269']},
-                          {'name': 'ศึกษาศาสตร์', 'phones': ['0-2310-8315', '0-2310-8321']},
-                          {'name': 'วิทยาศาสตร์', 'phones': ['0-2310-8410', '0-2310-8411']},
-                          {'name': 'รัฐศาสตร์', 'phones': ['0-2310-8466', '0-2310-8467']},
-                          {'name': 'เศรษฐศาสตร์', 'phones': ['0-2310-8534']},
-                          {'name': 'สื่อสารมวลชน', 'phones': ['0-2310-8980']},
-                          {'name': 'พัฒนาทรัพยากรมนุษย์', 'phones': ['0-2310-8547', '0-2310-8337']},
+                          {
+                            'name': 'นิติศาสตร์',
+                            'phones': ['0-2310-8170', '0-2310-8174']
+                          },
+                          {
+                            'name': 'บริหารธุรกิจ',
+                            'phones': ['0-2310-8214']
+                          },
+                          {
+                            'name': 'มนุษยศาสตร์',
+                            'phones': ['0-2310-8269']
+                          },
+                          {
+                            'name': 'ศึกษาศาสตร์',
+                            'phones': ['0-2310-8315', '0-2310-8321']
+                          },
+                          {
+                            'name': 'วิทยาศาสตร์',
+                            'phones': ['0-2310-8410', '0-2310-8411']
+                          },
+                          {
+                            'name': 'รัฐศาสตร์',
+                            'phones': ['0-2310-8466', '0-2310-8467']
+                          },
+                          {
+                            'name': 'เศรษฐศาสตร์',
+                            'phones': ['0-2310-8534']
+                          },
+                          {
+                            'name': 'สื่อสารมวลชน',
+                            'phones': ['0-2310-8980']
+                          },
+                          {
+                            'name': 'พัฒนาทรัพยากรมนุษย์',
+                            'phones': ['0-2310-8547', '0-2310-8337']
+                          },
                         ],
                       ),
                       const SizedBox(height: 20),
@@ -312,7 +439,9 @@ class _HelpScreenState extends State<HelpScreen> {
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     fontFamily: AppTheme.ruFontKanit,
-                    color: isLightMode ? AppTheme.nearlyBlack : AppTheme.nearlyWhite,
+                    color: isLightMode
+                        ? AppTheme.nearlyBlack
+                        : AppTheme.nearlyWhite,
                   ),
                 ),
               ),
@@ -341,13 +470,6 @@ class _HelpScreenState extends State<HelpScreen> {
           ),
           const SizedBox(height: 12),
           _buildContactRow(
-            Icons.email_rounded,
-            'saraban@ru.ac.th',
-            isLightMode,
-            () => _launchURL('mailto:saraban@ru.ac.th'),
-          ),
-          const SizedBox(height: 12),
-          _buildContactRow(
             Icons.language_rounded,
             'www.ru.ac.th',
             isLightMode,
@@ -358,7 +480,8 @@ class _HelpScreenState extends State<HelpScreen> {
     );
   }
 
-  Widget _buildContactRow(IconData icon, String text, bool isLightMode, VoidCallback? onTap) {
+  Widget _buildContactRow(
+      IconData icon, String text, bool isLightMode, VoidCallback? onTap) {
     final content = Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -504,7 +627,9 @@ class _HelpScreenState extends State<HelpScreen> {
                           style: TextStyle(
                             fontSize: 12,
                             fontFamily: AppTheme.ruFontKanit,
-                            color: isLightMode ? Colors.grey[600] : Colors.grey[400],
+                            color: isLightMode
+                                ? Colors.grey[600]
+                                : Colors.grey[400],
                           ),
                         ),
                       ],
@@ -603,7 +728,8 @@ class _HelpScreenState extends State<HelpScreen> {
                                 onTap: () => _makePhoneCall(phone),
                                 borderRadius: BorderRadius.circular(8),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 2),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 2),
                                   child: Row(
                                     children: [
                                       Icon(
@@ -698,25 +824,27 @@ class _HelpScreenState extends State<HelpScreen> {
                 FontAwesomeIcons.facebook,
                 'Facebook',
                 const Color(0xFF1877F2),
-                () => _launchURL('https://www.facebook.com/RamkhamhaengUniversity'),
+                () => _launchURL(
+                    'https://www.facebook.com/ramkhamhaeng.ru/?locale=th_TH'),
               ),
               _buildSocialButton(
                 FontAwesomeIcons.youtube,
                 'YouTube',
                 const Color(0xFFFF0000),
-                () => _launchURL('https://www.youtube.com/user/RamkhamhaengU'),
+                () => _launchURL('https://www.youtube.com/@RUChannelOnline'),
               ),
               _buildSocialButton(
                 FontAwesomeIcons.xTwitter,
                 'Twitter',
                 const Color(0xFF000000),
-                () => _launchURL('https://twitter.com/ramkhamhaeng_u'),
+                () => _launchURL('https://x.com/prramru'),
               ),
               _buildSocialButton(
                 FontAwesomeIcons.line,
                 'LINE',
                 const Color(0xFF00B900),
-                () => _launchURL('https://line.me/R/ti/p/@ramkhamhaeng'),
+                () => _launchURL(
+                    'https://page.line.me/eqi2817y?openQrModal=true#~'),
               ),
             ],
           ),
@@ -725,7 +853,8 @@ class _HelpScreenState extends State<HelpScreen> {
     );
   }
 
-  Widget _buildSocialButton(IconData icon, String label, Color color, VoidCallback onTap) {
+  Widget _buildSocialButton(
+      IconData icon, String label, Color color, VoidCallback onTap) {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),

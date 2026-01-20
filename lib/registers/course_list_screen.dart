@@ -1,21 +1,20 @@
+import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
+import 'package:th.ac.ru.uSmart/registers/mr30catalog_row_view.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:th.ac.ru.uSmart/master/pages/master_profile_view.dart';
-import 'package:th.ac.ru.uSmart/master/providers/master_provider.dart';
-import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
 import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
+import '../mr30/titlenone_view.dart';
 
-class MasterProfileList extends StatefulWidget {
-  const MasterProfileList({Key? key, this.animationController})
+class CourseListScreen extends StatefulWidget {
+  const CourseListScreen({Key? key, this.animationController})
       : super(key: key);
 
   final AnimationController? animationController;
   @override
-  _MasterProfileListState createState() => _MasterProfileListState();
+  _CourseListScreenState createState() => _CourseListScreenState();
 }
 
-class _MasterProfileListState extends State<MasterProfileList>
+class _CourseListScreenState extends State<CourseListScreen>
     with TickerProviderStateMixin {
   Animation<double>? topBarAnimation;
 
@@ -54,30 +53,37 @@ class _MasterProfileListState extends State<MasterProfileList>
       }
     });
     super.initState();
-
-    // Provider.of<MasterRegisterProvider>(context, listen: false)
-    //     .getAllRegister();
-    Provider.of<AuthenProvider>(context, listen: false).getProfile();
-    Provider.of<MasterProvider>(context, listen: false).getStudent();
   }
 
   void addAllListData() {
     const int count = 9;
 
     listViews.add(
-      MasterProfileView(
+      TitleNoneView(
+        titleTxt: 'แนะนำวิชาตามความถนัด',
+        subTxt: 'แนะนำวิชาตามความถนัดของนักศึกษา',
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController!,
+            curve:
+                Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController!,
+      ),
+    );
+
+    listViews.add(
+      Mr30CatalogRowView(
         mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
             CurvedAnimation(
                 parent: widget.animationController!,
-                curve: Interval((1 / count) * 3, 1.0,
+                curve: Interval((1 / count) * 5, 1.0,
                     curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController,
+        mainScreenAnimationController: widget.animationController!,
       ),
     );
   }
 
   Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 100));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
     return true;
   }
 
@@ -85,23 +91,17 @@ class _MasterProfileListState extends State<MasterProfileList>
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double baseFontSize =
-        screenWidth < 600 ? screenWidth * 0.05 : screenWidth * 0.03;
-    var roletext = context.watch<AuthenProvider>().roletext;
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: AppTheme.nearlyWhite, // Change back arrow color to white
+          color: AppTheme.nearlyWhite,
         ),
         title: Text(
-          'บัตรนักศึกษา',
+          'วิชาตามความถนัด',
           style: AppTheme.headline,
         ),
-        centerTitle: true, // Centers the title
-        backgroundColor:
-            AppTheme.ru_dark_blue, // Background color of the AppBar
+        centerTitle: true,
+        backgroundColor: AppTheme.ru_dark_blue,
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -109,7 +109,7 @@ class _MasterProfileListState extends State<MasterProfileList>
               color: AppTheme.nearlyWhite,
             ),
             onPressed: () {
-              // Get.toNamed("/gradehelp");
+              Get.toNamed("/coursehelp");
             },
           ),
         ],
@@ -153,14 +153,17 @@ class _MasterProfileListState extends State<MasterProfileList>
         if (!snapshot.hasData) {
           return const SizedBox();
         } else {
-          return ListView.builder(
-            controller: scrollController,
-            itemCount: listViews.length,
-            scrollDirection: Axis.vertical,
-            itemBuilder: (BuildContext context, int index) {
-              widget.animationController?.forward();
-              return listViews[index];
-            },
+          return Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: ListView.builder(
+              controller: scrollController,
+              itemCount: listViews.length,
+              scrollDirection: Axis.vertical,
+              itemBuilder: (BuildContext context, int index) {
+                widget.animationController?.forward();
+                return listViews[index];
+              },
+            ),
           );
         }
       },

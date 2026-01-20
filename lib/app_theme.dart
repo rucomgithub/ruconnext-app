@@ -68,7 +68,7 @@ class AppTheme {
     // h5 -> headline
     fontFamily: ruFontKanit,
     fontWeight: FontWeight.bold,
-    fontSize: 24,
+    fontSize: 22,
     letterSpacing: 0.27,
     color: nearlyWhite,
   );

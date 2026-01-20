@@ -9,6 +9,7 @@ import 'package:th.ac.ru.uSmart/mr30/mr30_home_screen.dart';
 import 'package:th.ac.ru.uSmart/pages/aboutRam_screen.dart';
 import 'package:th.ac.ru.uSmart/pages/profile_home_screen.dart';
 import 'package:th.ac.ru.uSmart/registers/register_home_screen.dart';
+import 'package:th.ac.ru.uSmart/registers/course_home_screen.dart';
 import 'package:th.ac.ru.uSmart/ruregionApp/ruregion_other_home_screen.dart';
 import 'package:th.ac.ru.uSmart/schedule/schedule_home_screen.dart';
 import 'package:th.ac.ru.uSmart/screens/runewsScreen.dart';

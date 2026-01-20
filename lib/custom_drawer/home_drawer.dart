@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/master/pages/master_Image_graduate.dart';
 import 'package:th.ac.ru.uSmart/pages/ImageLoader.dart';
 import 'package:th.ac.ru.uSmart/providers/authenprovider.dart';
+import 'package:th.ac.ru.uSmart/providers/student_provider.dart';
 import 'package:th.ac.ru.uSmart/store/authen.dart';
 
 class HomeDrawer extends StatefulWidget {
@@ -30,6 +31,11 @@ class _HomeDrawerState extends State<HomeDrawer> {
   void initState() {
     setDrawerListArray();
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<AuthenProvider>(context, listen: false).getProfile();
+      Provider.of<StudentProvider>(context, listen: false).refreshData();
+    });
   }
 
   Future<bool> getData() async {
@@ -88,9 +94,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    var brightness = MediaQuery.of(context).platformBrightness;
     var authen = context.watch<AuthenProvider>();
-    bool isLightMode = brightness == Brightness.light;
     return Scaffold(
       backgroundColor: AppTheme.nearlyWhite,
       body: FutureBuilder<bool>(
@@ -421,23 +425,17 @@ class LogoLoginSuccess extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //var authen = context.watch<AuthenProvider>();
+    final double imageSize = MediaQuery.of(context).size.width * 0.4;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-          child: Container(
-            child: Stack(
-              children: [
-                ClipOval(
-                  child: role == "Bachelor"
-                      ? ImageLoader()
-                      : MasterImageGraduate(),
-                ),
-              ],
-            ),
+        Container(
+          width: imageSize,
+          height: imageSize,
+          child: ClipOval(
+            child: role == "Bachelor" ? ImageLoader() : MasterImageGraduate(),
           ),
         ),
         Padding(

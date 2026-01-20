@@ -142,7 +142,7 @@ class _RegisterRowViewState extends State<RegisterRowView>
                                     blurRadius: 12.0),
                               ],
                             ),
-                            height: (prov.listGroupCourse.length * 320) + 16,
+                            height: (prov.listGroupCourse.length * 240) + 16,
                             width: double.infinity,
                             child: ListView.builder(
                               itemCount: prov.listGroupCourse.length,
@@ -166,9 +166,9 @@ class _RegisterRowViewState extends State<RegisterRowView>
                                   children: [
                                     Container(
                                       margin: const EdgeInsets.only(
-                                          left: 8, right: 8, top: 12, bottom: 8),
+                                          left: 8, right: 8, top: 8, bottom: 4),
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 14),
+                                          horizontal: 12, vertical: 10),
                                       decoration: BoxDecoration(
                                         gradient: LinearGradient(
                                           colors: [
@@ -197,26 +197,26 @@ class _RegisterRowViewState extends State<RegisterRowView>
                                             children: [
                                               Container(
                                                 padding:
-                                                    const EdgeInsets.all(8),
+                                                    const EdgeInsets.all(6),
                                                 decoration: BoxDecoration(
                                                   color: AppTheme.ru_yellow
                                                       .withValues(alpha: 0.2),
                                                   borderRadius:
-                                                      BorderRadius.circular(8),
+                                                      BorderRadius.circular(6),
                                                 ),
                                                 child: Icon(
                                                   Icons.book_rounded,
                                                   color: AppTheme.ru_yellow,
-                                                  size: 20,
+                                                  size: 18,
                                                 ),
                                               ),
-                                              const SizedBox(width: 12),
+                                              const SizedBox(width: 10),
                                               Text(
                                                 'ภาคเรียนที่ ${prov.listGroupCourse.entries.elementAt(index).key}',
                                                 style: TextStyle(
                                                   fontFamily:
                                                       AppTheme.ruFontKanit,
-                                                  fontSize: 16,
+                                                  fontSize: 15,
                                                   fontWeight: FontWeight.w600,
                                                   color: AppTheme.nearlyWhite,
                                                 ),
@@ -225,18 +225,18 @@ class _RegisterRowViewState extends State<RegisterRowView>
                                           ),
                                           Container(
                                             padding: const EdgeInsets.symmetric(
-                                                horizontal: 12, vertical: 6),
+                                                horizontal: 10, vertical: 4),
                                             decoration: BoxDecoration(
                                               color: AppTheme.ru_yellow,
                                               borderRadius:
-                                                  BorderRadius.circular(20),
+                                                  BorderRadius.circular(16),
                                             ),
                                             child: Text(
                                               '${prov.listGroupCourse.entries.elementAt(index).value.length} วิชา',
                                               style: TextStyle(
                                                 fontFamily:
                                                     AppTheme.ruFontKanit,
-                                                fontSize: 13,
+                                                fontSize: 12,
                                                 fontWeight: FontWeight.bold,
                                                 color: AppTheme.ru_dark_blue,
                                               ),
@@ -288,7 +288,7 @@ class ListRegisterListValueView extends StatelessWidget {
             transform: Matrix4.translationValues(
                 200 * (1.0 - animation!.value), 0.0, 0.0),
             child: Container(
-              height: 240,
+              height: 180,
               width: double.infinity,
               child: ListView.builder(
                 itemCount: listData!.length,
@@ -308,7 +308,7 @@ class ListRegisterListValueView extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(
-                            top: 8.0, left: 8.0, bottom: 8.0, right: 8),
+                            top: 6.0, left: 6.0, bottom: 6.0, right: 6),
                         child: CardBook(
                           index: index,
                           //icondata: Icons.book,

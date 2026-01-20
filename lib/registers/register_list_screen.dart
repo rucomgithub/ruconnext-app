@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:th.ac.ru.uSmart/app_theme.dart';
 import 'package:th.ac.ru.uSmart/registers/register_row_view.dart';
-import 'package:th.ac.ru.uSmart/registers/mr30catalog_row_view.dart';
+import 'package:th.ac.ru.uSmart/registers/course_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:th.ac.ru.uSmart/widget/ru_wallpaper.dart';
 import '../mr30/titlenone_view.dart';
@@ -105,39 +105,90 @@ class _RegisterListScreenState extends State<RegisterListScreen>
       ),
     );
 
+    // Link to Course by Skills
     listViews.add(
-      TitleNoneView(
-        titleTxt: 'วิชาอื่นๆ แยกตามความถนัด',
-        subTxt: 'รายละเอียด',
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController!,
-            curve:
-                Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController!,
+      _buildCourseLinkButton(),
+    );
+  }
+
+  Widget _buildCourseLinkButton() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+      child: Material(
+        elevation: 4,
+        borderRadius: BorderRadius.circular(16),
+        child: InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CourseHomeScreen()),
+            );
+          },
+          borderRadius: BorderRadius.circular(16),
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  AppTheme.ru_yellow,
+                  AppTheme.ru_yellow.withValues(alpha: 0.8),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: AppTheme.ru_dark_blue.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    Icons.school_rounded,
+                    color: AppTheme.ru_dark_blue,
+                    size: 28,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'วิชาตามความถนัดของนักศึกษา',
+                        style: TextStyle(
+                          fontFamily: AppTheme.ruFontKanit,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.ru_dark_blue,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'ดูรายวิชาที่แนะนำตามความถนัดเพื่อเลือกวิชาเพิ่มศักยภาพของนักศึกษา',
+                        style: TextStyle(
+                          fontFamily: AppTheme.ruFontKanit,
+                          fontSize: 13,
+                          color: AppTheme.ru_dark_blue.withValues(alpha: 0.7),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: AppTheme.ru_dark_blue,
+                  size: 20,
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
-
-    listViews.add(
-      Mr30CatalogRowView(
-        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(
-                parent: widget.animationController!,
-                curve: Interval((1 / count) * 5, 1.0,
-                    curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController!,
-      ),
-    );
-
-    // listViews.add(
-    //   RegisterListView(
-    //     mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-    //         CurvedAnimation(
-    //             parent: widget.animationController!,
-    //             curve: Interval((1 / count) * 5, 1.0,
-    //                 curve: Curves.fastOutSlowIn))),
-    //     mainScreenAnimationController: widget.animationController!,
-    //   ),
-    // );
   }
 
   Future<bool> getData() async {

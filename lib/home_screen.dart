@@ -37,6 +37,18 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    super.initState();
+
+    animationController = AnimationController(
+        duration: const Duration(milliseconds: 2000), vsync: this);
+
+    // Use addPostFrameCallback to avoid calling notifyListeners during build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initializeProviders();
+    });
+  }
+
+  void _initializeProviders() {
     Provider.of<AuthenProvider>(context, listen: false).getProfile();
     Provider.of<StudentProvider>(context, listen: false).refreshData();
 
@@ -49,10 +61,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     Provider.of<RegisterProvider>(context, listen: false).getAllRegisterYear();
     Provider.of<RegisterProvider>(context, listen: false).getAllMr30Catalog();
 
-    //Provider.of<RegisterProvider>(context, listen: false).getMR30Register();
-
-    // Provider.of<StudentProvider>(context, listen: false).getMr30Catalog();
-
     Provider.of<MR30Provider>(context, listen: false).getAllMR30();
     Provider.of<MR30Provider>(context, listen: false).getAllMR30Year();
 
@@ -62,11 +70,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     Provider.of<MR30Provider>(context, listen: false).getSchedule();
     Provider.of<MR30Provider>(context, listen: false).getHaveToday();
     Provider.of<MR30Provider>(context, listen: false).getHaveCourseNotTimeEnd();
-
-    animationController = AnimationController(
-        duration: const Duration(milliseconds: 2000), vsync: this);
-
-    super.initState();
   }
 
   Future<bool> getData() async {
@@ -129,12 +132,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         ),
         title: Text(
           'Ru Connext',
-          style: TextStyle(
-              fontSize: baseFontSize - 2,
-              fontFamily: AppTheme.ruFontKanit,
-              color: AppTheme.nearlyWhite,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 0.5),
+          style: AppTheme.headline,
         ),
         centerTitle: true, // Centers the title
         backgroundColor:

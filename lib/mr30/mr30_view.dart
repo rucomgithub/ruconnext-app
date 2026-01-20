@@ -33,9 +33,10 @@ class _Mr30ViewState extends State<Mr30View> {
             transform: new Matrix4.translationValues(
                 0.0, 30 * (1.0 - widget.animation!.value), 0.0),
             child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 16, right: 16, top: 8, bottom: 8),
+              padding:
+                  const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
               child: Container(
+                height: MediaQuery.of(context).size.height * 0.20,
                 decoration: BoxDecoration(
                   color: AppTheme.nearlyWhite,
                   borderRadius: BorderRadius.circular(16.0),
@@ -60,86 +61,98 @@ class _Mr30ViewState extends State<Mr30View> {
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(12.0),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Row(
                           children: [
                             Container(
-                              padding: const EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(6),
                               decoration: BoxDecoration(
-                                color: AppTheme.ru_yellow.withValues(alpha: 0.2),
-                                borderRadius: BorderRadius.circular(12),
+                                color:
+                                    AppTheme.ru_yellow.withValues(alpha: 0.2),
+                                borderRadius: BorderRadius.circular(8),
                               ),
                               child: Icon(
                                 Icons.search_rounded,
                                 color: AppTheme.ru_yellow,
-                                size: 24,
+                                size: 18,
                               ),
                             ),
-                            const SizedBox(width: 12),
+                            const SizedBox(width: 8),
                             Expanded(
                               child: Text(
                                 'ค้นหาและกรองข้อมูล',
                                 style: TextStyle(
                                   fontFamily: AppTheme.ruFontKanit,
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 18,
+                                  fontSize: 14,
                                   color: AppTheme.nearlyWhite,
                                 ),
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 16),
-                        YearDropdownWidget(),
-                        const SizedBox(height: 16),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: AppTheme.nearlyWhite,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: TextFormField(
-                            style: TextStyle(
-                              fontFamily: AppTheme.ruFontKanit,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 14,
-                              color: AppTheme.ru_dark_blue,
-                            ),
-                            decoration: InputDecoration(
-                              labelText: 'ค้นหารหัสวิชา',
-                              prefixIcon: Icon(
-                                Icons.search,
-                                color: AppTheme.ru_dark_blue.withValues(alpha: 0.5),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Expanded(child: YearDropdownWidget()),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                flex: 2,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.nearlyWhite,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: TextFormField(
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.ruFontKanit,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 12,
+                                      color: AppTheme.ru_dark_blue,
+                                    ),
+                                    decoration: InputDecoration(
+                                      labelText: 'ค้นหารหัสวิชา',
+                                      prefixIcon: Icon(
+                                        Icons.search,
+                                        color: AppTheme.ru_dark_blue
+                                            .withValues(alpha: 0.5),
+                                        size: 18,
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      filled: true,
+                                      fillColor: AppTheme.nearlyWhite,
+                                      labelStyle: TextStyle(
+                                        fontFamily: AppTheme.ruFontKanit,
+                                        fontSize: 12,
+                                        color: AppTheme.ru_dark_blue
+                                            .withValues(alpha: 0.6),
+                                      ),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              horizontal: 8, vertical: 8),
+                                    ),
+                                    onChanged: (value) {
+                                      mr30prov.filterMr30(value);
+                                    },
+                                  ),
+                                ),
                               ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide.none,
-                              ),
-                              filled: true,
-                              fillColor: AppTheme.nearlyWhite,
-                              labelStyle: TextStyle(
-                                fontFamily: AppTheme.ruFontKanit,
-                                fontSize: 14,
-                                color: AppTheme.ru_dark_blue.withValues(alpha: 0.6),
-                              ),
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 14),
-                            ),
-                            onChanged: (value) {
-                              mr30prov.filterMr30(value);
-                            },
+                            ],
                           ),
                         ),
-                        const SizedBox(height: 16),
                         Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 12),
+                              horizontal: 12, vertical: 8),
                           decoration: BoxDecoration(
                             color: AppTheme.ru_yellow.withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(8),
                             border: Border.all(
                               color: AppTheme.ru_yellow.withValues(alpha: 0.3),
                               width: 1,
@@ -150,33 +163,34 @@ class _Mr30ViewState extends State<Mr30View> {
                               Icon(
                                 Icons.bookmark_rounded,
                                 color: AppTheme.ru_yellow,
-                                size: 20,
+                                size: 16,
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: 6),
                               Expanded(
                                 child: Text(
                                   'รายการที่สนใจ',
                                   style: TextStyle(
                                     fontFamily: AppTheme.ruFontKanit,
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                    color: AppTheme.nearlyWhite.withValues(alpha: 0.9),
+                                    fontSize: 12,
+                                    color: AppTheme.nearlyWhite
+                                        .withValues(alpha: 0.9),
                                   ),
                                 ),
                               ),
                               Container(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 6),
+                                    horizontal: 10, vertical: 4),
                                 decoration: BoxDecoration(
                                   color: AppTheme.ru_yellow,
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(16),
                                 ),
                                 child: Text(
                                   '${mr30.length}',
                                   style: TextStyle(
                                     fontFamily: AppTheme.ruFontKanit,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 14,
+                                    fontSize: 12,
                                     color: AppTheme.ru_dark_blue,
                                   ),
                                 ),
